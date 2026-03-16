@@ -1,0 +1,364 @@
+{
+  "@@locale": "en",
+  "appTitle": "Adisu",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register button text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password label"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password label"
+  },
+  "firstName": "First Name",
+  "@firstName": {
+    "description": "First name label"
+  },
+  "lastName": "Last Name",
+  "@lastName": {
+    "description": "Last name label"
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone label"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password text"
+  },
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {
+    "description": "Sign up prompt"
+  },
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Login prompt"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up action"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in action"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile menu item"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home menu item"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search label"
+  },
+  "searchHint": "Search...",
+  "@searchHint": {
+    "description": "Search hint text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button text"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Done button text"
+  },
+  "next": "Next",
+  "@next": {
+    "description": "Next button text"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Back button text"
+  },
+  "continueText": "Continue",
+  "@continueText": {
+    "description": "Continue button text"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Submit button text"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes button text"
+  },
+  "no": "No",
+  "@no": {
+    "description": "No button text"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading text"
+  },
+  "pleaseWait": "Please wait...",
+  "@pleaseWait": {
+    "description": "Please wait text"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Error title"
+  },
+  "success": "Success",
+  "@success": {
+    "description": "Success title"
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "Warning title"
+  },
+  "info": "Information",
+  "@info": {
+    "description": "Information title"
+  },
+  "errorNetwork": "No internet connection",
+  "@errorNetwork": {
+    "description": "Network error message"
+  },
+  "errorServer": "Server error. Please try again later",
+  "@errorServer": {
+    "description": "Server error message"
+  },
+  "errorUnknown": "Something went wrong",
+  "@errorUnknown": {
+    "description": "Unknown error message"
+  },
+  "errorTimeout": "Request timed out. Please try again",
+  "@errorTimeout": {
+    "description": "Timeout error message"
+  },
+  "errorUnauthorized": "Session expired. Please login again",
+  "@errorUnauthorized": {
+    "description": "Unauthorized error message"
+  },
+  "errorValidation": "Please check your input",
+  "@errorValidation": {
+    "description": "Validation error message"
+  },
+  "confirmDelete": "Are you sure you want to delete?",
+  "@confirmDelete": {
+    "description": "Delete confirmation message"
+  },
+  "confirmLogout": "Are you sure you want to logout?",
+  "@confirmLogout": {
+    "description": "Logout confirmation message"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+  "noData": "No data available",
+  "@noData": {
+    "description": "No data message"
+  },
+  "noResults": "No results found",
+  "@noResults": {
+    "description": "No results message"
+  },
+  "pullToRefresh": "Pull to refresh",
+  "@pullToRefresh": {
+    "description": "Pull to refresh hint"
+  },
+  "loadingMore": "Loading more...",
+  "@loadingMore": {
+    "description": "Loading more text"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All filter option"
+  },
+  "none": "None",
+  "@none": {
+    "description": "None option"
+  },
+  "select": "Select",
+  "@select": {
+    "description": "Select action"
+  },
+  "selected": "Selected",
+  "@selected": {
+    "description": "Selected label"
+  },
+  "required": "This field is required",
+  "@required": {
+    "description": "Required field error"
+  },
+  "invalidEmail": "Please enter a valid email",
+  "@invalidEmail": {
+    "description": "Invalid email error"
+  },
+  "invalidPhone": "Please enter a valid phone number",
+  "@invalidPhone": {
+    "description": "Invalid phone error"
+  },
+  "passwordTooShort": "Password must be at least 8 characters",
+  "@passwordTooShort": {
+    "description": "Password too short error"
+  },
+  "passwordMismatch": "Passwords do not match",
+  "@passwordMismatch": {
+    "description": "Password mismatch error"
+  },
+  "fieldRequired": "{fieldName} is required",
+  "@fieldRequired": {
+    "description": "Field required error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@itemsCount": {
+    "description": "Items count message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@daysAgo": {
+    "description": "Days ago message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@hoursAgo": {
+    "description": "Hours ago message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@minutesAgo": {
+    "description": "Minutes ago message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Just now text"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Today text"
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Yesterday text"
+  },
+  "thisWeek": "This week",
+  "@thisWeek": {
+    "description": "This week text"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language setting"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme setting"
+  },
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "lightMode": "Light Mode",
+  "@lightMode": {
+    "description": "Light mode setting"
+  },
+  "systemDefault": "System Default",
+  "@systemDefault": {
+    "description": "System default setting"
+  },
+  "about": "About",
+  "@about": {
+    "description": "About menu item"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service link"
+  },
+  "contactSupport": "Contact Support",
+  "@contactSupport": {
+    "description": "Contact support text"
+  },
+  "rateApp": "Rate App",
+  "@rateApp": {
+    "description": "Rate app text"
+  },
+  "shareApp": "Share App",
+  "@shareApp": {
+    "description": "Share app text"
+  }
+}
