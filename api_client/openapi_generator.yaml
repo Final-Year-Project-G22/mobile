@@ -1,0 +1,8 @@
+openapi_generator:
+  schema_path: openapi/openapi.json
+  output_directory: lib/src/api
+  json_serializer: freezed
+  use_dart_internal: true
+  generate_client: true
+  multi_schema: true
+  base_client_name: RestClient

@@ -1,6 +1,7 @@
 import 'package:api_client/api_client.dart';
 
 void main() {
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
+  final client = ApiClient(baseUrl: 'https://api.example.com');
+
+  client.dio.close();
 }

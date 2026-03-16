@@ -1,8 +1,22 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library;
+library api_client;
 
 export 'src/api_client_base.dart';
+export 'src/constants/api_constants.dart';
+export 'src/errors/exceptions.dart';
+export 'src/errors/failure.dart';
+export 'src/network/network_info.dart';
+export 'src/interceptors/auth_interceptor.dart';
+export 'src/interceptors/error_interceptor.dart';
+export 'src/interceptors/logging_interceptor.dart';
 
-// TODO: Export any libraries intended for clients of this package.
+export 'src/api/rest_client.dart';
+export 'src/api/authentication/authentication_client.dart';
+export 'src/api/models/login_request.dart';
+export 'src/api/models/login_response_body.dart';
+export 'src/api/models/register_request.dart';
+export 'src/api/models/register_response_body.dart';
+export 'src/api/models/refresh_response_body.dart';
+export 'src/api/models/user_dto.dart';
+export 'src/api/models/account_dto.dart';
+export 'src/api/models/error_model.dart';
+export 'src/api/models/error_detail.dart';
