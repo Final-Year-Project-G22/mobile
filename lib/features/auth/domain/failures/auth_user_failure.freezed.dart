@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'auth_failure.dart';
+part of 'auth_user_failure.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'auth_failure.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$AuthFailure {
+mixin _$AuthUserFailure {
 
 
 
@@ -20,7 +20,7 @@ mixin _$AuthFailure {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthFailure);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthUserFailure);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure()';
+  return 'AuthUserFailure()';
 }
 
 
 }
 
 /// @nodoc
-class $AuthFailureCopyWith<$Res>  {
-$AuthFailureCopyWith(AuthFailure _, $Res Function(AuthFailure) __);
+class $AuthUserFailureCopyWith<$Res>  {
+$AuthUserFailureCopyWith(AuthUserFailure _, $Res Function(AuthUserFailure) __);
 }
 
 
-/// Adds pattern-matching-related methods to [AuthFailure].
-extension AuthFailurePatterns on AuthFailure {
+/// Adds pattern-matching-related methods to [AuthUserFailure].
+extension AuthUserFailurePatterns on AuthUserFailure {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -192,7 +192,7 @@ return networkError();case _:
 /// @nodoc
 
 
-class EmailAlreadyInUse implements AuthFailure {
+class EmailAlreadyInUse implements AuthUserFailure {
   const EmailAlreadyInUse();
   
 
@@ -212,7 +212,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure.emailAlreadyInUse()';
+  return 'AuthUserFailure.emailAlreadyInUse()';
 }
 
 
@@ -224,7 +224,7 @@ String toString() {
 /// @nodoc
 
 
-class InvalidEmailAndPasswordCombination implements AuthFailure {
+class InvalidEmailAndPasswordCombination implements AuthUserFailure {
   const InvalidEmailAndPasswordCombination();
   
 
@@ -244,7 +244,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure.invalidEmailAndPasswordCombination()';
+  return 'AuthUserFailure.invalidEmailAndPasswordCombination()';
 }
 
 
@@ -256,7 +256,7 @@ String toString() {
 /// @nodoc
 
 
-class ServerError implements AuthFailure {
+class ServerError implements AuthUserFailure {
   const ServerError();
   
 
@@ -276,7 +276,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure.serverError()';
+  return 'AuthUserFailure.serverError()';
 }
 
 
@@ -288,7 +288,7 @@ String toString() {
 /// @nodoc
 
 
-class NetworkError implements AuthFailure {
+class NetworkError implements AuthUserFailure {
   const NetworkError();
   
 
@@ -308,7 +308,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure.networkError()';
+  return 'AuthUserFailure.networkError()';
 }
 
 

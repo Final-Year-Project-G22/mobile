@@ -38,7 +38,7 @@ Either<AuthValueFailure<String>, String> validateFirstName(String input) {
     );
   }
 
-  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(input) || input.length < 2) {
+  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(input) || input.length < 3) {
     return left(AuthValueFailure.invalidFirstName(failedValue: input));
   }
 
@@ -53,7 +53,7 @@ Either<AuthValueFailure<String>, String> validateLastName(String input) {
     );
   }
 
-  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(input) || input.length < 2) {
+  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(input) || input.length < 3) {
     return left(AuthValueFailure.invalidLastName(failedValue: input));
   }
 
