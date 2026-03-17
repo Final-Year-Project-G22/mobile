@@ -3,47 +3,63 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary colors
-  static const Color primary = Color(0xFF2563EB);
-  static const Color primaryLight = Color(0xFF60A5FA);
-  static const Color primaryDark = Color(0xFF1D4ED8);
+  // ── Slate scale (blue-tinted neutrals from design) ──────────────────
+  static const Color slate50 = Color(0xFFF8FAFC);
+  static const Color slate100 = Color(0xFFF1F5F9);
+  static const Color slate200 = Color(0xFFE2E8F0);
+  static const Color slate300 = Color(0xFFCBD5E1);
+  static const Color slate400 = Color(0xFF94A3B8);
+  static const Color slate500 = Color(0xFF64748B);
+  static const Color slate600 = Color(0xFF475569);
+  static const Color slate700 = Color(0xFF334155);
+  static const Color slate800 = Color(0xFF1E293B);
+  static const Color slate900 = Color(0xFF0F172A);
+  static const Color slate950 = Color(0xFF020617);
 
-  // Secondary colors
-  static const Color secondary = Color(0xFF10B981);
-  static const Color secondaryLight = Color(0xFF34D399);
-  static const Color secondaryDark = Color(0xFF059669);
+  // ── Accent – Blue ───────────────────────────────────────────────────
+  static const Color blue400 = Color(0xFF60A5FA);
+  static const Color blue500 = Color(0xFF3B82F6);
+  static const Color blue600 = Color(0xFF2563EB);
 
-  // Neutral colors
-  static const Color grey50 = Color(0xFFF9FAFB);
-  static const Color grey100 = Color(0xFFF3F4F6);
-  static const Color grey200 = Color(0xFFE5E7EB);
-  static const Color grey300 = Color(0xFFD1D5DB);
-  static const Color grey400 = Color(0xFF9CA3AF);
-  static const Color grey500 = Color(0xFF6B7280);
-  static const Color grey600 = Color(0xFF4B5563);
-  static const Color grey700 = Color(0xFF374151);
-  static const Color grey800 = Color(0xFF1F2937);
-  static const Color grey900 = Color(0xFF111827);
+  // ── Primary (dark slate for buttons / key actions) ──────────────────
+  static const Color primary = slate800; // #1E293B
+  static const Color primaryLight = slate700; // #334155
+  static const Color primaryDark = slate900; // #0F172A
 
-  // Semantic colors
+  // ── Accent (blue for links / active indicators) ─────────────────────
+  static const Color accent = blue500; // #3B82F6
+  static const Color accentLight = blue400; // #60A5FA
+  static const Color accentDark = blue600; // #2563EB
+
+  // ── Semantic colors ─────────────────────────────────────────────────
   static const Color success = Color(0xFF22C55E);
   static const Color warning = Color(0xFFF59E0B);
   static const Color error = Color(0xFFEF4444);
   static const Color info = Color(0xFF3B82F6);
 
-  // Background colors
-  static const Color backgroundLight = Color(0xFFFFFFFF);
-  static const Color backgroundDark = Color(0xFF111827);
-  static const Color surfaceLight = Color(0xFFF9FAFB);
-  static const Color surfaceDark = Color(0xFF1F2937);
+  // ── Background ──────────────────────────────────────────────────────
+  static const Color backgroundLight = slate50; // #F8FAFC
+  static const Color backgroundDark = slate900; // #0F172A
 
-  // Text colors
-  static const Color textPrimaryLight = Color(0xFF111827);
-  static const Color textSecondaryLight = Color(0xFF6B7280);
-  static const Color textPrimaryDark = Color(0xFFF9FAFB);
-  static const Color textSecondaryDark = Color(0xFF9CA3AF);
+  // ── Surface (cards, elevated areas) ─────────────────────────────────
+  static const Color surfaceLight = Color(0xFFFFFFFF);
+  static const Color surfaceDark = slate800; // #1E293B
 
-  // Border colors
-  static const Color borderLight = Color(0xFFE5E7EB);
-  static const Color borderDark = Color(0xFF374151);
+  // ── Input fill ──────────────────────────────────────────────────────
+  static const Color inputFillLight = slate100; // #F1F5F9
+  static const Color inputFillDark = slate800; // #1E293B
+
+  // ── Text ────────────────────────────────────────────────────────────
+  static const Color textPrimaryLight = slate900; // #0F172A
+  static const Color textSecondaryLight = slate500; // #64748B
+  static const Color textPrimaryDark = slate50; // #F8FAFC
+  static const Color textSecondaryDark = slate400; // #94A3B8
+  static const Color textHintLight = slate400; // #94A3B8
+  static const Color textHintDark = slate500; // #64748B
+  static const Color textLabelLight = slate800; // #1E293B
+  static const Color textLabelDark = slate200; // #E2E8F0
+
+  // ── Borders / dividers ──────────────────────────────────────────────
+  static const Color borderLight = slate200; // #E2E8F0
+  static const Color borderDark = slate700; // #334155
 }
