@@ -18,10 +18,6 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String lastName,
   }) async {
     try {
-      print('inside reposityr');
-      print(
-        'RegisterRequest: ${RegisterRequest(email: email, password: password, firstName: firstName, lastName: lastName).toJson()}',
-      );
       final response = await _client.register(
         body: RegisterRequest(
           email: email,
