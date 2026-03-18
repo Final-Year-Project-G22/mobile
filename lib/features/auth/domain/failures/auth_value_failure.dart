@@ -24,4 +24,9 @@ abstract class AuthValueFailure<T> with _$AuthValueFailure<T> {
   const factory AuthValueFailure.invalidLastName({
     required T failedValue,
   }) = InvalidLastName<T>;
+
+  const factory AuthValueFailure.shortName({
+    required T failedValue,
+    required String fieldName,
+  }) = ShortName<T>;
 }

@@ -53,7 +53,7 @@ class ApiClient {
           'Content-Type': ApiConstants.contentType,
           'Accept': ApiConstants.accept,
         },
-        validateStatus: (status) => status != null && status < 500,
+        validateStatus: (status) => status != null && status < 400,
       ),
     );
   }

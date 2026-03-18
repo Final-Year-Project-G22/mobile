@@ -52,10 +52,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   String _mapFailureToMessage(AuthValueFailure failure) {
     return failure.maybeWhen(
       emptyField: (failedValue, fieldName) => '$fieldName is required',
+      shortName: (failedValue, fieldName) =>
+          '$fieldName must be at least 3 characters',
       invalidEmail: (_) => 'Invalid email address',
       invalidPassword: (_) => 'Password must be at least 8 characters',
-      invalidFirstName: (_) => 'First name must be at least 3 characters',
-      invalidLastName: (_) => 'Last name must be at least 3 characters',
+      invalidFirstName: (_) => 'First name is invalid only letters allowed',
+      invalidLastName: (_) => 'Last name is invalid only letters allowed',
       orElse: () => 'Invalid input',
     );
   }
@@ -94,7 +96,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 backgroundColor: AppColors.success,
               ),
             );
-            context.go('/');
+            context.go('/login');
           },
         ),
       );

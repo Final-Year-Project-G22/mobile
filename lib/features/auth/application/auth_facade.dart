@@ -17,38 +17,15 @@ class AuthFacade implements IAuthFacade {
     required FirstName firstName,
     required LastName lastName,
   }) async {
-    print("AuthFaced enterd");
-    final emailValue = email.value.getOrElse(
-      () => throw Exception('Invalid email'),
-    );
-    final passwordValue = password.value.getOrElse(
-      () => throw Exception('Invalid password'),
-    );
-    final firstNameValue = firstName.value.getOrElse(
-      () => throw Exception('Invalid first name'),
-    );
-    final lastNameValue = lastName.value.getOrElse(
-      () => throw Exception('Invalid last name'),
-    );
-
+    final emailValue = email.getOrCrash();
+    final passwordValue = password.getOrCrash();
+    final firstNameValue = firstName.getOrCrash();
+    final lastNameValue = lastName.getOrCrash();
     return _repository.register(
       email: emailValue,
       password: passwordValue,
       firstName: firstNameValue,
       lastName: lastNameValue,
     );
-  }
-
-  @override
-  Future<Either<AuthUserFailure, Unit>> logIn({
-    required EmailAddress email,
-    required Password password,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<AuthUserFailure, Unit>> logOut() async {
-    throw UnimplementedError();
   }
 }

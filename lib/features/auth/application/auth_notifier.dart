@@ -52,7 +52,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final isPasswordValid = state.password.isValid();
     final isFirstNameValid = state.firstName.isValid();
     final isLastNameValid = state.lastName.isValid();
-    print("register");
     if (isEmailValid &&
         isPasswordValid &&
         isFirstNameValid &&

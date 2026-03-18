@@ -22,28 +22,14 @@ class AuthRepositoryImpl implements IAuthRepository {
       print(
         'RegisterRequest: ${RegisterRequest(email: email, password: password, firstName: firstName, lastName: lastName).toJson()}',
       );
-      // final response = await _client.register(
-      //   body: RegisterRequest(
-      //     email: email,
-      //     password: password,
-      //     firstName: firstName,
-      //     lastName: lastName,
-      //   ),
-      // );
-      final requestMap = {
-        'email': email,
-        'password': password,
-        'firstName': firstName,
-        'lastName': lastName,
-      };
       final response = await _client.register(
-        body: RegisterRequest.fromJson(requestMap),
-        
+        body: RegisterRequest(
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+        ),
       );
-      print(
-        'RegisterRequest: ${RegisterRequest(email: email, password: password, firstName: firstName, lastName: lastName).toJson()}',
-      );
-
       return Right(
         AuthResponse(
           accessToken: response.accessToken,
@@ -75,11 +61,13 @@ class AuthRepositoryImpl implements IAuthRepository {
       case DioExceptionType.connectionError:
         return const AuthUserFailure.networkError();
       case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode;
-        if (statusCode == 409) {
+        final statusCode = error.response?.statusCode; 
+        final data = error.response?.data;
+        final apiCode = data is Map<String, dynamic> ? data['code'] : null;
+        if (statusCode == 409 || apiCode == 'conflict') {
           return const AuthUserFailure.emailAlreadyInUse();
         }
-        if (statusCode == 401) {
+        if (statusCode == 401 || apiCode == 'unauthorized') {
           return const AuthUserFailure.invalidEmailAndPasswordCombination();
         }
         return const AuthUserFailure.serverError();

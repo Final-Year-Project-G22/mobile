@@ -12,10 +12,14 @@ import '../../features/auth/domain/i_auth_facade.dart';
 import '../../features/auth/domain/i_auth_repository.dart';
 import '../../features/auth/infrastructure/auth_repository_impl.dart';
 
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient(
+    baseUrl: 'http://localhost:4000', // replace for device/emulator as needed
+    enableLogging: true,
+  );
+});
 final dioProvider = Provider<Dio>((ref) {
-  return Dio(BaseOptions(
-    baseUrl: 'http://localhost:4000', // your backend URL
-  ));
+  return ref.watch(apiClientProvider).dio;
 });
 
 final authenticationClientProvider = Provider<AuthenticationClient>((ref) {

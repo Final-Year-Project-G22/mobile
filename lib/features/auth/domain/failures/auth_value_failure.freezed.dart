@@ -86,7 +86,7 @@ extension AuthValueFailurePatterns<T> on AuthValueFailure<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( EmptyField<T> value)?  emptyField,TResult Function( InvalidEmail<T> value)?  invalidEmail,TResult Function( InvalidPassword<T> value)?  invalidPassword,TResult Function( InvalidFirstName<T> value)?  invalidFirstName,TResult Function( InvalidLastName<T> value)?  invalidLastName,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( EmptyField<T> value)?  emptyField,TResult Function( InvalidEmail<T> value)?  invalidEmail,TResult Function( InvalidPassword<T> value)?  invalidPassword,TResult Function( InvalidFirstName<T> value)?  invalidFirstName,TResult Function( InvalidLastName<T> value)?  invalidLastName,TResult Function( ShortName<T> value)?  shortName,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case EmptyField() when emptyField != null:
@@ -94,7 +94,8 @@ return emptyField(_that);case InvalidEmail() when invalidEmail != null:
 return invalidEmail(_that);case InvalidPassword() when invalidPassword != null:
 return invalidPassword(_that);case InvalidFirstName() when invalidFirstName != null:
 return invalidFirstName(_that);case InvalidLastName() when invalidLastName != null:
-return invalidLastName(_that);case _:
+return invalidLastName(_that);case ShortName() when shortName != null:
+return shortName(_that);case _:
   return orElse();
 
 }
@@ -112,7 +113,7 @@ return invalidLastName(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( EmptyField<T> value)  emptyField,required TResult Function( InvalidEmail<T> value)  invalidEmail,required TResult Function( InvalidPassword<T> value)  invalidPassword,required TResult Function( InvalidFirstName<T> value)  invalidFirstName,required TResult Function( InvalidLastName<T> value)  invalidLastName,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( EmptyField<T> value)  emptyField,required TResult Function( InvalidEmail<T> value)  invalidEmail,required TResult Function( InvalidPassword<T> value)  invalidPassword,required TResult Function( InvalidFirstName<T> value)  invalidFirstName,required TResult Function( InvalidLastName<T> value)  invalidLastName,required TResult Function( ShortName<T> value)  shortName,}){
 final _that = this;
 switch (_that) {
 case EmptyField():
@@ -120,7 +121,8 @@ return emptyField(_that);case InvalidEmail():
 return invalidEmail(_that);case InvalidPassword():
 return invalidPassword(_that);case InvalidFirstName():
 return invalidFirstName(_that);case InvalidLastName():
-return invalidLastName(_that);case _:
+return invalidLastName(_that);case ShortName():
+return shortName(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -137,7 +139,7 @@ return invalidLastName(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( EmptyField<T> value)?  emptyField,TResult? Function( InvalidEmail<T> value)?  invalidEmail,TResult? Function( InvalidPassword<T> value)?  invalidPassword,TResult? Function( InvalidFirstName<T> value)?  invalidFirstName,TResult? Function( InvalidLastName<T> value)?  invalidLastName,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( EmptyField<T> value)?  emptyField,TResult? Function( InvalidEmail<T> value)?  invalidEmail,TResult? Function( InvalidPassword<T> value)?  invalidPassword,TResult? Function( InvalidFirstName<T> value)?  invalidFirstName,TResult? Function( InvalidLastName<T> value)?  invalidLastName,TResult? Function( ShortName<T> value)?  shortName,}){
 final _that = this;
 switch (_that) {
 case EmptyField() when emptyField != null:
@@ -145,7 +147,8 @@ return emptyField(_that);case InvalidEmail() when invalidEmail != null:
 return invalidEmail(_that);case InvalidPassword() when invalidPassword != null:
 return invalidPassword(_that);case InvalidFirstName() when invalidFirstName != null:
 return invalidFirstName(_that);case InvalidLastName() when invalidLastName != null:
-return invalidLastName(_that);case _:
+return invalidLastName(_that);case ShortName() when shortName != null:
+return shortName(_that);case _:
   return null;
 
 }
@@ -162,14 +165,15 @@ return invalidLastName(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T failedValue,  String fieldName)?  emptyField,TResult Function( T failedValue)?  invalidEmail,TResult Function( T failedValue)?  invalidPassword,TResult Function( T failedValue)?  invalidFirstName,TResult Function( T failedValue)?  invalidLastName,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T failedValue,  String fieldName)?  emptyField,TResult Function( T failedValue)?  invalidEmail,TResult Function( T failedValue)?  invalidPassword,TResult Function( T failedValue)?  invalidFirstName,TResult Function( T failedValue)?  invalidLastName,TResult Function( T failedValue,  String fieldName)?  shortName,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case EmptyField() when emptyField != null:
 return emptyField(_that.failedValue,_that.fieldName);case InvalidEmail() when invalidEmail != null:
 return invalidEmail(_that.failedValue);case InvalidPassword() when invalidPassword != null:
 return invalidPassword(_that.failedValue);case InvalidFirstName() when invalidFirstName != null:
 return invalidFirstName(_that.failedValue);case InvalidLastName() when invalidLastName != null:
-return invalidLastName(_that.failedValue);case _:
+return invalidLastName(_that.failedValue);case ShortName() when shortName != null:
+return shortName(_that.failedValue,_that.fieldName);case _:
   return orElse();
 
 }
@@ -187,14 +191,15 @@ return invalidLastName(_that.failedValue);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T failedValue,  String fieldName)  emptyField,required TResult Function( T failedValue)  invalidEmail,required TResult Function( T failedValue)  invalidPassword,required TResult Function( T failedValue)  invalidFirstName,required TResult Function( T failedValue)  invalidLastName,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T failedValue,  String fieldName)  emptyField,required TResult Function( T failedValue)  invalidEmail,required TResult Function( T failedValue)  invalidPassword,required TResult Function( T failedValue)  invalidFirstName,required TResult Function( T failedValue)  invalidLastName,required TResult Function( T failedValue,  String fieldName)  shortName,}) {final _that = this;
 switch (_that) {
 case EmptyField():
 return emptyField(_that.failedValue,_that.fieldName);case InvalidEmail():
 return invalidEmail(_that.failedValue);case InvalidPassword():
 return invalidPassword(_that.failedValue);case InvalidFirstName():
 return invalidFirstName(_that.failedValue);case InvalidLastName():
-return invalidLastName(_that.failedValue);case _:
+return invalidLastName(_that.failedValue);case ShortName():
+return shortName(_that.failedValue,_that.fieldName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,14 +216,15 @@ return invalidLastName(_that.failedValue);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T failedValue,  String fieldName)?  emptyField,TResult? Function( T failedValue)?  invalidEmail,TResult? Function( T failedValue)?  invalidPassword,TResult? Function( T failedValue)?  invalidFirstName,TResult? Function( T failedValue)?  invalidLastName,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T failedValue,  String fieldName)?  emptyField,TResult? Function( T failedValue)?  invalidEmail,TResult? Function( T failedValue)?  invalidPassword,TResult? Function( T failedValue)?  invalidFirstName,TResult? Function( T failedValue)?  invalidLastName,TResult? Function( T failedValue,  String fieldName)?  shortName,}) {final _that = this;
 switch (_that) {
 case EmptyField() when emptyField != null:
 return emptyField(_that.failedValue,_that.fieldName);case InvalidEmail() when invalidEmail != null:
 return invalidEmail(_that.failedValue);case InvalidPassword() when invalidPassword != null:
 return invalidPassword(_that.failedValue);case InvalidFirstName() when invalidFirstName != null:
 return invalidFirstName(_that.failedValue);case InvalidLastName() when invalidLastName != null:
-return invalidLastName(_that.failedValue);case _:
+return invalidLastName(_that.failedValue);case ShortName() when shortName != null:
+return shortName(_that.failedValue,_that.fieldName);case _:
   return null;
 
 }
@@ -552,6 +558,74 @@ class _$InvalidLastNameCopyWithImpl<T,$Res>
   return _then(InvalidLastName<T>(
 failedValue: freezed == failedValue ? _self.failedValue : failedValue // ignore: cast_nullable_to_non_nullable
 as T,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ShortName<T> implements AuthValueFailure<T> {
+  const ShortName({required this.failedValue, required this.fieldName});
+  
+
+@override final  T failedValue;
+ final  String fieldName;
+
+/// Create a copy of AuthValueFailure
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ShortNameCopyWith<T, ShortName<T>> get copyWith => _$ShortNameCopyWithImpl<T, ShortName<T>>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShortName<T>&&const DeepCollectionEquality().equals(other.failedValue, failedValue)&&(identical(other.fieldName, fieldName) || other.fieldName == fieldName));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(failedValue),fieldName);
+
+@override
+String toString() {
+  return 'AuthValueFailure<$T>.shortName(failedValue: $failedValue, fieldName: $fieldName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ShortNameCopyWith<T,$Res> implements $AuthValueFailureCopyWith<T, $Res> {
+  factory $ShortNameCopyWith(ShortName<T> value, $Res Function(ShortName<T>) _then) = _$ShortNameCopyWithImpl;
+@override @useResult
+$Res call({
+ T failedValue, String fieldName
+});
+
+
+
+
+}
+/// @nodoc
+class _$ShortNameCopyWithImpl<T,$Res>
+    implements $ShortNameCopyWith<T, $Res> {
+  _$ShortNameCopyWithImpl(this._self, this._then);
+
+  final ShortName<T> _self;
+  final $Res Function(ShortName<T>) _then;
+
+/// Create a copy of AuthValueFailure
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? failedValue = freezed,Object? fieldName = null,}) {
+  return _then(ShortName<T>(
+failedValue: freezed == failedValue ? _self.failedValue : failedValue // ignore: cast_nullable_to_non_nullable
+as T,fieldName: null == fieldName ? _self.fieldName : fieldName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
