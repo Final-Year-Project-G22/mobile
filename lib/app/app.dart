@@ -13,6 +13,7 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       title: 'Adisu',
@@ -23,7 +24,7 @@ class App extends ConsumerWidget {
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: AppRouter.router,
+      routerConfig: router,
     );
   }
 }

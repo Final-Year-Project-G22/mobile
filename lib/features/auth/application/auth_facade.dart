@@ -28,4 +28,15 @@ class AuthFacade implements IAuthFacade {
       lastName: lastNameValue,
     );
   }
+
+  @override
+  Future<Either<AuthUserFailure, AuthResponse>> login({
+    required EmailAddress email,
+    required Password password,
+  }) async {
+    final emailValue = email.getOrCrash();
+    final passwordValue = password.getOrCrash();
+
+    return _repository.login(email: emailValue, password: passwordValue);
+  }
 }

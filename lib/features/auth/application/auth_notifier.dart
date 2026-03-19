@@ -12,7 +12,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier(this._authFacade) : super(AuthState.initial());
 
-  /// Track Email Changes
   void emailChanged(String input) {
     state = state.copyWith(
       email: EmailAddress(input),
@@ -20,7 +19,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  /// Track Password Changes
   void passwordChanged(String input) {
     state = state.copyWith(
       password: Password(input),
@@ -28,7 +26,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  /// Track First Name Changes
   void firstNameChanged(String input) {
     state = state.copyWith(
       firstName: FirstName(input),
@@ -36,10 +33,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  /// Track Last Name Changes
   void lastNameChanged(String input) {
     state = state.copyWith(
       lastName: LastName(input),
+      authFailureOrSuccessOption: none(),
+    );
+  }
+
+  void resetAuthForm() {
+    state = state.copyWith(
+      email: EmailAddress(''),
+      password: Password(''),
+      firstName: FirstName(''),
+      lastName: LastName(''),
+      isSubmitting: false,
+      showErrorMessages: false,
       authFailureOrSuccessOption: none(),
     );
   }
@@ -66,6 +74,35 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: state.password,
         firstName: state.firstName,
         lastName: state.lastName,
+      );
+
+      failureOrSuccessResult = failureOrSuccess.fold(
+        (failure) => left(failure),
+        (authResponse) => right(unit),
+      );
+    }
+    state = state.copyWith(
+      isSubmitting: false,
+      showErrorMessages: true,
+      authFailureOrSuccessOption: optionOf(failureOrSuccessResult),
+    );
+  }
+   Future<void> onUserLogin() async {
+    Either<AuthUserFailure, AuthResponse>? failureOrSuccess;
+    Either<AuthUserFailure, Unit>? failureOrSuccessResult;
+
+    final isEmailValid = state.email.isValid();
+    final isPasswordValid = state.password.isValid();
+    if (isEmailValid &&
+        isPasswordValid) {
+      state = state.copyWith(
+        isSubmitting: true,
+        authFailureOrSuccessOption: none(),
+      );
+
+      failureOrSuccess = await _authFacade.login(
+        email: state.email,
+        password: state.password,
       );
 
       failureOrSuccessResult = failureOrSuccess.fold(
