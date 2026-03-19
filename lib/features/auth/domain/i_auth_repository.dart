@@ -9,4 +9,8 @@ abstract class IAuthRepository {
     required String firstName,
     required String lastName,
   });
+  Future<Either<AuthUserFailure, AuthResponse>> login({
+    required String email,
+    required String password,
+  });
 }

@@ -9,19 +9,17 @@ import 'package:mobile/features/auth/domain/failures/auth_value_failure.dart';
 import 'package:mobile/features/auth/presentation/widgets/auth_button.dart';
 import 'package:mobile/features/auth/presentation/widgets/auth_text_field.dart';
 
-class RegisterPage extends ConsumerStatefulWidget {
-  const RegisterPage({super.key});
+class LogInPage extends ConsumerStatefulWidget {
+  const LogInPage({super.key});
 
   @override
-  ConsumerState<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<LogInPage> createState() => _LogInPageState();
 }
 
-class _RegisterPageState extends ConsumerState<RegisterPage> {
+class _LogInPageState extends ConsumerState<LogInPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-  late TextEditingController _firstNameController;
-  late TextEditingController _lastNameController;
   bool _obscurePassword = true;
 
   @override
@@ -29,19 +27,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
     Future.microtask(() {
-    ref.read(authNotifierProvider.notifier).resetAuthForm();
-  });
+      ref.read(authNotifierProvider.notifier).resetAuthForm();
+    });
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
     super.dispose();
   }
 
@@ -59,8 +53,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           '$fieldName must be at least 3 characters',
       invalidEmail: (_) => 'Invalid email address',
       invalidPassword: (_) => 'Password must be at least 8 characters',
-      invalidFirstName: (_) => 'First name is invalid only letters allowed',
-      invalidLastName: (_) => 'Last name is invalid only letters allowed',
       orElse: () => 'Invalid input',
     );
   }
@@ -80,7 +72,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final authState = ref.watch(authNotifierProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    ref.listen<dynamic>(authNotifierProvider, (previous, next) {
+    ref.listen(authNotifierProvider, (previous, next) {
       next.authFailureOrSuccessOption.fold(
         () {},
         (either) => either.fold(
@@ -93,13 +85,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             );
           },
           (_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Registration successful!'),
-                backgroundColor: AppColors.success,
-              ),
-            );
-            context.go('/login');
+            if (mounted) {
+              ref.read(authSessionProvider.notifier).setAuthenticated();
+              context.go('/home');
+            }
           },
         ),
       );
@@ -119,7 +108,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               children: [
                 const SizedBox(height: AppSpacing.xxl),
                 Text(
-                  'Create Account',
+                  'LogIn',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -130,7 +119,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
                 AppSpacing.gapVerticalXs,
                 Text(
-                  'Sign up to get started',
+                  'LogIn to get started',
                   style: TextStyle(
                     fontSize: 16,
                     color: isDark
@@ -139,37 +128,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xxl),
-                AuthTextField(
-                  label: 'First Name',
-                  hint: 'Enter your first name',
-                  controller: _firstNameController,
-                  onChanged: (value) {
-                    ref
-                        .read(authNotifierProvider.notifier)
-                        .firstNameChanged(value);
-                  },
-                  errorText: _getErrorText(
-                    authState.firstName,
-                    authState.showErrorMessages,
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Last Name',
-                  hint: 'Enter your last name',
-                  controller: _lastNameController,
-                  onChanged: (value) {
-                    ref
-                        .read(authNotifierProvider.notifier)
-                        .lastNameChanged(value);
-                  },
-                  errorText: _getErrorText(
-                    authState.lastName,
-                    authState.showErrorMessages,
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                ),
                 AppSpacing.gapLg,
                 AuthTextField(
                   label: 'Email',
@@ -220,10 +178,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AuthButton(
-                  text: 'Register',
+                  text: 'Login',
                   isLoading: authState.isSubmitting,
                   onPressed: () {
-                    ref.read(authNotifierProvider.notifier).onUserRegister();
+                    ref.read(authNotifierProvider.notifier).onUserLogin();
                   },
                 ),
                 const SizedBox(height: AppSpacing.lg),
@@ -231,7 +189,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account? ',
+                      "Don't have an account? ",
                       style: TextStyle(
                         color: isDark
                             ? AppColors.textSecondaryDark
@@ -239,9 +197,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => context.go('/login'),
+                      onTap: () => context.go('/register'),
                       child: const Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
                           color: AppColors.accent,
                           fontWeight: FontWeight.w600,

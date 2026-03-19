@@ -1,14 +1,17 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:mobile/core/auth/token_storage.dart';
 import 'package:mobile/features/auth/domain/entities/auth_response.dart';
 import 'package:mobile/features/auth/domain/failures/auth_user_failure.dart';
 import 'package:mobile/features/auth/domain/i_auth_repository.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   final AuthenticationClient _client;
+  final ApiClient _apiClient;
+  final TokenStorage _tokenStorage;
 
-  const AuthRepositoryImpl(this._client);
+  const AuthRepositoryImpl(this._client, this._apiClient, this._tokenStorage);
 
   @override
   Future<Either<AuthUserFailure, AuthResponse>> register({
@@ -26,6 +29,50 @@ class AuthRepositoryImpl implements IAuthRepository {
           lastName: lastName,
         ),
       );
+      await _tokenStorage.saveTokens(
+        accessToken: response.accessToken,
+        expiresAt: response.expiresAt,
+      );
+      _apiClient.setAccessToken(response.accessToken);
+      return Right(
+        AuthResponse(
+          accessToken: response.accessToken,
+          expiresAt: response.expiresAt,
+          user: AuthUser(
+            id: response.user.id,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+          ),
+          account: AuthAccount(
+            id: response.account.id,
+            email: response.account.email,
+            status: response.account.status,
+          ),
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } catch (e) {
+      return const Left(AuthUserFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<AuthUserFailure, AuthResponse>> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _client.login(
+        body: LoginRequest(email: email, password: password),
+      );
+
+      await _tokenStorage.saveTokens(
+        accessToken: response.accessToken,
+        expiresAt: response.expiresAt,
+      );
+      _apiClient.setAccessToken(response.accessToken);
+
       return Right(
         AuthResponse(
           accessToken: response.accessToken,
@@ -57,7 +104,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       case DioExceptionType.connectionError:
         return const AuthUserFailure.networkError();
       case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode; 
+        final statusCode = error.response?.statusCode;
         final data = error.response?.data;
         final apiCode = data is Map<String, dynamic> ? data['code'] : null;
         if (statusCode == 409 || apiCode == 'conflict') {
