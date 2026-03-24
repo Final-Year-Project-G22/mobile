@@ -95,7 +95,7 @@ final class ApiClientProvider
   }
 }
 
-String _$apiClientHash() => r'11c10436eba547a86ba14532d482543083d2b7bd';
+String _$apiClientHash() => r'35d623bfb09fb2fd5a1c03f5829d0de77e8af894';
 
 @ProviderFor(networkInfo)
 final networkInfoProvider = NetworkInfoProvider._();
