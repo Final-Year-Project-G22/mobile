@@ -6,40 +6,17 @@ import 'interceptors/error_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
 
 class ApiClient {
-  static ApiClient? _instance;
   late final Dio dio;
   late final AuthInterceptor _authInterceptor;
 
-  ApiClient._({
+  ApiClient({
     String? baseUrl,
     bool enableLogging = true,
     List<Interceptor>? additionalInterceptors,
-    void Function()? onUnauthorized,
-    void Function(TokenPair)? onTokenRefreshed,
   }) {
     dio = _createDio(baseUrl: baseUrl ?? 'https://api.example.com/v1');
-    _authInterceptor = AuthInterceptor(
-      onUnauthorized: onUnauthorized,
-      onTokenRefreshed: onTokenRefreshed,
-    );
+    _authInterceptor = AuthInterceptor();
     _setupInterceptors(enableLogging, additionalInterceptors);
-  }
-
-  factory ApiClient({
-    String? baseUrl,
-    bool enableLogging = true,
-    List<Interceptor>? additionalInterceptors,
-    void Function()? onUnauthorized,
-    void Function(TokenPair)? onTokenRefreshed,
-  }) {
-    _instance ??= ApiClient._(
-      baseUrl: baseUrl,
-      enableLogging: enableLogging,
-      additionalInterceptors: additionalInterceptors,
-      onUnauthorized: onUnauthorized,
-      onTokenRefreshed: onTokenRefreshed,
-    );
-    return _instance!;
   }
 
   Dio _createDio({required String baseUrl}) {
@@ -74,6 +51,16 @@ class ApiClient {
   String? get refreshToken => _authInterceptor.refreshToken;
   bool get isAuthenticated => _authInterceptor.isAuthenticated;
 
+  // Callback setters (wired after construction)
+  void setOnUnauthorizedCallback(void Function()? callback) {
+    _authInterceptor.setOnUnauthorizedCallback(callback);
+  }
+
+  void setOnTokenRefreshedCallback(void Function(TokenPair)? callback) {
+    _authInterceptor.setOnTokenRefreshedCallback(callback);
+  }
+
+  // Token setters
   void setAccessToken(String token) {
     _authInterceptor.setAccessToken(token);
   }
@@ -170,9 +157,5 @@ class ApiClient {
 
   void updateBaseUrl(String baseUrl) {
     dio.options.baseUrl = baseUrl;
-  }
-
-  static void reset() {
-    _instance = null;
   }
 }

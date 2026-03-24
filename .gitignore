@@ -120,4 +120,5 @@ app.*.symbols
 
 # Environment files
 .env
-assets/.env
+.env.*
+assets/.env.*
