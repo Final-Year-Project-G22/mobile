@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile/app/constants/app_colors.dart';
 import 'package:mobile/app/constants/app_spacing.dart';
 import 'package:mobile/app/features/auth/application/auth_form_notifier.dart';
@@ -9,6 +8,7 @@ import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart'
 import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
 import 'package:mobile/app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:mobile/app/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:mobile/app/router/routes.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -57,7 +57,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Registration successful'), backgroundColor: AppColors.success),
             );
-            context.go('/login');
+            const LoginRoute().go(context);
           }
         },
         error: (error, _) {
@@ -183,7 +183,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       style: TextStyle(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
                     ),
                     GestureDetector(
-                      onTap: () => context.go('/login'),
+                      onTap: () => const LoginRoute().go(context),
                       child: const Text(
                         'Sign In',
                         style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600),
