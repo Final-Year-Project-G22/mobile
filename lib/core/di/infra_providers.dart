@@ -1,7 +1,7 @@
 import 'package:api_client/api_client.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/core/auth/token_storage.dart';
+import 'package:mobile/core/config/app_config.dart';
 import 'package:mobile/core/network/app_network_info.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,11 +20,8 @@ TokenStorage tokenStorage(Ref ref) {
 @riverpod
 ApiClient apiClient(Ref ref) {
   final tokenStorage = ref.watch(tokenStorageProvider);
-  final baseUrl = dotenv.env['API_BASE_URL'];
-  if (baseUrl == null) {
-    throw Exception('API_BASE_URL not set');
-  }
-  final apiClient = ApiClient(baseUrl: baseUrl, enableLogging: true);
+
+  final apiClient = ApiClient(baseUrl: AppConfig.apiBaseUrl, enableLogging: AppConfig.enableLogging);
 
   apiClient.setOnTokenRefreshedCallback((tokens) async {
     await tokenStorage.saveTokens(
