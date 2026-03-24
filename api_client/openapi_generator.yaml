@@ -6,3 +6,4 @@ openapi_generator:
   generate_client: true
   multi_schema: true
   base_client_name: RestClient
+  original_http_response: true

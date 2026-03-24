@@ -25,7 +25,7 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/login')
-  Future<LoginResponseBody> login({
+  Future<HttpResponse<LoginResponseBody>> login({
     @Body() required LoginRequest body,
   });
 
@@ -33,19 +33,19 @@ abstract class AuthenticationClient {
   ///
   /// Revokes the current session and clears the refresh token cookie.
   @POST('/api/v1/auth/logout')
-  Future<void> logout();
+  Future<HttpResponse<void>> logout();
 
   /// Log out all sessions.
   ///
   /// Revokes all sessions for the current user's account and clears the refresh token cookie.
   @POST('/api/v1/auth/logout/all')
-  Future<void> logoutAll();
+  Future<HttpResponse<void>> logoutAll();
 
   /// Refresh access token.
   ///
   /// Uses the refresh token cookie to issue new access and refresh tokens. Implements token rotation for security.
   @POST('/api/v1/auth/refresh')
-  Future<RefreshResponseBody> refresh();
+  Future<HttpResponse<RefreshResponseBody>> refresh();
 
   /// Register a new user.
   ///
@@ -53,7 +53,7 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/register')
-  Future<RegisterResponseBody> register({
+  Future<HttpResponse<RegisterResponseBody>> register({
     @Body() required RegisterRequest body,
   });
 }

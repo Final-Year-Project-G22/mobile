@@ -30,18 +30,22 @@ class AuthInterceptor extends Interceptor {
   String? _accessToken;
   String? _refreshToken;
   final ShouldSkipAuth shouldSkipAuth;
-  final OnUnauthorized? onUnauthorized;
-  final OnTokenRefreshed? onTokenRefreshed;
+  OnUnauthorized? onUnauthorized;
+  OnTokenRefreshed? onTokenRefreshed;
   final Dio _dio;
   bool _isRefreshing = false;
   final List<_QueuedRequest> _pendingRequests = [];
 
-  AuthInterceptor({
-    this.shouldSkipAuth = _defaultShouldSkipAuth,
-    this.onUnauthorized,
-    this.onTokenRefreshed,
-    Dio? dio,
-  }) : _dio = dio ?? Dio();
+  AuthInterceptor({this.shouldSkipAuth = _defaultShouldSkipAuth, Dio? dio})
+    : _dio = dio ?? Dio();
+
+  void setOnUnauthorizedCallback(OnUnauthorized? callback) {
+    onUnauthorized = callback;
+  }
+
+  void setOnTokenRefreshedCallback(OnTokenRefreshed? callback) {
+    onTokenRefreshed = callback;
+  }
 
   static bool _defaultShouldSkipAuth(String path) {
     return path.contains('/auth/login') ||
