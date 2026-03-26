@@ -93,6 +93,34 @@ class _AuthenticationClient implements AuthenticationClient {
   }
 
   @override
+  Future<HttpResponse<GetCurrentUserResponseBody>> getCurrentUser() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<GetCurrentUserResponseBody>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/auth/me',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late GetCurrentUserResponseBody _value;
+    try {
+      _value = GetCurrentUserResponseBody.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
   Future<HttpResponse<RefreshResponseBody>> refresh() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -143,6 +171,99 @@ class _AuthenticationClient implements AuthenticationClient {
     late RegisterResponseBody _value;
     try {
       _value = RegisterResponseBody.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ResendEmailOtpResponseBody>> resendEmailOtp() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ResendEmailOtpResponseBody>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/auth/resend-email-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late ResendEmailOtpResponseBody _value;
+    try {
+      _value = ResendEmailOtpResponseBody.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<UpdateAccountPasswordResponseBody>> accountPassword({
+    required UpdateAccountPasswordRequest body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options =
+        _setStreamType<HttpResponse<UpdateAccountPasswordResponseBody>>(
+          Options(method: 'PUT', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/api/v1/auth/user/updatePassword',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late UpdateAccountPasswordResponseBody _value;
+    try {
+      _value = UpdateAccountPasswordResponseBody.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<VerifyEmailOtpResponseBody>> verifyEmailOtp({
+    required VerifyEmailOtpRequest body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<VerifyEmailOtpResponseBody>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/auth/verify-email-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late VerifyEmailOtpResponseBody _value;
+    try {
+      _value = VerifyEmailOtpResponseBody.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

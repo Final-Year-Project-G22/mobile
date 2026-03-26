@@ -1,0 +1,393 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/app/constants/app_spacing.dart';
+import 'package:mobile/app/features/profile/application/profile_notifier.dart';
+import 'package:mobile/app/features/profile/application/profile_state.dart';
+import 'package:mobile/app/features/profile/domain/entities/user_profile.dart';
+
+class ProfilePage extends ConsumerStatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
+  late final TextEditingController _bioController;
+  bool _isEditingProfile = false;
+  String? _boundUserId;
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _bioController = TextEditingController();
+    Future.microtask(() {
+      ref.read(profileProvider.notifier).loadCurrentUser();
+    });
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _bioController.dispose();
+    super.dispose();
+  }
+
+  void _bindForm(UserProfile user) {
+    if (_boundUserId == user.id) return;
+    _firstNameController.text = user.firstName.getOrCrash();
+    _lastNameController.text = user.lastName.getOrCrash();
+    _bioController.text = user.bio ?? '';
+    _boundUserId = user.id;
+  }
+
+  void _resetFormToCurrentUser(UserProfile user) {
+    _firstNameController.text = user.firstName.getOrCrash();
+    _lastNameController.text = user.lastName.getOrCrash();
+    _bioController.text = user.bio ?? '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(profileProvider);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    ref.listen<ProfileState>(profileProvider, (previous, next) {
+      if (next.errorMessage != null &&
+          next.errorMessage != previous?.errorMessage) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
+      }
+      if (next.successMessage != null &&
+          next.successMessage != previous?.successMessage) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
+      }
+    });
+
+    final user = state.user;
+    final hasInvalidProfileData = user?.failureOption.isSome() ?? false;
+
+    if (state.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (user == null || hasInvalidProfileData) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Profile')),
+        body: Center(
+          child: Padding(
+            padding: AppSpacing.paddingLg,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.error_outline, size: 40, color: colorScheme.error),
+                AppSpacing.gapVerticalSm,
+                Text(
+                  'Unable to display profile data.',
+                  style: theme.textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                AppSpacing.gapVerticalXs,
+                Text(
+                  'Please try loading your profile again.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                AppSpacing.gapVerticalMd,
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ref.read(profileProvider.notifier).loadCurrentUser();
+                  },
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    _bindForm(user);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profile')),
+      body: ListView(
+        padding: AppSpacing.paddingLg,
+        children: [
+          Container(
+            padding: AppSpacing.paddingLg,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colorScheme.primaryContainer, colorScheme.surface],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: AppSpacing.borderRadiusLg,
+              border: Border.all(color: colorScheme.outlineVariant),
+            ),
+            child: Column(
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: colorScheme.surfaceContainerHighest,
+                      backgroundImage: (user.imageUrl?.isNotEmpty ?? false)
+                          ? NetworkImage(user.imageUrl!)
+                          : null,
+                      child: (user.imageUrl == null || user.imageUrl!.isEmpty)
+                          ? Icon(
+                              Icons.person,
+                              size: 52,
+                              color: colorScheme.onSurfaceVariant,
+                            )
+                          : null,
+                    ),
+                    Positioned(
+                      right: -6,
+                      bottom: -6,
+                      child: IconButton.filledTonal(
+                        tooltip: 'Edit avatar',
+                        onPressed: state.isUploadingAvatar
+                            ? null
+                            : () {
+                                ref
+                                    .read(profileProvider.notifier)
+                                    .uploadAvatarFromGallery();
+                              },
+                        icon: state.isUploadingAvatar
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Icon(Icons.photo_camera_outlined),
+                      ),
+                    ),
+                  ],
+                ),
+                AppSpacing.gapVerticalMd,
+                Text(
+                  user.fullName,
+                  style: theme.textTheme.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
+                AppSpacing.gapVerticalXs,
+                Text(
+                  user.bio?.isNotEmpty == true ? user.bio! : 'No bio yet',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          AppSpacing.gapVerticalLg,
+          Card(
+            child: Padding(
+              padding: AppSpacing.paddingMd,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 220),
+                child: _isEditingProfile
+                    ? _EditProfileForm(
+                        key: const ValueKey('edit-profile'),
+                        firstNameController: _firstNameController,
+                        lastNameController: _lastNameController,
+                        bioController: _bioController,
+                        isSaving: state.isSaving,
+                        onCancel: () {
+                          _resetFormToCurrentUser(user);
+                          setState(() => _isEditingProfile = false);
+                        },
+                        onSave: () async {
+                          await ref
+                              .read(profileProvider.notifier)
+                              .updateProfile(
+                                firstName: _firstNameController.text,
+                                lastName: _lastNameController.text,
+                                bio: _bioController.text,
+                              );
+                          if (!mounted) return;
+                          final latest = ref.read(profileProvider);
+                          if (latest.errorMessage == null) {
+                            setState(() => _isEditingProfile = false);
+                          }
+                        },
+                      )
+                    : _ProfileDetailsView(
+                        key: const ValueKey('profile-details'),
+                        user: user,
+                        onEditTap: () =>
+                            setState(() => _isEditingProfile = true),
+                      ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileDetailsView extends StatelessWidget {
+  final UserProfile user;
+  final VoidCallback onEditTap;
+
+  const _ProfileDetailsView({
+    super.key,
+    required this.user,
+    required this.onEditTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Profile Details',
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            IconButton(
+              tooltip: 'Edit profile',
+              onPressed: onEditTap,
+              icon: const Icon(Icons.edit_outlined),
+            ),
+          ],
+        ),
+        AppSpacing.gapVerticalSm,
+        _InfoRow(label: 'First Name', value: user.firstName.getOrCrash()),
+        _InfoRow(label: 'Last Name', value: user.lastName.getOrCrash()),
+        _InfoRow(
+          label: 'Bio',
+          value: user.bio?.isNotEmpty == true ? user.bio! : '-',
+        ),
+      ],
+    );
+  }
+}
+
+class _EditProfileForm extends StatelessWidget {
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
+  final TextEditingController bioController;
+  final bool isSaving;
+  final VoidCallback onCancel;
+  final VoidCallback onSave;
+
+  const _EditProfileForm({
+    super.key,
+    required this.firstNameController,
+    required this.lastNameController,
+    required this.bioController,
+    required this.isSaving,
+    required this.onCancel,
+    required this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Edit Profile', style: theme.textTheme.titleMedium),
+        AppSpacing.gapVerticalMd,
+        TextField(
+          controller: firstNameController,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(labelText: 'First name'),
+        ),
+        AppSpacing.gapVerticalSm,
+        TextField(
+          controller: lastNameController,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(labelText: 'Last name'),
+        ),
+        AppSpacing.gapVerticalSm,
+        TextField(
+          controller: bioController,
+          maxLines: 3,
+          decoration: const InputDecoration(labelText: 'Bio'),
+        ),
+        AppSpacing.gapVerticalMd,
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: isSaving ? null : onCancel,
+                child: const Text('Cancel'),
+              ),
+            ),
+            AppSpacing.gapHorizontalSm,
+            Expanded(
+              child: ElevatedButton(
+                onPressed: isSaving ? null : onSave,
+                child: isSaving
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Save'),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _InfoRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final muted = theme.colorScheme.onSurfaceVariant;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 95,
+            child: Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(color: muted),
+            ),
+          ),
+          Expanded(child: Text(value, style: theme.textTheme.bodyLarge)),
+        ],
+      ),
+    );
+  }
+}

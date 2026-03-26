@@ -1,6 +1,5 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/core/auth/token_storage.dart';
 import 'package:mobile/core/config/app_config.dart';
 import 'package:mobile/core/network/app_network_info.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,25 +12,14 @@ FlutterSecureStorage secureStorage(Ref ref) {
 }
 
 @riverpod
-TokenStorage tokenStorage(Ref ref) {
-  return TokenStorage(ref.watch(secureStorageProvider));
-}
-
-@riverpod
 ApiClient apiClient(Ref ref) {
-  final tokenStorage = ref.watch(tokenStorageProvider);
+  final storage = ref.read(secureStorageProvider);
 
-  final apiClient = ApiClient(baseUrl: AppConfig.apiBaseUrl, enableLogging: AppConfig.enableLogging);
-
-  apiClient.setOnTokenRefreshedCallback((tokens) async {
-    await tokenStorage.saveTokens(
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-      expiresAt: tokens.expiresAt,
-    );
-  });
-
-  return apiClient;
+  return ApiClient(
+    secureStorage: storage,
+    baseUrl: AppConfig.apiBaseUrl,
+    enableLogging: AppConfig.enableLogging,
+  );
 }
 
 @riverpod

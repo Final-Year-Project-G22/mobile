@@ -12,7 +12,8 @@ part of 'app_providers.dart';
 @ProviderFor(ThemeModeNotifier)
 final themeModeProvider = ThemeModeNotifierProvider._();
 
-final class ThemeModeNotifierProvider extends $NotifierProvider<ThemeModeNotifier, ThemeMode> {
+final class ThemeModeNotifierProvider
+    extends $NotifierProvider<ThemeModeNotifier, ThemeMode> {
   ThemeModeNotifierProvider._()
     : super(
         from: null,
@@ -33,7 +34,10 @@ final class ThemeModeNotifierProvider extends $NotifierProvider<ThemeModeNotifie
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(ThemeMode value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<ThemeMode>(value));
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ThemeMode>(value),
+    );
   }
 }
 
@@ -46,7 +50,13 @@ abstract class _$ThemeModeNotifier extends $Notifier<ThemeMode> {
   void runBuild() {
     final ref = this.ref as $Ref<ThemeMode, ThemeMode>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<ThemeMode, ThemeMode>, ThemeMode, Object?, Object?>;
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ThemeMode, ThemeMode>,
+              ThemeMode,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -54,7 +64,8 @@ abstract class _$ThemeModeNotifier extends $Notifier<ThemeMode> {
 @ProviderFor(LocaleNotifier)
 final localeProvider = LocaleNotifierProvider._();
 
-final class LocaleNotifierProvider extends $NotifierProvider<LocaleNotifier, Locale?> {
+final class LocaleNotifierProvider
+    extends $NotifierProvider<LocaleNotifier, Locale?> {
   LocaleNotifierProvider._()
     : super(
         from: null,
@@ -75,7 +86,10 @@ final class LocaleNotifierProvider extends $NotifierProvider<LocaleNotifier, Loc
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(Locale? value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<Locale?>(value));
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Locale?>(value),
+    );
   }
 }
 
@@ -87,7 +101,14 @@ abstract class _$LocaleNotifier extends $Notifier<Locale?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<Locale?, Locale?>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale?, Locale?>, Locale?, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Locale?, Locale?>,
+              Locale?,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

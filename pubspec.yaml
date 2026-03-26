@@ -46,6 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   connectivity_plus: ^7.0.0
+  image_picker: ^1.2.0
 
   api_client:
     path: ./api_client

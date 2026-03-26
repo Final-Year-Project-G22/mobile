@@ -4,14 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:mobile/app/features/auth/domain/entities/auth_response.dart';
 import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
 import 'package:mobile/app/features/auth/domain/i_auth_repository.dart';
-import 'package:mobile/core/auth/token_storage.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   final AuthenticationClient _client;
   final ApiClient _apiClient;
-  final TokenStorage _tokenStorage;
 
-  const AuthRepositoryImpl(this._client, this._apiClient, this._tokenStorage);
+  const AuthRepositoryImpl(this._client, this._apiClient);
 
   @override
   Future<Either<AuthUserFailure, AuthResponse>> register({
@@ -22,13 +20,19 @@ class AuthRepositoryImpl implements IAuthRepository {
   }) async {
     try {
       final httpResponse = await _client.register(
-        body: RegisterRequest(email: email, password: password, firstName: firstName, lastName: lastName),
+        body: RegisterRequest(
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+        ),
       );
-      await _tokenStorage.saveTokens(
-        accessToken: httpResponse.data.accessToken,
+      // Single call — sets token in-memory AND persists to secure storage
+      await _apiClient.setTokens(
+        httpResponse.data.accessToken,
+        null,
         expiresAt: httpResponse.data.expiresAt,
       );
-      _apiClient.setAccessToken(httpResponse.data.accessToken);
       return Right(
         AuthResponse(
           accessToken: httpResponse.data.accessToken,
@@ -56,8 +60,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<Either<AuthUserFailure, Unit>> logout() async {
     try {
       await _client.logout();
-      await _tokenStorage.clear();
-      _apiClient.clearTokens();
+      // Single call — clears in-memory AND deletes from secure storage
+      await _apiClient.clearTokens();
       return const Right(unit);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
@@ -68,8 +72,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<Either<AuthUserFailure, Unit>> logoutAll() async {
     try {
       await _client.logoutAll();
-      await _tokenStorage.clear();
-      _apiClient.clearTokens();
+      await _apiClient.clearTokens();
       return const Right(unit);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
@@ -77,7 +80,10 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<AuthUserFailure, AuthResponse>> login({required String email, required String password}) async {
+  Future<Either<AuthUserFailure, AuthResponse>> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final httpResponse = await _client.login(
         body: LoginRequest(email: email, password: password),
@@ -86,15 +92,12 @@ class AuthRepositoryImpl implements IAuthRepository {
       // Extract refresh token from Set-Cookie header
       final refreshToken = _extractRefreshToken(httpResponse.response.headers);
 
-      // Save tokens to secure storage
-      await _tokenStorage.saveTokens(
-        accessToken: httpResponse.data.accessToken,
-        refreshToken: refreshToken,
+      // Single call — sets token in-memory AND persists to secure storage
+      await _apiClient.setTokens(
+        httpResponse.data.accessToken,
+        refreshToken,
         expiresAt: httpResponse.data.expiresAt,
       );
-
-      // Set tokens in ApiClient (for subsequent requests)
-      _apiClient.setTokens(httpResponse.data.accessToken, refreshToken);
 
       return Right(
         AuthResponse(
@@ -130,13 +133,17 @@ class AuthRepositoryImpl implements IAuthRepository {
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
         final code = data is Map<String, dynamic> ? data['code'] : null;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 409 || code == 'conflict') {
           return AuthUserFailure.emailAlreadyInUse(message: detail);
         }
         if (statusCode == 401 || code == 'unauthorized') {
-          return AuthUserFailure.invalidEmailAndPasswordCombination(message: detail);
+          return AuthUserFailure.invalidEmailAndPasswordCombination(
+            message: detail,
+          );
         }
         return AuthUserFailure.serverError(message: detail);
       default:

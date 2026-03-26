@@ -13,7 +13,12 @@ part of 'infra_providers.dart';
 final secureStorageProvider = SecureStorageProvider._();
 
 final class SecureStorageProvider
-    extends $FunctionalProvider<FlutterSecureStorage, FlutterSecureStorage, FlutterSecureStorage>
+    extends
+        $FunctionalProvider<
+          FlutterSecureStorage,
+          FlutterSecureStorage,
+          FlutterSecureStorage
+        >
     with $Provider<FlutterSecureStorage> {
   SecureStorageProvider._()
     : super(
@@ -31,7 +36,9 @@ final class SecureStorageProvider
 
   @$internal
   @override
-  $ProviderElement<FlutterSecureStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<FlutterSecureStorage> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   FlutterSecureStorage create(Ref ref) {
@@ -40,52 +47,21 @@ final class SecureStorageProvider
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(FlutterSecureStorage value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<FlutterSecureStorage>(value));
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FlutterSecureStorage>(value),
+    );
   }
 }
 
 String _$secureStorageHash() => r'273dc403a965c1f24962aaf4d40776611a26f8b8';
 
-@ProviderFor(tokenStorage)
-final tokenStorageProvider = TokenStorageProvider._();
-
-final class TokenStorageProvider extends $FunctionalProvider<TokenStorage, TokenStorage, TokenStorage>
-    with $Provider<TokenStorage> {
-  TokenStorageProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tokenStorageProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$tokenStorageHash();
-
-  @$internal
-  @override
-  $ProviderElement<TokenStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
-
-  @override
-  TokenStorage create(Ref ref) {
-    return tokenStorage(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(TokenStorage value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<TokenStorage>(value));
-  }
-}
-
-String _$tokenStorageHash() => r'8dc80d4bf6068db4778fbdc365232d2c8d45dbba';
-
 @ProviderFor(apiClient)
 final apiClientProvider = ApiClientProvider._();
 
-final class ApiClientProvider extends $FunctionalProvider<ApiClient, ApiClient, ApiClient> with $Provider<ApiClient> {
+final class ApiClientProvider
+    extends $FunctionalProvider<ApiClient, ApiClient, ApiClient>
+    with $Provider<ApiClient> {
   ApiClientProvider._()
     : super(
         from: null,
@@ -102,7 +78,8 @@ final class ApiClientProvider extends $FunctionalProvider<ApiClient, ApiClient, 
 
   @$internal
   @override
-  $ProviderElement<ApiClient> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<ApiClient> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   ApiClient create(Ref ref) {
@@ -111,16 +88,20 @@ final class ApiClientProvider extends $FunctionalProvider<ApiClient, ApiClient, 
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(ApiClient value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<ApiClient>(value));
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ApiClient>(value),
+    );
   }
 }
 
-String _$apiClientHash() => r'25b198b21111cd7b9a02fcae5bcfc6015e5a9160';
+String _$apiClientHash() => r'11c10436eba547a86ba14532d482543083d2b7bd';
 
 @ProviderFor(networkInfo)
 final networkInfoProvider = NetworkInfoProvider._();
 
-final class NetworkInfoProvider extends $FunctionalProvider<AppNetworkInfo, AppNetworkInfo, AppNetworkInfo>
+final class NetworkInfoProvider
+    extends $FunctionalProvider<AppNetworkInfo, AppNetworkInfo, AppNetworkInfo>
     with $Provider<AppNetworkInfo> {
   NetworkInfoProvider._()
     : super(
@@ -138,7 +119,8 @@ final class NetworkInfoProvider extends $FunctionalProvider<AppNetworkInfo, AppN
 
   @$internal
   @override
-  $ProviderElement<AppNetworkInfo> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<AppNetworkInfo> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   AppNetworkInfo create(Ref ref) {
@@ -147,7 +129,10 @@ final class NetworkInfoProvider extends $FunctionalProvider<AppNetworkInfo, AppN
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(AppNetworkInfo value) {
-    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<AppNetworkInfo>(value));
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppNetworkInfo>(value),
+    );
   }
 }
 
@@ -156,7 +141,8 @@ String _$networkInfoHash() => r'91d414e915772e615fa92aceb23fee11ccf8c203';
 @ProviderFor(isNetworkConnected)
 final isNetworkConnectedProvider = IsNetworkConnectedProvider._();
 
-final class IsNetworkConnectedProvider extends $FunctionalProvider<AsyncValue<bool>, bool, Stream<bool>>
+final class IsNetworkConnectedProvider
+    extends $FunctionalProvider<AsyncValue<bool>, bool, Stream<bool>>
     with $FutureModifier<bool>, $StreamProvider<bool> {
   IsNetworkConnectedProvider._()
     : super(
@@ -174,7 +160,8 @@ final class IsNetworkConnectedProvider extends $FunctionalProvider<AsyncValue<bo
 
   @$internal
   @override
-  $StreamProviderElement<bool> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
+  $StreamProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
 
   @override
   Stream<bool> create(Ref ref) {
@@ -182,4 +169,5 @@ final class IsNetworkConnectedProvider extends $FunctionalProvider<AsyncValue<bo
   }
 }
 
-String _$isNetworkConnectedHash() => r'a7c2c545a21846e12220e5f1bcdf38bbc7b7b328';
+String _$isNetworkConnectedHash() =>
+    r'a7c2c545a21846e12220e5f1bcdf38bbc7b7b328';

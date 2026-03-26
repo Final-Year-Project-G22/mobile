@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile/app/features/auth/application/auth_notifier.dart';
 import 'package:mobile/app/features/auth/presentation/pages/login_page.dart';
 import 'package:mobile/app/features/auth/presentation/pages/register_page.dart';
+import 'package:mobile/app/features/home/presentation/pages/home_shell_page.dart';
+import 'package:mobile/app/features/profile/presentation/pages/profile_page.dart';
+import 'package:mobile/app/features/splash/presentation/pages/splash_page.dart';
 
 class _AuthRefreshNotifier extends ChangeNotifier {
   final Ref _ref;
@@ -32,14 +35,27 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/splash',
         name: 'splash',
-        builder: (context, state) => const Scaffold(body: Center(child: Text('Splash'))),
+        builder: (context, state) => const SplashPage(),
       ),
-      GoRoute(path: '/login', name: 'login', builder: (context, state) => const LogInPage()),
-      GoRoute(path: '/register', name: 'register', builder: (context, state) => const RegisterPage()),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LogInPage(),
+      ),
+      GoRoute(
+        path: '/register',
+        name: 'register',
+        builder: (context, state) => const RegisterPage(),
+      ),
       GoRoute(
         path: '/home',
         name: 'home',
-        builder: (context, state) => const Scaffold(body: Center(child: Text('Home'))),
+        builder: (context, state) => const HomeShellPage(),
+      ),
+      GoRoute(
+        path: '/profile',
+        name: 'profile',
+        builder: (context, state) => const ProfilePage(),
       ),
     ],
     redirect: (context, state) {

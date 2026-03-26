@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'constants/api_constants.dart';
 import 'interceptors/auth_interceptor.dart';
@@ -10,12 +11,13 @@ class ApiClient {
   late final AuthInterceptor _authInterceptor;
 
   ApiClient({
+    required FlutterSecureStorage secureStorage,
     String? baseUrl,
     bool enableLogging = true,
     List<Interceptor>? additionalInterceptors,
   }) {
     dio = _createDio(baseUrl: baseUrl ?? 'https://api.example.com/v1');
-    _authInterceptor = AuthInterceptor();
+    _authInterceptor = AuthInterceptor(storage: secureStorage);
     _setupInterceptors(enableLogging, additionalInterceptors);
   }
 
@@ -49,6 +51,7 @@ class ApiClient {
 
   String? get accessToken => _authInterceptor.accessToken;
   String? get refreshToken => _authInterceptor.refreshToken;
+  DateTime? get expiresAt => _authInterceptor.expiresAt;
   bool get isAuthenticated => _authInterceptor.isAuthenticated;
 
   // Callback setters (wired after construction)
@@ -60,21 +63,26 @@ class ApiClient {
     _authInterceptor.setOnTokenRefreshedCallback(callback);
   }
 
-  // Token setters
-  void setAccessToken(String token) {
-    _authInterceptor.setAccessToken(token);
+  // Load tokens from secure storage (optional — tokens auto-load on first request)
+  Future<void> loadTokensFromStorage() async {
+    await _authInterceptor.loadTokensFromStorage();
   }
 
-  void setRefreshToken(String token) {
-    _authInterceptor.setRefreshToken(token);
+  // Token management (sets in-memory AND persists to secure storage)
+  Future<void> setTokens(
+    String accessToken,
+    String? refreshToken, {
+    DateTime? expiresAt,
+  }) async {
+    await _authInterceptor.setTokens(
+      accessToken,
+      refreshToken,
+      expiresAt: expiresAt,
+    );
   }
 
-  void setTokens(String accessToken, String? refreshToken) {
-    _authInterceptor.setTokens(accessToken, refreshToken);
-  }
-
-  void clearTokens() {
-    _authInterceptor.clearTokens();
+  Future<void> clearTokens() async {
+    await _authInterceptor.clearTokens();
   }
 
   Future<Response<T>> get<T>(

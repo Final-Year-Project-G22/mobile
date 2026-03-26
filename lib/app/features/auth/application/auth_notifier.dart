@@ -9,7 +9,6 @@ part 'auth_notifier.g.dart';
 class AuthNotifier extends _$AuthNotifier {
   @override
   Future<AuthStatus> build() async {
-    final tokenStorage = ref.read(tokenStorageProvider);
     final apiClient = ref.read(apiClientProvider);
 
     // Wire up onUnauthorized callback
@@ -17,19 +16,19 @@ class AuthNotifier extends _$AuthNotifier {
       await forceLogout();
     });
 
-    final tokens = await tokenStorage.readTokens();
-    if (tokens == null) {
+    // Load persisted tokens from secure storage
+    await apiClient.loadTokensFromStorage();
+
+    if (!apiClient.isAuthenticated) {
       return const AuthStatus.unauthenticated();
     }
-    apiClient.setTokens(tokens.accessToken, tokens.refreshToken);
+
     return const AuthStatus.authenticated(user: null, account: null);
   }
 
   Future<void> forceLogout() async {
-    final tokenStorage = ref.read(tokenStorageProvider);
     final apiClient = ref.read(apiClientProvider);
-    await tokenStorage.clear();
-    apiClient.clearTokens();
+    await apiClient.clearTokens();
     state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
 
@@ -40,8 +39,12 @@ class AuthNotifier extends _$AuthNotifier {
     final result = await repository.login(email: email, password: password);
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) =>
-          state = AsyncValue.data(AuthStatus.authenticated(user: authResponse.user, account: authResponse.account)),
+      (authResponse) => state = AsyncValue.data(
+        AuthStatus.authenticated(
+          user: authResponse.user,
+          account: authResponse.account,
+        ),
+      ),
     );
   }
 
@@ -62,8 +65,12 @@ class AuthNotifier extends _$AuthNotifier {
     );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) =>
-          state = AsyncValue.data(AuthStatus.authenticated(user: authResponse.user, account: authResponse.account)),
+      (authResponse) => state = AsyncValue.data(
+        AuthStatus.authenticated(
+          user: authResponse.user,
+          account: authResponse.account,
+        ),
+      ),
     );
   }
 
