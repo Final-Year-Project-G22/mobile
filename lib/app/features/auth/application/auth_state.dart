@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
-import 'package:mobile/app/features/auth/domain/value_objects/auth_value_objects.dart';
+import '../domain/failures/auth_user_failure.dart';
+import '../domain/failures/auth_value_failure.dart';
+import '../domain/value_objects/auth_value_objects.dart';
 
 part 'auth_state.freezed.dart';
 
@@ -13,10 +13,10 @@ abstract class AuthState with _$AuthState {
     required Password password,
     required FirstName firstName,
     required LastName lastName,
+    required Option<Either<AuthUserFailure, Unit>> authFailureOrSuccessOption,
     @Default(false) bool isSubmitting,
     @Default(false) bool showErrorMessages,
     AuthValueFailure<String>? fieldFailure,
-    required Option<Either<AuthUserFailure, Unit>> authFailureOrSuccessOption,
   }) = _AuthState;
 
   factory AuthState.initial() => AuthState(

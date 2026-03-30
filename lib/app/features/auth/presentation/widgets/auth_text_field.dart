@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/app/constants/app_colors.dart';
+import '../../../../constants/app_colors.dart';
 
 class AuthTextField extends StatelessWidget {
+  const AuthTextField({
+    required this.label,
+    required this.hint,
+    super.key,
+    this.controller,
+    this.onChanged,
+    this.errorText,
+    this.obscureText = false,
+    this.keyboardType,
+    this.suffixIcon,
+    this.maxLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.textInputAction,
+  });
   final String label;
   final String hint;
   final TextEditingController? controller;
@@ -13,21 +27,6 @@ class AuthTextField extends StatelessWidget {
   final int maxLines;
   final TextCapitalization textCapitalization;
   final TextInputAction? textInputAction;
-
-  const AuthTextField({
-    super.key,
-    required this.label,
-    required this.hint,
-    this.controller,
-    this.onChanged,
-    this.errorText,
-    this.obscureText = false,
-    this.keyboardType,
-    this.suffixIcon,
-    this.maxLines = 1,
-    this.textCapitalization = TextCapitalization.none,
-    this.textInputAction,
-  });
 
   @override
   Widget build(BuildContext context) {

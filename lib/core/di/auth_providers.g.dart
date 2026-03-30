@@ -12,9 +12,7 @@ part of 'auth_providers.dart';
 @ProviderFor(authRepository)
 final authRepositoryProvider = AuthRepositoryProvider._();
 
-final class AuthRepositoryProvider
-    extends
-        $FunctionalProvider<IAuthRepository, IAuthRepository, IAuthRepository>
+final class AuthRepositoryProvider extends $FunctionalProvider<IAuthRepository, IAuthRepository, IAuthRepository>
     with $Provider<IAuthRepository> {
   AuthRepositoryProvider._()
     : super(
@@ -32,8 +30,7 @@ final class AuthRepositoryProvider
 
   @$internal
   @override
-  $ProviderElement<IAuthRepository> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<IAuthRepository> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   IAuthRepository create(Ref ref) {

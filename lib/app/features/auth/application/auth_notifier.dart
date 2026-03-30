@@ -1,7 +1,8 @@
-import 'package:mobile/app/features/auth/domain/entities/auth_status.dart';
-import 'package:mobile/core/di/auth_providers.dart';
-import 'package:mobile/core/di/infra_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../core/di/auth_providers.dart';
+import '../../../../core/di/infra_providers.dart';
+import '../domain/entities/auth_status.dart';
 
 part 'auth_notifier.g.dart';
 
@@ -9,12 +10,10 @@ part 'auth_notifier.g.dart';
 class AuthNotifier extends _$AuthNotifier {
   @override
   Future<AuthStatus> build() async {
-    final apiClient = ref.read(apiClientProvider);
-
-    // Wire up onUnauthorized callback
-    apiClient.setOnUnauthorizedCallback(() async {
-      await forceLogout();
-    });
+    final apiClient = ref.read(apiClientProvider)
+      ..setOnUnauthorizedCallback(() async {
+        await forceLogout();
+      });
 
     // Load persisted tokens from secure storage
     await apiClient.loadTokensFromStorage();

@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile/app/features/auth/application/auth_notifier.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
-import 'package:mobile/app/features/auth/domain/validator/auth_value_object_validator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'auth_form_notifier.g.dart';
+import '../domain/failures/auth_value_failure.dart';
+import '../domain/validator/auth_value_object_validator.dart';
+import 'auth_notifier.dart';
+
 part 'auth_form_notifier.freezed.dart';
+part 'auth_form_notifier.g.dart';
 
 @freezed
 abstract class LoginFormState with _$LoginFormState {

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
+import '../failures/auth_value_failure.dart';
 
 Either<AuthValueFailure<String>, String> validateEmail(String input) {
   if (input.isEmpty) {

@@ -19,6 +19,5 @@ abstract class OAuthEmailRequiredResponse with _$OAuthEmailRequiredResponse {
     String? pictureUrl,
   }) = _OAuthEmailRequiredResponse;
 
-  factory OAuthEmailRequiredResponse.fromJson(Map<String, Object?> json) =>
-      _$OAuthEmailRequiredResponseFromJson(json);
+  factory OAuthEmailRequiredResponse.fromJson(Map<String, Object?> json) => _$OAuthEmailRequiredResponseFromJson(json);
 }

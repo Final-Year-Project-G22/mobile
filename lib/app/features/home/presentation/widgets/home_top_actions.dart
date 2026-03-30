@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class HomeTopActions extends StatelessWidget {
-  final VoidCallback onNotificationsTap;
-  final VoidCallback onProfileTap;
-
   const HomeTopActions({
-    super.key,
     required this.onNotificationsTap,
     required this.onProfileTap,
+    super.key,
   });
+  final VoidCallback onNotificationsTap;
+  final VoidCallback onProfileTap;
 
   @override
   Widget build(BuildContext context) {

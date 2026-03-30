@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/app/features/auth/domain/entities/auth_response.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
+import 'entities/auth_response.dart';
+import 'failures/auth_user_failure.dart';
 
 abstract class IAuthRepository {
   Future<Either<AuthUserFailure, AuthResponse>> register({

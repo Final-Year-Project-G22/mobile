@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/features/profile/domain/entities/user_profile.dart';
-import 'package:mobile/app/features/profile/domain/failures/profile_failure.dart';
+import 'entities/user_profile.dart';
+import 'failures/profile_failure.dart';
 
 abstract class IProfileRepository {
   Future<Either<ProfileFailure, UserProfile>> getCurrentUser();

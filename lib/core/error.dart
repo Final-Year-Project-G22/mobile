@@ -1,12 +1,9 @@
-
 class UnexpectedValueError<F> extends Error {
-  final F valueFailure;
-
   UnexpectedValueError(this.valueFailure);
+  final F valueFailure;
   @override
   String toString() {
-    const explanation =
-        'Encountered a ValueFailure at an unrecoverable point. Terminating.';
+    const explanation = 'Encountered a ValueFailure at an unrecoverable point. Terminating.';
     return Error.safeToString('$explanation Failure was: $valueFailure');
   }
 }

@@ -12,8 +12,7 @@ part of 'app_providers.dart';
 @ProviderFor(ThemeModeNotifier)
 final themeModeProvider = ThemeModeNotifierProvider._();
 
-final class ThemeModeNotifierProvider
-    extends $NotifierProvider<ThemeModeNotifier, ThemeMode> {
+final class ThemeModeNotifierProvider extends $NotifierProvider<ThemeModeNotifier, ThemeMode> {
   ThemeModeNotifierProvider._()
     : super(
         from: null,
@@ -50,13 +49,7 @@ abstract class _$ThemeModeNotifier extends $Notifier<ThemeMode> {
   void runBuild() {
     final ref = this.ref as $Ref<ThemeMode, ThemeMode>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ThemeMode, ThemeMode>,
-              ThemeMode,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<ThemeMode, ThemeMode>, ThemeMode, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -64,8 +57,7 @@ abstract class _$ThemeModeNotifier extends $Notifier<ThemeMode> {
 @ProviderFor(LocaleNotifier)
 final localeProvider = LocaleNotifierProvider._();
 
-final class LocaleNotifierProvider
-    extends $NotifierProvider<LocaleNotifier, Locale?> {
+final class LocaleNotifierProvider extends $NotifierProvider<LocaleNotifier, Locale?> {
   LocaleNotifierProvider._()
     : super(
         from: null,
@@ -101,14 +93,7 @@ abstract class _$LocaleNotifier extends $Notifier<Locale?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<Locale?, Locale?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Locale?, Locale?>,
-              Locale?,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale?, Locale?>, Locale?, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

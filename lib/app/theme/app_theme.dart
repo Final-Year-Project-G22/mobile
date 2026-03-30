@@ -14,19 +14,16 @@ class AppTheme {
     textTheme: AppTypography.textTheme,
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
-      onPrimary: Colors.white,
       primaryContainer: AppColors.slate700,
       onPrimaryContainer: AppColors.slate100,
       secondary: AppColors.accent,
       onSecondary: Colors.white,
       secondaryContainer: AppColors.blue400,
       onSecondaryContainer: AppColors.blue600,
-      surface: AppColors.surfaceLight,
       onSurface: AppColors.textPrimaryLight,
       surfaceContainerHighest: AppColors.slate100,
       onSurfaceVariant: AppColors.textSecondaryLight,
       error: AppColors.error,
-      onError: Colors.white,
       outline: AppColors.borderLight,
       outlineVariant: AppColors.slate200,
     ),
@@ -58,7 +55,7 @@ class AppTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: AppSpacing.borderRadiusMd,
-        borderSide: const BorderSide(color: AppColors.error, width: 1),
+        borderSide: const BorderSide(color: AppColors.error),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: AppSpacing.borderRadiusMd,
@@ -152,7 +149,7 @@ class AppTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: AppSpacing.borderRadiusMd,
-        borderSide: const BorderSide(color: AppColors.error, width: 1),
+        borderSide: const BorderSide(color: AppColors.error),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: AppSpacing.borderRadiusMd,

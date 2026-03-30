@@ -16,9 +16,9 @@ extension StringExtensions on String {
 
   bool get isValidPassword {
     if (length < 8) return false;
-    final hasUppercase = RegExp(r'[A-Z]').hasMatch(this);
-    final hasLowercase = RegExp(r'[a-z]').hasMatch(this);
-    final hasDigit = RegExp(r'[0-9]').hasMatch(this);
+    final hasUppercase = RegExp('[A-Z]').hasMatch(this);
+    final hasLowercase = RegExp('[a-z]').hasMatch(this);
+    final hasDigit = RegExp('[0-9]').hasMatch(this);
     return hasUppercase && hasLowercase && hasDigit;
   }
 

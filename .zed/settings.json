@@ -1,0 +1,14 @@
+{
+  "tab_size": 2,
+  "format_on_save": "on",
+  "formatter": "language_server",
+  "languages": {
+    "Dart": {
+      "tab_size": 2,
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "hard_tabs": false,
+      "preferred_line_length": 120
+    }
+  }
+}

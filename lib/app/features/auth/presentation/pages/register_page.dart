@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mobile/app/constants/app_colors.dart';
-import 'package:mobile/app/constants/app_spacing.dart';
-import 'package:mobile/app/features/auth/application/auth_form_notifier.dart';
-import 'package:mobile/app/features/auth/application/auth_notifier.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
-import 'package:mobile/app/features/auth/presentation/widgets/auth_button.dart';
-import 'package:mobile/app/features/auth/presentation/widgets/auth_text_field.dart';
+
+import '../../../../constants/app_colors.dart';
+import '../../../../constants/app_spacing.dart';
+import '../../../../router/routes.dart';
+import '../../application/auth_form_notifier.dart';
+import '../../application/auth_notifier.dart';
+import '../../domain/failures/auth_user_failure.dart';
+import '../../domain/failures/auth_value_failure.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/auth_text_field.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -31,9 +34,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     _passwordController = TextEditingController();
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
-    Future.microtask(() {
-      ref.read(registerFormProvider.notifier).reset();
-    });
+    unawaited(
+      Future.microtask(() {
+        ref.read(registerFormProvider.notifier).reset();
+      }),
+    );
   }
 
   @override
@@ -55,9 +60,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         data: (status) {
           if (status.isAuthenticated && mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Registration successful'), backgroundColor: AppColors.success),
+              const SnackBar(
+                content: Text('Registration successful'),
+                backgroundColor: AppColors.success,
+              ),
             );
-            context.go('/login');
           }
         },
         error: (error, _) {
@@ -171,7 +178,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   text: 'Register',
                   isLoading: formState.isSubmitting,
                   onPressed: () {
-                    ref.read(registerFormProvider.notifier).submit();
+                    unawaited(ref.read(registerFormProvider.notifier).submit());
                   },
                 ),
                 const SizedBox(height: AppSpacing.lg),
@@ -180,13 +187,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   children: [
                     Text(
                       'Already have an account? ',
-                      style: TextStyle(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                      style: TextStyle(
+                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      ),
                     ),
                     GestureDetector(
-                      onTap: () => context.go('/login'),
+                      onTap: () => const LoginRoute().go(context),
                       child: const Text(
                         'Sign In',
-                        style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

@@ -20,6 +20,5 @@ abstract class LoginRequest with _$LoginRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _LoginRequest;
 
-  factory LoginRequest.fromJson(Map<String, Object?> json) =>
-      _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, Object?> json) => _$LoginRequestFromJson(json);
 }

@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile/app/constants/app_spacing.dart';
-import 'package:mobile/app/features/profile/application/profile_notifier.dart';
-import 'package:mobile/app/features/profile/application/profile_state.dart';
-import 'package:mobile/app/features/profile/domain/entities/user_profile.dart';
+import '../../../../constants/app_spacing.dart';
+import '../../application/profile_notifier.dart';
+import '../../application/profile_state.dart';
+import '../../domain/entities/user_profile.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -25,9 +27,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _bioController = TextEditingController();
-    Future.microtask(() {
-      ref.read(profileProvider.notifier).loadCurrentUser();
-    });
+    unawaited(
+      Future.microtask(() async {
+        await ref.read(profileProvider.notifier).loadCurrentUser();
+      }),
+    );
   }
 
   @override
@@ -59,14 +63,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final colorScheme = theme.colorScheme;
 
     ref.listen<ProfileState>(profileProvider, (previous, next) {
-      if (next.errorMessage != null &&
-          next.errorMessage != previous?.errorMessage) {
+      if (next.errorMessage != null && next.errorMessage != previous?.errorMessage) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
       }
-      if (next.successMessage != null &&
-          next.successMessage != previous?.successMessage) {
+      if (next.successMessage != null && next.successMessage != previous?.successMessage) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
@@ -107,7 +109,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 AppSpacing.gapVerticalMd,
                 ElevatedButton.icon(
                   onPressed: () {
-                    ref.read(profileProvider.notifier).loadCurrentUser();
+                    unawaited(
+                      ref.read(profileProvider.notifier).loadCurrentUser(),
+                    );
                   },
                   icon: const Icon(Icons.refresh),
                   label: const Text('Retry'),
@@ -145,9 +149,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: colorScheme.surfaceContainerHighest,
-                      backgroundImage: (user.imageUrl?.isNotEmpty ?? false)
-                          ? NetworkImage(user.imageUrl!)
-                          : null,
+                      backgroundImage: (user.imageUrl?.isNotEmpty ?? false) ? NetworkImage(user.imageUrl!) : null,
                       child: (user.imageUrl == null || user.imageUrl!.isEmpty)
                           ? Icon(
                               Icons.person,
@@ -164,9 +166,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         onPressed: state.isUploadingAvatar
                             ? null
                             : () {
-                                ref
-                                    .read(profileProvider.notifier)
-                                    .uploadAvatarFromGallery();
+                                unawaited(
+                                  ref.read(profileProvider.notifier).uploadAvatarFromGallery(),
+                                );
                               },
                         icon: state.isUploadingAvatar
                             ? const SizedBox(
@@ -233,8 +235,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     : _ProfileDetailsView(
                         key: const ValueKey('profile-details'),
                         user: user,
-                        onEditTap: () =>
-                            setState(() => _isEditingProfile = true),
+                        onEditTap: () => setState(() => _isEditingProfile = true),
                       ),
               ),
             ),
@@ -246,14 +247,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 }
 
 class _ProfileDetailsView extends StatelessWidget {
-  final UserProfile user;
-  final VoidCallback onEditTap;
-
   const _ProfileDetailsView({
-    super.key,
     required this.user,
     required this.onEditTap,
+    super.key,
   });
+  final UserProfile user;
+  final VoidCallback onEditTap;
 
   @override
   Widget build(BuildContext context) {
@@ -290,22 +290,21 @@ class _ProfileDetailsView extends StatelessWidget {
 }
 
 class _EditProfileForm extends StatelessWidget {
-  final TextEditingController firstNameController;
-  final TextEditingController lastNameController;
-  final TextEditingController bioController;
-  final bool isSaving;
-  final VoidCallback onCancel;
-  final VoidCallback onSave;
-
   const _EditProfileForm({
-    super.key,
     required this.firstNameController,
     required this.lastNameController,
     required this.bioController,
     required this.isSaving,
     required this.onCancel,
     required this.onSave,
+    super.key,
   });
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
+  final TextEditingController bioController;
+  final bool isSaving;
+  final VoidCallback onCancel;
+  final VoidCallback onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -363,10 +362,9 @@ class _EditProfileForm extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
+  const _InfoRow({required this.label, required this.value});
   final String label;
   final String value;
-
-  const _InfoRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile/app/features/profile/domain/failures/profile_value_failure.dart';
-import 'package:mobile/app/features/profile/domain/value_objects/profile_value_objects.dart';
+import '../failures/profile_value_failure.dart';
+import '../value_objects/profile_value_objects.dart';
 
 part 'user_profile.freezed.dart';
 
 @freezed
 abstract class UserProfile with _$UserProfile {
-  const UserProfile._();
-
   const factory UserProfile({
     required String id,
     required FirstName firstName,
@@ -16,16 +14,14 @@ abstract class UserProfile with _$UserProfile {
     String? bio,
     String? imageUrl,
   }) = _UserProfile;
+  const UserProfile._();
 
-  String get fullName =>
-      '${firstName.getOrCrash()} ${lastName.getOrCrash()}'.trim();
+  String get fullName => '${firstName.getOrCrash()} ${lastName.getOrCrash()}'.trim();
 
   Option<ProfileValueFailure<dynamic>> get failureOption {
     final firstNameResult = firstName.failureOrUnit;
     final lastNameResult = lastName.failureOrUnit;
 
-    return firstNameResult
-        .andThen(lastNameResult)
-        .fold((f) => some(f), (_) => none());
+    return firstNameResult.andThen(lastNameResult).fold(some, (_) => none());
   }
 }

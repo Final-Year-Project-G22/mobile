@@ -12,8 +12,7 @@ part of 'profile_providers.dart';
 @ProviderFor(imagePicker)
 final imagePickerProvider = ImagePickerProvider._();
 
-final class ImagePickerProvider
-    extends $FunctionalProvider<ImagePicker, ImagePicker, ImagePicker>
+final class ImagePickerProvider extends $FunctionalProvider<ImagePicker, ImagePicker, ImagePicker>
     with $Provider<ImagePicker> {
   ImagePickerProvider._()
     : super(
@@ -31,8 +30,7 @@ final class ImagePickerProvider
 
   @$internal
   @override
-  $ProviderElement<ImagePicker> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<ImagePicker> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   ImagePicker create(Ref ref) {
@@ -54,12 +52,7 @@ String _$imagePickerHash() => r'7877699a862be48e962306635347623c45e91971';
 final profileRepositoryProvider = ProfileRepositoryProvider._();
 
 final class ProfileRepositoryProvider
-    extends
-        $FunctionalProvider<
-          IProfileRepository,
-          IProfileRepository,
-          IProfileRepository
-        >
+    extends $FunctionalProvider<IProfileRepository, IProfileRepository, IProfileRepository>
     with $Provider<IProfileRepository> {
   ProfileRepositoryProvider._()
     : super(

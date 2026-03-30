@@ -13,12 +13,7 @@ part of 'infra_providers.dart';
 final secureStorageProvider = SecureStorageProvider._();
 
 final class SecureStorageProvider
-    extends
-        $FunctionalProvider<
-          FlutterSecureStorage,
-          FlutterSecureStorage,
-          FlutterSecureStorage
-        >
+    extends $FunctionalProvider<FlutterSecureStorage, FlutterSecureStorage, FlutterSecureStorage>
     with $Provider<FlutterSecureStorage> {
   SecureStorageProvider._()
     : super(
@@ -26,7 +21,7 @@ final class SecureStorageProvider
         argument: null,
         retry: null,
         name: r'secureStorageProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -54,21 +49,19 @@ final class SecureStorageProvider
   }
 }
 
-String _$secureStorageHash() => r'273dc403a965c1f24962aaf4d40776611a26f8b8';
+String _$secureStorageHash() => r'a4f75721472cf77465bf47f759c90de5ca30856e';
 
 @ProviderFor(apiClient)
 final apiClientProvider = ApiClientProvider._();
 
-final class ApiClientProvider
-    extends $FunctionalProvider<ApiClient, ApiClient, ApiClient>
-    with $Provider<ApiClient> {
+final class ApiClientProvider extends $FunctionalProvider<ApiClient, ApiClient, ApiClient> with $Provider<ApiClient> {
   ApiClientProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'apiClientProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -78,8 +71,7 @@ final class ApiClientProvider
 
   @$internal
   @override
-  $ProviderElement<ApiClient> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<ApiClient> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   ApiClient create(Ref ref) {
@@ -95,13 +87,12 @@ final class ApiClientProvider
   }
 }
 
-String _$apiClientHash() => r'11c10436eba547a86ba14532d482543083d2b7bd';
+String _$apiClientHash() => r'2175264cef6a0aad2fa4c3aefd5234ec386d8f86';
 
 @ProviderFor(networkInfo)
 final networkInfoProvider = NetworkInfoProvider._();
 
-final class NetworkInfoProvider
-    extends $FunctionalProvider<AppNetworkInfo, AppNetworkInfo, AppNetworkInfo>
+final class NetworkInfoProvider extends $FunctionalProvider<AppNetworkInfo, AppNetworkInfo, AppNetworkInfo>
     with $Provider<AppNetworkInfo> {
   NetworkInfoProvider._()
     : super(
@@ -119,8 +110,7 @@ final class NetworkInfoProvider
 
   @$internal
   @override
-  $ProviderElement<AppNetworkInfo> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<AppNetworkInfo> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   AppNetworkInfo create(Ref ref) {
@@ -141,8 +131,7 @@ String _$networkInfoHash() => r'91d414e915772e615fa92aceb23fee11ccf8c203';
 @ProviderFor(isNetworkConnected)
 final isNetworkConnectedProvider = IsNetworkConnectedProvider._();
 
-final class IsNetworkConnectedProvider
-    extends $FunctionalProvider<AsyncValue<bool>, bool, Stream<bool>>
+final class IsNetworkConnectedProvider extends $FunctionalProvider<AsyncValue<bool>, bool, Stream<bool>>
     with $FutureModifier<bool>, $StreamProvider<bool> {
   IsNetworkConnectedProvider._()
     : super(
@@ -160,8 +149,7 @@ final class IsNetworkConnectedProvider
 
   @$internal
   @override
-  $StreamProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+  $StreamProviderElement<bool> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
 
   @override
   Stream<bool> create(Ref ref) {
@@ -169,5 +157,4 @@ final class IsNetworkConnectedProvider
   }
 }
 
-String _$isNetworkConnectedHash() =>
-    r'a7c2c545a21846e12220e5f1bcdf38bbc7b7b328';
+String _$isNetworkConnectedHash() => r'a7c2c545a21846e12220e5f1bcdf38bbc7b7b328';

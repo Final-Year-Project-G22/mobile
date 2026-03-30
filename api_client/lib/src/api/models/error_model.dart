@@ -32,6 +32,5 @@ abstract class ErrorModel with _$ErrorModel {
     String? title,
   }) = _ErrorModel;
 
-  factory ErrorModel.fromJson(Map<String, Object?> json) =>
-      _$ErrorModelFromJson(json);
+  factory ErrorModel.fromJson(Map<String, Object?> json) => _$ErrorModelFromJson(json);
 }

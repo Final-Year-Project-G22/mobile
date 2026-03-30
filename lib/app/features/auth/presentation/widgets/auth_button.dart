@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/app/constants/app_colors.dart';
+import '../../../../constants/app_colors.dart';
 
 class AuthButton extends StatelessWidget {
+  const AuthButton({required this.text, super.key, this.onPressed, this.isLoading = false, this.isOutlined = false});
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
   final bool isOutlined;
-
-  const AuthButton({super.key, required this.text, this.onPressed, this.isLoading = false, this.isOutlined = false});
 
   @override
   Widget build(BuildContext context) {
