@@ -122,3 +122,7 @@ app.*.symbols
 .env
 .env.*
 assets/.env.*
+
+# Generated code (run build_runner after clone/pull)
+**/*.g.dart
+**/*.freezed.dart

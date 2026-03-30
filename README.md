@@ -27,7 +27,7 @@ Flutter mobile application for the **Adisu** platform — a Final Year Project (
 - **Flutter SDK** — Stable channel, Dart `^3.11.0`
 - **Android Studio** — For Android builds and emulator
 - **Xcode** — For iOS builds (macOS only)
-- **IDE** — VS Code or Android Studio recommended (with Flutter/Dart extensions)
+- **IDE** — VS Code, Zed, or Android Studio (with Flutter/Dart extensions)
 
 ---
 
@@ -87,7 +87,7 @@ mobile/
 │   │   ├── splash/                        # Splash screen
 │   │   └── auth/                          # Auth feature (DDD layers)
 │   │       ├── domain/                    # Entities, failures, value objects, interfaces
-│   │       ├── application/               # Facade, StateNotifier, state
+│   │       ├── application/               # StateNotifier, state
 │   │       ├── infrastructure/            # Repository impl (uses API client)
 │   │       └── presentation/              # Pages + widgets
 │   └── shared/
@@ -127,7 +127,7 @@ The project follows **Domain-Driven Design** with **Clean Architecture**:
 ┌─────────────────────────────────────────────────┐
 │  Presentation   │  Pages, Widgets, GoRouter     │
 ├─────────────────────────────────────────────────┤
-│  Application    │  Facades, StateNotifiers      │
+│  Application    │  StateNotifiers           │
 ├─────────────────────────────────────────────────┤
 │  Domain         │  Entities, Value Objects,     │
 │                 │  Interfaces, Validators       │
@@ -140,28 +140,34 @@ The project follows **Domain-Driven Design** with **Clean Architecture**:
 
 | Technology | Purpose |
 |---|---|
-| **Riverpod v3** | State management and dependency injection |
-| **GoRouter** | Declarative routing with auth redirect guards |
+| **Riverpod v3** | State management and dependency injection (`@riverpod` annotations) |
+| **GoRouter + go_router_builder** | Declarative routing with type-safe routes and auth redirect guards |
 | **Freezed** | Immutable data classes with `copyWith`, pattern matching |
 | **Dartz** | Functional error handling (`Either<L, R>`) |
 | **Dio + Retrofit** | HTTP client with typed API methods |
+| **very_good_analysis** | Strict lint rules (100+ rules from Very Good Ventures) |
 | **flutter_secure_storage** | Encrypted token persistence |
 | **flutter_dotenv** | Environment variable loading |
+| **commitlint_cli** | Commit message validation (conventional commits) |
 
 ### How Layers Connect
 
-State flows through providers defined in `lib/core/di/providers.dart`:
+State flows through providers defined in `lib/core/di/`:
 
 ```
 ApiClient (Dio + interceptors)
     └─> AuthenticationClient (generated Retrofit client)
             └─> IAuthRepository (interface)
                     └─> AuthRepositoryImpl (infrastructure)
-                            └─> IAuthFacade (interface)
-                                    └─> AuthFacade (application)
-                                            └─> AuthNotifier (StateNotifier)
-                                                    └─> UI (presentation)
+                            └─> AuthNotifier (@riverpod annotation)
+                                    └─> UI (presentation)
 ```
+
+Providers are split across files:
+- `infra_providers.dart` — `ApiClient`, `SecureStorage`, `NetworkInfo`
+- `auth_providers.dart` — `AuthRepository`
+- `profile_providers.dart` — `ProfileRepository`, `ImagePicker`
+- `app_providers.dart` — `ThemeMode`, `Locale`
 
 ---
 
@@ -290,68 +296,70 @@ openapi_generator:
 
 ## Using Generated APIs in the App
 
-Generated clients are wired into the app through Riverpod providers in `lib/core/di/providers.dart`.
+Generated clients are wired into the app through Riverpod providers in `lib/core/di/`.
 
-### Provider Chain
+### Provider Chain (Auth Example)
 
 ```dart
-// 1. Shared Dio instance (from ApiClient singleton)
-final dioProvider = Provider<Dio>((ref) {
-  return ref.watch(apiClientProvider).dio;
-});
+// 1. ApiClient — Dio setup, token management (infra_providers.dart)
+@Riverpod(keepAlive: true)
+ApiClient apiClient(Ref ref) {
+  final storage = ref.read(secureStorageProvider);
+  return ApiClient(
+    secureStorage: storage,
+    baseUrl: AppConfig.apiBaseUrl,
+    enableLogging: AppConfig.enableLogging,
+  );
+}
 
-// 2. Generated Retrofit client — consumes the shared Dio
-final authenticationClientProvider = Provider<AuthenticationClient>((ref) {
-  final dio = ref.watch(dioProvider);
-  return AuthenticationClient(dio);
-});
+// 2. Repository — wraps generated client, maps errors (auth_providers.dart)
+@riverpod
+IAuthRepository authRepository(Ref ref) {
+  final apiClient = ref.read(apiClientProvider);
+  final dio = apiClient.dio;
+  final client = AuthenticationClient(dio);
+  return AuthRepositoryImpl(client, apiClient);
+}
 
-// 3. Repository — wraps the generated client, handles errors, maps to domain types
-final authRepositoryProvider = Provider<IAuthRepository>((ref) {
-  final client = ref.watch(authenticationClientProvider);
-  final apiClient = ref.watch(apiClientProvider);
-  final tokenStorage = ref.watch(tokenStorageProvider);
-  return AuthRepositoryImpl(client, apiClient, tokenStorage);
-});
-
-// 4. Facade — validates value objects, delegates to repository
-final authFacadeProvider = Provider<IAuthFacade>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return AuthFacade(repository);
-});
-
-// 5. StateNotifier — manages UI state, calls facade
-final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final facade = ref.watch(authFacadeProvider);
-  return AuthNotifier(facade);
-});
+// 3. AuthNotifier — manages auth state (auth_notifier.dart)
+@riverpod
+class AuthNotifier extends _$AuthNotifier {
+  @override
+  Future<AuthStatus> build() async {
+    final apiClient = ref.read(apiClientProvider)
+      ..setOnUnauthorizedCallback(() async {
+        await forceLogout();
+      });
+    await apiClient.loadTokensFromStorage();
+    // ...
+  }
+}
 ```
 
 ### ApiClient Setup
 
-The `ApiClient` singleton configures Dio with base URL, timeouts, and interceptors. It's initialized once with callbacks:
+The `ApiClient` configures Dio with base URL, timeouts, and interceptors:
 
 ```dart
-final apiClientProvider = Provider<ApiClient>((ref) {
-  final tokenStorage = ref.watch(tokenStorageProvider);
-  final baseUrl = dotenv.env['API_BASE_URL']!;
-
+// infra_providers.dart
+@Riverpod(keepAlive: true)
+ApiClient apiClient(Ref ref) {
+  final storage = ref.read(secureStorageProvider);
   return ApiClient(
-    baseUrl: baseUrl,
-    enableLogging: true,
-    onUnauthorized: () async {
-      await tokenStorage.clear();
-      ref.read(authSessionProvider.notifier).setUnauthenticated();
-    },
-    onTokenRefreshed: (tokens) async {
-      await tokenStorage.saveTokens(
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken,
-        expiresAt: tokens.expiresAt,
-      );
-    },
+    secureStorage: storage,
+    baseUrl: AppConfig.apiBaseUrl,
+    enableLogging: AppConfig.enableLogging,
   );
-});
+}
+```
+
+Token callbacks are wired in `AuthNotifier.build()`:
+
+```dart
+final apiClient = ref.read(apiClientProvider)
+  ..setOnUnauthorizedCallback(() async {
+    await forceLogout();
+  });
 ```
 
 ---
@@ -374,8 +382,7 @@ lib/features/<feature_name>/domain/
 │   └── <value_objects>.dart       # Validated value types (EmailAddress, Password)
 ├── validator/
 │   └── <validators>.dart          # Validation functions returning Either
-├── i_<feature>_repository.dart    # Abstract repository interface
-└── i_<feature>_facade.dart        # Abstract facade interface
+└── i_<feature>_repository.dart    # Abstract repository interface
 ```
 
 **Failure types** use Freezed sealed unions:
@@ -403,13 +410,12 @@ abstract class IAuthRepository {
 
 ### Step 2: Application Layer
 
-Create the facade (use cases) and state management.
+Create the notifier (state management). The notifier calls the repository directly — no facade needed.
 
 ```
 lib/features/<feature_name>/application/
-├── <feature>_facade.dart          # Implements IFacade, delegates to repository
-├── <feature>_notifier.dart        # StateNotifier managing UI state
-└── <feature>_state.dart           # Freezed immutable state class
+├── <feature>_notifier.dart        # @riverpod notifier managing UI state
+└── <feature>_state.dart           # Freezed immutable state class (if needed)
 ```
 
 **State** is a Freezed class:
@@ -489,29 +495,31 @@ class LogInPage extends ConsumerWidget {
 
 ### Step 5: Wire Up
 
-**Register providers** in `lib/core/di/providers.dart`:
+**Register providers** in a new file `lib/core/di/<feature>_providers.dart`:
 
 ```dart
-final <feature>ClientProvider = Provider<FeatureClient>((ref) {
-  final dio = ref.watch(dioProvider);
-  return FeatureClient(dio);
-});
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final <feature>RepositoryProvider = Provider<IFeatureRepository>((ref) {
-  final client = ref.watch(<feature>ClientProvider);
+part '<feature>_providers.g.dart';
+
+@riverpod
+IFeatureRepository featureRepository(Ref ref) {
+  final apiClient = ref.read(apiClientProvider);
+  final dio = apiClient.dio;
+  final client = FeatureClient(dio);
   return FeatureRepositoryImpl(client);
-});
-// ... facade, notifier
+}
 ```
 
-**Add routes** in `lib/app/router/app_router.dart`:
+**Add routes** in `lib/app/router/routes.dart`:
 
 ```dart
-GoRoute(
-  path: '/feature',
-  name: 'feature',
-  builder: (context, state) => const FeaturePage(),
-),
+@TypedGoRoute<FeatureRoute>(path: '/feature')
+class FeatureRoute extends GoRouteData with $FeatureRoute {
+  const FeatureRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const FeaturePage();
+}
 ```
 
 **Export new files** in `api_client/lib/api_client.dart` if new API endpoints were added.
@@ -530,13 +538,17 @@ dart run build_runner build -d --delete-conflicting-outputs
 This generates:
 - `*.freezed.dart` — `copyWith`, equality, `toString`, pattern matching
 - `*.g.dart` — JSON serialization (`fromJson`/`toJson`)
+- `*_providers.g.dart` — Riverpod provider wiring (from `@riverpod` annotations)
+- `routes.g.dart` — GoRouter route configuration (from `go_router_builder`)
 
 ### When to Run
 
 - After editing any `@freezed` class
 - After editing any `@JsonSerializable` class
-- After editing Riverpod annotation-based providers
+- After editing Riverpod annotation-based providers (`@riverpod`)
+- After editing routes in `routes.dart`
 - After running the OpenAPI generator (Step 2 of API generation)
+- After every `git pull` (generated files are excluded from git)
 
 ---
 
@@ -574,26 +586,100 @@ Localization is configured in `l10n.yaml` at the project root.
 
 ## Development Workflow
 
-### Git Hooks
+### Pre-Commit Hooks
 
-Pre-commit hooks (`.husky/pre-commit`) run automatically before each commit:
+`.husky/pre-commit` runs automatically before each commit:
 
-1. **Lint staged files** — `dart run lint_staged` runs `dart format` and `dart analyze` on staged `.dart` files
-2. **Run tests** — `flutter test`
+1. **`dart fix --apply`** — Auto-fixes lint violations across the project
+2. **`dart run lint_staged`** — Formats and analyzes only staged `.dart` files
+
+### Commit Message Format
+
+Commits are validated by `commitlint_cli` via a `.husky/commit-msg` hook.
+
+Format: `type(scope?): subject`
+
+```
+feat: add user profile page
+fix(auth): resolve token refresh race condition
+docs: update README with CI setup
+refactor(router): migrate to go_router_builder
+chore: update dependencies
+```
+
+**Allowed types:** `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`
+
+Configured in `commitlint.yaml`:
+
+```yaml
+include: package:commitlint_cli/commitlint.yaml
+
+rules:
+  scope-enum:
+    - 0
+    - always
+  subject-empty:
+    - 2
+    - never
+```
 
 ### Lint Rules
 
-Configured in `analysis_options.yaml`. Key rule enforced:
+Uses [very_good_analysis](https://pub.dev/packages/very_good_analysis) (100+ rules) with overrides in `analysis_options.yaml`:
 
 ```yaml
-lint_staged:
-  "lib/**.dart": dart format -l 120 && dart analyze --fatal-infos --fatal-warnings
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    public_member_api_docs: false
+    prefer_relative_imports: true
+    lines_longer_than_80_chars: false
 ```
+
+**Line length:** 120 characters (configured in `.editorconfig`, `.vscode/settings.json`, `.zed/settings.json`).
+
+**Quick fix command:**
+```bash
+dart fix --apply && dart format -l 120 . && dart analyze --fatal-infos --fatal-warnings
+```
+
+### Editor Config
+
+Shared editor settings committed to git:
+
+| File | Purpose |
+|---|---|
+| `.vscode/settings.json` | VS Code — format on save, 120 char rulers, Dart formatter |
+| `.zed/settings.json` | Zed — format on save, Dart LSP, 120 char line length |
+| `.editorconfig` | Universal — indent size, line length, charset |
+
+Format on save is enabled for both VS Code and Zed. The Dart Analysis Server provides linting in both editors.
+
+### CI Pipeline
+
+GitHub Actions runs on every PR to `dev`:
+
+| Workflow | Steps |
+|---|---|
+| **Lint & Format** | `flutter pub get` → `dart analyze` → `dart format --set-exit-if-changed` |
+| **Code Generation & Tests** | `flutter pub get` → `build_runner` (api_client) → `build_runner` (main) → `flutter test` |
+
+Both workflows run in parallel. PRs cannot merge if either fails.
 
 ### Running Tests
 
 ```bash
 flutter test
+```
+
+### Generated Files
+
+Generated files (`*.g.dart`, `*.freezed.dart`) are excluded from git. Regenerate after clone or pull:
+
+```bash
+dart run build_runner build --delete-conflicting-outputs
+cd api_client && dart run build_runner build --delete-conflicting-outputs
 ```
 
 ### Common Commands
@@ -605,7 +691,7 @@ flutter pub get
 # Run the app
 flutter run
 
-# Run code generation (main app)
+# Generate code (main app)
 dart run build_runner build -d --delete-conflicting-outputs
 
 # Generate API client (from api_client/)
@@ -616,12 +702,16 @@ dart run build_runner build -d --delete-conflicting-outputs  # Step 2: annotatio
 # Generate localizations
 flutter gen-l10n
 
+# Lint and format
+dart fix --apply
+dart format -l 120 .
+dart analyze --fatal-infos --fatal-warnings
+
+# Validate commit message
+echo "feat: test" | dart run commitlint_cli
+
 # Run tests
 flutter test
-
-# Lint and format
-dart format -l 120 lib/
-dart analyze --fatal-infos --fatal-warnings
 ```
 
 ---
