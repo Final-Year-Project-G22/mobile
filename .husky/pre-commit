@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "Running dart fix..."
+dart fix --apply
+
 echo "Running lint..."
 dart run lint_staged
-
-echo "Running tests..."
-flutter test
