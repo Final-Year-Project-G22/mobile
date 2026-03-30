@@ -5,7 +5,7 @@ on:
     branches: [dev]
 
 jobs:
-  lint:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,8 +17,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install api_client dependencies
+        working-directory: api_client
+        run: flutter pub get
+
+      - name: Generate api_client code
+        working-directory: api_client
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Generate main app code
+        run: dart run build_runner build --delete-conflicting-outputs
+
       - name: Analyze
         run: dart analyze --fatal-infos --fatal-warnings
 
       - name: Check formatting
         run: dart format -l 120 --set-exit-if-changed .
+
+      - name: Run tests
+        run: flutter test
