@@ -14,6 +14,13 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Create .env files
+        run: |
+          mkdir -p assets
+          echo "API_BASE_URL=http://localhost:3000" > assets/.env
+          echo "API_BASE_URL=http://localhost:3000" > assets/.env.development
+          echo "API_BASE_URL=http://localhost:3000" > assets/.env.production
+
       - name: Install dependencies
         run: flutter pub get
 
