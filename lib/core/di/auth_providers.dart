@@ -8,9 +8,8 @@ part 'auth_providers.g.dart';
 
 @riverpod
 IAuthRepository authRepository(Ref ref) {
-  final apiClient = ref.watch(apiClientProvider);
+  final apiClient = ref.read(apiClientProvider);
   final dio = apiClient.dio;
   final client = AuthenticationClient(dio);
-  final tokenStorage = ref.watch(tokenStorageProvider);
-  return AuthRepositoryImpl(client, apiClient, tokenStorage);
+  return AuthRepositoryImpl(client, apiClient);
 }

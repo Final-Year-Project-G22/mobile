@@ -12,7 +12,8 @@ part of 'auth_notifier.dart';
 @ProviderFor(AuthNotifier)
 final authProvider = AuthNotifierProvider._();
 
-final class AuthNotifierProvider extends $AsyncNotifierProvider<AuthNotifier, AuthStatus> {
+final class AuthNotifierProvider
+    extends $AsyncNotifierProvider<AuthNotifier, AuthStatus> {
   AuthNotifierProvider._()
     : super(
         from: null,
@@ -32,7 +33,7 @@ final class AuthNotifierProvider extends $AsyncNotifierProvider<AuthNotifier, Au
   AuthNotifier create() => AuthNotifier();
 }
 
-String _$authNotifierHash() => r'5ad25f77d0245980f27636426ee197c1831468f8';
+String _$authNotifierHash() => r'0404bf7c31bddaf2fcdab97a8abb10e19e40c8f4';
 
 abstract class _$AuthNotifier extends $AsyncNotifier<AuthStatus> {
   FutureOr<AuthStatus> build();

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TokenPair {
   final String accessToken;
@@ -10,16 +11,6 @@ class TokenPair {
     this.refreshToken,
     this.expiresAt,
   });
-
-  factory TokenPair.fromJson(Map<String, dynamic> json) {
-    return TokenPair(
-      accessToken: json['accessToken'] as String,
-      refreshToken: json['refreshToken'] as String?,
-      expiresAt: json['expiresAt'] != null
-          ? DateTime.tryParse(json['expiresAt'] as String)
-          : null,
-    );
-  }
 }
 
 typedef ShouldSkipAuth = bool Function(String path);
@@ -29,15 +20,26 @@ typedef OnTokenRefreshed = void Function(TokenPair tokens);
 class AuthInterceptor extends Interceptor {
   String? _accessToken;
   String? _refreshToken;
+  DateTime? _expiresAt;
+  bool _needsTokenLoad = true;
   final ShouldSkipAuth shouldSkipAuth;
   OnUnauthorized? onUnauthorized;
   OnTokenRefreshed? onTokenRefreshed;
   final Dio _dio;
+  final FlutterSecureStorage _storage;
   bool _isRefreshing = false;
   final List<_QueuedRequest> _pendingRequests = [];
 
-  AuthInterceptor({this.shouldSkipAuth = _defaultShouldSkipAuth, Dio? dio})
-    : _dio = dio ?? Dio();
+  static const _accessTokenKey = 'access_token';
+  static const _refreshTokenKey = 'refresh_token';
+  static const _expiresAtKey = 'expires_at';
+
+  AuthInterceptor({
+    required FlutterSecureStorage storage,
+    this.shouldSkipAuth = _defaultShouldSkipAuth,
+    Dio? dio,
+  }) : _storage = storage,
+       _dio = dio ?? Dio();
 
   void setOnUnauthorizedCallback(OnUnauthorized? callback) {
     onUnauthorized = callback;
@@ -55,34 +57,65 @@ class AuthInterceptor extends Interceptor {
 
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
+  DateTime? get expiresAt => _expiresAt;
   bool get isAuthenticated => _accessToken != null;
 
-  void setAccessToken(String? token) {
-    _accessToken = token;
+  Future<void> loadTokensFromStorage() async {
+    await _ensureTokensLoaded();
   }
 
-  void setRefreshToken(String? token) {
-    _refreshToken = token;
+  Future<void> _ensureTokensLoaded() async {
+    if (!_needsTokenLoad) return;
+    _needsTokenLoad = false;
+    _accessToken = await _storage.read(key: _accessTokenKey);
+    _refreshToken = await _storage.read(key: _refreshTokenKey);
+    final expiresAtRaw = await _storage.read(key: _expiresAtKey);
+    if (expiresAtRaw != null) {
+      _expiresAt = DateTime.tryParse(expiresAtRaw);
+    }
   }
 
-  void setTokens(String accessToken, String? refreshToken) {
+  Future<void> setTokens(
+    String accessToken,
+    String? refreshToken, {
+    DateTime? expiresAt,
+  }) async {
     _accessToken = accessToken;
     _refreshToken = refreshToken;
+    _expiresAt = expiresAt;
+    _needsTokenLoad = false;
+    await _storage.write(key: _accessTokenKey, value: accessToken);
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    }
+    if (expiresAt != null) {
+      await _storage.write(
+        key: _expiresAtKey,
+        value: expiresAt.toIso8601String(),
+      );
+    }
   }
 
-  void clearTokens() {
+  Future<void> clearTokens() async {
     _accessToken = null;
     _refreshToken = null;
+    _expiresAt = null;
+    _needsTokenLoad = false;
+    await _storage.delete(key: _accessTokenKey);
+    await _storage.delete(key: _refreshTokenKey);
+    await _storage.delete(key: _expiresAtKey);
   }
 
   @override
-  void onRequest(
+  Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
     if (shouldSkipAuth(options.path)) {
       return handler.next(options);
     }
+
+    await _ensureTokensLoaded();
 
     if (_accessToken != null) {
       options.headers['Authorization'] = 'Bearer $_accessToken';
@@ -122,28 +155,22 @@ class AuthInterceptor extends Interceptor {
   }
 
   Future<bool> _refreshTokenAsync(RequestOptions originalRequest) async {
-    if (_refreshToken == null) {
-      return false;
-    }
+    if (_refreshToken == null) return false;
 
     try {
       final response = await _dio.post<Map<String, dynamic>>(
-        '/auth/refresh',
+        '/api/v1/auth/refresh',
         options: Options(headers: {'Cookie': 'refresh_token=$_refreshToken'}),
       );
 
       if (response.statusCode == 200 && response.data != null) {
         final newAccessToken = response.data!['accessToken'] as String?;
-
         final newRefreshToken = _extractRefreshTokenFromHeaders(
           response.headers,
         );
 
         if (newAccessToken != null) {
-          _accessToken = newAccessToken;
-          if (newRefreshToken != null) {
-            _refreshToken = newRefreshToken;
-          }
+          await setTokens(newAccessToken, newRefreshToken ?? _refreshToken);
 
           onTokenRefreshed?.call(
             TokenPair(
@@ -156,7 +183,7 @@ class AuthInterceptor extends Interceptor {
         }
       }
     } catch (e) {
-      clearTokens();
+      await clearTokens();
     }
 
     return false;
@@ -167,8 +194,7 @@ class AuthInterceptor extends Interceptor {
     if (setCookie != null && setCookie.isNotEmpty) {
       for (final cookie in setCookie) {
         if (cookie.startsWith('refresh_token=')) {
-          final value = cookie.split(';').first.split('=').last;
-          return value;
+          return cookie.split(';').first.split('=').last;
         }
       }
     }

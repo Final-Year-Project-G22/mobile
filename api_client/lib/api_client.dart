@@ -11,11 +11,16 @@ export 'src/interceptors/logging_interceptor.dart';
 
 export 'src/api/rest_client.dart';
 export 'src/api/authentication/authentication_client.dart';
+export 'src/api/users/users_client.dart';
+export 'src/api/models/get_current_user_response_body.dart';
 export 'src/api/models/login_request.dart';
 export 'src/api/models/login_response_body.dart';
 export 'src/api/models/register_request.dart';
 export 'src/api/models/register_response_body.dart';
 export 'src/api/models/refresh_response_body.dart';
+export 'src/api/models/update_user_profile_request.dart';
+export 'src/api/models/update_user_profile_response_body.dart';
+export 'src/api/models/upload_avatar_response.dart';
 export 'src/api/models/user_dto.dart';
 export 'src/api/models/account_dto.dart';
 export 'src/api/models/error_model.dart';

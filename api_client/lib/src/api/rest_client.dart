@@ -5,6 +5,8 @@
 import 'package:dio/dio.dart' hide Headers;
 
 import 'authentication/authentication_client.dart';
+import 'o_auth/o_auth_client.dart';
+import 'users/users_client.dart';
 
 /// Adisu Backend API `v1.0.0`.
 ///
@@ -22,7 +24,13 @@ class RestClient {
   static String get version => '1.0.0';
 
   AuthenticationClient? _authentication;
+  OAuthClient? _oAuth;
+  UsersClient? _users;
 
   AuthenticationClient get authentication =>
       _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
+
+  OAuthClient get oAuth => _oAuth ??= OAuthClient(_dio, baseUrl: _baseUrl);
+
+  UsersClient get users => _users ??= UsersClient(_dio, baseUrl: _baseUrl);
 }
