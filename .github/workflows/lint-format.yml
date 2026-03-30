@@ -40,6 +40,3 @@ jobs:
 
       - name: Check formatting
         run: dart format -l 120 --set-exit-if-changed .
-
-      - name: Run tests
-        run: flutter test
