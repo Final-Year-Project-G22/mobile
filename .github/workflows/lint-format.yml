@@ -41,4 +41,4 @@ jobs:
         run: dart analyze --fatal-infos --fatal-warnings
 
       - name: Format check
-        run: find . -name "*.dart" -not -name "*.g.dart" -not -name "*.freezed.dart" -exec dart format -l 120 --set-exit-if-changed {} +
+        run: find . -name "*.dart" -not -name "*.g.dart" -not -name "*.freezed.dart" -not -path "*/generated/*" -exec dart format -l 120 --set-exit-if-changed {} +
