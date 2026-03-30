@@ -2,16 +2,15 @@ import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/features/profile/domain/entities/user_profile.dart';
-import 'package:mobile/app/features/profile/domain/failures/profile_failure.dart';
-import 'package:mobile/app/features/profile/domain/i_profile_repository.dart';
-import 'package:mobile/app/features/profile/domain/value_objects/profile_value_objects.dart';
+import '../domain/entities/user_profile.dart';
+import '../domain/failures/profile_failure.dart';
+import '../domain/i_profile_repository.dart';
+import '../domain/value_objects/profile_value_objects.dart';
 
 class ProfileRepositoryImpl implements IProfileRepository {
+  const ProfileRepositoryImpl(this._authClient, this._usersClient);
   final AuthenticationClient _authClient;
   final UsersClient _usersClient;
-
-  const ProfileRepositoryImpl(this._authClient, this._usersClient);
 
   @override
   Future<Either<ProfileFailure, UserProfile>> getCurrentUser() async {
@@ -24,7 +23,7 @@ class ProfileRepositoryImpl implements IProfileRepository {
       return Right(user);
     } on DioException catch (e) {
       return Left(_mapDioError(e));
-    } catch (_) {
+    } on Exception {
       return const Left(ProfileFailure.serverError());
     }
   }
@@ -52,7 +51,7 @@ class ProfileRepositoryImpl implements IProfileRepository {
 
       final currentEither = await getCurrentUser();
       return currentEither.fold(
-        (failure) => Left(failure),
+        Left.new,
         (current) => Right(
           current.copyWith(
             firstName: FirstName(response.data.firstName),
@@ -63,7 +62,7 @@ class ProfileRepositoryImpl implements IProfileRepository {
       );
     } on DioException catch (e) {
       return Left(_mapUpdateError(e));
-    } catch (_) {
+    } on Exception {
       return const Left(ProfileFailure.unableToUpdate());
     }
   }
@@ -82,7 +81,7 @@ class ProfileRepositoryImpl implements IProfileRepository {
       return Right(imageUrl);
     } on DioException catch (e) {
       return Left(_mapUploadError(e));
-    } catch (_) {
+    } on Exception {
       return const Left(ProfileFailure.unableToUpload());
     }
   }
@@ -109,7 +108,9 @@ ProfileFailure _mapDioError(DioException error) {
       final status = error.response?.statusCode;
       if (status == 400) return const ProfileFailure.invalidProfileData();
       return const ProfileFailure.serverError();
-    default:
+    case DioExceptionType.cancel:
+    case DioExceptionType.badCertificate:
+    case DioExceptionType.unknown:
       return const ProfileFailure.serverError();
   }
 }
@@ -120,7 +121,13 @@ ProfileFailure _mapUpdateError(DioException error) {
       final status = error.response?.statusCode;
       if (status == 400) return const ProfileFailure.invalidProfileData();
       return const ProfileFailure.unableToUpdate();
-    default:
+    case DioExceptionType.connectionTimeout:
+    case DioExceptionType.sendTimeout:
+    case DioExceptionType.receiveTimeout:
+    case DioExceptionType.connectionError:
+    case DioExceptionType.cancel:
+    case DioExceptionType.badCertificate:
+    case DioExceptionType.unknown:
       return const ProfileFailure.unableToUpdate();
   }
 }
@@ -129,7 +136,13 @@ ProfileFailure _mapUploadError(DioException error) {
   switch (error.type) {
     case DioExceptionType.badResponse:
       return const ProfileFailure.unableToUpload();
-    default:
+    case DioExceptionType.connectionTimeout:
+    case DioExceptionType.sendTimeout:
+    case DioExceptionType.receiveTimeout:
+    case DioExceptionType.connectionError:
+    case DioExceptionType.cancel:
+    case DioExceptionType.badCertificate:
+    case DioExceptionType.unknown:
       return const ProfileFailure.unableToUpload();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/app/features/profile/domain/failures/profile_value_failure.dart';
+import '../failures/profile_value_failure.dart';
 
 Either<ProfileValueFailure<String>, String> validateFirstName(String input) {
   if (input.isEmpty) {

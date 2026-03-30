@@ -12,8 +12,7 @@ part of 'profile_notifier.dart';
 @ProviderFor(ProfileNotifier)
 final profileProvider = ProfileNotifierProvider._();
 
-final class ProfileNotifierProvider
-    extends $NotifierProvider<ProfileNotifier, ProfileState> {
+final class ProfileNotifierProvider extends $NotifierProvider<ProfileNotifier, ProfileState> {
   ProfileNotifierProvider._()
     : super(
         from: null,
@@ -50,13 +49,7 @@ abstract class _$ProfileNotifier extends $Notifier<ProfileState> {
   void runBuild() {
     final ref = this.ref as $Ref<ProfileState, ProfileState>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ProfileState, ProfileState>,
-              ProfileState,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<ProfileState, ProfileState>, ProfileState, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mobile/app/constants/app_spacing.dart';
-import 'package:mobile/app/features/home/application/home_tab_notifier.dart';
+import '../../../../constants/app_spacing.dart';
+import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
 import 'ai_guild_page.dart';

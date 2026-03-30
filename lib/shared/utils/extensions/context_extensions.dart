@@ -27,7 +27,7 @@ extension ContextExtensions on BuildContext {
   }
 
   void showSuccessSnackBar(String message) {
-    showSnackBar(message, isError: false);
+    showSnackBar(message);
   }
 
   void showErrorSnackBar(String message) {

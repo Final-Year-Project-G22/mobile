@@ -1,12 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:api_client/api_client.dart';
+import 'package:dio/dio.dart';
 
 class AppException implements Exception {
+  const AppException({required this.message, this.code, this.data});
   final String message;
   final String? code;
   final dynamic data;
-
-  const AppException({required this.message, this.code, this.data});
 
   @override
   String toString() => 'AppException: $message ($code)';
@@ -17,9 +16,13 @@ class NetworkException extends AppException {
 }
 
 class ServerException extends AppException {
+  const ServerException({
+    required super.message,
+    super.code,
+    this.statusCode,
+    super.data,
+  });
   final int? statusCode;
-
-  const ServerException({required super.message, super.code, this.statusCode, super.data});
 }
 
 class AuthException extends AppException {
@@ -27,9 +30,12 @@ class AuthException extends AppException {
 }
 
 class ValidationException extends AppException {
+  const ValidationException({
+    required super.message,
+    super.code,
+    this.fieldErrors,
+  });
   final Map<String, String>? fieldErrors;
-
-  const ValidationException({required super.message, super.code, this.fieldErrors});
 }
 
 class CacheException extends AppException {
@@ -46,7 +52,8 @@ class AppExceptionMapper {
       return AuthException(message: e.message, code: e.errorCode);
     }
     if (e.statusCode == 400) {
-      final errors = e.data is Map<String, dynamic> ? e.data['errors'] as Map<String, dynamic>? : null;
+      final data = e.data;
+      final errors = data is Map<String, dynamic> ? data['errors'] as Map<String, dynamic>? : null;
       if (errors != null) {
         return ValidationException(
           message: e.message,
@@ -57,9 +64,17 @@ class AppExceptionMapper {
       return ValidationException(message: e.message, code: e.errorCode);
     }
     if (e.statusCode == null || e.statusCode == 0) {
-      return NetworkException(message: e.message, code: e.statusCode?.toString());
+      return NetworkException(
+        message: e.message,
+        code: e.statusCode?.toString(),
+      );
     }
-    return ServerException(message: e.message, code: e.errorCode, statusCode: e.statusCode, data: e.data);
+    return ServerException(
+      message: e.message,
+      code: e.errorCode,
+      statusCode: e.statusCode,
+      data: e.data,
+    );
   }
 
   static AppException fromDioException(DioException e) {

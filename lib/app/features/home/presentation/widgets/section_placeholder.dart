@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/app/constants/app_spacing.dart';
+import '../../../../constants/app_spacing.dart';
 
 class SectionPlaceholder extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-
   const SectionPlaceholder({
-    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
+    super.key,
   });
+  final String title;
+  final String subtitle;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {

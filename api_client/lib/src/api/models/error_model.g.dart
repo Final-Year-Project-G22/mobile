@@ -16,13 +16,12 @@ _ErrorModel _$ErrorModelFromJson(Map<String, dynamic> json) => _ErrorModel(
   title: json['title'] as String?,
 );
 
-Map<String, dynamic> _$ErrorModelToJson(_ErrorModel instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      r'$schema': instance.schema,
-      'detail': instance.detail,
-      'errors': instance.errors,
-      'instance': instance.instance,
-      'status': instance.status,
-      'title': instance.title,
-    };
+Map<String, dynamic> _$ErrorModelToJson(_ErrorModel instance) => <String, dynamic>{
+  'type': instance.type,
+  r'$schema': instance.schema,
+  'detail': instance.detail,
+  'errors': instance.errors,
+  'instance': instance.instance,
+  'status': instance.status,
+  'title': instance.title,
+};

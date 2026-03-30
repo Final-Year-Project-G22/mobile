@@ -1,42 +1,21 @@
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   errors:
     invalid_annotation_target: ignore
+    strict_raw_type: ignore
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "lib/generated/**"
+    - "api_client/**"
 
 linter:
   rules:
-    - always_declare_return_types
-    - avoid_empty_else
-    - avoid_print
-    - avoid_relative_lib_imports
-    - avoid_types_as_parameter_names
-    - await_only_futures
-    - camel_case_extensions
-    - camel_case_types
-    - cancel_subscriptions
-    - close_sinks
-    - constant_identifier_names
-    - control_flow_in_finally
-    - empty_catches
-    - empty_constructor_bodies
-    - library_names
-    - library_prefixes
-    - no_duplicate_case_values
-    - null_closures
-    - prefer_const_constructors
-    - prefer_const_declarations
-    - prefer_final_fields
-    - prefer_is_empty
-    - prefer_is_not_empty
-    - prefer_single_quotes
-    - unnecessary_brace_in_string_interps
-    - unnecessary_const
-    - unnecessary_new
-    - unnecessary_null_in_if_null_operators
-    - use_key_in_widget_constructors
-    - use_rethrow_when_possible
+    public_member_api_docs: false
+    prefer_relative_imports: true
+    always_use_package_imports: false
+    lines_longer_than_80_chars: false
+    use_setters_to_change_properties: false
+    sort_pub_dependencies: false
+    avoid_equals_and_hash_code_on_mutable_classes: false

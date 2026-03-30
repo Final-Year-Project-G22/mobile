@@ -6,7 +6,12 @@ part of 'routes.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$splashRoute, $loginRoute, $registerRoute, $mainAppShellRoute];
+List<RouteBase> get $appRoutes => [
+  $splashRoute,
+  $loginRoute,
+  $registerRoute,
+  $mainAppShellRoute,
+];
 
 RouteBase get $splashRoute => GoRouteData.$route(path: '/splash', factory: $SplashRoute._fromState);
 

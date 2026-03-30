@@ -1,15 +1,15 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:mobile/app/features/auth/domain/entities/auth_response.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
-import 'package:mobile/app/features/auth/domain/i_auth_repository.dart';
+import '../domain/entities/auth_response.dart';
+import '../domain/failures/auth_user_failure.dart';
+import '../domain/i_auth_repository.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
+  const AuthRepositoryImpl(this._client, this._apiClient);
+
   final AuthenticationClient _client;
   final ApiClient _apiClient;
-
-  const AuthRepositoryImpl(this._client, this._apiClient);
 
   @override
   Future<Either<AuthUserFailure, AuthResponse>> register({
@@ -27,12 +27,14 @@ class AuthRepositoryImpl implements IAuthRepository {
           lastName: lastName,
         ),
       );
+
       // Single call — sets token in-memory AND persists to secure storage
       await _apiClient.setTokens(
         httpResponse.data.accessToken,
         null,
         expiresAt: httpResponse.data.expiresAt,
       );
+
       return Right(
         AuthResponse(
           accessToken: httpResponse.data.accessToken,
@@ -51,7 +53,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       );
     } on DioException catch (e) {
       return Left(_handleDioError(e));
-    } catch (e) {
+    } on Exception {
       return const Left(AuthUserFailure.serverError());
     }
   }
@@ -117,7 +119,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       );
     } on DioException catch (e) {
       return Left(_handleDioError(e));
-    } catch (e) {
+    } on Exception {
       return const Left(AuthUserFailure.serverError());
     }
   }
@@ -133,9 +135,7 @@ class AuthRepositoryImpl implements IAuthRepository {
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
         final code = data is Map<String, dynamic> ? data['code'] : null;
-        final detail = data is Map<String, dynamic>
-            ? data['detail'] as String?
-            : null;
+        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
 
         if (statusCode == 409 || code == 'conflict') {
           return AuthUserFailure.emailAlreadyInUse(message: detail);
@@ -146,7 +146,9 @@ class AuthRepositoryImpl implements IAuthRepository {
           );
         }
         return AuthUserFailure.serverError(message: detail);
-      default:
+      case DioExceptionType.cancel:
+      case DioExceptionType.badCertificate:
+      case DioExceptionType.unknown:
         return const AuthUserFailure.serverError();
     }
   }

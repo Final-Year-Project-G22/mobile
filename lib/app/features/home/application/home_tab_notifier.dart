@@ -6,15 +6,14 @@ part 'home_tab_notifier.g.dart';
 enum HomeTab { guide, community, aiGuild, templates }
 
 class HomeTabSpec {
-  final String label;
-  final IconData icon;
-  final IconData selectedIcon;
-
   const HomeTabSpec({
     required this.label,
     required this.icon,
     required this.selectedIcon,
   });
+  final String label;
+  final IconData icon;
+  final IconData selectedIcon;
 }
 
 const List<HomeTabSpec> homeTabSpecs = [

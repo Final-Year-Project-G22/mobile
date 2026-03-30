@@ -20,6 +20,5 @@ abstract class ErrorDetail with _$ErrorDetail {
     dynamic value,
   }) = _ErrorDetail;
 
-  factory ErrorDetail.fromJson(Map<String, Object?> json) =>
-      _$ErrorDetailFromJson(json);
+  factory ErrorDetail.fromJson(Map<String, Object?> json) => _$ErrorDetailFromJson(json);
 }

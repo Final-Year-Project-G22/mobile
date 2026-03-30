@@ -6,11 +6,15 @@ class TokenPair {
   final String? refreshToken;
   final DateTime? expiresAt;
 
-  const TokenPair({
-    required this.accessToken,
-    this.refreshToken,
-    this.expiresAt,
-  });
+  const TokenPair({required this.accessToken, this.refreshToken, this.expiresAt});
+
+  factory TokenPair.fromJson(Map<String, dynamic> json) {
+    return TokenPair(
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String?,
+      expiresAt: json['expiresAt'] != null ? DateTime.tryParse(json['expiresAt'] as String) : null,
+    );
+  }
 }
 
 typedef ShouldSkipAuth = bool Function(String path);
@@ -22,9 +26,11 @@ class AuthInterceptor extends Interceptor {
   String? _refreshToken;
   DateTime? _expiresAt;
   bool _needsTokenLoad = true;
+
   final ShouldSkipAuth shouldSkipAuth;
   OnUnauthorized? onUnauthorized;
   OnTokenRefreshed? onTokenRefreshed;
+
   final Dio _dio;
   final FlutterSecureStorage _storage;
   bool _isRefreshing = false;
@@ -34,12 +40,9 @@ class AuthInterceptor extends Interceptor {
   static const _refreshTokenKey = 'refresh_token';
   static const _expiresAtKey = 'expires_at';
 
-  AuthInterceptor({
-    required FlutterSecureStorage storage,
-    this.shouldSkipAuth = _defaultShouldSkipAuth,
-    Dio? dio,
-  }) : _storage = storage,
-       _dio = dio ?? Dio();
+  AuthInterceptor({required FlutterSecureStorage storage, this.shouldSkipAuth = _defaultShouldSkipAuth, Dio? dio})
+    : _storage = storage,
+      _dio = dio ?? Dio();
 
   void setOnUnauthorizedCallback(OnUnauthorized? callback) {
     onUnauthorized = callback;
@@ -50,9 +53,7 @@ class AuthInterceptor extends Interceptor {
   }
 
   static bool _defaultShouldSkipAuth(String path) {
-    return path.contains('/auth/login') ||
-        path.contains('/auth/register') ||
-        path.contains('/auth/refresh');
+    return path.contains('/auth/login') || path.contains('/auth/register') || path.contains('/auth/refresh');
   }
 
   String? get accessToken => _accessToken;
@@ -67,32 +68,30 @@ class AuthInterceptor extends Interceptor {
   Future<void> _ensureTokensLoaded() async {
     if (!_needsTokenLoad) return;
     _needsTokenLoad = false;
+
     _accessToken = await _storage.read(key: _accessTokenKey);
     _refreshToken = await _storage.read(key: _refreshTokenKey);
+
     final expiresAtRaw = await _storage.read(key: _expiresAtKey);
     if (expiresAtRaw != null) {
       _expiresAt = DateTime.tryParse(expiresAtRaw);
     }
   }
 
-  Future<void> setTokens(
-    String accessToken,
-    String? refreshToken, {
-    DateTime? expiresAt,
-  }) async {
+  Future<void> setTokens(String accessToken, String? refreshToken, {DateTime? expiresAt}) async {
     _accessToken = accessToken;
     _refreshToken = refreshToken;
     _expiresAt = expiresAt;
     _needsTokenLoad = false;
+
     await _storage.write(key: _accessTokenKey, value: accessToken);
+
     if (refreshToken != null && refreshToken.isNotEmpty) {
       await _storage.write(key: _refreshTokenKey, value: refreshToken);
     }
+
     if (expiresAt != null) {
-      await _storage.write(
-        key: _expiresAtKey,
-        value: expiresAt.toIso8601String(),
-      );
+      await _storage.write(key: _expiresAtKey, value: expiresAt.toIso8601String());
     }
   }
 
@@ -101,16 +100,14 @@ class AuthInterceptor extends Interceptor {
     _refreshToken = null;
     _expiresAt = null;
     _needsTokenLoad = false;
+
     await _storage.delete(key: _accessTokenKey);
     await _storage.delete(key: _refreshTokenKey);
     await _storage.delete(key: _expiresAtKey);
   }
 
   @override
-  Future<void> onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (shouldSkipAuth(options.path)) {
       return handler.next(options);
     }
@@ -126,8 +123,7 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401 &&
-        !shouldSkipAuth(err.requestOptions.path)) {
+    if (err.response?.statusCode == 401 && !shouldSkipAuth(err.requestOptions.path)) {
       if (_isRefreshing) {
         _addPendingRequest(err.requestOptions, handler);
         return;
@@ -143,7 +139,7 @@ class AuthInterceptor extends Interceptor {
           final response = await _dio.fetch(err.requestOptions);
           return handler.resolve(response);
         }
-      } catch (e) {
+      } catch (_) {
         _clearPendingRequests();
         onUnauthorized?.call();
       } finally {
@@ -165,24 +161,15 @@ class AuthInterceptor extends Interceptor {
 
       if (response.statusCode == 200 && response.data != null) {
         final newAccessToken = response.data!['accessToken'] as String?;
-        final newRefreshToken = _extractRefreshTokenFromHeaders(
-          response.headers,
-        );
+        final newRefreshToken = _extractRefreshTokenFromHeaders(response.headers);
 
         if (newAccessToken != null) {
           await setTokens(newAccessToken, newRefreshToken ?? _refreshToken);
-
-          onTokenRefreshed?.call(
-            TokenPair(
-              accessToken: newAccessToken,
-              refreshToken: newRefreshToken,
-            ),
-          );
-
+          onTokenRefreshed?.call(TokenPair(accessToken: newAccessToken, refreshToken: newRefreshToken));
           return true;
         }
       }
-    } catch (e) {
+    } catch (_) {
       await clearTokens();
     }
 
@@ -201,18 +188,13 @@ class AuthInterceptor extends Interceptor {
     return null;
   }
 
-  void _addPendingRequest(
-    RequestOptions options,
-    ErrorInterceptorHandler handler,
-  ) {
+  void _addPendingRequest(RequestOptions options, ErrorInterceptorHandler handler) {
     _pendingRequests.add(_QueuedRequest(options, handler));
   }
 
   void _retryPendingRequests() {
     for (final request in _pendingRequests) {
-      request.handler.resolve(
-        Response(requestOptions: request.options, statusCode: 200),
-      );
+      request.handler.resolve(Response(requestOptions: request.options, statusCode: 200));
     }
     _pendingRequests.clear();
   }

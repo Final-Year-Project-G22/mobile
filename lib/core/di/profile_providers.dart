@@ -1,9 +1,10 @@
 import 'package:api_client/api_client.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/features/profile/domain/i_profile_repository.dart';
-import 'package:mobile/app/features/profile/infrastructure/profile_repository_impl.dart';
-import 'package:mobile/core/di/infra_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../app/features/profile/domain/i_profile_repository.dart';
+import '../../app/features/profile/infrastructure/profile_repository_impl.dart';
+import 'infra_providers.dart';
 
 part 'profile_providers.g.dart';
 

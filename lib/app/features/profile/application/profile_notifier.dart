@@ -1,8 +1,9 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/features/profile/application/profile_state.dart';
-import 'package:mobile/app/features/profile/domain/failures/profile_failure.dart';
-import 'package:mobile/core/di/profile_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../core/di/profile_providers.dart';
+import '../domain/failures/profile_failure.dart';
+import 'profile_state.dart';
 
 part 'profile_notifier.g.dart';
 
@@ -22,8 +23,7 @@ class ProfileNotifier extends _$ProfileNotifier {
     final result = await repository.getCurrentUser();
 
     state = result.fold(
-      (failure) =>
-          state.copyWith(isLoading: false, errorMessage: _mapFailure(failure)),
+      (failure) => state.copyWith(isLoading: false, errorMessage: _mapFailure(failure)),
       (user) => state.copyWith(isLoading: false, user: user),
     );
   }
@@ -47,8 +47,7 @@ class ProfileNotifier extends _$ProfileNotifier {
     );
 
     state = result.fold(
-      (failure) =>
-          state.copyWith(isSaving: false, errorMessage: _mapFailure(failure)),
+      (failure) => state.copyWith(isSaving: false, errorMessage: _mapFailure(failure)),
       (user) => state.copyWith(
         isSaving: false,
         user: user,

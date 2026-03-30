@@ -12,8 +12,7 @@ part of 'auth_notifier.dart';
 @ProviderFor(AuthNotifier)
 final authProvider = AuthNotifierProvider._();
 
-final class AuthNotifierProvider
-    extends $AsyncNotifierProvider<AuthNotifier, AuthStatus> {
+final class AuthNotifierProvider extends $AsyncNotifierProvider<AuthNotifier, AuthStatus> {
   AuthNotifierProvider._()
     : super(
         from: null,

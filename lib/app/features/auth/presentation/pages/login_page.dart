@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile/app/constants/app_colors.dart';
-import 'package:mobile/app/constants/app_spacing.dart';
-import 'package:mobile/app/features/auth/application/auth_form_notifier.dart';
-import 'package:mobile/app/features/auth/application/auth_notifier.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_user_failure.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
-import 'package:mobile/app/features/auth/presentation/widgets/auth_button.dart';
-import 'package:mobile/app/features/auth/presentation/widgets/auth_text_field.dart';
-import 'package:mobile/app/router/routes.dart';
+
+import '../../../../constants/app_colors.dart';
+import '../../../../constants/app_spacing.dart';
+import '../../../../router/routes.dart';
+import '../../application/auth_form_notifier.dart';
+import '../../application/auth_notifier.dart';
+import '../../domain/failures/auth_user_failure.dart';
+import '../../domain/failures/auth_value_failure.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/auth_text_field.dart';
 
 class LogInPage extends ConsumerStatefulWidget {
   const LogInPage({super.key});
@@ -27,9 +30,11 @@ class _LogInPageState extends ConsumerState<LogInPage> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    Future.microtask(() {
-      ref.read(loginFormProvider.notifier).reset();
-    });
+    unawaited(
+      Future.microtask(() {
+        ref.read(loginFormProvider.notifier).reset();
+      }),
+    );
   }
 
   @override
@@ -135,7 +140,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                   text: 'Login',
                   isLoading: formState.isSubmitting,
                   onPressed: () {
-                    ref.read(loginFormProvider.notifier).submit();
+                    unawaited(ref.read(loginFormProvider.notifier).submit());
                   },
                 ),
                 const SizedBox(height: AppSpacing.lg),
@@ -144,13 +149,18 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                   children: [
                     Text(
                       "Don't have an account? ",
-                      style: TextStyle(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                      style: TextStyle(
+                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () => const RegisterRoute().go(context),
                       child: const Text(
                         'Sign Up',
-                        style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

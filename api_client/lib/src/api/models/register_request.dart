@@ -26,6 +26,5 @@ abstract class RegisterRequest with _$RegisterRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RegisterRequest;
 
-  factory RegisterRequest.fromJson(Map<String, Object?> json) =>
-      _$RegisterRequestFromJson(json);
+  factory RegisterRequest.fromJson(Map<String, Object?> json) => _$RegisterRequestFromJson(json);
 }

@@ -1,48 +1,45 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/app/features/auth/domain/failures/auth_value_failure.dart';
-import 'package:mobile/app/features/auth/domain/validator/auth_value_object_validator.dart';
-import 'package:mobile/core/value_object.dart';
+
+import '../../../../../core/value_object.dart';
+import '../failures/auth_value_failure.dart';
+import '../validator/auth_value_object_validator.dart';
 
 class EmailAddress extends ValueObjects<AuthValueFailure<String>, String> {
-  @override
-  final Either<AuthValueFailure<String>, String> value;
-
-  const EmailAddress._(this.value);
-
   factory EmailAddress(String input) {
     return EmailAddress._(validateEmail(input));
   }
+
+  const EmailAddress._(this.value);
+  @override
+  final Either<AuthValueFailure<String>, String> value;
 }
 
 class Password extends ValueObjects<AuthValueFailure<String>, String> {
-  @override
-  final Either<AuthValueFailure<String>, String> value;
-
-  const Password._(this.value);
-
   factory Password(String input) {
     return Password._(validatePassword(input));
   }
+
+  const Password._(this.value);
+  @override
+  final Either<AuthValueFailure<String>, String> value;
 }
 
 class FirstName extends ValueObjects<AuthValueFailure<String>, String> {
-  @override
-  final Either<AuthValueFailure<String>, String> value;
-
-  const FirstName._(this.value);
-
   factory FirstName(String input) {
     return FirstName._(validateFirstName(input));
   }
+
+  const FirstName._(this.value);
+  @override
+  final Either<AuthValueFailure<String>, String> value;
 }
 
 class LastName extends ValueObjects<AuthValueFailure<String>, String> {
-  @override
-  final Either<AuthValueFailure<String>, String> value;
-
-  const LastName._(this.value);
-
   factory LastName(String input) {
     return LastName._(validateLastName(input));
   }
+
+  const LastName._(this.value);
+  @override
+  final Either<AuthValueFailure<String>, String> value;
 }

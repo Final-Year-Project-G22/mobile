@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/core/config/app_constants.dart';
-import 'package:mobile/core/config/environments.dart';
+import 'app_constants.dart';
+import 'environments.dart';
 
 class AppConfig {
   AppConfig._();
@@ -36,8 +36,8 @@ class AppConfig {
   }
 
   // App Info
-  static const appName = AppConstants.appName;
-  static const appVersion = AppConstants.appVersion;
+  static const String appName = AppConstants.appName;
+  static const String appVersion = AppConstants.appVersion;
   static bool get enableLogging => isDevelopment || isLocal;
 
   // Timeouts

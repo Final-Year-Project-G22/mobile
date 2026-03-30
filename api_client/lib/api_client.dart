@@ -1,4 +1,4 @@
-library api_client;
+library;
 
 export 'src/api_client_base.dart';
 export 'src/constants/api_constants.dart';

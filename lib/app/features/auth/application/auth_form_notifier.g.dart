@@ -12,8 +12,7 @@ part of 'auth_form_notifier.dart';
 @ProviderFor(LoginFormNotifier)
 final loginFormProvider = LoginFormNotifierProvider._();
 
-final class LoginFormNotifierProvider
-    extends $NotifierProvider<LoginFormNotifier, LoginFormState> {
+final class LoginFormNotifierProvider extends $NotifierProvider<LoginFormNotifier, LoginFormState> {
   LoginFormNotifierProvider._()
     : super(
         from: null,
@@ -51,12 +50,7 @@ abstract class _$LoginFormNotifier extends $Notifier<LoginFormState> {
     final ref = this.ref as $Ref<LoginFormState, LoginFormState>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<LoginFormState, LoginFormState>,
-              LoginFormState,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<LoginFormState, LoginFormState>, LoginFormState, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -64,8 +58,7 @@ abstract class _$LoginFormNotifier extends $Notifier<LoginFormState> {
 @ProviderFor(RegisterFormNotifier)
 final registerFormProvider = RegisterFormNotifierProvider._();
 
-final class RegisterFormNotifierProvider
-    extends $NotifierProvider<RegisterFormNotifier, RegisterFormState> {
+final class RegisterFormNotifierProvider extends $NotifierProvider<RegisterFormNotifier, RegisterFormState> {
   RegisterFormNotifierProvider._()
     : super(
         from: null,
@@ -93,8 +86,7 @@ final class RegisterFormNotifierProvider
   }
 }
 
-String _$registerFormNotifierHash() =>
-    r'97e9bedc1719aaac237813b268bc688d4f2ffa81';
+String _$registerFormNotifierHash() => r'97e9bedc1719aaac237813b268bc688d4f2ffa81';
 
 abstract class _$RegisterFormNotifier extends $Notifier<RegisterFormState> {
   RegisterFormState build();

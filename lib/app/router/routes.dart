@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile/app/features/auth/presentation/pages/login_page.dart';
-import 'package:mobile/app/features/auth/presentation/pages/register_page.dart';
-import 'package:mobile/app/features/splash/presentation/pages/splash_page.dart';
+import '../features/auth/presentation/pages/login_page.dart';
+import '../features/auth/presentation/pages/register_page.dart';
+import '../features/splash/presentation/pages/splash_page.dart';
 
 part 'routes.g.dart';
 

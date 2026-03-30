@@ -48,14 +48,7 @@ abstract class _$HomeTabIndex extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

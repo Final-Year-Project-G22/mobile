@@ -1,8 +1,7 @@
 sealed class Failure {
+  const Failure({required this.message, this.code});
   final String message;
   final String? code;
-
-  const Failure({required this.message, this.code});
 }
 
 class NetworkFailure extends Failure {
@@ -10,9 +9,8 @@ class NetworkFailure extends Failure {
 }
 
 class ServerFailure extends Failure {
-  final int? statusCode;
-
   const ServerFailure({required super.message, super.code, this.statusCode});
+  final int? statusCode;
 }
 
 class AuthFailure extends Failure {
@@ -20,9 +18,8 @@ class AuthFailure extends Failure {
 }
 
 class ValidationFailure extends Failure {
-  final Map<String, String>? fieldErrors;
-
   const ValidationFailure({required super.message, super.code, this.fieldErrors});
+  final Map<String, String>? fieldErrors;
 }
 
 class CacheFailure extends Failure {

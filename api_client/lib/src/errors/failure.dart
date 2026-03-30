@@ -26,11 +26,7 @@ class AuthFailure extends Failure {
 class ValidationFailure extends Failure {
   final Map<String, String>? fieldErrors;
 
-  const ValidationFailure({
-    required super.message,
-    super.code,
-    this.fieldErrors,
-  });
+  const ValidationFailure({required super.message, super.code, this.fieldErrors});
 }
 
 class UnknownFailure extends Failure {
@@ -43,9 +39,7 @@ extension FailureMapper on Failure {
       return AuthFailure(message: e.message, code: e.statusCode);
     }
     if (e.statusCode == 400) {
-      final errors = e.data is Map<String, dynamic>
-          ? e.data['errors'] as Map<String, dynamic>?
-          : null;
+      final errors = e.data is Map<String, dynamic> ? e.data['errors'] as Map<String, dynamic>? : null;
       if (errors != null) {
         return ValidationFailure(
           message: e.message,

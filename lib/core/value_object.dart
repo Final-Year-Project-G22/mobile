@@ -1,7 +1,7 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile/core/error.dart';
+
+import 'error.dart';
 
 @Immutable()
 abstract class ValueObjects<F, T> {
@@ -15,7 +15,7 @@ abstract class ValueObjects<F, T> {
   bool isValid() => value.isRight();
 
   Either<F, Unit> get failureOrUnit {
-    return value.fold((l) => left(l), (r) => right(unit));
+    return value.fold(left, (r) => right(unit));
   }
 
   @override
