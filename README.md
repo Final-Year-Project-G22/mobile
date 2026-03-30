@@ -87,7 +87,7 @@ mobile/
 │   │   ├── splash/                        # Splash screen
 │   │   └── auth/                          # Auth feature (DDD layers)
 │   │       ├── domain/                    # Entities, failures, value objects, interfaces
-│   │       ├── application/               # Facade, StateNotifier, state
+│   │       ├── application/               # StateNotifier, state
 │   │       ├── infrastructure/            # Repository impl (uses API client)
 │   │       └── presentation/              # Pages + widgets
 │   └── shared/
@@ -127,7 +127,7 @@ The project follows **Domain-Driven Design** with **Clean Architecture**:
 ┌─────────────────────────────────────────────────┐
 │  Presentation   │  Pages, Widgets, GoRouter     │
 ├─────────────────────────────────────────────────┤
-│  Application    │  Facades, StateNotifiers      │
+│  Application    │  StateNotifiers           │
 ├─────────────────────────────────────────────────┤
 │  Domain         │  Entities, Value Objects,     │
 │                 │  Interfaces, Validators       │
@@ -382,8 +382,7 @@ lib/features/<feature_name>/domain/
 │   └── <value_objects>.dart       # Validated value types (EmailAddress, Password)
 ├── validator/
 │   └── <validators>.dart          # Validation functions returning Either
-├── i_<feature>_repository.dart    # Abstract repository interface
-└── i_<feature>_facade.dart        # Abstract facade interface
+└── i_<feature>_repository.dart    # Abstract repository interface
 ```
 
 **Failure types** use Freezed sealed unions:
@@ -411,13 +410,12 @@ abstract class IAuthRepository {
 
 ### Step 2: Application Layer
 
-Create the facade (use cases) and state management.
+Create the notifier (state management). The notifier calls the repository directly — no facade needed.
 
 ```
 lib/features/<feature_name>/application/
-├── <feature>_facade.dart          # Implements IFacade, delegates to repository
-├── <feature>_notifier.dart        # StateNotifier managing UI state
-└── <feature>_state.dart           # Freezed immutable state class
+├── <feature>_notifier.dart        # @riverpod notifier managing UI state
+└── <feature>_state.dart           # Freezed immutable state class (if needed)
 ```
 
 **State** is a Freezed class:
