@@ -58,13 +58,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     ref.listen(authProvider, (previous, next) {
       next.whenOrNull(
         data: (status) {
-          if (status.isAuthenticated && mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Registration successful'),
-                backgroundColor: AppColors.success,
-              ),
-            );
+          if (status.isPendingVerification && mounted) {
+            const OtpVerificationRoute().go(context);
           }
         },
         error: (error, _) {
@@ -74,7 +69,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 content: Text(
                   error.maybeWhen(
                     networkError: (_) => 'No internet connection',
-                    emailAlreadyInUse: (message) => message ?? 'Email already in use',
+                    emailAlreadyInUse: (message) =>
+                        message ?? 'Email already in use',
                     invalidEmailAndPasswordCombination: (message) =>
                         message ?? 'Invalid email and password combination',
                     serverError: (message) => message ?? 'Server error',
@@ -90,7 +86,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     });
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -104,7 +102,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                    color: isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                   ),
                 ),
                 AppSpacing.gapVerticalXs,
@@ -112,7 +112,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   'Sign up to get started',
                   style: TextStyle(
                     fontSize: 16,
-                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                    color: isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xxl),
@@ -121,9 +123,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   hint: 'Enter your first name',
                   controller: _firstNameController,
                   onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).firstNameChanged(value);
+                    ref
+                        .read(registerFormProvider.notifier)
+                        .firstNameChanged(value);
                   },
-                  errorText: formState.showErrorMessages ? formState.firstNameFailure?.toMessage() : null,
+                  errorText: formState.showErrorMessages
+                      ? formState.firstNameFailure?.toMessage()
+                      : null,
                   textCapitalization: TextCapitalization.words,
                 ),
                 AppSpacing.gapLg,
@@ -132,9 +138,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   hint: 'Enter your last name',
                   controller: _lastNameController,
                   onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).lastNameChanged(value);
+                    ref
+                        .read(registerFormProvider.notifier)
+                        .lastNameChanged(value);
                   },
-                  errorText: formState.showErrorMessages ? formState.lastNameFailure?.toMessage() : null,
+                  errorText: formState.showErrorMessages
+                      ? formState.lastNameFailure?.toMessage()
+                      : null,
                   textCapitalization: TextCapitalization.words,
                 ),
                 AppSpacing.gapLg,
@@ -145,7 +155,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   onChanged: (value) {
                     ref.read(registerFormProvider.notifier).emailChanged(value);
                   },
-                  errorText: formState.showErrorMessages ? formState.emailFailure?.toMessage() : null,
+                  errorText: formState.showErrorMessages
+                      ? formState.emailFailure?.toMessage()
+                      : null,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                 ),
@@ -155,16 +167,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   hint: 'Enter your password',
                   controller: _passwordController,
                   onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).passwordChanged(value);
+                    ref
+                        .read(registerFormProvider.notifier)
+                        .passwordChanged(value);
                   },
-                  errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
+                  errorText: formState.showErrorMessages
+                      ? formState.passwordFailure?.toMessage()
+                      : null,
                   obscureText: _obscurePassword,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
                     ),
                     onPressed: () {
                       setState(() {
@@ -188,7 +208,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     Text(
                       'Already have an account? ',
                       style: TextStyle(
-                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        color: isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                       ),
                     ),
                     GestureDetector(

@@ -24,7 +24,9 @@ abstract class UsersClient {
   /// [file] - Name not received - field will be skipped.
   @MultiPart()
   @POST('/api/v1/users/avatar')
-  Future<HttpResponse<UploadAvatarResponse>> uploadAvatar({@Part(name: 'file') required MultipartFile file});
+  Future<HttpResponse<UploadAvatarResponse>> uploadAvatar({
+    @Part(name: 'file') required MultipartFile file,
+  });
 
   /// Update user profile.
   ///

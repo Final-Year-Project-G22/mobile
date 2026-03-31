@@ -29,5 +29,6 @@ abstract class RegisterResponseBody with _$RegisterResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RegisterResponseBody;
 
-  factory RegisterResponseBody.fromJson(Map<String, Object?> json) => _$RegisterResponseBodyFromJson(json);
+  factory RegisterResponseBody.fromJson(Map<String, Object?> json) =>
+      _$RegisterResponseBodyFromJson(json);
 }

@@ -9,8 +9,12 @@ part 'o_auth_provider_dto.g.dart';
 
 @Freezed()
 abstract class OAuthProviderDto with _$OAuthProviderDto {
-  const factory OAuthProviderDto({required String displayName, required String icon, required String name}) =
-      _OAuthProviderDto;
+  const factory OAuthProviderDto({
+    required String displayName,
+    required String icon,
+    required String name,
+  }) = _OAuthProviderDto;
 
-  factory OAuthProviderDto.fromJson(Map<String, Object?> json) => _$OAuthProviderDtoFromJson(json);
+  factory OAuthProviderDto.fromJson(Map<String, Object?> json) =>
+      _$OAuthProviderDtoFromJson(json);
 }

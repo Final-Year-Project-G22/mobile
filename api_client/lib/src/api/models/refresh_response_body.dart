@@ -20,5 +20,6 @@ abstract class RefreshResponseBody with _$RefreshResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RefreshResponseBody;
 
-  factory RefreshResponseBody.fromJson(Map<String, Object?> json) => _$RefreshResponseBodyFromJson(json);
+  factory RefreshResponseBody.fromJson(Map<String, Object?> json) =>
+      _$RefreshResponseBodyFromJson(json);
 }

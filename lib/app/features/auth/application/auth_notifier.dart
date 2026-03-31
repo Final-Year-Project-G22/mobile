@@ -64,12 +64,15 @@ class AuthNotifier extends _$AuthNotifier {
     );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) => state = AsyncValue.data(
-        AuthStatus.authenticated(
-          user: authResponse.user,
-          account: authResponse.account,
-        ),
-      ),
+      (authResponse) => state = const AsyncValue.data(AuthStatus.pendingVerification()),
+    );
+  }
+
+  Future<void> completeVerification() async {
+    final apiClient = ref.read(apiClientProvider);
+    await apiClient.loadTokensFromStorage();
+    state = const AsyncValue.data(
+      AuthStatus.authenticated(user: null, account: null),
     );
   }
 
