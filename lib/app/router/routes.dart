@@ -27,16 +27,14 @@ class LoginRoute extends GoRouteData with $LoginRoute {
 class RegisterRoute extends GoRouteData with $RegisterRoute {
   const RegisterRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const RegisterPage();
+  Widget build(BuildContext context, GoRouterState state) => const RegisterPage();
 }
 
 @TypedGoRoute<OtpVerificationRoute>(path: '/otp-verification')
 class OtpVerificationRoute extends GoRouteData with $OtpVerificationRoute {
   const OtpVerificationRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const OtpVerificationPage();
+  Widget build(BuildContext context, GoRouterState state) => const OtpVerificationPage();
 }
 
 @TypedShellRoute<MainAppShellRoute>(
@@ -45,16 +43,14 @@ class OtpVerificationRoute extends GoRouteData with $OtpVerificationRoute {
 class MainAppShellRoute extends ShellRouteData {
   const MainAppShellRoute();
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
-      const HomeShellPage();
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) => const HomeShellPage();
 }
 
 @TypedGoRoute<ProfileRoute>(path: '/profile')
 class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const ProfilePage();
+  Widget build(BuildContext context, GoRouterState state) => const ProfilePage();
 }
 
 class HomeRoute extends GoRouteData with $HomeRoute {

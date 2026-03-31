@@ -17,6 +17,5 @@ abstract class VerifyEmailOtpRequest with _$VerifyEmailOtpRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _VerifyEmailOtpRequest;
 
-  factory VerifyEmailOtpRequest.fromJson(Map<String, Object?> json) =>
-      _$VerifyEmailOtpRequestFromJson(json);
+  factory VerifyEmailOtpRequest.fromJson(Map<String, Object?> json) => _$VerifyEmailOtpRequestFromJson(json);
 }

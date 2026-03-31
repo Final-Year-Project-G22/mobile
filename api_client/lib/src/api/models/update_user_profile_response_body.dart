@@ -8,8 +8,7 @@ part 'update_user_profile_response_body.freezed.dart';
 part 'update_user_profile_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateUserProfileResponseBody
-    with _$UpdateUserProfileResponseBody {
+abstract class UpdateUserProfileResponseBody with _$UpdateUserProfileResponseBody {
   const factory UpdateUserProfileResponseBody({
     /// Bio
     required String bio,

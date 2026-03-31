@@ -4,8 +4,7 @@ part 'auth_user_failure.freezed.dart';
 
 @freezed
 abstract class AuthUserFailure with _$AuthUserFailure {
-  const factory AuthUserFailure.emailAlreadyInUse({String? message}) =
-      EmailAlreadyInUse;
+  const factory AuthUserFailure.emailAlreadyInUse({String? message}) = EmailAlreadyInUse;
   const factory AuthUserFailure.invalidEmailAndPasswordCombination({
     String? message,
   }) = InvalidEmailAndPasswordCombination;

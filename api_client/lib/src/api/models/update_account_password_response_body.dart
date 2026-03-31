@@ -8,8 +8,7 @@ part 'update_account_password_response_body.freezed.dart';
 part 'update_account_password_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateAccountPasswordResponseBody
-    with _$UpdateAccountPasswordResponseBody {
+abstract class UpdateAccountPasswordResponseBody with _$UpdateAccountPasswordResponseBody {
   const factory UpdateAccountPasswordResponseBody({
     /// Message
     required String message,
@@ -18,7 +17,6 @@ abstract class UpdateAccountPasswordResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateAccountPasswordResponseBody;
 
-  factory UpdateAccountPasswordResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$UpdateAccountPasswordResponseBodyFromJson(json);
+  factory UpdateAccountPasswordResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateAccountPasswordResponseBodyFromJson(json);
 }
