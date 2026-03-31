@@ -98,7 +98,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
         setState(() {
           _isLoading = false;
         });
-        ref.read(authProvider.notifier).completeVerification();
+        unawaited(ref.read(authProvider.notifier).completeVerification());
         const HomeRoute().go(context);
       },
     );
@@ -119,15 +119,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     setState(() {
       _errorMessage = null;
     });
-  }
-
-  void _onKeyPressed(int index, KeyEvent event) {
-    if (event is KeyDownEvent &&
-        event.logicalKey == LogicalKeyboardKey.backspace &&
-        _controllers[index].text.isEmpty &&
-        index > 0) {
-      _focusNodes[index - 1].requestFocus();
-    }
   }
 
   @override

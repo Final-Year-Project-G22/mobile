@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/application/auth_notifier.dart';
-import '../features/auth/domain/entities/auth_status.dart';
 import 'routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -16,14 +15,12 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final authState = ref.read(authProvider);
       final location = state.matchedLocation;
-      final isAuthPage =
-          location == loginLocation || location == registerLocation;
+      final isAuthPage = location == loginLocation || location == registerLocation;
 
       if (authState.isLoading) return null;
 
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
-      final isPendingVerification =
-          authState.value?.isPendingVerification ?? false;
+      final isPendingVerification = authState.value?.isPendingVerification ?? false;
 
       if (isPendingVerification) {
         return isAuthPage ? const OtpVerificationRoute().location : otpLocation;
