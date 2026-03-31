@@ -12,7 +12,11 @@ import 'users/users_client.dart';
 ///
 /// Backend API for the Adisu platform.
 class RestClient {
-  RestClient(Dio dio, {String? baseUrl}) : _dio = dio, _baseUrl = baseUrl;
+  RestClient(
+    Dio dio, {
+    String? baseUrl,
+  }) : _dio = dio,
+       _baseUrl = baseUrl;
 
   final Dio _dio;
   final String? _baseUrl;
@@ -23,7 +27,8 @@ class RestClient {
   OAuthClient? _oAuth;
   UsersClient? _users;
 
-  AuthenticationClient get authentication => _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
+  AuthenticationClient get authentication =>
+      _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
 
   OAuthClient get oAuth => _oAuth ??= OAuthClient(_dio, baseUrl: _baseUrl);
 

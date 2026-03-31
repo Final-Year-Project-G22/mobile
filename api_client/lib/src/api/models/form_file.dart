@@ -16,5 +16,6 @@ abstract class FormFile with _$FormFile {
     @JsonKey(name: 'Size') required int size,
   }) = _FormFile;
 
-  factory FormFile.fromJson(Map<String, Object?> json) => _$FormFileFromJson(json);
+  factory FormFile.fromJson(Map<String, Object?> json) =>
+      _$FormFileFromJson(json);
 }

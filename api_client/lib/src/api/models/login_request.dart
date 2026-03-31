@@ -10,8 +10,8 @@ part 'login_request.g.dart';
 @Freezed()
 abstract class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
-    /// Email address
-    required String email,
+    /// Email or username
+    required String identifier,
 
     /// Password
     required String password,
@@ -20,5 +20,6 @@ abstract class LoginRequest with _$LoginRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _LoginRequest;
 
-  factory LoginRequest.fromJson(Map<String, Object?> json) => _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, Object?> json) =>
+      _$LoginRequestFromJson(json);
 }

@@ -8,7 +8,8 @@ part 'update_account_password_request.freezed.dart';
 part 'update_account_password_request.g.dart';
 
 @Freezed()
-abstract class UpdateAccountPasswordRequest with _$UpdateAccountPasswordRequest {
+abstract class UpdateAccountPasswordRequest
+    with _$UpdateAccountPasswordRequest {
   const factory UpdateAccountPasswordRequest({
     /// Password (min 8 chars, 1 uppercase, 1 lowercase, 1 digit)
     required String confirmPassword,

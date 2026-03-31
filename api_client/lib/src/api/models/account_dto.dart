@@ -18,7 +18,11 @@ abstract class AccountDto with _$AccountDto {
 
     /// Account status (pending_verification, active, locked, suspended, disabled)
     required String status,
+
+    /// Account username
+    String? username,
   }) = _AccountDto;
 
-  factory AccountDto.fromJson(Map<String, Object?> json) => _$AccountDtoFromJson(json);
+  factory AccountDto.fromJson(Map<String, Object?> json) =>
+      _$AccountDtoFromJson(json);
 }

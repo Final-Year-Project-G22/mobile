@@ -23,5 +23,6 @@ abstract class GetCurrentUserResponseBody with _$GetCurrentUserResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetCurrentUserResponseBody;
 
-  factory GetCurrentUserResponseBody.fromJson(Map<String, Object?> json) => _$GetCurrentUserResponseBodyFromJson(json);
+  factory GetCurrentUserResponseBody.fromJson(Map<String, Object?> json) =>
+      _$GetCurrentUserResponseBodyFromJson(json);
 }

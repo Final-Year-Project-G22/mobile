@@ -16,5 +16,6 @@ abstract class OAuthUnlinkOutputBody with _$OAuthUnlinkOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _OAuthUnlinkOutputBody;
 
-  factory OAuthUnlinkOutputBody.fromJson(Map<String, Object?> json) => _$OAuthUnlinkOutputBodyFromJson(json);
+  factory OAuthUnlinkOutputBody.fromJson(Map<String, Object?> json) =>
+      _$OAuthUnlinkOutputBodyFromJson(json);
 }

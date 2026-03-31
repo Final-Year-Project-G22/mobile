@@ -21,9 +21,19 @@ abstract class OAuthClient {
 
   /// OAuth callback.
   ///
-  /// Handles the OAuth callback from the provider.
+  /// Handles the OAuth callback from the provider. Returns JSON response.
   @GET('/api/v1/auth/oauth/callback/{provider}')
   Future<HttpResponse<OAuthCallbackResponse>> oauthCallback({
+    @Path('provider') required String provider,
+    @Query('code') String? code,
+    @Query('state') String? state,
+  });
+
+  /// OAuth callback for mobile.
+  ///
+  /// Handles the OAuth callback and returns HTTP 302 redirect to mobile deep-link.
+  @GET('/api/v1/auth/oauth/callback/{provider}/mobile')
+  Future<HttpResponse<void>> oauthCallbackMobile({
     @Path('provider') required String provider,
     @Query('code') String? code,
     @Query('state') String? state,
@@ -35,7 +45,9 @@ abstract class OAuthClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/oauth/complete')
-  Future<HttpResponse<OAuthCallbackResponse>> oauthCompleteWithEmail({@Body() required OAuthCompleteEmailRequest body});
+  Future<HttpResponse<OAuthCallbackResponse>> oauthCompleteWithEmail({
+    @Body() required OAuthCompleteEmailRequest body,
+  });
 
   /// List linked OAuth identities.
   ///
@@ -47,7 +59,9 @@ abstract class OAuthClient {
   ///
   /// Unlinks an OAuth provider from the authenticated account.
   @DELETE('/api/v1/auth/oauth/identities/{provider}')
-  Future<HttpResponse<OAuthUnlinkOutputBody>> unlinkOAuthProvider({@Path('provider') required String provider});
+  Future<HttpResponse<OAuthUnlinkOutputBody>> unlinkOAuthProvider({
+    @Path('provider') required String provider,
+  });
 
   /// OAuth link callback.
   ///
@@ -63,13 +77,17 @@ abstract class OAuthClient {
   ///
   /// Initiates linking an OAuth provider to the authenticated account.
   @GET('/api/v1/auth/oauth/link/{provider}')
-  Future<HttpResponse<void>> initiateOAuthLink({@Path('provider') required String provider});
+  Future<HttpResponse<void>> initiateOAuthLink({
+    @Path('provider') required String provider,
+  });
 
   /// Initiate OAuth login.
   ///
   /// Redirects to the OAuth provider for authentication.
   @GET('/api/v1/auth/oauth/login/{provider}')
-  Future<HttpResponse<void>> initiateOAuthLogin({@Path('provider') required String provider});
+  Future<HttpResponse<void>> initiateOAuthLogin({
+    @Path('provider') required String provider,
+  });
 
   /// List OAuth providers.
   ///
