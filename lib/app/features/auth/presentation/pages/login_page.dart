@@ -8,10 +8,12 @@ import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_form_notifier.dart';
 import '../../application/auth_notifier.dart';
+import '../../application/auth_oauth_state.dart';
 import '../../domain/failures/auth_user_failure.dart';
 import '../../domain/failures/auth_value_failure.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/oauth_provider_section.dart';
 
 class LogInPage extends ConsumerStatefulWidget {
   const LogInPage({super.key});
@@ -21,25 +23,26 @@ class LogInPage extends ConsumerStatefulWidget {
 }
 
 class _LogInPageState extends ConsumerState<LogInPage> {
-  late TextEditingController _emailController;
+  late TextEditingController _identifierController;
   late TextEditingController _passwordController;
   bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
+    _identifierController = TextEditingController();
     _passwordController = TextEditingController();
     unawaited(
       Future.microtask(() {
         ref.read(loginFormProvider.notifier).reset();
+        unawaited(ref.read(authProvider.notifier).loadOAuthProviders());
       }),
     );
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _identifierController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -47,30 +50,52 @@ class _LogInPageState extends ConsumerState<LogInPage> {
   @override
   Widget build(BuildContext context) {
     final formState = ref.watch(loginFormProvider);
+    final oauthState = ref.watch(authOAuthStateProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    ref.listen(authProvider, (previous, next) {
-      next.whenOrNull(
-        error: (error, _) {
-          if (error is AuthUserFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  error.maybeWhen(
-                    networkError: (_) => 'No internet connection',
-                    emailAlreadyInUse: (message) => message ?? 'Email already in use',
-                    invalidEmailAndPasswordCombination: (message) => message ?? 'Invalid email or password',
-                    serverError: (message) => message ?? 'Server error',
-                    orElse: () => 'An error occurred',
+    ref
+      ..listen(authProvider, (previous, next) {
+        next.whenOrNull(
+          error: (error, _) {
+            if (error is AuthUserFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    error.maybeWhen(
+                      networkError: (_) => 'No internet connection',
+                      emailAlreadyInUse: (message) => message ?? 'Email already in use',
+                      invalidEmailAndPasswordCombination: (message) => message ?? 'Invalid email or password',
+                      serverError: (message) => message ?? 'Server error',
+                      orElse: () => 'An error occurred',
+                    ),
                   ),
+                  backgroundColor: AppColors.error,
                 ),
-                backgroundColor: AppColors.error,
-              ),
-            );
-          }
-        },
-      );
-    });
+              );
+            }
+          },
+        );
+      })
+      ..listen(authOAuthStateProvider, (previous, next) {
+        if (next.oauthProvidersFailure == null || previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
+          return;
+        }
+
+        final message = next.oauthProvidersFailure!.maybeWhen(
+          networkError: (_) => 'No internet connection',
+          oauthProviderUnavailable: (value) => value ?? 'OAuth provider is unavailable',
+          oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
+          oauthStateInvalidOrExpired: (value) => value ?? 'OAuth session expired, try again',
+          unsupportedOAuthProvider: (value) => value ?? 'Unsupported OAuth provider',
+          oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
+          serverError: (value) => value ?? 'Server error',
+          orElse: () => 'OAuth sign in failed',
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message), backgroundColor: AppColors.error),
+        );
+      });
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
@@ -101,14 +126,14 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                 const SizedBox(height: AppSpacing.xxl),
                 AppSpacing.gapLg,
                 AuthTextField(
-                  label: 'Email',
-                  hint: 'Enter your email',
-                  controller: _emailController,
+                  label: 'Email or Username',
+                  hint: 'Enter your email or username',
+                  controller: _identifierController,
                   onChanged: (value) {
-                    ref.read(loginFormProvider.notifier).emailChanged(value);
+                    ref.read(loginFormProvider.notifier).identifierChanged(value);
                   },
-                  errorText: formState.showErrorMessages ? formState.emailFailure?.toMessage() : null,
-                  keyboardType: TextInputType.emailAddress,
+                  errorText: formState.showErrorMessages ? formState.identifierFailure?.toMessage() : null,
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                 ),
                 AppSpacing.gapLg,
@@ -141,6 +166,17 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                   isLoading: formState.isSubmitting,
                   onPressed: () {
                     unawaited(ref.read(loginFormProvider.notifier).submit());
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                OAuthProviderSection(
+                  providers: oauthState.oauthProviders,
+                  isLoading: oauthState.isLoadingOAuthProviders,
+                  isDisabled: oauthState.oauthInProgress,
+                  onProviderTap: (provider) {
+                    unawaited(
+                      ref.read(authProvider.notifier).startOAuthLogin(provider.name),
+                    );
                   },
                 ),
                 const SizedBox(height: AppSpacing.lg),

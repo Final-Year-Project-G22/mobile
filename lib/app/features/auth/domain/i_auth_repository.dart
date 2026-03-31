@@ -11,10 +11,11 @@ abstract class IAuthRepository {
     required String password,
     required String firstName,
     required String lastName,
+    String? username,
   });
 
   Future<Either<AuthUserFailure, AuthResponse>> login({
-    required String email,
+    required String identifier,
     required String password,
   });
 

@@ -40,11 +40,17 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login({
+    required String identifier,
+    required String password,
+  }) async {
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
 
-    final result = await repository.login(email: email, password: password);
+    final result = await repository.login(
+      identifier: identifier,
+      password: password,
+    );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
       _applyAuthenticated,
@@ -56,6 +62,7 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
     required String firstName,
     required String lastName,
+    String? username,
   }) async {
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
@@ -65,6 +72,7 @@ class AuthNotifier extends _$AuthNotifier {
       password: password,
       firstName: firstName,
       lastName: lastName,
+      username: username,
     );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
@@ -171,6 +179,18 @@ class AuthNotifier extends _$AuthNotifier {
     final provider = _extractProviderFromCallback(uri);
     final code = uri.queryParameters['code'];
     final stateParam = uri.queryParameters['state'];
+    final error = uri.queryParameters['error'];
+
+    if (error != null && error.trim().isNotEmpty) {
+      final message =
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+      _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
+      state = AsyncValue.error(
+        AuthUserFailure.oauthCallbackInvalid(message: message),
+        StackTrace.current,
+      );
+      return;
+    }
 
     final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
     oauthStateNotifier.state = oauthStateNotifier.state.copyWith(

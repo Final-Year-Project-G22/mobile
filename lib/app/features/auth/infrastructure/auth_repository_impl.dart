@@ -23,6 +23,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String password,
     required String firstName,
     required String lastName,
+    String? username,
   }) async {
     try {
       final httpResponse = await _client.register(
@@ -31,6 +32,7 @@ class AuthRepositoryImpl implements IAuthRepository {
           password: password,
           firstName: firstName,
           lastName: lastName,
+          username: username,
         ),
       );
 
@@ -65,12 +67,12 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<Either<AuthUserFailure, AuthResponse>> login({
-    required String email,
+    required String identifier,
     required String password,
   }) async {
     try {
       final httpResponse = await _client.login(
-        body: LoginRequest(email: email, password: password),
+        body: LoginRequest(identifier: identifier, password: password),
       );
 
       final refreshToken = _extractRefreshToken(httpResponse.response.headers);
