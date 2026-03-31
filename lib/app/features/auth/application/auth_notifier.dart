@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/di/auth_providers.dart';
@@ -152,24 +152,66 @@ class AuthNotifier extends _$AuthNotifier {
     );
 
     try {
-      final launched = await launchUrl(
-        AppConfig.buildOAuthLoginUri(provider),
-        mode: LaunchMode.externalApplication,
+      final initiateUrl = AppConfig.buildOAuthLoginUri(provider);
+      final callbackUrlScheme = AppConfig.oauthCallbackScheme;
+
+      final result = await FlutterWebAuth2.authenticate(
+        url: initiateUrl.toString(),
+        callbackUrlScheme: callbackUrlScheme,
       );
 
-      if (launched) {
-        return;
+      final callbackUri = Uri.parse(result);
+      await _processOAuthCallback(callbackUri);
+    } on Exception catch (e) {
+      if (e.toString().contains('cancelled') || e.toString().contains('canceled')) {
+        _setOAuthFailure(
+          const AuthUserFailure.oauthCancelled(
+            message: 'OAuth sign in was cancelled',
+          ),
+        );
+      } else {
+        _setOAuthFailure(
+          AuthUserFailure.oauthProviderUnavailable(
+            message: e.toString(),
+          ),
+        );
       }
+    }
+  }
 
-      _setOAuthFailure(
-        const AuthUserFailure.oauthProviderUnavailable(
-          message: 'Unable to open browser for OAuth sign in',
-        ),
+  Future<void> _processOAuthCallback(Uri uri) async {
+    final accessToken = uri.queryParameters['access_token'];
+    final refreshToken = uri.queryParameters['refresh_token'];
+    final expiresAt = uri.queryParameters['expires_at'];
+    final error = uri.queryParameters['error'];
+    final emailRequired = uri.queryParameters['email_required'] == 'true';
+
+    if (error != null && error.isNotEmpty) {
+      final message =
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+      _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
+      return;
+    }
+
+    if (emailRequired) {
+      final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+      oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+        oauthInProgress: false,
+        pendingOAuthEmail: null,
       );
-    } on Exception {
+      return;
+    }
+
+    if (accessToken != null && accessToken.isNotEmpty) {
+      await completeOAuthFromDeepLink(
+        accessToken: accessToken,
+        refreshToken: refreshToken ?? '',
+        expiresAt: expiresAt ?? '',
+      );
+    } else {
       _setOAuthFailure(
-        const AuthUserFailure.oauthProviderUnavailable(
-          message: 'Unable to open browser for OAuth sign in',
+        const AuthUserFailure.serverError(
+          message: 'No access token received from OAuth provider',
         ),
       );
     }
