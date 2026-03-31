@@ -11,6 +11,20 @@ final authOAuthStateProvider = NotifierProvider<AuthOAuthStateNotifier, AuthOAut
 class AuthOAuthStateNotifier extends Notifier<AuthOAuthState> {
   @override
   AuthOAuthState build() => const AuthOAuthState();
+
+  void clearPendingEmailAndInProgress() {
+    state = state.copyWith(
+      pendingOAuthEmail: null,
+      oauthInProgress: false,
+    );
+  }
+
+  void setError(AuthUserFailure failure) {
+    state = state.copyWith(
+      oauthProvidersFailure: failure,
+      oauthInProgress: false,
+    );
+  }
 }
 
 class AuthOAuthState {

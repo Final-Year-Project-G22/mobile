@@ -197,6 +197,33 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
+  Future<Either<AuthUserFailure, AuthResponse>> getCurrentUser() async {
+    try {
+      final httpResponse = await _client.getCurrentUser();
+      return Right(
+        AuthResponse(
+          accessToken: '',
+          expiresAt: DateTime.now(),
+          user: AuthUser(
+            id: httpResponse.data.user.id,
+            firstName: httpResponse.data.user.firstName,
+            lastName: httpResponse.data.user.lastName,
+          ),
+          account: AuthAccount(
+            id: httpResponse.data.account.id,
+            email: httpResponse.data.account.email,
+            status: httpResponse.data.account.status,
+          ),
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(AuthUserFailure.serverError());
+    }
+  }
+
+  @override
   Future<Either<AuthUserFailure, Unit>> logout() async {
     try {
       await _client.logout();

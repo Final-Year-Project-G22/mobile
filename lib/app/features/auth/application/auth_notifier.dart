@@ -208,6 +208,43 @@ class AuthNotifier extends _$AuthNotifier {
     _handleOAuthCallbackResult(result);
   }
 
+  Future<void> completeOAuthFromDeepLink({
+    required String accessToken,
+    required String refreshToken,
+    required String expiresAt,
+    bool isNewUser = false,
+  }) async {
+    final apiClient = ref.read(apiClientProvider);
+    final parsedExpiresAt = DateTime.tryParse(expiresAt);
+    if (parsedExpiresAt == null) {
+      _setOAuthFailure(
+        const AuthUserFailure.serverError(
+          message: 'Invalid expiresAt format in OAuth redirect',
+        ),
+      );
+      return;
+    }
+
+    await apiClient.setTokens(
+      accessToken,
+      refreshToken.isEmpty ? null : refreshToken,
+      expiresAt: parsedExpiresAt,
+    );
+
+    final repository = ref.read(authRepositoryProvider);
+    final userResult = await repository.getCurrentUser();
+    userResult.fold(
+      (_) {
+        _setOAuthFailure(
+          const AuthUserFailure.serverError(
+            message: 'Unable to fetch user profile after OAuth login',
+          ),
+        );
+      },
+      _applyAuthenticated,
+    );
+  }
+
   Future<void> completeOAuthEmail({
     required String email,
     required String state,

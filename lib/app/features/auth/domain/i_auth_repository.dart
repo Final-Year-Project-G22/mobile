@@ -31,7 +31,7 @@ abstract class IAuthRepository {
     required String email,
     required String state,
   });
-
+  Future<Either<AuthUserFailure, AuthResponse>> getCurrentUser();
   Future<Either<AuthUserFailure, Unit>> logout();
 
   Future<Either<AuthUserFailure, Unit>> logoutAll();
