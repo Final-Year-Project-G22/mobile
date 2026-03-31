@@ -44,24 +44,39 @@ flutter pub get
 # 3. Install api_client dependencies
 cd api_client && flutter pub get && cd ..
 
-# 4. Create the environment file
-cp assets/.env.example assets/.env  # or create manually (see below)
+# 4. Configure environment files (see below)
 
 # 5. Run the app
 flutter run
 ```
 
-### Environment File
+### Environment Files
 
-Create `assets/.env` with your backend API base URL:
+The app loads one of these files based on `--dart-define=ENV=<value>`:
+
+- `assets/.env` (default, `ENV=local`)
+- `assets/.env.development` (`ENV=development`)
+- `assets/.env.production` (`ENV=production`)
+
+Minimum required keys:
 
 ```
 API_BASE_URL=http://10.0.2.2:3000
+OAUTH_CALLBACK_SCHEME=adisu
+OAUTH_CALLBACK_HOST=auth
+OAUTH_CALLBACK_PATH=/oauth/callback
 ```
 
 > `10.0.2.2` is the host machine's localhost when using the Android emulator. Use your machine's IP for physical devices.
 
-This file is gitignored and will not be committed.
+OAuth callback URI is composed as:
+
+```
+<OAUTH_CALLBACK_SCHEME>://<OAUTH_CALLBACK_HOST><OAUTH_CALLBACK_PATH>
+# Example: adisu://auth/oauth/callback
+```
+
+> `ENV` defaults to `local` when not provided.
 
 ---
 
@@ -73,23 +88,23 @@ mobile/
 │   ├── main.dart                          # App entry point
 │   ├── app/
 │   │   ├── app.dart                       # Root MaterialApp.router
+│   │   ├── features/
+│   │   │   ├── splash/                    # Splash screen
+│   │   │   └── auth/                      # Auth feature (DDD layers)
+│   │   │       ├── domain/                # Entities, failures, value objects, interfaces
+│   │   │       ├── application/           # StateNotifier, state
+│   │   │       ├── infrastructure/        # Repository impl (uses API client)
+│   │   │       └── presentation/          # Pages + widgets
 │   │   ├── router/app_router.dart         # GoRouter routes + auth redirects
 │   │   ├── theme/app_theme.dart           # Light/dark ThemeData
 │   │   └── constants/                     # Colors, typography, spacing
 │   ├── core/
 │   │   ├── config/app_constants.dart      # App name, version, timeouts
-│   │   ├── di/providers.dart              # All Riverpod providers (DI hub)
+│   │   ├── di/                            # Riverpod providers (DI hub)
 │   │   ├── auth/token_storage.dart        # Secure token persistence
 │   │   ├── network/app_network_info.dart  # Connectivity checker
 │   │   ├── errors/                        # Failure + exception hierarchies
 │   │   └── l10n/                          # ARB files + generated localizations
-│   ├── features/
-│   │   ├── splash/                        # Splash screen
-│   │   └── auth/                          # Auth feature (DDD layers)
-│   │       ├── domain/                    # Entities, failures, value objects, interfaces
-│   │       ├── application/               # StateNotifier, state
-│   │       ├── infrastructure/            # Repository impl (uses API client)
-│   │       └── presentation/              # Pages + widgets
 │   └── shared/
 │       └── utils/                         # Extensions + formatters
 │
@@ -373,7 +388,7 @@ Follow this step-by-step guide using the existing `auth` feature as a template.
 Create the pure business logic with no framework dependencies.
 
 ```
-lib/features/<feature_name>/domain/
+lib/app/features/<feature_name>/domain/
 ├── entities/
 │   └── <entity>.dart              # Domain entities (plain Dart classes)
 ├── failures/
@@ -413,7 +428,7 @@ abstract class IAuthRepository {
 Create the notifier (state management). The notifier calls the repository directly — no facade needed.
 
 ```
-lib/features/<feature_name>/application/
+lib/app/features/<feature_name>/application/
 ├── <feature>_notifier.dart        # @riverpod notifier managing UI state
 └── <feature>_state.dart           # Freezed immutable state class (if needed)
 ```
@@ -435,7 +450,7 @@ sealed class AuthState with _$AuthState {
 Implement the repository using the generated API client.
 
 ```
-lib/features/<feature_name>/infrastructure/
+lib/app/features/<feature_name>/infrastructure/
 └── <feature>_repository_impl.dart
 ```
 
@@ -474,7 +489,7 @@ class AuthRepositoryImpl implements IAuthRepository {
 Create pages and widgets that consume state via Riverpod.
 
 ```
-lib/features/<feature_name>/presentation/
+lib/app/features/<feature_name>/presentation/
 ├── pages/
 │   └── <feature>_page.dart
 └── widgets/
