@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/pages/login_page.dart';
-import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/oauth_callback_page.dart';
 import '../features/auth/presentation/pages/oauth_complete_email_page.dart';
+import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
@@ -66,8 +66,7 @@ class MainAppShellRoute extends ShellRouteData {
   const MainAppShellRoute();
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
-      const HomeShellPage();
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) => const HomeShellPage();
 }
 
 @TypedGoRoute<ProfileRoute>(path: '/profile')
