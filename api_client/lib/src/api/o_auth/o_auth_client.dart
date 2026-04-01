@@ -21,9 +21,19 @@ abstract class OAuthClient {
 
   /// OAuth callback.
   ///
-  /// Handles the OAuth callback from the provider.
+  /// Handles the OAuth callback from the provider. Returns JSON response.
   @GET('/api/v1/auth/oauth/callback/{provider}')
   Future<HttpResponse<OAuthCallbackResponse>> oauthCallback({
+    @Path('provider') required String provider,
+    @Query('code') String? code,
+    @Query('state') String? state,
+  });
+
+  /// OAuth callback for mobile.
+  ///
+  /// Handles the OAuth callback and returns HTTP 302 redirect to mobile deep-link.
+  @GET('/api/v1/auth/oauth/callback/{provider}/mobile')
+  Future<HttpResponse<void>> oauthCallbackMobile({
     @Path('provider') required String provider,
     @Query('code') String? code,
     @Query('state') String? state,

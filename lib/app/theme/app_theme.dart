@@ -43,12 +43,22 @@ class AppTheme {
         side: const BorderSide(color: AppColors.borderLight),
       ),
     ),
-    dividerTheme: const DividerThemeData(color: AppColors.borderLight, thickness: 1, space: 1),
+    dividerTheme: const DividerThemeData(
+      color: AppColors.borderLight,
+      thickness: 1,
+      space: 1,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.inputFillLight,
-      border: OutlineInputBorder(borderRadius: AppSpacing.borderRadiusMd, borderSide: BorderSide.none),
-      enabledBorder: OutlineInputBorder(borderRadius: AppSpacing.borderRadiusMd, borderSide: BorderSide.none),
+      border: OutlineInputBorder(
+        borderRadius: AppSpacing.borderRadiusMd,
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: AppSpacing.borderRadiusMd,
+        borderSide: BorderSide.none,
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: AppSpacing.borderRadiusMd,
         borderSide: const BorderSide(color: AppColors.accent, width: 2),
@@ -61,7 +71,10 @@ class AppTheme {
         borderRadius: AppSpacing.borderRadiusMd,
         borderSide: const BorderSide(color: AppColors.error, width: 2),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
       hintStyle: const TextStyle(color: AppColors.textHintLight),
       labelStyle: const TextStyle(color: AppColors.textLabelLight),
     ),
@@ -131,7 +144,11 @@ class AppTheme {
         side: const BorderSide(color: AppColors.borderDark),
       ),
     ),
-    dividerTheme: const DividerThemeData(color: AppColors.borderDark, thickness: 1, space: 1),
+    dividerTheme: const DividerThemeData(
+      color: AppColors.borderDark,
+      thickness: 1,
+      space: 1,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.inputFillDark,
@@ -155,7 +172,10 @@ class AppTheme {
         borderRadius: AppSpacing.borderRadiusMd,
         borderSide: const BorderSide(color: AppColors.error, width: 2),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
       hintStyle: const TextStyle(color: AppColors.textHintDark),
       labelStyle: const TextStyle(color: AppColors.textLabelDark),
     ),

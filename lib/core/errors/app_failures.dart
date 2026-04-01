@@ -18,7 +18,11 @@ class AuthFailure extends Failure {
 }
 
 class ValidationFailure extends Failure {
-  const ValidationFailure({required super.message, super.code, this.fieldErrors});
+  const ValidationFailure({
+    required super.message,
+    super.code,
+    this.fieldErrors,
+  });
   final Map<String, String>? fieldErrors;
 }
 

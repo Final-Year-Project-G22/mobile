@@ -11,6 +11,7 @@ part 'auth_providers.g.dart';
 IAuthRepository authRepository(Ref ref) {
   final apiClient = ref.read(apiClientProvider);
   final dio = apiClient.dio;
-  final client = AuthenticationClient(dio);
-  return AuthRepositoryImpl(client, apiClient);
+  final authClient = AuthenticationClient(dio);
+  final oauthClient = OAuthClient(dio);
+  return AuthRepositoryImpl(authClient, oauthClient, apiClient);
 }

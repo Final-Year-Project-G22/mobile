@@ -26,7 +26,7 @@ abstract class AuthenticationClient {
 
   /// Log in a user.
   ///
-  /// Authenticates a user with email and password, returns authentication tokens.
+  /// Authenticates a user with email or username and password, returns authentication tokens.
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/login')

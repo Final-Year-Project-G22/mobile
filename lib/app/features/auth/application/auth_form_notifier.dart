@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,11 +11,11 @@ part 'auth_form_notifier.g.dart';
 @freezed
 abstract class LoginFormState with _$LoginFormState {
   const factory LoginFormState({
-    @Default('') String email,
+    @Default('') String identifier,
     @Default('') String password,
     @Default(false) bool isSubmitting,
     @Default(false) bool showErrorMessages,
-    AuthValueFailure<String>? emailFailure,
+    AuthValueFailure<String>? identifierFailure,
     AuthValueFailure<String>? passwordFailure,
   }) = _LoginFormState;
 }
@@ -27,14 +25,20 @@ class LoginFormNotifier extends _$LoginFormNotifier {
   @override
   LoginFormState build() => const LoginFormState();
 
-  void emailChanged(String value) {
-    final result = validateEmail(value);
-    state = state.copyWith(email: value, emailFailure: result.fold((l) => l, (r) => null));
+  void identifierChanged(String value) {
+    final result = validateIdentifier(value);
+    state = state.copyWith(
+      identifier: value,
+      identifierFailure: result.fold((l) => l, (r) => null),
+    );
   }
 
   void passwordChanged(String value) {
     final result = validatePassword(value);
-    state = state.copyWith(password: value, passwordFailure: result.fold((l) => l, (r) => null));
+    state = state.copyWith(
+      password: value,
+      passwordFailure: result.fold((l) => l, (r) => null),
+    );
   }
 
   void reset() {
@@ -44,20 +48,21 @@ class LoginFormNotifier extends _$LoginFormNotifier {
   Future<void> submit() async {
     state = state.copyWith(showErrorMessages: true);
 
-    // Validate all fields
-    final emailResult = validateEmail(state.email);
+    final identifierResult = validateIdentifier(state.identifier);
     final passwordResult = validatePassword(state.password);
 
     state = state.copyWith(
-      emailFailure: emailResult.fold((l) => l, (r) => null),
+      identifierFailure: identifierResult.fold((l) => l, (r) => null),
       passwordFailure: passwordResult.fold((l) => l, (r) => null),
     );
 
-    if (state.emailFailure != null || state.passwordFailure != null) return;
+    if (state.identifierFailure != null || state.passwordFailure != null) {
+      return;
+    }
 
     state = state.copyWith(isSubmitting: true);
 
-    await ref.read(authProvider.notifier).login(email: state.email, password: state.password);
+    await ref.read(authProvider.notifier).login(identifier: state.identifier, password: state.password);
 
     state = state.copyWith(isSubmitting: false);
   }
@@ -72,12 +77,14 @@ abstract class RegisterFormState with _$RegisterFormState {
     @Default('') String password,
     @Default('') String firstName,
     @Default('') String lastName,
+    @Default('') String username,
     @Default(false) bool isSubmitting,
     @Default(false) bool showErrorMessages,
     AuthValueFailure<String>? emailFailure,
     AuthValueFailure<String>? passwordFailure,
     AuthValueFailure<String>? firstNameFailure,
     AuthValueFailure<String>? lastNameFailure,
+    AuthValueFailure<String>? usernameFailure,
   }) = _RegisterFormState;
 }
 
@@ -88,22 +95,42 @@ class RegisterFormNotifier extends _$RegisterFormNotifier {
 
   void emailChanged(String value) {
     final result = validateEmail(value);
-    state = state.copyWith(email: value, emailFailure: result.fold((f) => f, (_) => null));
+    state = state.copyWith(
+      email: value,
+      emailFailure: result.fold((f) => f, (_) => null),
+    );
   }
 
   void passwordChanged(String value) {
     final result = validatePassword(value);
-    state = state.copyWith(password: value, passwordFailure: result.fold((f) => f, (_) => null));
+    state = state.copyWith(
+      password: value,
+      passwordFailure: result.fold((f) => f, (_) => null),
+    );
   }
 
   void firstNameChanged(String value) {
     final result = validateFirstName(value);
-    state = state.copyWith(firstName: value, firstNameFailure: result.fold((f) => f, (_) => null));
+    state = state.copyWith(
+      firstName: value,
+      firstNameFailure: result.fold((f) => f, (_) => null),
+    );
   }
 
   void lastNameChanged(String value) {
     final result = validateLastName(value);
-    state = state.copyWith(lastName: value, lastNameFailure: result.fold((f) => f, (_) => null));
+    state = state.copyWith(
+      lastName: value,
+      lastNameFailure: result.fold((f) => f, (_) => null),
+    );
+  }
+
+  void usernameChanged(String value) {
+    final result = validateUsername(value.isEmpty ? null : value);
+    state = state.copyWith(
+      username: value,
+      usernameFailure: result.fold((f) => f, (_) => null),
+    );
   }
 
   void reset() {
@@ -113,24 +140,27 @@ class RegisterFormNotifier extends _$RegisterFormNotifier {
   Future<void> submit() async {
     state = state.copyWith(showErrorMessages: true);
 
-    log('submit called');
-
     final emailResult = validateEmail(state.email);
     final passwordResult = validatePassword(state.password);
     final firstNameResult = validateFirstName(state.firstName);
     final lastNameResult = validateLastName(state.lastName);
+    final usernameResult = validateUsername(
+      state.username.isEmpty ? null : state.username,
+    );
 
     state = state.copyWith(
       emailFailure: emailResult.fold((f) => f, (_) => null),
       passwordFailure: passwordResult.fold((f) => f, (_) => null),
       firstNameFailure: firstNameResult.fold((f) => f, (_) => null),
       lastNameFailure: lastNameResult.fold((f) => f, (_) => null),
+      usernameFailure: usernameResult.fold((f) => f, (_) => null),
     );
 
     if (state.emailFailure != null ||
         state.passwordFailure != null ||
         state.firstNameFailure != null ||
-        state.lastNameFailure != null) {
+        state.lastNameFailure != null ||
+        state.usernameFailure != null) {
       return;
     }
 
@@ -138,7 +168,13 @@ class RegisterFormNotifier extends _$RegisterFormNotifier {
 
     await ref
         .read(authProvider.notifier)
-        .register(email: state.email, password: state.password, firstName: state.firstName, lastName: state.lastName);
+        .register(
+          email: state.email,
+          password: state.password,
+          firstName: state.firstName,
+          lastName: state.lastName,
+          username: state.username.isEmpty ? null : state.username,
+        );
 
     state = state.copyWith(isSubmitting: false);
   }

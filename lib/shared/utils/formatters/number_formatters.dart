@@ -4,7 +4,10 @@ class NumberFormatters {
   NumberFormatters._();
 
   static final _decimal = NumberFormat('#,##0.##');
-  static final _currency = NumberFormat.currency(symbol: r'$', decimalDigits: 2);
+  static final _currency = NumberFormat.currency(
+    symbol: r'$',
+    decimalDigits: 2,
+  );
   static final _percent = NumberFormat.percentPattern();
   static final _currencyCompact = NumberFormat.compactCurrency(symbol: r'$');
 

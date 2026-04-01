@@ -8,7 +8,10 @@ import 'environments.dart';
 class AppConfig {
   AppConfig._();
 
-  static const _envString = String.fromEnvironment('ENV', defaultValue: 'local');
+  static const _envString = String.fromEnvironment(
+    'ENV',
+    defaultValue: 'local',
+  );
 
   // Environment
   static Environments get environment => Environments.fromString(_envString);
@@ -21,18 +24,46 @@ class AppConfig {
   static bool get isAndroid => !kIsWeb && Platform.isAndroid;
   static bool get isIOS => !kIsWeb && Platform.isIOS;
 
+  static String _requireEnv(String key) {
+    final value = dotenv.env[key]?.trim();
+    if (value == null || value.isEmpty) {
+      throw Exception('$key not set in environment variables');
+    }
+    return value;
+  }
+
   // API URL
   static String get apiBaseUrl {
-    final baseUrl = dotenv.env['API_BASE_URL'];
-    if (baseUrl == null) {
-      throw Exception('API_BASE_URL not set in environment variables');
-    }
+    final baseUrl = _requireEnv('API_BASE_URL');
 
     if (isAndroid && baseUrl.contains('localhost')) {
       return baseUrl.replaceFirst('localhost', '10.0.2.2');
     }
 
     return baseUrl;
+  }
+
+  static String get oauthCallbackScheme => _requireEnv('OAUTH_CALLBACK_SCHEME').toLowerCase();
+
+  static String get oauthCallbackHost => _requireEnv('OAUTH_CALLBACK_HOST');
+
+  static String get oauthCallbackPath {
+    final path = _requireEnv('OAUTH_CALLBACK_PATH');
+    return path.startsWith('/') ? path : '/$path';
+  }
+
+  static Uri get oauthCallbackUri {
+    final normalizedPath = oauthCallbackPath.startsWith('/') ? oauthCallbackPath.substring(1) : oauthCallbackPath;
+    return Uri(
+      scheme: oauthCallbackScheme,
+      host: oauthCallbackHost,
+      path: normalizedPath,
+    );
+  }
+
+  static Uri buildOAuthLoginUri(String provider) {
+    final base = Uri.parse(apiBaseUrl);
+    return base.resolve('/api/v1/auth/oauth/login/$provider');
   }
 
   // App Info

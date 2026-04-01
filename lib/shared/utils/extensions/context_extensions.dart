@@ -14,7 +14,11 @@ extension ContextExtensions on BuildContext {
   bool get isKeyboardVisible => viewInsets.bottom > 0;
   bool get isDarkMode => theme.brightness == Brightness.dark;
 
-  void showSnackBar(String message, {bool isError = false, Duration? duration}) {
+  void showSnackBar(
+    String message, {
+    bool isError = false,
+    Duration? duration,
+  }) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -39,7 +43,11 @@ extension ContextExtensions on BuildContext {
       SnackBar(
         content: Row(
           children: [
-            const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
             const SizedBox(width: 16),
             Text(message),
           ],

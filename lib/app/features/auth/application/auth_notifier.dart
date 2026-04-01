@@ -1,8 +1,17 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/di/auth_providers.dart';
 import '../../../../core/di/infra_providers.dart';
+import '../domain/entities/auth_response.dart';
 import '../domain/entities/auth_status.dart';
+import '../domain/entities/oauth_callback_result.dart';
+import '../domain/entities/oauth_pending_email.dart';
+import '../domain/failures/auth_user_failure.dart';
+import '../domain/validator/auth_value_object_validator.dart';
+import 'auth_oauth_state.dart';
 
 part 'auth_notifier.g.dart';
 
@@ -28,22 +37,24 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> forceLogout() async {
     final apiClient = ref.read(apiClientProvider);
     await apiClient.clearTokens();
+    _clearOAuthTransientState();
     state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login({
+    required String identifier,
+    required String password,
+  }) async {
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
 
-    final result = await repository.login(email: email, password: password);
+    final result = await repository.login(
+      identifier: identifier,
+      password: password,
+    );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) => state = AsyncValue.data(
-        AuthStatus.authenticated(
-          user: authResponse.user,
-          account: authResponse.account,
-        ),
-      ),
+      _applyAuthenticated,
     );
   }
 
@@ -52,6 +63,7 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
     required String firstName,
     required String lastName,
+    String? username,
   }) async {
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
@@ -61,10 +73,25 @@ class AuthNotifier extends _$AuthNotifier {
       password: password,
       firstName: firstName,
       lastName: lastName,
+      username: username,
     );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) => state = const AsyncValue.data(AuthStatus.pendingVerification()),
+      (authResponse) {
+        final accountStatus = authResponse.account.status.trim().toLowerCase();
+        final isPendingVerification =
+            accountStatus == 'pending_verification' ||
+            accountStatus == 'pending-verification' ||
+            accountStatus == 'pending verification' ||
+            accountStatus == 'pending';
+
+        if (isPendingVerification) {
+          state = const AsyncValue.data(AuthStatus.pendingVerification());
+          return;
+        }
+
+        _applyAuthenticated(authResponse);
+      },
     );
   }
 
@@ -83,7 +110,314 @@ class AuthNotifier extends _$AuthNotifier {
     final result = await repository.logout();
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (_) => state = const AsyncValue.data(AuthStatus.unauthenticated()),
+      (_) {
+        _clearOAuthTransientState();
+        state = const AsyncValue.data(AuthStatus.unauthenticated());
+      },
+    );
+  }
+
+  Future<void> loadOAuthProviders() async {
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      isLoadingOAuthProviders: true,
+      oauthProvidersFailure: null,
+    );
+
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.getOAuthProviders();
+
+    result.fold(
+      (failure) {
+        oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+          isLoadingOAuthProviders: false,
+          oauthProvidersFailure: failure,
+        );
+      },
+      (providers) {
+        oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+          oauthProviders: providers,
+          isLoadingOAuthProviders: false,
+          oauthProvidersFailure: null,
+        );
+      },
+    );
+  }
+
+  Future<bool> startOAuthLogin(String provider) async {
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      oauthInProgress: true,
+      oauthProvidersFailure: null,
+      pendingOAuthEmail: null,
+    );
+
+    try {
+      final initiateUrl = AppConfig.buildOAuthLoginUri(provider);
+      final callbackUrlScheme = AppConfig.oauthCallbackScheme;
+
+      final result = await FlutterWebAuth2.authenticate(
+        url: initiateUrl.toString(),
+        callbackUrlScheme: callbackUrlScheme,
+        options: const FlutterWebAuth2Options(
+          preferEphemeral: true,
+          intentFlags: ephemeralIntentFlags,
+        ),
+      );
+
+      final callbackUri = Uri.parse(result);
+      final ok = await _processOAuthCallback(callbackUri);
+
+      oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+        oauthInProgress: false,
+      );
+      return ok;
+    } on Exception catch (e) {
+      if (e.toString().contains('cancelled') || e.toString().contains('canceled')) {
+        _setOAuthFailure(
+          const AuthUserFailure.oauthCancelled(
+            message: 'OAuth sign in was cancelled',
+          ),
+        );
+      } else {
+        _setOAuthFailure(
+          AuthUserFailure.oauthProviderUnavailable(
+            message: e.toString(),
+          ),
+        );
+      }
+      return false;
+    }
+  }
+
+  Future<bool> _processOAuthCallback(Uri uri) async {
+    final accessToken = uri.queryParameters['access_token'];
+    final refreshToken = uri.queryParameters['refresh_token'];
+    final expiresAt = uri.queryParameters['expires_at'];
+    final error = uri.queryParameters['error'];
+    final emailRequired = uri.queryParameters['email_required'] == 'true';
+
+    if (error != null && error.isNotEmpty) {
+      final message =
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+      _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
+      return false;
+    }
+
+    if (emailRequired) {
+      final provider = uri.queryParameters['provider'] ?? '';
+      final stateValue = uri.queryParameters['state'] ?? '';
+      final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+      oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+        oauthInProgress: false,
+        pendingOAuthEmail: OAuthPendingEmail(
+          firstName: '',
+          lastName: '',
+          name: '',
+          provider: provider,
+          state: stateValue,
+          subject: '',
+        ),
+      );
+      return false;
+    }
+
+    if (accessToken != null && accessToken.isNotEmpty) {
+      await completeOAuthFromDeepLink(
+        accessToken: accessToken,
+        refreshToken: refreshToken ?? '',
+        expiresAt: expiresAt ?? '',
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 120));
+      return state.value?.isAuthenticated ?? false;
+    } else {
+      _setOAuthFailure(
+        const AuthUserFailure.serverError(
+          message: 'No access token received from OAuth provider',
+        ),
+      );
+      return false;
+    }
+  }
+
+  Future<void> handleOAuthDeepLink(Uri uri) async {
+    final provider = _extractProviderFromCallback(uri);
+    final code = uri.queryParameters['code'];
+    final stateParam = uri.queryParameters['state'];
+    final error = uri.queryParameters['error'];
+
+    if (error != null && error.trim().isNotEmpty) {
+      final message =
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+      _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
+      state = AsyncValue.error(
+        AuthUserFailure.oauthCallbackInvalid(message: message),
+        StackTrace.current,
+      );
+      return;
+    }
+
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      oauthInProgress: true,
+      oauthProvidersFailure: null,
+    );
+
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.handleOAuthCallback(
+      provider: provider,
+      code: code,
+      state: stateParam,
+    );
+
+    _handleOAuthCallbackResult(result);
+  }
+
+  Future<void> completeOAuthFromDeepLink({
+    required String accessToken,
+    required String refreshToken,
+    required String expiresAt,
+    bool isNewUser = false,
+  }) async {
+    final apiClient = ref.read(apiClientProvider);
+    final parsedExpiresAt = DateTime.tryParse(expiresAt);
+    if (parsedExpiresAt == null) {
+      _setOAuthFailure(
+        const AuthUserFailure.serverError(
+          message: 'Invalid expiresAt format in OAuth redirect',
+        ),
+      );
+      return;
+    }
+
+    await apiClient.setTokens(
+      accessToken,
+      refreshToken.isEmpty ? null : refreshToken,
+      expiresAt: parsedExpiresAt,
+    );
+
+    final repository = ref.read(authRepositoryProvider);
+    final userResult = await repository.getCurrentUser();
+    userResult.fold(
+      (_) {
+        _setOAuthFailure(
+          const AuthUserFailure.serverError(
+            message: 'Unable to fetch user profile after OAuth login',
+          ),
+        );
+      },
+      _applyAuthenticated,
+    );
+  }
+
+  Future<void> completeOAuthEmail({
+    required String email,
+    required String state,
+  }) async {
+    final emailResult = validateEmail(email.trim());
+    if (emailResult.isLeft()) {
+      _setOAuthFailure(
+        const AuthUserFailure.oauthCallbackInvalid(
+          message: 'Please enter a valid email address',
+        ),
+      );
+      return;
+    }
+
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      oauthInProgress: true,
+      oauthProvidersFailure: null,
+    );
+
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.completeOAuthWithEmail(
+      email: email.trim(),
+      state: state,
+    );
+
+    _handleOAuthCallbackResult(result);
+  }
+
+  void _handleOAuthCallbackResult(
+    Either<AuthUserFailure, OAuthCallbackResult> result,
+  ) {
+    result.fold(
+      (failure) {
+        _setOAuthFailure(failure);
+        state = AsyncValue.error(failure, StackTrace.current);
+      },
+      (callbackResult) {
+        if (callbackResult.isAuthenticated && callbackResult.authResponse != null) {
+          _applyAuthenticated(callbackResult.authResponse!);
+          return;
+        }
+
+        if (callbackResult.isEmailRequired && callbackResult.pendingEmail != null) {
+          final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+          oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+            oauthInProgress: false,
+            pendingOAuthEmail: callbackResult.pendingEmail,
+          );
+          state = const AsyncValue.data(AuthStatus.unauthenticated());
+          return;
+        }
+
+        _setOAuthFailure(
+          const AuthUserFailure.serverError(
+            message: 'Invalid OAuth callback response',
+          ),
+        );
+        state = AsyncValue.error(
+          const AuthUserFailure.serverError(
+            message: 'Invalid OAuth callback response',
+          ),
+          StackTrace.current,
+        );
+      },
+    );
+  }
+
+  String _extractProviderFromCallback(Uri uri) {
+    final providerQuery = uri.queryParameters['provider'];
+    if (providerQuery != null && providerQuery.trim().isNotEmpty) {
+      return providerQuery.trim();
+    }
+
+    if (uri.pathSegments.isNotEmpty) {
+      final lastSegment = uri.pathSegments.last.trim();
+      if (lastSegment.isNotEmpty) {
+        return lastSegment;
+      }
+    }
+
+    return '';
+  }
+
+  void _applyAuthenticated(AuthResponse authResponse) {
+    _clearOAuthTransientState();
+    state = AsyncValue.data(
+      AuthStatus.authenticated(
+        user: authResponse.user,
+        account: authResponse.account,
+      ),
+    );
+  }
+
+  void _setOAuthFailure(AuthUserFailure failure) {
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      oauthInProgress: false,
+      oauthProvidersFailure: failure,
+    );
+  }
+
+  void _clearOAuthTransientState() {
+    final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
+    oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+      oauthInProgress: false,
+      oauthProvidersFailure: null,
+      pendingOAuthEmail: null,
     );
   }
 }

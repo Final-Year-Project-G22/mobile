@@ -52,21 +52,34 @@ class AuthTextField extends StatelessWidget {
           maxLines: maxLines,
           textCapitalization: textCapitalization,
           textInputAction: textInputAction,
-          style: TextStyle(fontSize: 16, color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+          style: TextStyle(
+            fontSize: 16,
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+          ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(fontSize: 16, color: isDark ? AppColors.textHintDark : AppColors.textHintLight),
+            hintStyle: TextStyle(
+              fontSize: 16,
+              color: isDark ? AppColors.textHintDark : AppColors.textHintLight,
+            ),
             suffixIcon: suffixIcon,
             filled: true,
             fillColor: isDark ? AppColors.inputFillDark : AppColors.inputFillLight,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: isDark ? AppColors.borderDark : AppColors.borderLight),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: isDark ? AppColors.borderDark : AppColors.borderLight),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
