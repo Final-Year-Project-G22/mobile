@@ -26,6 +26,5 @@ abstract class UserDto with _$UserDto {
     String? imageUrl,
   }) = _UserDto;
 
-  factory UserDto.fromJson(Map<String, Object?> json) =>
-      _$UserDtoFromJson(json);
+  factory UserDto.fromJson(Map<String, Object?> json) => _$UserDtoFromJson(json);
 }
