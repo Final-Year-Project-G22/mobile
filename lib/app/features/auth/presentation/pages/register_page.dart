@@ -122,145 +122,160 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: AppSpacing.xxl),
-                Text(
-                  'Create Account',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                  ),
-                ),
-                AppSpacing.gapVerticalXs,
-                Text(
-                  'Sign up to get started',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xxl),
-                AuthTextField(
-                  label: 'First Name',
-                  hint: 'Enter your first name',
-                  controller: _firstNameController,
-                  onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).firstNameChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.firstNameFailure?.toMessage() : null,
-                  textCapitalization: TextCapitalization.words,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Last Name',
-                  hint: 'Enter your last name',
-                  controller: _lastNameController,
-                  onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).lastNameChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.lastNameFailure?.toMessage() : null,
-                  textCapitalization: TextCapitalization.words,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Email',
-                  hint: 'Enter your email',
-                  controller: _emailController,
-                  onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).emailChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.emailFailure?.toMessage() : null,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Username (optional)',
-                  hint: 'Choose a username',
-                  controller: _usernameController,
-                  onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).usernameChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.usernameFailure?.toMessage() : null,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Password',
-                  hint: 'Enter your password',
-                  controller: _passwordController,
-                  onChanged: (value) {
-                    ref.read(registerFormProvider.notifier).passwordChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
-                  obscureText: _obscurePassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.done,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                AuthButton(
-                  text: 'Register',
-                  isLoading: formState.isSubmitting,
-                  onPressed: () {
-                    unawaited(ref.read(registerFormProvider.notifier).submit());
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                OAuthProviderSection(
-                  providers: oauthState.oauthProviders,
-                  isLoading: oauthState.isLoadingOAuthProviders,
-                  isDisabled: oauthState.oauthInProgress,
-                  onProviderTap: (provider) {
-                    unawaited(
-                      ref.read(authProvider.notifier).startOAuthLogin(provider.name),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: AppSpacing.xxl),
                     Text(
-                      'Already have an account? ',
+                      'Create Account',
                       style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                      ),
+                    ),
+                    AppSpacing.gapVerticalXs,
+                    Text(
+                      'Sign up to get started',
+                      style: TextStyle(
+                        fontSize: 16,
                         color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => const LoginRoute().go(context),
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: AppColors.accent,
-                          fontWeight: FontWeight.w600,
+                    const SizedBox(height: AppSpacing.xxl),
+                    AuthTextField(
+                      label: 'First Name',
+                      hint: 'Enter your first name',
+                      controller: _firstNameController,
+                      onChanged: (value) {
+                        ref.read(registerFormProvider.notifier).firstNameChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.firstNameFailure?.toMessage() : null,
+                      textCapitalization: TextCapitalization.words,
+                    ),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Last Name',
+                      hint: 'Enter your last name',
+                      controller: _lastNameController,
+                      onChanged: (value) {
+                        ref.read(registerFormProvider.notifier).lastNameChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.lastNameFailure?.toMessage() : null,
+                      textCapitalization: TextCapitalization.words,
+                    ),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Email',
+                      hint: 'Enter your email',
+                      controller: _emailController,
+                      onChanged: (value) {
+                        ref.read(registerFormProvider.notifier).emailChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.emailFailure?.toMessage() : null,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                    ),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Username (optional)',
+                      hint: 'Choose a username',
+                      controller: _usernameController,
+                      onChanged: (value) {
+                        ref.read(registerFormProvider.notifier).usernameChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.usernameFailure?.toMessage() : null,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                    ),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Password',
+                      hint: 'Enter your password',
+                      controller: _passwordController,
+                      onChanged: (value) {
+                        ref.read(registerFormProvider.notifier).passwordChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
+                      obscureText: _obscurePassword,
+                      keyboardType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                         ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
                       ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    AuthButton(
+                      text: 'Register',
+                      isLoading: formState.isSubmitting,
+                      onPressed: () {
+                        unawaited(
+                          ref.read(registerFormProvider.notifier).submit(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    OAuthProviderSection(
+                      providers: oauthState.oauthProviders,
+                      isLoading: oauthState.isLoadingOAuthProviders,
+                      isDisabled: oauthState.oauthInProgress,
+                      onProviderTap: (provider) {
+                        unawaited(
+                          ref.read(authProvider.notifier).startOAuthLogin(provider.name),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Already have an account? ',
+                          style: TextStyle(
+                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => const LoginRoute().go(context),
+                          child: const Text(
+                            'Sign In',
+                            style: TextStyle(
+                              color: AppColors.accent,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if (oauthState.oauthInProgress)
+            const Positioned.fill(
+              child: ColoredBox(
+                color: Colors.black54,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

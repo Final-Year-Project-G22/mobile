@@ -5,6 +5,9 @@ enum Environments {
   ;
 
   static Environments fromString(String value) {
-    return Environments.values.firstWhere((e) => e.name == value, orElse: () => Environments.local);
+    return Environments.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => Environments.local,
+    );
   }
 }

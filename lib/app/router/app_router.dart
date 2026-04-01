@@ -7,6 +7,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   final loginLocation = const LoginRoute().location;
   final registerLocation = const RegisterRoute().location;
   final otpLocation = const OtpVerificationRoute().location;
+  final splashLocation = const SplashRoute().location;
   final oauthCallbackLocation = const OAuthCallbackRoute().location;
   final oauthCompleteEmailLocation = const OAuthCompleteEmailRoute().location;
 
@@ -34,6 +35,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           return null;
         }
         return location == otpLocation ? null : otpLocation;
+      }
+
+      if (location == splashLocation) {
+        return isAuthenticated ? const HomeRoute().location : loginLocation;
       }
 
       if (!isAuthenticated) {

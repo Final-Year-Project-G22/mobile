@@ -22,12 +22,20 @@ class AppSpacing {
   static const EdgeInsets paddingXl = EdgeInsets.all(xl);
 
   // Horizontal padding
-  static const EdgeInsets paddingHorizontalMd = EdgeInsets.symmetric(horizontal: md);
-  static const EdgeInsets paddingHorizontalLg = EdgeInsets.symmetric(horizontal: lg);
+  static const EdgeInsets paddingHorizontalMd = EdgeInsets.symmetric(
+    horizontal: md,
+  );
+  static const EdgeInsets paddingHorizontalLg = EdgeInsets.symmetric(
+    horizontal: lg,
+  );
 
   // Vertical padding
-  static const EdgeInsets paddingVerticalMd = EdgeInsets.symmetric(vertical: md);
-  static const EdgeInsets paddingVerticalLg = EdgeInsets.symmetric(vertical: lg);
+  static const EdgeInsets paddingVerticalMd = EdgeInsets.symmetric(
+    vertical: md,
+  );
+  static const EdgeInsets paddingVerticalLg = EdgeInsets.symmetric(
+    vertical: lg,
+  );
 
   // Border radius
   static const double radiusXs = 4;
@@ -43,7 +51,9 @@ class AppSpacing {
   static final BorderRadius borderRadiusMd = BorderRadius.circular(radiusMd);
   static final BorderRadius borderRadiusLg = BorderRadius.circular(radiusLg);
   static final BorderRadius borderRadiusXl = BorderRadius.circular(radiusXl);
-  static final BorderRadius borderRadiusFull = BorderRadius.circular(radiusFull);
+  static final BorderRadius borderRadiusFull = BorderRadius.circular(
+    radiusFull,
+  );
 
   // Gap helpers for Column/Row
   static const SizedBox gapXxs = SizedBox(width: xxs, height: xxs);

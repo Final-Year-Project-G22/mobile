@@ -99,112 +99,127 @@ class _LogInPageState extends ConsumerState<LogInPage> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: AppSpacing.xxl),
-                Text(
-                  'LogIn',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                  ),
-                ),
-                AppSpacing.gapVerticalXs,
-                Text(
-                  'LogIn to get started',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xxl),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Email or Username',
-                  hint: 'Enter your email or username',
-                  controller: _identifierController,
-                  onChanged: (value) {
-                    ref.read(loginFormProvider.notifier).identifierChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.identifierFailure?.toMessage() : null,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                ),
-                AppSpacing.gapLg,
-                AuthTextField(
-                  label: 'Password',
-                  hint: 'Enter your password',
-                  controller: _passwordController,
-                  onChanged: (value) {
-                    ref.read(loginFormProvider.notifier).passwordChanged(value);
-                  },
-                  errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
-                  obscureText: _obscurePassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.done,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                AuthButton(
-                  text: 'Login',
-                  isLoading: formState.isSubmitting,
-                  onPressed: () {
-                    unawaited(ref.read(loginFormProvider.notifier).submit());
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                OAuthProviderSection(
-                  providers: oauthState.oauthProviders,
-                  isLoading: oauthState.isLoadingOAuthProviders,
-                  isDisabled: oauthState.oauthInProgress,
-                  onProviderTap: (provider) {
-                    unawaited(
-                      ref.read(authProvider.notifier).startOAuthLogin(provider.name),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: AppSpacing.xxl),
                     Text(
-                      "Don't have an account? ",
+                      'LogIn',
                       style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                      ),
+                    ),
+                    AppSpacing.gapVerticalXs,
+                    Text(
+                      'LogIn to get started',
+                      style: TextStyle(
+                        fontSize: 16,
                         color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => const RegisterRoute().go(context),
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          color: AppColors.accent,
-                          fontWeight: FontWeight.w600,
+                    const SizedBox(height: AppSpacing.xxl),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Email or Username',
+                      hint: 'Enter your email or username',
+                      controller: _identifierController,
+                      onChanged: (value) {
+                        ref.read(loginFormProvider.notifier).identifierChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.identifierFailure?.toMessage() : null,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                    ),
+                    AppSpacing.gapLg,
+                    AuthTextField(
+                      label: 'Password',
+                      hint: 'Enter your password',
+                      controller: _passwordController,
+                      onChanged: (value) {
+                        ref.read(loginFormProvider.notifier).passwordChanged(value);
+                      },
+                      errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
+                      obscureText: _obscurePassword,
+                      keyboardType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                         ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
                       ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    AuthButton(
+                      text: 'Login',
+                      isLoading: formState.isSubmitting,
+                      onPressed: () {
+                        unawaited(
+                          ref.read(loginFormProvider.notifier).submit(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    OAuthProviderSection(
+                      providers: oauthState.oauthProviders,
+                      isLoading: oauthState.isLoadingOAuthProviders,
+                      isDisabled: oauthState.oauthInProgress,
+                      onProviderTap: (provider) {
+                        unawaited(
+                          ref.read(authProvider.notifier).startOAuthLogin(provider.name),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => const RegisterRoute().go(context),
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: AppColors.accent,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if (oauthState.oauthInProgress)
+            const Positioned.fill(
+              child: ColoredBox(
+                color: Colors.black54,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

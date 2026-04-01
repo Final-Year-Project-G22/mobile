@@ -13,7 +13,9 @@ class AppNetworkInfo implements NetworkInfo {
 
   @override
   Stream<bool> get onConnectivityChanged {
-    return _connectivity.onConnectivityChanged.map((results) => !results.contains(ConnectivityResult.none));
+    return _connectivity.onConnectivityChanged.map(
+      (results) => !results.contains(ConnectivityResult.none),
+    );
   }
 
   Future<void> ensureConnected() async {

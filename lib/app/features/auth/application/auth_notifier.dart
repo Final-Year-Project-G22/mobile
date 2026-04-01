@@ -8,6 +8,7 @@ import '../../../../core/di/infra_providers.dart';
 import '../domain/entities/auth_response.dart';
 import '../domain/entities/auth_status.dart';
 import '../domain/entities/oauth_callback_result.dart';
+import '../domain/entities/oauth_pending_email.dart';
 import '../domain/failures/auth_user_failure.dart';
 import '../domain/validator/auth_value_object_validator.dart';
 import 'auth_oauth_state.dart';
@@ -143,7 +144,7 @@ class AuthNotifier extends _$AuthNotifier {
     );
   }
 
-  Future<void> startOAuthLogin(String provider) async {
+  Future<bool> startOAuthLogin(String provider) async {
     final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
     oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
       oauthInProgress: true,
@@ -158,10 +159,19 @@ class AuthNotifier extends _$AuthNotifier {
       final result = await FlutterWebAuth2.authenticate(
         url: initiateUrl.toString(),
         callbackUrlScheme: callbackUrlScheme,
+        options: const FlutterWebAuth2Options(
+          preferEphemeral: true,
+          intentFlags: ephemeralIntentFlags,
+        ),
       );
 
       final callbackUri = Uri.parse(result);
-      await _processOAuthCallback(callbackUri);
+      final ok = await _processOAuthCallback(callbackUri);
+
+      oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
+        oauthInProgress: false,
+      );
+      return ok;
     } on Exception catch (e) {
       if (e.toString().contains('cancelled') || e.toString().contains('canceled')) {
         _setOAuthFailure(
@@ -176,10 +186,11 @@ class AuthNotifier extends _$AuthNotifier {
           ),
         );
       }
+      return false;
     }
   }
 
-  Future<void> _processOAuthCallback(Uri uri) async {
+  Future<bool> _processOAuthCallback(Uri uri) async {
     final accessToken = uri.queryParameters['access_token'];
     final refreshToken = uri.queryParameters['refresh_token'];
     final expiresAt = uri.queryParameters['expires_at'];
@@ -190,16 +201,25 @@ class AuthNotifier extends _$AuthNotifier {
       final message =
           uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
       _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
-      return;
+      return false;
     }
 
     if (emailRequired) {
+      final provider = uri.queryParameters['provider'] ?? '';
+      final stateValue = uri.queryParameters['state'] ?? '';
       final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
       oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
         oauthInProgress: false,
-        pendingOAuthEmail: null,
+        pendingOAuthEmail: OAuthPendingEmail(
+          firstName: '',
+          lastName: '',
+          name: '',
+          provider: provider,
+          state: stateValue,
+          subject: '',
+        ),
       );
-      return;
+      return false;
     }
 
     if (accessToken != null && accessToken.isNotEmpty) {
@@ -208,12 +228,15 @@ class AuthNotifier extends _$AuthNotifier {
         refreshToken: refreshToken ?? '',
         expiresAt: expiresAt ?? '',
       );
+      await Future<void>.delayed(const Duration(milliseconds: 120));
+      return state.value?.isAuthenticated ?? false;
     } else {
       _setOAuthFailure(
         const AuthUserFailure.serverError(
           message: 'No access token received from OAuth provider',
         ),
       );
+      return false;
     }
   }
 
