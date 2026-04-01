@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/pages/login_page.dart';
+import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import '../features/home/presentation/pages/home_shell_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
 
 part 'routes.g.dart';
@@ -27,16 +30,27 @@ class RegisterRoute extends GoRouteData with $RegisterRoute {
   Widget build(BuildContext context, GoRouterState state) => const RegisterPage();
 }
 
-@TypedShellRoute<MainAppShellRoute>(routes: [TypedGoRoute<HomeRoute>(path: '/home')])
+@TypedGoRoute<OtpVerificationRoute>(path: '/otp-verification')
+class OtpVerificationRoute extends GoRouteData with $OtpVerificationRoute {
+  const OtpVerificationRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const OtpVerificationPage();
+}
+
+@TypedShellRoute<MainAppShellRoute>(
+  routes: [TypedGoRoute<HomeRoute>(path: '/home')],
+)
 class MainAppShellRoute extends ShellRouteData {
   const MainAppShellRoute();
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('App')),
-      body: navigator,
-    );
-  }
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) => const HomeShellPage();
+}
+
+@TypedGoRoute<ProfileRoute>(path: '/profile')
+class ProfileRoute extends GoRouteData with $ProfileRoute {
+  const ProfileRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const ProfilePage();
 }
 
 class HomeRoute extends GoRouteData with $HomeRoute {

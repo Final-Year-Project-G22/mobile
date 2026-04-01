@@ -58,13 +58,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     ref.listen(authProvider, (previous, next) {
       next.whenOrNull(
         data: (status) {
-          if (status.isAuthenticated && mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Registration successful'),
-                backgroundColor: AppColors.success,
-              ),
-            );
+          if (status.isPendingVerification && mounted) {
+            const OtpVerificationRoute().go(context);
           }
         },
         error: (error, _) {

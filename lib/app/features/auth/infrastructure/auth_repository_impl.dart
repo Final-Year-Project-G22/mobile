@@ -124,6 +124,57 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
+  @override
+  Future<Either<AuthUserFailure, String>> verifyOtp({
+    required String otp,
+  }) async {
+    try {
+      final httpResponse = await _client.verifyEmailOtp(
+        body: VerifyEmailOtpRequest(otp: otp),
+      );
+      return Right(httpResponse.data.message);
+    } on DioException catch (e) {
+      return Left(_handleOtpDioError(e));
+    } on Exception {
+      return const Left(AuthUserFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<AuthUserFailure, String>> resendOtp() async {
+    try {
+      final httpResponse = await _client.resendEmailOtp();
+      return Right(httpResponse.data.message);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(AuthUserFailure.serverError());
+    }
+  }
+
+  AuthUserFailure _handleOtpDioError(DioException error) {
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.connectionError:
+        return const AuthUserFailure.networkError();
+      case DioExceptionType.badResponse:
+        final statusCode = error.response?.statusCode;
+        final data = error.response?.data;
+        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+
+        if (statusCode == 401) {
+          return AuthUserFailure.invalidOtp(message: detail);
+        }
+        return AuthUserFailure.serverError(message: detail);
+      case DioExceptionType.cancel:
+      case DioExceptionType.badCertificate:
+      case DioExceptionType.unknown:
+        return const AuthUserFailure.serverError();
+    }
+  }
+
   AuthUserFailure _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:

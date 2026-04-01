@@ -25,3 +25,6 @@ export 'src/api/models/user_dto.dart';
 export 'src/api/models/account_dto.dart';
 export 'src/api/models/error_model.dart';
 export 'src/api/models/error_detail.dart';
+export 'src/api/models/verify_email_otp_request.dart';
+export 'src/api/models/verify_email_otp_response_body.dart';
+export 'src/api/models/resend_email_otp_response_body.dart';

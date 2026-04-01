@@ -6,6 +6,7 @@ import 'routes.dart';
 final routerProvider = Provider<GoRouter>((ref) {
   final loginLocation = const LoginRoute().location;
   final registerLocation = const RegisterRoute().location;
+  final otpLocation = const OtpVerificationRoute().location;
 
   final router = GoRouter(
     initialLocation: const SplashRoute().location,
@@ -19,6 +20,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (authState.isLoading) return null;
 
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
+      final isPendingVerification = authState.value?.isPendingVerification ?? false;
+
+      if (isPendingVerification) {
+        return isAuthPage ? const OtpVerificationRoute().location : otpLocation;
+      }
 
       if (!isAuthenticated) {
         return isAuthPage ? null : loginLocation;

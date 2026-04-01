@@ -9,7 +9,12 @@ abstract class IAuthRepository {
     required String firstName,
     required String lastName,
   });
-  Future<Either<AuthUserFailure, AuthResponse>> login({required String email, required String password});
+  Future<Either<AuthUserFailure, AuthResponse>> login({
+    required String email,
+    required String password,
+  });
   Future<Either<AuthUserFailure, Unit>> logout();
   Future<Either<AuthUserFailure, Unit>> logoutAll();
+  Future<Either<AuthUserFailure, String>> verifyOtp({required String otp});
+  Future<Either<AuthUserFailure, String>> resendOtp();
 }
