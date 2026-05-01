@@ -9,13 +9,15 @@ import 'interceptors/logging_interceptor.dart';
 class ApiClient {
   late final Dio dio;
   late final AuthInterceptor _authInterceptor;
+  String? Function()? _getLocaleCode;
 
   ApiClient({
     required FlutterSecureStorage secureStorage,
     String? baseUrl,
     bool enableLogging = true,
     List<Interceptor>? additionalInterceptors,
-  }) {
+    String? Function()? getLocaleCode,
+  }) : _getLocaleCode = getLocaleCode {
     dio = _createDio(baseUrl: baseUrl ?? 'https://api.example.com/v1');
     _authInterceptor = AuthInterceptor(storage: secureStorage);
     _setupInterceptors(enableLogging, additionalInterceptors);
@@ -28,7 +30,10 @@ class ApiClient {
         connectTimeout: ApiConstants.connectTimeout,
         receiveTimeout: ApiConstants.receiveTimeout,
         sendTimeout: ApiConstants.sendTimeout,
-        headers: {'Content-Type': ApiConstants.contentType, 'Accept': ApiConstants.accept},
+        headers: {
+          'Content-Type': ApiConstants.contentType,
+          'Accept': ApiConstants.accept,
+        },
         validateStatus: (status) => status != null && status < 400,
       ),
     );
@@ -39,6 +44,13 @@ class ApiClient {
       _authInterceptor,
       ErrorInterceptor(),
       if (enableLogging) LoggingInterceptor(),
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final localeCode = _getLocaleCode?.call() ?? 'en';
+          options.headers['Accept-Language'] = localeCode;
+          handler.next(options);
+        },
+      ),
       ...?additional,
     ];
     dio.interceptors.addAll(interceptors);
@@ -66,8 +78,16 @@ class ApiClient {
   }
 
   // Token management (sets in-memory AND persists to secure storage)
-  Future<void> setTokens(String accessToken, String? refreshToken, {DateTime? expiresAt}) async {
-    await _authInterceptor.setTokens(accessToken, refreshToken, expiresAt: expiresAt);
+  Future<void> setTokens(
+    String accessToken,
+    String? refreshToken, {
+    DateTime? expiresAt,
+  }) async {
+    await _authInterceptor.setTokens(
+      accessToken,
+      refreshToken,
+      expiresAt: expiresAt,
+    );
   }
 
   Future<void> clearTokens() async {
@@ -80,7 +100,12 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.get<T>(path, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.get<T>(
+      path,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> post<T>(
@@ -90,7 +115,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.post<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.post<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> put<T>(
@@ -100,7 +131,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.put<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.put<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> patch<T>(
@@ -110,7 +147,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.patch<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.patch<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> delete<T>(

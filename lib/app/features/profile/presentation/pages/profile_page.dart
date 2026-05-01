@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/profile_notifier.dart';
 import '../../application/profile_state.dart';
@@ -126,7 +127,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     _bindForm(user);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
       body: ListView(
         padding: AppSpacing.paddingLg,
         children: [

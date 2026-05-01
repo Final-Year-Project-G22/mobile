@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/application/auth_notifier.dart';
+import '../features/settings/presentation/pages/settings_page.dart';
 import 'routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -14,7 +16,13 @@ final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     initialLocation: const SplashRoute().location,
     debugLogDiagnostics: true,
-    routes: $appRoutes,
+    routes: [
+      ...$appRoutes,
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
+    ],
     redirect: (context, state) {
       final authState = ref.read(authProvider);
       final location = state.matchedLocation;
@@ -28,10 +36,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (authState.isLoading) return null;
 
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
-      final isPendingVerification = authState.value?.isPendingVerification ?? false;
+      final isPendingVerification =
+          authState.value?.isPendingVerification ?? false;
 
       if (isPendingVerification) {
-        if (location == oauthCallbackLocation || location == oauthCompleteEmailLocation) {
+        if (location == oauthCallbackLocation ||
+            location == oauthCompleteEmailLocation) {
           return null;
         }
         return location == otpLocation ? null : otpLocation;

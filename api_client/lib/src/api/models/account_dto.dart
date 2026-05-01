@@ -23,5 +23,6 @@ abstract class AccountDto with _$AccountDto {
     String? username,
   }) = _AccountDto;
 
-  factory AccountDto.fromJson(Map<String, Object?> json) => _$AccountDtoFromJson(json);
+  factory AccountDto.fromJson(Map<String, Object?> json) =>
+      _$AccountDtoFromJson(json);
 }

@@ -1,0 +1,362 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../auth/application/auth_notifier.dart';
+import '../../application/providers/community_data_providers.dart';
+import '../../application/providers/community_mutations_provider.dart';
+import '../../domain/entities/discussion_post.dart';
+import '../widgets/post_card.dart';
+import '../widgets/reply_input_bar.dart';
+
+class ThreadDetailsPage extends ConsumerStatefulWidget {
+  const ThreadDetailsPage({
+    required this.threadId,
+    required this.threadTitle,
+    super.key,
+  });
+
+  final String threadId;
+  final String threadTitle;
+
+  @override
+  ConsumerState<ThreadDetailsPage> createState() => _ThreadDetailsPageState();
+}
+
+class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
+  DiscussionPost? _replyTarget;
+  DiscussionPost? _editTarget;
+
+  void _startReply(DiscussionPost post) {
+    setState(() {
+      _replyTarget = post;
+      _editTarget = null;
+    });
+  }
+
+  void _startEdit(DiscussionPost post) {
+    setState(() {
+      _editTarget = post;
+      _replyTarget = null;
+    });
+  }
+
+  void _clearMode() {
+    setState(() {
+      _replyTarget = null;
+      _editTarget = null;
+    });
+  }
+
+  String _displayName(String authorId, String? authorDisplayName) {
+    if (authorDisplayName != null && authorDisplayName.trim().isNotEmpty) {
+      return authorDisplayName;
+    }
+    final prefix = authorId.length >= 6 ? authorId.substring(0, 6) : authorId;
+    return 'User $prefix';
+  }
+
+  bool _isAuthor(String authorId, String? currentAccountId) {
+    if (currentAccountId == null || currentAccountId.isEmpty) {
+      return false;
+    }
+    return authorId == currentAccountId;
+  }
+
+  Future<void> _deletePost(DiscussionPost post) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Post'),
+        content: const Text('Are you sure you want to delete this post?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true) {
+      return;
+    }
+
+    final result = await ref
+        .read(communityMutationsProvider.notifier)
+        .deletePost(post.id, widget.threadId);
+
+    if (!mounted) {
+      return;
+    }
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete: $failure')),
+        );
+      },
+      (_) {
+        if (_replyTarget?.id == post.id || _editTarget?.id == post.id) {
+          _clearMode();
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Post deleted successfully')),
+        );
+      },
+    );
+  }
+
+  int _nestingLevel(
+    DiscussionPost post,
+    Map<String, DiscussionPost> postsById,
+  ) {
+    var level = 0;
+    var current = post;
+
+    while (current.parentPostId != null) {
+      final parent = postsById[current.parentPostId!];
+      if (parent == null) {
+        break;
+      }
+      level += 1;
+      current = parent;
+      if (level >= 3) {
+        break;
+      }
+    }
+
+    return level;
+  }
+
+  List<DiscussionPost> _buildThreadedReplies(
+    List<DiscussionPost> source,
+    String? rootId,
+  ) {
+    if (source.isEmpty) {
+      return const [];
+    }
+
+    final byParent = <String?, List<DiscussionPost>>{};
+    for (final post in source) {
+      byParent.putIfAbsent(post.parentPostId, () => []).add(post);
+    }
+
+    for (final entries in byParent.values) {
+      entries.sort(
+        (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
+            .compareTo(b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)),
+      );
+    }
+
+    final ordered = <DiscussionPost>[];
+
+    void addBranch(String? parentId) {
+      final children = byParent[parentId] ?? const [];
+      for (final child in children) {
+        ordered.add(child);
+        addBranch(child.id);
+      }
+    }
+
+    addBranch(rootId);
+
+    if (rootId != null) {
+      final remaining = source.where((post) => !ordered.contains(post));
+      final leftovers = remaining.toList()
+        ..sort(
+          (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
+              .compareTo(b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)),
+        );
+      ordered.addAll(leftovers);
+    }
+
+    return ordered;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+    final postsAsync = ref.watch(threadPostsProvider(widget.threadId));
+    final authState = ref.watch(authProvider);
+    final currentAccountId = authState.asData?.value.account?.id;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.threadTitle),
+      ),
+      body: threadAsync.when(
+        data: (thread) {
+          return postsAsync.when(
+            data: (posts) {
+              final sortedPosts = [...posts]
+                ..sort(
+                  (a, b) =>
+                      (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
+                          .compareTo(
+                            b.createdAt ??
+                                DateTime.fromMillisecondsSinceEpoch(0),
+                          ),
+                );
+
+              final postsById = {
+                for (final post in sortedPosts) post.id: post,
+              };
+
+              DiscussionPost? initialPost;
+              for (final post in sortedPosts) {
+                if (post.parentPostId == null) {
+                  initialPost = post;
+                  break;
+                }
+              }
+
+              final initialPostId = initialPost?.id;
+              final repliesSource = initialPostId == null
+                  ? sortedPosts
+                  : sortedPosts
+                        .where((post) => post.id != initialPostId)
+                        .toList();
+
+              final orderedReplies = _buildThreadedReplies(
+                repliesSource,
+                initialPostId,
+              );
+
+              return CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              thread.title,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          if (initialPost != null)
+                            PostCard(
+                              authorId: initialPost.authorId,
+                              authorDisplayName: _displayName(
+                                initialPost.authorId,
+                                initialPost.authorDisplayName,
+                              ),
+                              authorAvatarUrl: initialPost.authorAvatarUrl,
+                              content: initialPost.content,
+                              attachmentUrl: initialPost.attachmentUrl,
+                              attachmentType: initialPost.attachmentType,
+                              upvoteCount: initialPost.upvoteCount,
+                              isEdited:
+                                  initialPost.editCount > 0 ||
+                                  initialPost.editedAt != null,
+                              onReply: () => _startReply(initialPost!),
+                              onEdit:
+                                  _isAuthor(
+                                    initialPost.authorId,
+                                    currentAccountId,
+                                  )
+                                  ? () => _startEdit(initialPost!)
+                                  : null,
+                              onDelete:
+                                  _isAuthor(
+                                    initialPost.authorId,
+                                    currentAccountId,
+                                  )
+                                  ? () => _deletePost(initialPost!)
+                                  : null,
+                            )
+                          else if (thread.description != null &&
+                              thread.description!.isNotEmpty)
+                            PostCard(
+                              authorId: thread.authorId,
+                              authorDisplayName: _displayName(
+                                thread.authorId,
+                                thread.authorDisplayName,
+                              ),
+                              authorAvatarUrl: thread.authorAvatarUrl,
+                              content: thread.description!,
+                            ),
+                          const Divider(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (orderedReplies.isEmpty)
+                    const SliverToBoxAdapter(
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(32),
+                          child: Text('No replies yet. Be the first!'),
+                        ),
+                      ),
+                    )
+                  else
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final post = orderedReplies[index];
+                          final parent = post.parentPostId == null
+                              ? null
+                              : postsById[post.parentPostId!];
+                          final parentPreview = parent == null
+                              ? null
+                              : 'Replying to ${_displayName(parent.authorId, parent.authorDisplayName)}: ${parent.content}';
+
+                          return PostCard(
+                            authorId: post.authorId,
+                            authorDisplayName: _displayName(
+                              post.authorId,
+                              post.authorDisplayName,
+                            ),
+                            authorAvatarUrl: post.authorAvatarUrl,
+                            content: post.content,
+                            upvoteCount: post.upvoteCount,
+                            attachmentUrl: post.attachmentUrl,
+                            attachmentType: post.attachmentType,
+                            nestingLevel: _nestingLevel(post, postsById),
+                            parentPreview: parentPreview,
+                            isEdited:
+                                post.editCount > 0 || post.editedAt != null,
+                            onReply: () => _startReply(post),
+                            onEdit: _isAuthor(post.authorId, currentAccountId)
+                                ? () => _startEdit(post)
+                                : null,
+                            onDelete: _isAuthor(post.authorId, currentAccountId)
+                                ? () => _deletePost(post)
+                                : null,
+                          );
+                        },
+                        childCount: orderedReplies.length,
+                      ),
+                    ),
+                ],
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Center(
+              child: Text('Error loading posts: $error'),
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Center(
+          child: Text('Error loading thread: $error'),
+        ),
+      ),
+      bottomNavigationBar: ReplyInputBar(
+        threadId: widget.threadId,
+        replyTarget: _replyTarget,
+        editTarget: _editTarget,
+        onClearMode: _clearMode,
+      ),
+    );
+  }
+}

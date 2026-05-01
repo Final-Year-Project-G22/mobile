@@ -23,5 +23,6 @@ abstract class UpdateUserProfileRequest with _$UpdateUserProfileRequest {
     String? bio,
   }) = _UpdateUserProfileRequest;
 
-  factory UpdateUserProfileRequest.fromJson(Map<String, Object?> json) => _$UpdateUserProfileRequestFromJson(json);
+  factory UpdateUserProfileRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateUserProfileRequestFromJson(json);
 }

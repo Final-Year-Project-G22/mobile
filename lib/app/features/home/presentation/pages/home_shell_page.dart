@@ -6,20 +6,15 @@ import '../../../../constants/app_spacing.dart';
 import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
+import '../../../community/presentation/pages/community_home_page.dart';
 import 'ai_guild_page.dart';
-import 'community_page.dart';
 import 'guide_page.dart';
 import 'templates_page.dart';
 
 class HomeShellPage extends ConsumerWidget {
-  const HomeShellPage({super.key});
+  const HomeShellPage({required this.navigator, super.key});
 
-  static const List<Widget> _tabPages = [
-    GuidePage(),
-    CommunityPage(),
-    AiGuildPage(),
-    TemplatesPage(),
-  ];
+  final Widget navigator;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,11 +39,21 @@ class HomeShellPage extends ConsumerWidget {
           AppSpacing.gapHorizontalXs,
         ],
       ),
-      body: IndexedStack(index: currentIndex, children: _tabPages),
+      body: navigator,
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
           ref.read(homeTabIndexProvider.notifier).setIndex(index);
+          switch (index) {
+            case 0:
+              context.go('/home');
+            case 1:
+              context.go('/community');
+            case 2:
+              context.go('/ai-guild'); // Need to map these later
+            case 3:
+              context.go('/templates'); // Need to map these later
+          }
         },
         destinations: homeTabSpecs
             .map(

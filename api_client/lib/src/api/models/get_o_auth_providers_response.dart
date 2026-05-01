@@ -16,5 +16,6 @@ abstract class GetOAuthProvidersResponse with _$GetOAuthProvidersResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetOAuthProvidersResponse;
 
-  factory GetOAuthProvidersResponse.fromJson(Map<String, Object?> json) => _$GetOAuthProvidersResponseFromJson(json);
+  factory GetOAuthProvidersResponse.fromJson(Map<String, Object?> json) =>
+      _$GetOAuthProvidersResponseFromJson(json);
 }
