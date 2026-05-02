@@ -1,7 +1,7 @@
-import 'dart:io';
-
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 
+import 'entities/attachment.dart';
 import 'entities/community_category.dart';
 import 'entities/discussion_post.dart';
 import 'entities/discussion_thread.dart';
@@ -43,6 +43,12 @@ abstract class ICommunityRepository {
     int? pageSize,
   });
 
+  Future<Either<CommunityFailure, List<Attachment>>> uploadAttachments(
+    List<XFile> files,
+  );
+
+  Future<Either<CommunityFailure, Unit>> deleteOrphanAttachment(String id);
+
   Future<Either<CommunityFailure, String>> createThread({
     required String categoryId,
     required String title,
@@ -50,27 +56,28 @@ abstract class ICommunityRepository {
     required String description,
     required String initialPostContent,
     String? parentThreadId,
-    File? attachment,
+    String? attachmentIds,
   });
 
   Future<Either<CommunityFailure, String>> createPost({
     required String threadId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   });
 
   Future<Either<CommunityFailure, String>> replyToPost({
     required String threadId,
     required String postId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   });
 
   Future<Either<CommunityFailure, Unit>> updatePost(
     String postId, {
     required String content,
-    bool removeAttachment = false,
-    File? attachment,
+    String? attachmentIds,
+    bool removeAllAttachments = false,
+    String? removeAttachmentIds,
   });
 
   Future<Either<CommunityFailure, Unit>> deletePost(String postId);

@@ -1,8 +1,9 @@
-import 'dart:io';
-
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/entities/attachment.dart';
 import '../../domain/failures/community_failure.dart';
 import 'community_data_providers.dart';
 import 'community_providers.dart';
@@ -11,13 +12,41 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
+  Future<Either<CommunityFailure, List<Attachment>>> uploadAttachments(
+    List<XFile> files,
+  ) async {
+    state = const AsyncLoading();
+    debugPrint(
+      'Mutations: uploadAttachments called with ${files.length} files',
+    );
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.uploadAttachments(files);
+    result.fold(
+      (failure) => debugPrint('Mutations: upload failed: $failure'),
+      (attachments) =>
+          debugPrint('Mutations: upload success: ${attachments.length} files'),
+    );
+    state = const AsyncData(null);
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> deleteOrphanAttachment(
+    String id,
+  ) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.deleteOrphanAttachment(id);
+    state = const AsyncData(null);
+    return result;
+  }
+
   Future<Either<CommunityFailure, String>> createThread({
     required String categoryId,
     required String title,
     required String slug,
     required String description,
     required String initialPostContent,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     state = const AsyncLoading();
     final repo = ref.read(communityRepositoryProvider);
@@ -27,7 +56,7 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
       slug: slug,
       description: description,
       initialPostContent: initialPostContent,
-      attachment: attachment,
+      attachmentIds: attachmentIds,
     );
 
     state = const AsyncData(null);
@@ -42,14 +71,14 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
   Future<Either<CommunityFailure, String>> createPost({
     required String threadId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     state = const AsyncLoading();
     final repo = ref.read(communityRepositoryProvider);
     final result = await repo.createPost(
       threadId: threadId,
       content: content,
-      attachment: attachment,
+      attachmentIds: attachmentIds,
     );
 
     state = const AsyncData(null);
@@ -65,7 +94,7 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     required String threadId,
     required String postId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     state = const AsyncLoading();
     final repo = ref.read(communityRepositoryProvider);
@@ -73,7 +102,7 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
       threadId: threadId,
       postId: postId,
       content: content,
-      attachment: attachment,
+      attachmentIds: attachmentIds,
     );
 
     state = const AsyncData(null);
@@ -89,16 +118,18 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     String postId,
     String threadId, {
     required String content,
-    bool removeAttachment = false,
-    File? attachment,
+    String? attachmentIds,
+    bool removeAllAttachments = false,
+    String? removeAttachmentIds,
   }) async {
     state = const AsyncLoading();
     final repo = ref.read(communityRepositoryProvider);
     final result = await repo.updatePost(
       postId,
       content: content,
-      removeAttachment: removeAttachment,
-      attachment: attachment,
+      attachmentIds: attachmentIds,
+      removeAllAttachments: removeAllAttachments,
+      removeAttachmentIds: removeAttachmentIds,
     );
 
     state = const AsyncData(null);

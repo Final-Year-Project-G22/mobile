@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'attachment.dart';
+
 part 'discussion_post.freezed.dart';
 
 @freezed
@@ -17,8 +19,7 @@ abstract class DiscussionPost with _$DiscussionPost {
     String? authorDisplayName,
     String? authorAvatarUrl,
     String? parentPostId,
-    String? attachmentUrl,
-    String? attachmentType,
+    List<Attachment>? attachments,
     DateTime? editedAt,
     DateTime? createdAt,
     DateTime? updatedAt,

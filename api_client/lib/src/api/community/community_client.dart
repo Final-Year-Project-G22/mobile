@@ -28,12 +28,34 @@ import '../models/report_thread_response_body.dart';
 import '../models/report_user_request.dart';
 import '../models/report_user_response_body.dart';
 import '../models/update_post_response_body.dart';
+import '../models/upload_attachments_response_body.dart';
 
 part 'community_client.g.dart';
 
 @RestApi()
 abstract class CommunityClient {
   factory CommunityClient(Dio dio, {String? baseUrl}) = _CommunityClient;
+
+  /// Upload attachments.
+  ///
+  /// Uploads one or more attachments for later use when creating/updating posts.
+  ///
+  /// [files] - Name not received - field will be skipped.
+  @MultiPart()
+  @POST('/api/v1/community/attachments')
+  Future<HttpResponse<UploadAttachmentsResponseBody>> uploadAttachments({
+    @Part(name: 'files') required List<MultipartFile> files,
+  });
+
+  /// Delete orphan attachment.
+  ///
+  /// Deletes a pending attachment that was uploaded but not yet linked to a post.
+  ///
+  /// [id] - Attachment ID.
+  @DELETE('/api/v1/community/attachments/{id}')
+  Future<HttpResponse<DeletePostResponseBody>> deleteOrphanAttachment({
+    @Path('id') required String id,
+  });
 
   /// List community categories.
   ///
@@ -149,21 +171,25 @@ abstract class CommunityClient {
   ///
   /// [id] - Post ID.
   ///
+  /// [attachmentIds] - New attachment IDs to link (comma-separated).
+  /// Name not received - field will be skipped.
+  ///
   /// [content] - Post content.
   /// Name not received - field will be skipped.
   ///
-  /// [file] - Optional replacement attachment file.
+  /// [removeAllAttachments] - Remove all attachments.
   /// Name not received - field will be skipped.
   ///
-  /// [removeAttachment] - Remove existing attachment.
+  /// [removeAttachmentIds] - Attachment IDs to unlink (comma-separated).
   /// Name not received - field will be skipped.
   @MultiPart()
   @PATCH('/api/v1/community/posts/{id}')
   Future<HttpResponse<UpdatePostResponseBody>> updateCommunityPost({
     @Path('id') required String id,
     @Part(name: 'content') required String content,
-    @Part(name: 'removeAttachment') required bool removeAttachment,
-    @Part(name: 'file') MultipartFile? file,
+    @Part(name: 'removeAllAttachments') required bool removeAllAttachments,
+    @Part(name: 'attachmentIds') String? attachmentIds,
+    @Part(name: 'removeAttachmentIds') String? removeAttachmentIds,
   });
 
   /// List discussion threads.
@@ -189,13 +215,13 @@ abstract class CommunityClient {
   ///
   /// Creates a thread with an initial post.
   ///
+  /// [attachmentIds] - Pre-uploaded attachment IDs (comma-separated).
+  /// Name not received - field will be skipped.
+  ///
   /// [categoryId] - Category ID.
   /// Name not received - field will be skipped.
   ///
   /// [description] - Thread description.
-  /// Name not received - field will be skipped.
-  ///
-  /// [file] - Optional attachment file.
   /// Name not received - field will be skipped.
   ///
   /// [initialPostContent] - Initial post content.
@@ -217,7 +243,7 @@ abstract class CommunityClient {
     @Part(name: 'initialPostContent') required String initialPostContent,
     @Part(name: 'slug') required String slug,
     @Part(name: 'title') required String title,
-    @Part(name: 'file') MultipartFile? file,
+    @Part(name: 'attachmentIds') String? attachmentIds,
     @Part(name: 'parentThreadId') String? parentThreadId,
   });
 
@@ -318,17 +344,17 @@ abstract class CommunityClient {
   ///
   /// [id] - Thread ID.
   ///
-  /// [content] - Post content.
+  /// [attachmentIds] - Pre-uploaded attachment IDs (comma-separated).
   /// Name not received - field will be skipped.
   ///
-  /// [file] - Optional attachment file.
+  /// [content] - Post content.
   /// Name not received - field will be skipped.
   @MultiPart()
   @POST('/api/v1/community/threads/{id}/posts')
   Future<HttpResponse<CreatePostResponseBody>> createCommunityPost({
     @Path('id') required String id,
     @Part(name: 'content') required String content,
-    @Part(name: 'file') MultipartFile? file,
+    @Part(name: 'attachmentIds') String? attachmentIds,
   });
 
   /// Reply to post.
@@ -339,10 +365,10 @@ abstract class CommunityClient {
   ///
   /// [postId] - Parent post ID.
   ///
-  /// [content] - Post content.
+  /// [attachmentIds] - Pre-uploaded attachment IDs (comma-separated).
   /// Name not received - field will be skipped.
   ///
-  /// [file] - Optional attachment file.
+  /// [content] - Post content.
   /// Name not received - field will be skipped.
   @MultiPart()
   @POST('/api/v1/community/threads/{id}/posts/{postId}/reply')
@@ -350,7 +376,7 @@ abstract class CommunityClient {
     @Path('id') required String id,
     @Path('postId') required String postId,
     @Part(name: 'content') required String content,
-    @Part(name: 'file') MultipartFile? file,
+    @Part(name: 'attachmentIds') String? attachmentIds,
   });
 
   /// Report post.

@@ -1,9 +1,10 @@
-import 'dart:io';
-
 import 'package:api_client/api_client.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
+import '../domain/entities/attachment.dart';
 import '../domain/entities/community_category.dart';
 import '../domain/entities/discussion_post.dart';
 import '../domain/entities/discussion_thread.dart';
@@ -175,6 +176,79 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   }
 
   @override
+  Future<Either<CommunityFailure, List<Attachment>>> uploadAttachments(
+    List<XFile> files,
+  ) async {
+    try {
+      debugPrint('Repository: uploadAttachments - ${files.length} files');
+
+      // Upload files one by one to avoid "message too large" error
+      final allAttachments = <Attachment>[];
+
+      for (final file in files) {
+        final bytes = await file.readAsBytes();
+        debugPrint(
+          'Repository: Uploading file ${file.name} (${bytes.length} bytes)',
+        );
+
+        // Skip empty files
+        if (bytes.isEmpty) {
+          debugPrint('Repository: Skipping empty file: ${file.name}');
+          continue;
+        }
+
+        final response = await _client.uploadAttachments(
+          files: [
+            MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+            ),
+          ],
+        );
+
+        debugPrint(
+          'Repository: API response for ${file.name}: ${response.data.attachments?.length} attachments',
+        );
+
+        final attachments = (response.data.attachments ?? [])
+            .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+            .toList();
+
+        allAttachments.addAll(attachments);
+        debugPrint(
+          'Repository: Uploaded ${allAttachments.length}/${files.length} files',
+        );
+      }
+
+      debugPrint(
+        'Repository: Total uploaded: ${allAttachments.length} attachments',
+      );
+      return Right(allAttachments);
+    } on DioException catch (e) {
+      debugPrint('Repository: DioException: ${e.message}');
+      debugPrint('Repository: Error response: ${e.response?.data}');
+      return Left(_handleDioError(e));
+    } on Exception catch (e) {
+      debugPrint('Repository: Exception: $e');
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> deleteOrphanAttachment(
+    String id,
+  ) async {
+    try {
+      await _client.deleteOrphanAttachment(id: id);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
   Future<Either<CommunityFailure, String>> createThread({
     required String categoryId,
     required String title,
@@ -182,14 +256,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     required String description,
     required String initialPostContent,
     String? parentThreadId,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     try {
-      MultipartFile? multipartFile;
-      if (attachment != null) {
-        multipartFile = await MultipartFile.fromFile(attachment.path);
-      }
-
       final response = await _client.createCommunityThread(
         categoryId: categoryId,
         title: title,
@@ -197,7 +266,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
         description: description,
         initialPostContent: initialPostContent,
         parentThreadId: parentThreadId,
-        file: multipartFile,
+        attachmentIds: attachmentIds,
       );
 
       return Right(response.data.threadId);
@@ -212,18 +281,13 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   Future<Either<CommunityFailure, String>> createPost({
     required String threadId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     try {
-      MultipartFile? multipartFile;
-      if (attachment != null) {
-        multipartFile = await MultipartFile.fromFile(attachment.path);
-      }
-
       final response = await _client.createCommunityPost(
         id: threadId,
         content: content,
-        file: multipartFile,
+        attachmentIds: attachmentIds,
       );
 
       return Right(response.data.postId);
@@ -239,19 +303,14 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     required String threadId,
     required String postId,
     required String content,
-    File? attachment,
+    String? attachmentIds,
   }) async {
     try {
-      MultipartFile? multipartFile;
-      if (attachment != null) {
-        multipartFile = await MultipartFile.fromFile(attachment.path);
-      }
-
       final response = await _client.replyCommunityPost(
         id: threadId,
         postId: postId,
         content: content,
-        file: multipartFile,
+        attachmentIds: attachmentIds,
       );
 
       return Right(response.data.postId);
@@ -266,20 +325,17 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   Future<Either<CommunityFailure, Unit>> updatePost(
     String postId, {
     required String content,
-    bool removeAttachment = false,
-    File? attachment,
+    String? attachmentIds,
+    bool removeAllAttachments = false,
+    String? removeAttachmentIds,
   }) async {
     try {
-      MultipartFile? multipartFile;
-      if (attachment != null) {
-        multipartFile = await MultipartFile.fromFile(attachment.path);
-      }
-
       await _client.updateCommunityPost(
         id: postId,
         content: content,
-        removeAttachment: removeAttachment,
-        file: multipartFile,
+        attachmentIds: attachmentIds,
+        removeAllAttachments: removeAllAttachments,
+        removeAttachmentIds: removeAttachmentIds,
       );
 
       return const Right(unit);
@@ -449,6 +505,10 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     final authorDisplayName = json?['authorDisplayName'] as String?;
     final authorAvatarUrl = json?['authorAvatarUrl'] as String?;
 
+    final attachments = dto.attachments
+        ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+        .toList();
+
     return DiscussionPost(
       id: dto.id,
       threadId: dto.threadId,
@@ -461,8 +521,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       isSolution: dto.isSolution,
       isPinned: dto.isPinned,
       upvoteCount: dto.upvoteCount,
-      attachmentUrl: dto.attachmentUrl,
-      attachmentType: dto.attachmentType,
+      attachments: attachments,
       editCount: dto.editCount,
       editedAt: dto.editedAt,
       createdAt: dto.createdAt,

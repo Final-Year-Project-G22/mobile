@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../application/providers/community_mutations_provider.dart';
+import '../../domain/entities/attachment.dart';
 import '../../domain/entities/discussion_post.dart';
 
 class ReplyInputBar extends ConsumerStatefulWidget {
@@ -29,10 +28,11 @@ class ReplyInputBar extends ConsumerStatefulWidget {
 class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   final _controller = TextEditingController();
 
-  File? _selectedAttachment;
-  String? _selectedAttachmentName;
+  final List<Attachment> _attachments = [];
+  final List<String> _removeAttachmentIds = [];
   bool _isSubmitting = false;
-  bool _removeExistingAttachment = false;
+  bool _isUploading = false;
+  bool _removeExistingAttachments = false;
 
   @override
   void initState() {
@@ -67,14 +67,14 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     final editTarget = widget.editTarget;
     if (editTarget != null) {
       _controller.text = editTarget.content;
-      _selectedAttachment = null;
-      _selectedAttachmentName = null;
-      _removeExistingAttachment = false;
+      _attachments.clear();
+      _removeAttachmentIds.clear();
+      _removeExistingAttachments = false;
     } else {
       _controller.clear();
-      _selectedAttachment = null;
-      _selectedAttachmentName = null;
-      _removeExistingAttachment = false;
+      _attachments.clear();
+      _removeAttachmentIds.clear();
+      _removeExistingAttachments = false;
     }
     if (mounted) {
       setState(() {});
@@ -89,18 +89,18 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           children: [
             ListTile(
               leading: const Icon(Icons.image),
-              title: const Text('Choose image'),
+              title: const Text('Choose images'),
               onTap: () async {
                 Navigator.of(ctx).pop();
-                await _pickImage();
+                await _pickImages();
               },
             ),
             ListTile(
               leading: const Icon(Icons.insert_drive_file),
-              title: const Text('Choose file'),
+              title: const Text('Choose files'),
               onTap: () async {
                 Navigator.of(ctx).pop();
-                await _pickFile();
+                await _pickFiles();
               },
             ),
           ],
@@ -109,35 +109,72 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     );
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImages() async {
     final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
-    if (picked == null || !mounted) {
-      return;
+    final picked = await picker.pickMultiImage();
+    if (picked.isNotEmpty && mounted) {
+      await _uploadFiles(picked);
     }
-    setState(() {
-      _selectedAttachment = File(picked.path);
-      _selectedAttachmentName = picked.name;
-      _removeExistingAttachment = false;
-    });
   }
 
-  Future<void> _pickFile() async {
-    final result = await FilePicker.pickFiles();
-    if (result == null || result.files.isEmpty || !mounted) {
-      return;
-    }
+  Future<void> _pickFiles() async {
+    final result = await FilePicker.pickFiles(
+      allowMultiple: true,
+      withData: true,
+    );
+    if (result == null || result.files.isEmpty || !mounted) return;
 
-    final picked = result.files.first;
-    if (picked.path == null) {
-      return;
+    final files = <XFile>[];
+    for (final file in result.files) {
+      if (file.bytes != null && file.bytes!.isNotEmpty) {
+        files.add(
+          XFile.fromData(
+            file.bytes!,
+            name: file.name,
+          ),
+        );
+      } else if (file.path != null) {
+        files.add(XFile(file.path!));
+      }
     }
+    if (files.isNotEmpty) {
+      _uploadFiles(files);
+    }
+  }
 
-    setState(() {
-      _selectedAttachment = File(picked.path!);
-      _selectedAttachmentName = picked.name;
-      _removeExistingAttachment = false;
-    });
+  Future<void> _uploadFiles(List<XFile> files) async {
+    setState(() => _isUploading = true);
+    try {
+      debugPrint('Uploading ${files.length} files...');
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .uploadAttachments(files);
+
+      result.fold(
+        (failure) {
+          debugPrint('Upload failed: $failure');
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to upload: $failure')),
+            );
+          }
+        },
+        (attachments) {
+          debugPrint('Upload success: ${attachments.length} files');
+          setState(() {
+            _attachments.addAll(attachments);
+          });
+        },
+      );
+    } on Exception catch (e) {
+      debugPrint('Upload error: $e');
+    } finally {
+      if (mounted) setState(() => _isUploading = false);
+    }
+  }
+
+  void _removeAttachment(int index) {
+    setState(() => _attachments.removeAt(index));
   }
 
   Future<void> _submit() async {
@@ -145,107 +182,108 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     final editTarget = widget.editTarget;
     final replyTarget = widget.replyTarget;
 
-    final canSubmit = content.isNotEmpty || _selectedAttachment != null;
-    if (!canSubmit) {
-      return;
-    }
+    final canSubmit = content.isNotEmpty || _attachments.isNotEmpty;
+    if (!canSubmit) return;
 
     setState(() => _isSubmitting = true);
 
-    if (editTarget != null) {
-      final result = await ref
-          .read(communityMutationsProvider.notifier)
-          .updatePost(
-            editTarget.id,
-            widget.threadId,
-            content: content,
-            removeAttachment: _removeExistingAttachment,
-            attachment: _selectedAttachment,
-          );
+    try {
+      final attachmentIds = _attachments.isNotEmpty
+          ? _attachments.map((a) => a.id).join(',')
+          : null;
 
-      if (!mounted) {
-        return;
+      if (editTarget != null) {
+        final result = await ref
+            .read(communityMutationsProvider.notifier)
+            .updatePost(
+              editTarget.id,
+              widget.threadId,
+              content: content,
+              attachmentIds: attachmentIds,
+              removeAllAttachments: _removeExistingAttachments,
+              removeAttachmentIds: _removeAttachmentIds.isNotEmpty
+                  ? _removeAttachmentIds.join(',')
+                  : null,
+            );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to update post: $failure')),
+            );
+          },
+          (_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Post updated successfully')),
+            );
+            _controller.clear();
+            setState(() {
+              _attachments.clear();
+              _removeAttachmentIds.clear();
+              _removeExistingAttachments = false;
+            });
+            widget.onClearMode();
+          },
+        );
+      } else if (replyTarget != null) {
+        final result = await ref
+            .read(communityMutationsProvider.notifier)
+            .replyToPost(
+              threadId: widget.threadId,
+              postId: replyTarget.id,
+              content: content,
+              attachmentIds: attachmentIds,
+            );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to reply: $failure')),
+            );
+          },
+          (_) {
+            _controller.clear();
+            setState(() => _attachments.clear());
+            widget.onClearMode();
+          },
+        );
+      } else {
+        final result = await ref
+            .read(communityMutationsProvider.notifier)
+            .createPost(
+              threadId: widget.threadId,
+              content: content,
+              attachmentIds: attachmentIds,
+            );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to post: $failure')),
+            );
+          },
+          (_) {
+            _controller.clear();
+            setState(() => _attachments.clear());
+          },
+        );
       }
-
-      result.fold(
-        (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to update post: $failure')),
-          );
-        },
-        (_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Post updated successfully')),
-          );
-          _controller.clear();
-          setState(() {
-            _selectedAttachment = null;
-            _selectedAttachmentName = null;
-            _removeExistingAttachment = false;
-          });
-          widget.onClearMode();
-        },
-      );
-    } else if (replyTarget != null) {
-      final result = await ref
-          .read(communityMutationsProvider.notifier)
-          .replyToPost(
-            threadId: widget.threadId,
-            postId: replyTarget.id,
-            content: content,
-            attachment: _selectedAttachment,
-          );
-
-      if (!mounted) {
-        return;
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
       }
-
-      result.fold(
-        (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to reply: $failure')),
-          );
-        },
-        (_) {
-          _controller.clear();
-          setState(() {
-            _selectedAttachment = null;
-            _selectedAttachmentName = null;
-          });
-          widget.onClearMode();
-        },
-      );
-    } else {
-      final result = await ref
-          .read(communityMutationsProvider.notifier)
-          .createPost(
-            threadId: widget.threadId,
-            content: content,
-            attachment: _selectedAttachment,
-          );
-
-      if (!mounted) {
-        return;
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
       }
-
-      result.fold(
-        (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to post: $failure')),
-          );
-        },
-        (_) {
-          _controller.clear();
-          setState(() {
-            _selectedAttachment = null;
-            _selectedAttachmentName = null;
-          });
-        },
-      );
-    }
-
-    if (mounted) {
-      setState(() => _isSubmitting = false);
     }
   }
 
@@ -253,11 +291,11 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   Widget build(BuildContext context) {
     final isEditing = widget.editTarget != null;
     final isReplying = widget.replyTarget != null;
-    final existingAttachmentUrl = widget.editTarget?.attachmentUrl;
-    final showExistingAttachment =
+    final existingAttachments = widget.editTarget?.attachments;
+    final showExistingAttachments =
         isEditing &&
-        existingAttachmentUrl != null &&
-        existingAttachmentUrl.isNotEmpty;
+        existingAttachments != null &&
+        existingAttachments.isNotEmpty;
 
     final modeLabel = isEditing
         ? 'Editing post'
@@ -317,72 +355,181 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, size: 18),
-                      onPressed: _isSubmitting ? null : widget.onClearMode,
-                    ),
-                  ],
-                ),
-              ),
-            if (_selectedAttachment != null)
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.attach_file),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        _selectedAttachmentName ?? 'Attachment selected',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close, size: 18),
-                      onPressed: () {
-                        setState(() {
-                          _selectedAttachment = null;
-                          _selectedAttachmentName = null;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            if (showExistingAttachment && _selectedAttachment == null)
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.attach_file),
-                    const SizedBox(width: 8),
-                    const Expanded(child: Text('Existing attachment')),
-                    TextButton(
-                      onPressed: _isSubmitting
+                      onPressed: (_isSubmitting || _isUploading)
                           ? null
-                          : () => setState(
-                              () => _removeExistingAttachment = true,
-                            ),
-                      child: const Text('Remove'),
+                          : widget.onClearMode,
                     ),
                   ],
                 ),
               ),
-            if (_removeExistingAttachment)
+
+            // Uploaded NEW attachments preview (always show if any)
+            if (_attachments.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'New attachments (${_attachments.length}):',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 4),
+                    for (var i = 0; i < _attachments.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _getFileIcon(_attachments[i].fileName),
+                              size: 16,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _attachments[i].fileName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '${(_attachments[i].fileSize / 1024).toStringAsFixed(1)} KB',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close, size: 16),
+                              onPressed: () => _removeAttachment(i),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+
+            // Existing attachments (when editing - ALWAYS show if has existing)
+            if (showExistingAttachments)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Existing attachments (${existingAttachments.length}):',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 4),
+                    for (var i = 0; i < existingAttachments.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _getFileIcon(existingAttachments[i].fileName),
+                              size: 16,
+                              color:
+                                  _removeAttachmentIds.contains(
+                                    existingAttachments[i].id,
+                                  )
+                                  ? Colors.grey
+                                  : Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                existingAttachments[i].fileName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                    _removeAttachmentIds.contains(
+                                      existingAttachments[i].id,
+                                    )
+                                    ? const TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                      )
+                                    : null,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                _removeAttachmentIds.contains(
+                                      existingAttachments[i].id,
+                                    )
+                                    ? Icons.undo
+                                    : Icons.close,
+                                size: 16,
+                              ),
+                              onPressed: (_isSubmitting || _isUploading)
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        final id = existingAttachments[i].id;
+                                        if (_removeAttachmentIds.contains(id)) {
+                                          _removeAttachmentIds.remove(id);
+                                        } else {
+                                          _removeAttachmentIds.add(id);
+                                        }
+                                      });
+                                    },
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              tooltip:
+                                  _removeAttachmentIds.contains(
+                                    existingAttachments[i].id,
+                                  )
+                                  ? 'Undo remove'
+                                  : 'Remove this attachment',
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (_removeAttachmentIds.isNotEmpty)
+                      TextButton(
+                        onPressed: (_isSubmitting || _isUploading)
+                            ? null
+                            : () => setState(
+                                () => _removeExistingAttachments = true,
+                              ),
+                        child: const Text('Remove all'),
+                      )
+                    else
+                      TextButton(
+                        onPressed: (_isSubmitting || _isUploading)
+                            ? null
+                            : () {
+                                setState(() {
+                                  _removeAttachmentIds.addAll(
+                                    existingAttachments.map((a) => a.id),
+                                  );
+                                });
+                              },
+                        child: const Text('Remove all'),
+                      ),
+                  ],
+                ),
+              ),
+
+            if (_removeExistingAttachments)
               Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.symmetric(
@@ -396,24 +543,33 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                 child: Row(
                   children: [
                     const Expanded(
-                      child: Text('Attachment will be removed on update'),
+                      child: Text('Attachments will be removed on update'),
                     ),
                     TextButton(
-                      onPressed: _isSubmitting
+                      onPressed: (_isSubmitting || _isUploading)
                           ? null
                           : () => setState(
-                              () => _removeExistingAttachment = false,
+                              () => _removeExistingAttachments = false,
                             ),
                       child: const Text('Undo'),
                     ),
                   ],
                 ),
               ),
+
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.attach_file),
-                  onPressed: _isSubmitting ? null : _showAttachmentPicker,
+                  icon: _isUploading
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.attach_file),
+                  onPressed: (_isSubmitting || _isUploading)
+                      ? null
+                      : _showAttachmentPicker,
                 ),
                 Expanded(
                   child: TextField(
@@ -454,5 +610,17 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         ),
       ),
     );
+  }
+
+  IconData _getFileIcon(String filename) {
+    final ext = filename.split('.').last.toLowerCase();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].contains(ext)) {
+      return Icons.image;
+    } else if (ext == 'pdf') {
+      return Icons.picture_as_pdf;
+    } else if (['doc', 'docx'].contains(ext)) {
+      return Icons.description;
+    }
+    return Icons.insert_drive_file;
   }
 }

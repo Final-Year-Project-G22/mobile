@@ -6,14 +6,15 @@ import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../domain/entities/attachment.dart';
+
 class PostCard extends StatelessWidget {
   const PostCard({
     required this.authorId,
     required this.authorDisplayName,
     required this.content,
     this.upvoteCount,
-    this.attachmentUrl,
-    this.attachmentType,
+    this.attachments,
     this.authorAvatarUrl,
     this.parentPreview,
     this.nestingLevel = 0,
@@ -29,8 +30,7 @@ class PostCard extends StatelessWidget {
   final String? authorAvatarUrl;
   final String content;
   final int? upvoteCount;
-  final String? attachmentUrl;
-  final String? attachmentType;
+  final List<Attachment>? attachments;
   final String? parentPreview;
   final int nestingLevel;
   final bool isEdited;
@@ -45,19 +45,31 @@ class PostCard extends StatelessWidget {
     }
   }
 
-  bool _isImage(String? url, String? type) {
-    if (type != null && type.startsWith('image/')) {
-      return true;
+  bool _isImage(String? fileType) {
+    return fileType != null && fileType.startsWith('image/');
+  }
+
+  IconData _getFileIcon(String? fileType, String fileName) {
+    if (fileType != null && fileType.startsWith('image/')) {
+      return Icons.image;
     }
-    if (url == null) {
-      return false;
+    final ext = fileName.split('.').last.toLowerCase();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].contains(ext)) {
+      return Icons.image;
+    } else if (fileType == 'application/pdf' || ext == 'pdf') {
+      return Icons.picture_as_pdf;
+    } else if (['doc', 'docx'].contains(ext)) {
+      return Icons.description;
+    } else if (['xls', 'xlsx'].contains(ext)) {
+      return Icons.table_chart;
+    } else if (['ppt', 'pptx'].contains(ext)) {
+      return Icons.slideshow;
+    } else if (['zip', 'rar', '7z'].contains(ext)) {
+      return Icons.archive;
+    } else if (ext == 'txt') {
+      return Icons.text_snippet;
     }
-    final lower = url.toLowerCase();
-    return lower.endsWith('.jpg') ||
-        lower.endsWith('.jpeg') ||
-        lower.endsWith('.png') ||
-        lower.endsWith('.gif') ||
-        lower.endsWith('.webp');
+    return Icons.insert_drive_file;
   }
 
   Future<void> _downloadAndSaveImage(BuildContext context, String url) async {
@@ -155,14 +167,10 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage:
-                          authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
+                      backgroundImage: authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
                           ? NetworkImage(authorAvatarUrl!)
                           : null,
-                      child:
-                          (authorAvatarUrl == null || authorAvatarUrl!.isEmpty)
-                          ? const Icon(Icons.person)
-                          : null,
+                      child: (authorAvatarUrl == null || authorAvatarUrl!.isEmpty) ? const Icon(Icons.person) : null,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -225,12 +233,7 @@ class PostCard extends StatelessWidget {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          Theme.of(
-                            context,
-                          ).colorScheme.surfaceContainerHighest.withValues(
-                            alpha: 0.4,
-                          ),
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(8),
                       border: Border(
                         left: BorderSide(
@@ -249,37 +252,98 @@ class PostCard extends StatelessWidget {
                 ],
                 const SizedBox(height: 8),
                 Text(content),
-                if (attachmentUrl != null && attachmentUrl!.isNotEmpty) ...[
+                if (attachments != null && attachments!.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  if (_isImage(attachmentUrl, attachmentType))
-                    GestureDetector(
-                      onLongPress: () {
-                        unawaited(
-                          _showImageActionDialog(context, attachmentUrl!),
-                        );
-                      },
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight: 250,
-                          minWidth: double.infinity,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            attachmentUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Text('Failed to load image'),
-                          ),
+                  ...attachments!.map((att) {
+                    final isImage = _isImage(att.fileType);
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                        border: Border.all(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
-                    )
-                  else
-                    OutlinedButton.icon(
-                      onPressed: () => _launchUrl(attachmentUrl!),
-                      icon: const Icon(Icons.attach_file),
-                      label: const Text('Download attachment'),
-                    ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                _getFileIcon(att.fileType, att.fileName),
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      att.fileName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      att.fileType,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (isImage)
+                                IconButton(
+                                  icon: const Icon(Icons.visibility, size: 20),
+                                  onPressed: () => _showImageActionDialog(
+                                    context,
+                                    att.fileUrl,
+                                  ),
+                                  tooltip: 'Save image',
+                                )
+                              else
+                                IconButton(
+                                  icon: const Icon(Icons.download, size: 20),
+                                  onPressed: () => _launchUrl(att.fileUrl),
+                                  tooltip: 'Download',
+                                ),
+                            ],
+                          ),
+                          if (isImage) const SizedBox(height: 8),
+                          if (isImage)
+                            GestureDetector(
+                              onLongPress: () => unawaited(
+                                _showImageActionDialog(context, att.fileUrl),
+                              ),
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxHeight: 250,
+                                  minWidth: double.infinity,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    att.fileUrl,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => const Text('Failed to load image'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  }),
                 ],
                 if (upvoteCount != null) ...[
                   const SizedBox(height: 8),

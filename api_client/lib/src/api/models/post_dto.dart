@@ -37,11 +37,8 @@ abstract class PostDto with _$PostDto {
     /// Upvote count
     required int upvoteCount,
 
-    /// Attachment type
-    String? attachmentType,
-
-    /// Attachment URL
-    String? attachmentUrl,
+    /// Post attachments
+    List<dynamic>? attachments,
 
     /// Author avatar URL
     String? authorAvatarUrl,

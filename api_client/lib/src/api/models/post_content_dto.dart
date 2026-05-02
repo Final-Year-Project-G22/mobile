@@ -34,12 +34,6 @@ abstract class PostContentDto with _$PostContentDto {
     /// Thread ID
     required String threadId,
 
-    /// Attachment type
-    String? attachmentType,
-
-    /// Attachment URL
-    String? attachmentUrl,
-
     /// Parent post ID
     String? parentPostId,
 

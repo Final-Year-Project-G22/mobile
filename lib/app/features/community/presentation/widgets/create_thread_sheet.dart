@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../application/providers/community_state_providers.dart';
+import '../../domain/entities/attachment.dart';
 
 class CreateThreadSheet extends ConsumerStatefulWidget {
   const CreateThreadSheet({super.key});
@@ -22,8 +22,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
   final _initialPostController = TextEditingController();
 
   String? _selectedCategoryId;
-  File? _selectedImage;
+  final List<Attachment> _attachments = [];
   bool _isSubmitting = false;
+  bool _isUploading = false;
 
   @override
   void initState() {
@@ -50,12 +51,70 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final picked = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-    if (picked != null && mounted) {
-      setState(() => _selectedImage = File(picked.path));
+    final picked = await picker.pickMultiImage();
+    if (picked.isNotEmpty && mounted) {
+      _uploadFiles(picked);
     }
+  }
+
+  Future<void> _pickFile() async {
+    final result = await FilePicker.pickFiles(
+      allowMultiple: true,
+      withData: true, // Get bytes directly for web
+    );
+    if (result != null && result.files.isNotEmpty && mounted) {
+      final files = <XFile>[];
+      for (final file in result.files) {
+        if (file.bytes != null && file.bytes!.isNotEmpty) {
+          files.add(
+            XFile.fromData(
+              file.bytes!,
+              name: file.name,
+            ),
+          );
+        } else if (file.path != null) {
+          files.add(XFile(file.path!));
+        }
+      }
+      if (files.isNotEmpty) {
+        _uploadFiles(files);
+      }
+    }
+  }
+
+  Future<void> _uploadFiles(List<XFile> files) async {
+    setState(() => _isUploading = true);
+    try {
+      debugPrint('Uploading ${files.length} files...');
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .uploadAttachments(files);
+
+      result.fold(
+        (failure) {
+          debugPrint('Upload failed: $failure');
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to upload: $failure')),
+            );
+          }
+        },
+        (attachments) {
+          debugPrint('Upload success: ${attachments.length} files');
+          setState(() {
+            _attachments.addAll(attachments);
+          });
+        },
+      );
+    } catch (e) {
+      debugPrint('Upload error: $e');
+    } finally {
+      if (mounted) setState(() => _isUploading = false);
+    }
+  }
+
+  void _removeAttachment(int index) {
+    setState(() => _attachments.removeAt(index));
   }
 
   Future<void> _submit() async {
@@ -70,37 +129,64 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
 
     setState(() => _isSubmitting = true);
 
-    final title = _titleController.text.trim();
-    final description = _descriptionController.text.trim();
-    final initialPost = _initialPostController.text.trim();
+    try {
+      final title = _titleController.text.trim();
+      final description = _descriptionController.text.trim();
+      final initialPost = _initialPostController.text.trim();
 
-    final result = await ref
-        .read(communityMutationsProvider.notifier)
-        .createThread(
-          categoryId: _selectedCategoryId!,
-          title: title,
-          slug: _buildSlug(title),
-          description: description,
-          initialPostContent: initialPost,
-          attachment: _selectedImage,
-        );
+      final attachmentIds = _attachments.isNotEmpty
+          ? _attachments.map((a) => a.id).join(',')
+          : null;
 
-    if (!mounted) return;
+      debugPrint('Submitting thread with attachmentIds: $attachmentIds');
 
-    setState(() => _isSubmitting = false);
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .createThread(
+            categoryId: _selectedCategoryId!,
+            title: title,
+            slug: _buildSlug(title),
+            description: description,
+            initialPostContent: initialPost,
+            attachmentIds: attachmentIds,
+          );
 
-    result.fold(
-      (failure) {
+      if (!mounted) return;
+
+      result.fold(
+        (failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed: $failure')),
+          );
+        },
+        (threadId) {
+          ref
+              .read(selectedCategoryIdProvider.notifier)
+              .setCategoryId(_selectedCategoryId);
+          Navigator.of(context).pop(threadId);
+        },
+      );
+    } catch (e) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $failure')),
+          SnackBar(content: Text('Error: $e')),
         );
-      },
-      (threadId) {
-        ref.read(selectedCategoryIdProvider.notifier).setCategoryId(_selectedCategoryId);
+      }
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
 
-        Navigator.of(context).pop(threadId);
-      },
-    );
+  IconData _getFileIcon(String filename) {
+    final ext = filename.split('.').last.toLowerCase();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].contains(ext)) {
+      return Icons.image;
+    } else if (ext == 'pdf') {
+      return Icons.picture_as_pdf;
+    } else if (['doc', 'docx'].contains(ext)) {
+      return Icons.description;
+    }
+    return Icons.insert_drive_file;
   }
 
   @override
@@ -121,14 +207,16 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                 'Create Thread',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-
               const SizedBox(height: 16),
 
-              /// Category dropdown
+              // Category dropdown
               categoriesAsync.when(
                 data: (categories) {
                   return DropdownButtonFormField<String>(
-                    initialValue: categories.any((c) => c.id == _selectedCategoryId) ? _selectedCategoryId : null,
+                    initialValue:
+                        categories.any((c) => c.id == _selectedCategoryId)
+                        ? _selectedCategoryId
+                        : null,
                     hint: const Text('Select category'),
                     items: categories
                         .map(
@@ -138,7 +226,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                           ),
                         )
                         .toList(),
-                    onChanged: _isSubmitting ? null : (v) => setState(() => _selectedCategoryId = v),
+                    onChanged: _isSubmitting
+                        ? null
+                        : (v) => setState(() => _selectedCategoryId = v),
                     validator: (v) => v == null ? 'Category required' : null,
                   );
                 },
@@ -148,7 +238,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
 
               const SizedBox(height: 12),
 
-              /// Title
+              // Title
               TextFormField(
                 controller: _titleController,
                 enabled: !_isSubmitting,
@@ -166,7 +256,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
 
               const SizedBox(height: 12),
 
-              /// Description
+              // Description
               TextFormField(
                 controller: _descriptionController,
                 enabled: !_isSubmitting,
@@ -176,12 +266,13 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   labelText: 'Thread Summary',
                   border: OutlineInputBorder(),
                 ),
-                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
+                validator: (v) =>
+                    (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
               ),
 
               const SizedBox(height: 12),
 
-              /// Initial post
+              // Initial post
               TextFormField(
                 controller: _initialPostController,
                 enabled: !_isSubmitting,
@@ -191,45 +282,116 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   labelText: 'Initial Post',
                   border: OutlineInputBorder(),
                 ),
-                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Post required' : null,
+                validator: (v) =>
+                    (v?.trim().isEmpty ?? true) ? 'Post required' : null,
               ),
 
               const SizedBox(height: 12),
 
-              /// ✅ FIXED ROW (IMPORTANT)
+              // Attachment buttons
               Row(
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: _isSubmitting ? null : _pickImage,
-                      icon: const Icon(Icons.image),
-                      label: const Text('Attach Image'),
+                      onPressed: (_isSubmitting || _isUploading)
+                          ? null
+                          : _pickImage,
+                      icon: _isUploading
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.image),
+                      label: const Text('Add Images'),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  if (_selectedImage != null)
-                    Expanded(
-                      child: Text(
-                        _selectedImage!.path.split('/').last,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: (_isSubmitting || _isUploading)
+                          ? null
+                          : _pickFile,
+                      icon: const Icon(Icons.attach_file),
+                      label: const Text('Add Files'),
                     ),
+                  ),
                 ],
               ),
 
+              // Uploaded attachments list
+              if (_attachments.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Attachments (${_attachments.length}):',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 4),
+                ...List.generate(_attachments.length, (index) {
+                  final att = _attachments[index];
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest
+                          .withValues(alpha: 0.5),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          _getFileIcon(att.fileName),
+                          size: 20,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                att.fileName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                '${(att.fileSize / 1024).toStringAsFixed(1)} KB',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close, size: 16),
+                          onPressed: () => _removeAttachment(index),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+
               const SizedBox(height: 16),
 
-              /// Submit button
+              // Submit button
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: _isSubmitting ? null : _submit,
+                  onPressed: (_isSubmitting || _isUploading) ? null : _submit,
                   child: _isSubmitting
                       ? const SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
+                            color: Colors.white,
                           ),
                         )
                       : const Text('Post Thread'),

@@ -85,9 +85,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       return;
     }
 
-    final result = await ref
-        .read(communityMutationsProvider.notifier)
-        .deletePost(post.id, widget.threadId);
+    final result = await ref.read(communityMutationsProvider.notifier).deletePost(post.id, widget.threadId);
 
     if (!mounted) {
       return;
@@ -147,8 +145,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     for (final entries in byParent.values) {
       entries.sort(
-        (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
-            .compareTo(b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)),
+        (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+          b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+        ),
       );
     }
 
@@ -168,8 +167,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       final remaining = source.where((post) => !ordered.contains(post));
       final leftovers = remaining.toList()
         ..sort(
-          (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
-              .compareTo(b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)),
+          (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+            b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+          ),
         );
       ordered.addAll(leftovers);
     }
@@ -194,12 +194,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             data: (posts) {
               final sortedPosts = [...posts]
                 ..sort(
-                  (a, b) =>
-                      (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
-                          .compareTo(
-                            b.createdAt ??
-                                DateTime.fromMillisecondsSinceEpoch(0),
-                          ),
+                  (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+                    b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ),
                 );
 
               final postsById = {
@@ -217,9 +214,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               final initialPostId = initialPost?.id;
               final repliesSource = initialPostId == null
                   ? sortedPosts
-                  : sortedPosts
-                        .where((post) => post.id != initialPostId)
-                        .toList();
+                  : sortedPosts.where((post) => post.id != initialPostId).toList();
 
               final orderedReplies = _buildThreadedReplies(
                 repliesSource,
@@ -251,12 +246,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               ),
                               authorAvatarUrl: initialPost.authorAvatarUrl,
                               content: initialPost.content,
-                              attachmentUrl: initialPost.attachmentUrl,
-                              attachmentType: initialPost.attachmentType,
+                              attachments: initialPost.attachments,
                               upvoteCount: initialPost.upvoteCount,
-                              isEdited:
-                                  initialPost.editCount > 0 ||
-                                  initialPost.editedAt != null,
+                              isEdited: initialPost.editCount > 0 || initialPost.editedAt != null,
                               onReply: () => _startReply(initialPost!),
                               onEdit:
                                   _isAuthor(
@@ -273,8 +265,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                   ? () => _deletePost(initialPost!)
                                   : null,
                             )
-                          else if (thread.description != null &&
-                              thread.description!.isNotEmpty)
+                          else if (thread.description != null && thread.description!.isNotEmpty)
                             PostCard(
                               authorId: thread.authorId,
                               authorDisplayName: _displayName(
@@ -303,9 +294,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           final post = orderedReplies[index];
-                          final parent = post.parentPostId == null
-                              ? null
-                              : postsById[post.parentPostId!];
+                          final parent = post.parentPostId == null ? null : postsById[post.parentPostId!];
                           final parentPreview = parent == null
                               ? null
                               : 'Replying to ${_displayName(parent.authorId, parent.authorDisplayName)}: ${parent.content}';
@@ -319,19 +308,13 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             authorAvatarUrl: post.authorAvatarUrl,
                             content: post.content,
                             upvoteCount: post.upvoteCount,
-                            attachmentUrl: post.attachmentUrl,
-                            attachmentType: post.attachmentType,
+                            attachments: post.attachments,
                             nestingLevel: _nestingLevel(post, postsById),
                             parentPreview: parentPreview,
-                            isEdited:
-                                post.editCount > 0 || post.editedAt != null,
+                            isEdited: post.editCount > 0 || post.editedAt != null,
                             onReply: () => _startReply(post),
-                            onEdit: _isAuthor(post.authorId, currentAccountId)
-                                ? () => _startEdit(post)
-                                : null,
-                            onDelete: _isAuthor(post.authorId, currentAccountId)
-                                ? () => _deletePost(post)
-                                : null,
+                            onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
+                            onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
                           );
                         },
                         childCount: orderedReplies.length,
