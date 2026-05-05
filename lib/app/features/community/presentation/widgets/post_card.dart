@@ -22,6 +22,7 @@ class PostCard extends StatelessWidget {
     this.onReply,
     this.onEdit,
     this.onDelete,
+    this.createdAt,
     super.key,
   });
 
@@ -37,6 +38,7 @@ class PostCard extends StatelessWidget {
   final VoidCallback? onReply;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final DateTime? createdAt;
 
   Future<void> _launchUrl(String urlString) async {
     final url = Uri.parse(urlString);
@@ -70,6 +72,18 @@ class PostCard extends StatelessWidget {
       return Icons.text_snippet;
     }
     return Icons.insert_drive_file;
+  }
+
+  String _formatTime(DateTime? time) {
+    if (time == null) return '';
+
+    final now = DateTime.now();
+    final diff = now.difference(time);
+
+    if (diff.inMinutes < 1) return 'just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m';
+    if (diff.inHours < 24) return '${diff.inHours}h';
+    return '${diff.inDays}d';
   }
 
   Future<void> _downloadAndSaveImage(BuildContext context, String url) async {
@@ -174,11 +188,22 @@ class PostCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(
-                        authorDisplayName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            authorDisplayName,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            _formatTime(createdAt),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
                       ),
                     ),
+
                     if (isEdited)
                       Text(
                         'edited',

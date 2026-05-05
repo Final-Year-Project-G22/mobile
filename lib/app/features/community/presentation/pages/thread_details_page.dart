@@ -248,6 +248,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               content: initialPost.content,
                               attachments: initialPost.attachments,
                               upvoteCount: initialPost.upvoteCount,
+                              createdAt: thread.createdAt,
                               isEdited: initialPost.editCount > 0 || initialPost.editedAt != null,
                               onReply: () => _startReply(initialPost!),
                               onEdit:
@@ -274,6 +275,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               ),
                               authorAvatarUrl: thread.authorAvatarUrl,
                               content: thread.description!,
+                              createdAt: thread.createdAt,
                             ),
                           const Divider(),
                         ],
@@ -311,6 +313,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             attachments: post.attachments,
                             nestingLevel: _nestingLevel(post, postsById),
                             parentPreview: parentPreview,
+                            createdAt: thread.createdAt,
                             isEdited: post.editCount > 0 || post.editedAt != null,
                             onReply: () => _startReply(post),
                             onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
