@@ -6,10 +6,6 @@ import '../../../../constants/app_spacing.dart';
 import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
-import '../../../community/presentation/pages/community_home_page.dart';
-import 'ai_guild_page.dart';
-import 'guide_page.dart';
-import 'templates_page.dart';
 
 class HomeShellPage extends ConsumerWidget {
   const HomeShellPage({required this.navigator, super.key});
