@@ -1,8 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/di/preferences_provider.dart';
-import '../../domain/entities/download_item.dart';
-import '../../domain/i_templates_repository.dart';
+
+import '../../../../../core/di/preferences_provider.dart';
+import '../../domain/failures/template_failure.dart';
 import '../../infrastructure/cache/downloads_cache_service.dart';
 import 'templates_providers.dart';
 
@@ -42,60 +43,58 @@ class MyDownloadsNotifier extends _$MyDownloadsNotifier {
   }
 
   Future<void> loadMore() async {
-    final current = state.valueOrNull;
-    if (current == null || current.isLoadingMore || !current.hasMore) return;
+    final current = await future;
+    if (current.isLoadingMore || !current.hasMore) return;
 
     state = AsyncValue.data(current.copyWith(isLoadingMore: true));
 
     final nextPage = current.page + 1;
     final result = await _fetchPage(nextPage);
 
-    state = await result.fold(
-      (failure) => Future.value(
-        AsyncValue.error(failure, StackTrace.current),
-      ),
-      (newItems) => Future.value(
-        AsyncValue.data(
-          current.copyWith(
-            items: [...current.items, ...newItems],
-            page: nextPage,
-            hasMore: newItems.length >= _pageSize,
-            isLoadingMore: false,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> refresh() async {
-    final current = state.valueOrNull;
-    state = const AsyncValue.loading();
-    state = await _loadPage(
-      current ?? const DownloadsState(),
-      page: 1,
-    );
-  }
-
-  Future<AsyncValue<DownloadsState>> _loadPage(
-    DownloadsState baseState, {
-    required int page,
-  }) async {
-    final result = await _fetchPage(page);
-
-    return result.fold(
+    state = result.fold(
       (failure) => AsyncValue.error(failure, StackTrace.current),
-      (items) => AsyncValue.data(
-        baseState.copyWith(
-          items: items,
-          page: page,
-          hasMore: items.length >= _pageSize,
+      (newItems) => AsyncValue.data(
+        current.copyWith(
+          items: [...current.items, ...newItems],
+          page: nextPage,
+          hasMore: newItems.length >= _pageSize,
           isLoadingMore: false,
         ),
       ),
     );
   }
 
-  Future<Either<TemplateFailure, List<EnrichedDownloadItem>>> _fetchPage(int page) async {
+  Future<void> refresh() async {
+    final current = await future;
+    state = const AsyncValue.loading();
+    state = AsyncValue.data(
+      await _loadPage(
+        current,
+        page: 1,
+      ),
+    );
+  }
+
+  Future<DownloadsState> _loadPage(
+    DownloadsState baseState, {
+    required int page,
+  }) async {
+    final result = await _fetchPage(page);
+
+    return result.fold(
+      (failure) => throw failure,
+      (items) => baseState.copyWith(
+        items: items,
+        page: page,
+        hasMore: items.length >= _pageSize,
+        isLoadingMore: false,
+      ),
+    );
+  }
+
+  Future<Either<TemplateFailure, List<EnrichedDownloadItem>>> _fetchPage(
+    int page,
+  ) async {
     final repository = ref.read(templatesRepositoryProvider);
 
     final result = await repository.listMyDownloads(

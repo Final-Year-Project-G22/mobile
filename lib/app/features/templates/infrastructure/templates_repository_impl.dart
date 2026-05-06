@@ -159,9 +159,7 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
   }
 
   TemplateGroup _mapTemplateGroupCard(TemplateGroupCardResponse dto) {
-    final languages = (dto.languages ?? [])
-        .whereType<String>()
-        .toList();
+    final languages = (dto.languages ?? []).whereType<String>().toList();
 
     return TemplateGroup(
       id: dto.id,
@@ -230,9 +228,7 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic>
-            ? data['detail'] as String?
-            : null;
+        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
 
         if (statusCode == 404) {
           return const TemplateFailure.notFound();

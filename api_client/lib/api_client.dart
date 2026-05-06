@@ -59,3 +59,13 @@ export 'src/api/models/report_thread_request.dart';
 export 'src/api/models/report_post_request.dart';
 export 'src/api/models/report_user_request.dart';
 export 'src/api/models/block_user_request.dart';
+
+export 'src/api/library_field/library_field_client.dart';
+export 'src/api/models/category_node_response.dart';
+export 'src/api/models/template_group_card_response.dart';
+export 'src/api/models/user_template_group_detail_response.dart';
+export 'src/api/models/language_variant_response.dart';
+export 'src/api/models/download_template_response_body.dart';
+export 'src/api/models/list_template_groups_response_body.dart';
+export 'src/api/models/list_my_downloads_response_body.dart';
+export 'src/api/models/my_download_response.dart';

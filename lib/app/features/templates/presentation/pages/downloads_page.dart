@@ -29,13 +29,13 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      ref.read(myDownloadsNotifierProvider.notifier).loadMore();
+      ref.read(myDownloadsProvider.notifier).loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final downloadsAsync = ref.watch(myDownloadsNotifierProvider);
+    final downloadsAsync = ref.watch(myDownloadsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +43,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(myDownloadsNotifierProvider.notifier).refresh();
+          await ref.read(myDownloadsProvider.notifier).refresh();
         },
         child: downloadsAsync.when(
           data: (state) {

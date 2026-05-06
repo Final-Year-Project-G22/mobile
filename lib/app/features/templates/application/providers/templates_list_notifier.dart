@@ -1,8 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/template_group.dart';
-import '../../domain/i_templates_repository.dart';
+import '../../domain/failures/template_failure.dart';
 import 'templates_providers.dart';
 
 part 'templates_list_notifier.freezed.dart';
@@ -33,8 +34,8 @@ class TemplateListNotifier extends _$TemplateListNotifier {
   }
 
   Future<void> loadMore() async {
-    final current = state.valueOrNull;
-    if (current == null || current.isLoadingMore || !current.hasMore) return;
+    final current = await future;
+    if (current.isLoadingMore || !current.hasMore) return;
 
     state = AsyncValue.data(current.copyWith(isLoadingMore: true));
 
@@ -45,58 +46,60 @@ class TemplateListNotifier extends _$TemplateListNotifier {
       categoryId: current.categoryId,
     );
 
-    state = await result.fold(
-      (failure) => Future.value(
-        AsyncValue.error(failure, StackTrace.current),
-      ),
-      (newItems) => Future.value(
-        AsyncValue.data(
-          current.copyWith(
-            items: [...current.items, ...newItems],
-            page: nextPage,
-            hasMore: newItems.length >= _pageSize,
-            isLoadingMore: false,
-          ),
+    state = result.fold(
+      (failure) => AsyncValue.error(failure, StackTrace.current),
+      (newItems) => AsyncValue.data(
+        current.copyWith(
+          items: [...current.items, ...newItems],
+          page: nextPage,
+          hasMore: newItems.length >= _pageSize,
+          isLoadingMore: false,
         ),
       ),
     );
   }
 
   Future<void> setSearch(String? query) async {
-    final current = state.valueOrNull;
+    final current = await future;
     final normalized = query?.trim();
     final effectiveQuery = normalized?.isEmpty == true ? null : normalized;
 
-    if (current != null && current.searchQuery == effectiveQuery) return;
+    if (current.searchQuery == effectiveQuery) return;
 
     state = const AsyncValue.loading();
-    state = await _loadPage(
-      TemplateListState(searchQuery: effectiveQuery),
-      page: 1,
+    state = AsyncValue.data(
+      await _loadPage(
+        TemplateListState(searchQuery: effectiveQuery),
+        page: 1,
+      ),
     );
   }
 
   Future<void> setCategory(String? categoryId) async {
-    final current = state.valueOrNull;
-    if (current != null && current.categoryId == categoryId) return;
+    final current = await future;
+    if (current.categoryId == categoryId) return;
 
     state = const AsyncValue.loading();
-    state = await _loadPage(
-      TemplateListState(categoryId: categoryId),
-      page: 1,
+    state = AsyncValue.data(
+      await _loadPage(
+        TemplateListState(categoryId: categoryId),
+        page: 1,
+      ),
     );
   }
 
   Future<void> refresh() async {
-    final current = state.valueOrNull;
+    final current = await future;
     state = const AsyncValue.loading();
-    state = await _loadPage(
-      current ?? const TemplateListState(),
-      page: 1,
+    state = AsyncValue.data(
+      await _loadPage(
+        current,
+        page: 1,
+      ),
     );
   }
 
-  Future<AsyncValue<TemplateListState>> _loadPage(
+  Future<TemplateListState> _loadPage(
     TemplateListState baseState, {
     required int page,
   }) async {
@@ -107,14 +110,12 @@ class TemplateListNotifier extends _$TemplateListNotifier {
     );
 
     return result.fold(
-      (failure) => AsyncValue.error(failure, StackTrace.current),
-      (items) => AsyncValue.data(
-        baseState.copyWith(
-          items: items,
-          page: page,
-          hasMore: items.length >= _pageSize,
-          isLoadingMore: false,
-        ),
+      (failure) => throw failure,
+      (items) => baseState.copyWith(
+        items: items,
+        page: page,
+        hasMore: items.length >= _pageSize,
+        isLoadingMore: false,
       ),
     );
   }

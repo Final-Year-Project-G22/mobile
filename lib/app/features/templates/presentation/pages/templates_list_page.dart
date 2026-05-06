@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_list_notifier.dart';
 import '../widgets/category_drawer.dart';
 import '../widgets/template_card.dart';
@@ -40,13 +41,13 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      ref.read(templateListNotifierProvider.notifier).loadMore();
+      ref.read(templateListProvider.notifier).loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final listAsync = ref.watch(templateListNotifierProvider);
+    final listAsync = ref.watch(templateListProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
@@ -75,7 +76,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                           _searchController.clear();
                           setState(() => _showClear = false);
                           ref
-                              .read(templateListNotifierProvider.notifier)
+                              .read(templateListProvider.notifier)
                               .setSearch(null);
                         },
                       )
@@ -90,7 +91,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               ),
               onChanged: (value) {
                 ref
-                    .read(templateListNotifierProvider.notifier)
+                    .read(templateListProvider.notifier)
                     .setSearch(value.isEmpty ? null : value);
               },
             ),
@@ -129,7 +130,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         label: Text(category.name),
                         onSelected: (_) {
                           ref
-                              .read(templateListNotifierProvider.notifier)
+                              .read(templateListProvider.notifier)
                               .setCategory(category.id);
                         },
                       ),
@@ -150,7 +151,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
             child: RefreshIndicator(
               onRefresh: () async {
                 await ref
-                    .read(templateListNotifierProvider.notifier)
+                    .read(templateListProvider.notifier)
                     .refresh();
               },
               child: listAsync.when(
@@ -220,7 +221,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
         onSelect: (categoryId) {
           Navigator.pop(context);
           ref
-              .read(templateListNotifierProvider.notifier)
+              .read(templateListProvider.notifier)
               .setCategory(categoryId);
         },
       ),

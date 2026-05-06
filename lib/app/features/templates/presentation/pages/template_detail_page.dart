@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -187,7 +185,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
   Future<void> _handlePreview(TemplateGroupDetail detail, String language) async {
     if (detail.tierAccess == 'pro') {
-      _showUpgradeModal();
+      await _showUpgradeModal();
       return;
     }
 
@@ -215,7 +213,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
   Future<void> _handleDownload(TemplateGroupDetail detail, String language) async {
     if (detail.tierAccess == 'pro') {
-      _showUpgradeModal();
+      await _showUpgradeModal();
       return;
     }
 
@@ -234,18 +232,16 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       await dio.download(result.presignedUrl, filePath);
 
       // 3. Cache download metadata
-      final cacheAsync = ref.read(downloadsCacheServiceProvider);
-      await cacheAsync.whenData((cache) async {
-        await cache.addDownload(
-          downloadId: result.filename, // Using filename as unique id for cache
-          templateId: detail.id,
-          groupId: detail.id,
-          slug: detail.slug,
-          title: detail.name,
-          thumbnailUrl: detail.thumbnailUrl,
-          downloadedAt: DateTime.now(),
-        );
-      });
+      final cache = await ref.read(downloadsCacheServiceProvider.future);
+      await cache.addDownload(
+        downloadId: result.filename,
+        templateId: detail.id,
+        groupId: detail.id,
+        slug: detail.slug,
+        title: detail.name,
+        thumbnailUrl: detail.thumbnailUrl,
+        downloadedAt: DateTime.now(),
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -254,12 +250,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
             action: SnackBarAction(
               label: 'Open',
               onPressed: () async {
-                final file = File(filePath);
-                if (await file.exists()) {
-                  // Try to open with system viewer
-                  final uri = Uri.file(filePath);
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                }
+                final uri = Uri.file(filePath);
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
               },
             ),
           ),
@@ -284,8 +276,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     }
   }
 
-  void _showUpgradeModal() {
-    showDialog(
+  Future<void> _showUpgradeModal() async {
+    await showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
         icon: const Icon(Icons.lock, color: Colors.amber),
@@ -301,7 +293,6 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
-              // TODO: Navigate to upgrade/payment flow in v2
             },
             child: const Text('Upgrade to Pro'),
           ),
