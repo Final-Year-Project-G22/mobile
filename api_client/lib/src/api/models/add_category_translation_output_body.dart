@@ -8,8 +8,7 @@ part 'add_category_translation_output_body.freezed.dart';
 part 'add_category_translation_output_body.g.dart';
 
 @Freezed()
-abstract class AddCategoryTranslationOutputBody
-    with _$AddCategoryTranslationOutputBody {
+abstract class AddCategoryTranslationOutputBody with _$AddCategoryTranslationOutputBody {
   const factory AddCategoryTranslationOutputBody({
     /// Translation ID
     required String id,
@@ -18,7 +17,6 @@ abstract class AddCategoryTranslationOutputBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddCategoryTranslationOutputBody;
 
-  factory AddCategoryTranslationOutputBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$AddCategoryTranslationOutputBodyFromJson(json);
+  factory AddCategoryTranslationOutputBody.fromJson(Map<String, Object?> json) =>
+      _$AddCategoryTranslationOutputBodyFromJson(json);
 }

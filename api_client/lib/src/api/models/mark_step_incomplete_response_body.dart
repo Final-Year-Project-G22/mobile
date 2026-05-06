@@ -8,8 +8,7 @@ part 'mark_step_incomplete_response_body.freezed.dart';
 part 'mark_step_incomplete_response_body.g.dart';
 
 @Freezed()
-abstract class MarkStepIncompleteResponseBody
-    with _$MarkStepIncompleteResponseBody {
+abstract class MarkStepIncompleteResponseBody with _$MarkStepIncompleteResponseBody {
   const factory MarkStepIncompleteResponseBody({
     /// Success message
     required String message,

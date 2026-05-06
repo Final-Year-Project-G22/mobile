@@ -21,9 +21,7 @@ abstract class AiAskClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/ai/ask')
-  Future<HttpResponse<AskResponseBody>> ask({
-    @Body() required AskRequest body,
-  });
+  Future<HttpResponse<AskResponseBody>> ask({@Body() required AskRequest body});
 
   /// Ask a question with streaming response.
   ///
@@ -31,7 +29,5 @@ abstract class AiAskClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/ai/ask/stream')
-  Future<HttpResponse<void>> askStream({
-    @Body() required AskRequest body,
-  });
+  Future<HttpResponse<void>> askStream({@Body() required AskRequest body});
 }

@@ -29,6 +29,5 @@ abstract class ListTemplatesResponseBody with _$ListTemplatesResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListTemplatesResponseBody;
 
-  factory ListTemplatesResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListTemplatesResponseBodyFromJson(json);
+  factory ListTemplatesResponseBody.fromJson(Map<String, Object?> json) => _$ListTemplatesResponseBodyFromJson(json);
 }

@@ -20,6 +20,5 @@ abstract class OAuthCompleteEmailRequest with _$OAuthCompleteEmailRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _OAuthCompleteEmailRequest;
 
-  factory OAuthCompleteEmailRequest.fromJson(Map<String, Object?> json) =>
-      _$OAuthCompleteEmailRequestFromJson(json);
+  factory OAuthCompleteEmailRequest.fromJson(Map<String, Object?> json) => _$OAuthCompleteEmailRequestFromJson(json);
 }

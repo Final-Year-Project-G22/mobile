@@ -22,6 +22,5 @@ abstract class DeadEventDto with _$DeadEventDto {
     String? errorMessage,
   }) = _DeadEventDto;
 
-  factory DeadEventDto.fromJson(Map<String, Object?> json) =>
-      _$DeadEventDtoFromJson(json);
+  factory DeadEventDto.fromJson(Map<String, Object?> json) => _$DeadEventDtoFromJson(json);
 }

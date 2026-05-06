@@ -38,6 +38,5 @@ abstract class FinalizeUploadRequest with _$FinalizeUploadRequest {
     String? sourceFilename,
   }) = _FinalizeUploadRequest;
 
-  factory FinalizeUploadRequest.fromJson(Map<String, Object?> json) =>
-      _$FinalizeUploadRequestFromJson(json);
+  factory FinalizeUploadRequest.fromJson(Map<String, Object?> json) => _$FinalizeUploadRequestFromJson(json);
 }

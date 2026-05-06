@@ -29,6 +29,5 @@ abstract class ListInboxResponseBody with _$ListInboxResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListInboxResponseBody;
 
-  factory ListInboxResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListInboxResponseBodyFromJson(json);
+  factory ListInboxResponseBody.fromJson(Map<String, Object?> json) => _$ListInboxResponseBodyFromJson(json);
 }

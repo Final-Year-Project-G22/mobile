@@ -49,9 +49,7 @@ abstract class GuidesClient {
   ///
   /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/categories/tree')
-  Future<HttpResponse<GetCategoryTreeResponseBody>> getCategoryTree({
-    @Query('locale') String? locale,
-  });
+  Future<HttpResponse<GetCategoryTreeResponseBody>> getCategoryTree({@Query('locale') String? locale});
 
   /// Get recently viewed guides.
   ///
@@ -94,9 +92,7 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @DELETE('/api/v1/guides/steps/{stepId}/bookmark')
-  Future<HttpResponse<RemoveBookmarkResponseBody>> removeBookmark({
-    @Path('stepId') required String stepId,
-  });
+  Future<HttpResponse<RemoveBookmarkResponseBody>> removeBookmark({@Path('stepId') required String stepId});
 
   /// Update bookmark note.
   ///
@@ -117,9 +113,7 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/bookmark')
-  Future<HttpResponse<AddBookmarkResponseBody>> addBookmark({
-    @Path('stepId') required String stepId,
-  });
+  Future<HttpResponse<AddBookmarkResponseBody>> addBookmark({@Path('stepId') required String stepId});
 
   /// Complete a step.
   ///
@@ -140,9 +134,7 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/mark-incomplete')
-  Future<HttpResponse<MarkStepIncompleteResponseBody>> markStepIncomplete({
-    @Path('stepId') required String stepId,
-  });
+  Future<HttpResponse<MarkStepIncompleteResponseBody>> markStepIncomplete({@Path('stepId') required String stepId});
 
   /// Update step progress.
   ///
@@ -163,9 +155,7 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/skip')
-  Future<HttpResponse<SkipOptionalStepResponseBody>> skipOptionalStep({
-    @Path('stepId') required String stepId,
-  });
+  Future<HttpResponse<SkipOptionalStepResponseBody>> skipOptionalStep({@Path('stepId') required String stepId});
 
   /// Start a step.
   ///
@@ -173,9 +163,7 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/start')
-  Future<HttpResponse<StartStepResponseBody>> startStep({
-    @Path('stepId') required String stepId,
-  });
+  Future<HttpResponse<StartStepResponseBody>> startStep({@Path('stepId') required String stepId});
 
   /// Get personalized guide.
   ///

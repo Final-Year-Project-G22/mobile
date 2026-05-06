@@ -29,6 +29,5 @@ abstract class GuideCardDto with _$GuideCardDto {
     String? icon,
   }) = _GuideCardDto;
 
-  factory GuideCardDto.fromJson(Map<String, Object?> json) =>
-      _$GuideCardDtoFromJson(json);
+  factory GuideCardDto.fromJson(Map<String, Object?> json) => _$GuideCardDtoFromJson(json);
 }

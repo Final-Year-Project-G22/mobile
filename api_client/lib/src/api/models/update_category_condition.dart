@@ -21,6 +21,5 @@ abstract class UpdateCategoryCondition with _$UpdateCategoryCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _UpdateCategoryCondition;
 
-  factory UpdateCategoryCondition.fromJson(Map<String, Object?> json) =>
-      _$UpdateCategoryConditionFromJson(json);
+  factory UpdateCategoryCondition.fromJson(Map<String, Object?> json) => _$UpdateCategoryConditionFromJson(json);
 }

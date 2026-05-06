@@ -23,6 +23,5 @@ abstract class AddTranslationRequest with _$AddTranslationRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddTranslationRequest;
 
-  factory AddTranslationRequest.fromJson(Map<String, Object?> json) =>
-      _$AddTranslationRequestFromJson(json);
+  factory AddTranslationRequest.fromJson(Map<String, Object?> json) => _$AddTranslationRequestFromJson(json);
 }

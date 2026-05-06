@@ -65,6 +65,5 @@ abstract class ThreadDto with _$ThreadDto {
     DateTime? updatedAt,
   }) = _ThreadDto;
 
-  factory ThreadDto.fromJson(Map<String, Object?> json) =>
-      _$ThreadDtoFromJson(json);
+  factory ThreadDto.fromJson(Map<String, Object?> json) => _$ThreadDtoFromJson(json);
 }

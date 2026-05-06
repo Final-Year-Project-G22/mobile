@@ -26,6 +26,5 @@ abstract class AskResponseBody with _$AskResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AskResponseBody;
 
-  factory AskResponseBody.fromJson(Map<String, Object?> json) =>
-      _$AskResponseBodyFromJson(json);
+  factory AskResponseBody.fromJson(Map<String, Object?> json) => _$AskResponseBodyFromJson(json);
 }

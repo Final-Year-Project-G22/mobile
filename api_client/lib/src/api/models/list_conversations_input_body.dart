@@ -14,6 +14,5 @@ abstract class ListConversationsInputBody with _$ListConversationsInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListConversationsInputBody;
 
-  factory ListConversationsInputBody.fromJson(Map<String, Object?> json) =>
-      _$ListConversationsInputBodyFromJson(json);
+  factory ListConversationsInputBody.fromJson(Map<String, Object?> json) => _$ListConversationsInputBodyFromJson(json);
 }

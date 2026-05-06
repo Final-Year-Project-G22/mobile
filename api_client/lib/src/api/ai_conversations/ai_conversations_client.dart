@@ -17,8 +17,7 @@ part 'ai_conversations_client.g.dart';
 
 @RestApi()
 abstract class AiConversationsClient {
-  factory AiConversationsClient(Dio dio, {String? baseUrl}) =
-      _AiConversationsClient;
+  factory AiConversationsClient(Dio dio, {String? baseUrl}) = _AiConversationsClient;
 
   /// List conversations.
   ///

@@ -17,6 +17,5 @@ abstract class UpdateCampaignResponseBody with _$UpdateCampaignResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCampaignResponseBody;
 
-  factory UpdateCampaignResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateCampaignResponseBodyFromJson(json);
+  factory UpdateCampaignResponseBody.fromJson(Map<String, Object?> json) => _$UpdateCampaignResponseBodyFromJson(json);
 }

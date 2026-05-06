@@ -21,8 +21,7 @@ part 'admin_categories_client.g.dart';
 
 @RestApi()
 abstract class AdminCategoriesClient {
-  factory AdminCategoriesClient(Dio dio, {String? baseUrl}) =
-      _AdminCategoriesClient;
+  factory AdminCategoriesClient(Dio dio, {String? baseUrl}) = _AdminCategoriesClient;
 
   /// Create category.
   ///
@@ -30,9 +29,7 @@ abstract class AdminCategoriesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/guides/categories')
-  Future<HttpResponse<CreateCategoryResponseBody>> createCategory({
-    @Body() required CreateCategoryRequest body,
-  });
+  Future<HttpResponse<CreateCategoryResponseBody>> createCategory({@Body() required CreateCategoryRequest body});
 
   /// Remove category condition.
   ///
@@ -40,8 +37,7 @@ abstract class AdminCategoriesClient {
   ///
   /// [condId] - Condition ID.
   @DELETE('/api/v1/admin/guides/categories/conditions/{condId}')
-  Future<HttpResponse<RemoveCategoryConditionResponseBody>>
-  removeCategoryCondition({
+  Future<HttpResponse<RemoveCategoryConditionResponseBody>> removeCategoryCondition({
     @Path('condId') required String condId,
   });
 
@@ -51,9 +47,7 @@ abstract class AdminCategoriesClient {
   ///
   /// [id] - Category ID.
   @DELETE('/api/v1/admin/guides/categories/{id}')
-  Future<HttpResponse<DeleteCategoryResponseBody>> deleteCategory({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<DeleteCategoryResponseBody>> deleteCategory({@Path('id') required String id});
 
   /// Update category.
   ///
@@ -89,8 +83,7 @@ abstract class AdminCategoriesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/guides/categories/{id}/translations')
-  Future<HttpResponse<SetCategoryTranslationsResponseBody>>
-  setCategoryTranslations({
+  Future<HttpResponse<SetCategoryTranslationsResponseBody>> setCategoryTranslations({
     @Path('id') required String id,
     @Body() required SetCategoryTranslationsRequest body,
   });

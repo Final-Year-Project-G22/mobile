@@ -20,6 +20,5 @@ abstract class ReorderStepsRequest with _$ReorderStepsRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReorderStepsRequest;
 
-  factory ReorderStepsRequest.fromJson(Map<String, Object?> json) =>
-      _$ReorderStepsRequestFromJson(json);
+  factory ReorderStepsRequest.fromJson(Map<String, Object?> json) => _$ReorderStepsRequestFromJson(json);
 }

@@ -21,6 +21,5 @@ abstract class CreateCategoryCondition with _$CreateCategoryCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _CreateCategoryCondition;
 
-  factory CreateCategoryCondition.fromJson(Map<String, Object?> json) =>
-      _$CreateCategoryConditionFromJson(json);
+  factory CreateCategoryCondition.fromJson(Map<String, Object?> json) => _$CreateCategoryConditionFromJson(json);
 }

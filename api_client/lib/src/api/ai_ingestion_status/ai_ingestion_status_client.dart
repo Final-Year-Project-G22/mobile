@@ -19,8 +19,7 @@ part 'ai_ingestion_status_client.g.dart';
 
 @RestApi()
 abstract class AiIngestionStatusClient {
-  factory AiIngestionStatusClient(Dio dio, {String? baseUrl}) =
-      _AiIngestionStatusClient;
+  factory AiIngestionStatusClient(Dio dio, {String? baseUrl}) = _AiIngestionStatusClient;
 
   /// List ingestion status by account ID.
   ///
@@ -30,8 +29,7 @@ abstract class AiIngestionStatusClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/status/accounts/{accountId}')
-  Future<HttpResponse<ListStatusByAccountOutputBody>>
-  listIngestionStatusByAccountId({
+  Future<HttpResponse<ListStatusByAccountOutputBody>> listIngestionStatusByAccountId({
     @Path('accountId') required String accountId,
     @Body() required ListStatusByAccountInputBody body,
   });
@@ -57,8 +55,7 @@ abstract class AiIngestionStatusClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/status/documents/{documentId}')
-  Future<HttpResponse<IngestionStatusProjectionResponse>>
-  getIngestionStatusByDocumentId({
+  Future<HttpResponse<IngestionStatusProjectionResponse>> getIngestionStatusByDocumentId({
     @Path('documentId') required String documentId,
     @Body() required GetStatusByDocumentInputBody body,
   });
@@ -69,9 +66,7 @@ abstract class AiIngestionStatusClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/status/stream')
-  Future<HttpResponse<void>> streamIngestionStatus({
-    @Body() required StreamStatusInputBody body,
-  });
+  Future<HttpResponse<void>> streamIngestionStatus({@Body() required StreamStatusInputBody body});
 
   /// List ingestion status by user ID.
   ///

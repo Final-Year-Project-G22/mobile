@@ -17,6 +17,5 @@ abstract class UpdateCategoryResponseBody with _$UpdateCategoryResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCategoryResponseBody;
 
-  factory UpdateCategoryResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateCategoryResponseBodyFromJson(json);
+  factory UpdateCategoryResponseBody.fromJson(Map<String, Object?> json) => _$UpdateCategoryResponseBodyFromJson(json);
 }

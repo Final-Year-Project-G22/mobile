@@ -17,6 +17,5 @@ abstract class ListPostsResponseBody with _$ListPostsResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListPostsResponseBody;
 
-  factory ListPostsResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListPostsResponseBodyFromJson(json);
+  factory ListPostsResponseBody.fromJson(Map<String, Object?> json) => _$ListPostsResponseBodyFromJson(json);
 }

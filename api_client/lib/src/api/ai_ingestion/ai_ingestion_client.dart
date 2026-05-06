@@ -26,9 +26,7 @@ abstract class AiIngestionClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/toggle')
-  Future<HttpResponse<IngestToggleStateResponse>> getIngestionToggle({
-    @Body() required GetIngestToggleInputBody body,
-  });
+  Future<HttpResponse<IngestToggleStateResponse>> getIngestionToggle({@Body() required GetIngestToggleInputBody body});
 
   /// Set ingestion toggle.
   ///
@@ -36,9 +34,7 @@ abstract class AiIngestionClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/ai/ingestion/toggle')
-  Future<HttpResponse<IngestToggleStateResponse>> setIngestionToggle({
-    @Body() required SetIngestToggleInputBody body,
-  });
+  Future<HttpResponse<IngestToggleStateResponse>> setIngestionToggle({@Body() required SetIngestToggleInputBody body});
 
   /// Finalize uploaded document ingestion.
   ///
@@ -56,8 +52,7 @@ abstract class AiIngestionClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/ai/ingestion/uploads/intents')
-  Future<HttpResponse<CreateUploadIntentResponseBody>>
-  createIngestionUploadIntent({
+  Future<HttpResponse<CreateUploadIntentResponseBody>> createIngestionUploadIntent({
     @Body() required CreateUploadIntentRequest body,
   });
 }

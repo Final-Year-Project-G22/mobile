@@ -8,8 +8,7 @@ part 'remove_category_condition_response_body.freezed.dart';
 part 'remove_category_condition_response_body.g.dart';
 
 @Freezed()
-abstract class RemoveCategoryConditionResponseBody
-    with _$RemoveCategoryConditionResponseBody {
+abstract class RemoveCategoryConditionResponseBody with _$RemoveCategoryConditionResponseBody {
   const factory RemoveCategoryConditionResponseBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class RemoveCategoryConditionResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _RemoveCategoryConditionResponseBody;
 
-  factory RemoveCategoryConditionResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$RemoveCategoryConditionResponseBodyFromJson(json);
+  factory RemoveCategoryConditionResponseBody.fromJson(Map<String, Object?> json) =>
+      _$RemoveCategoryConditionResponseBodyFromJson(json);
 }

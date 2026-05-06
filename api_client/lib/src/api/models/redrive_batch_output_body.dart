@@ -16,6 +16,5 @@ abstract class RedriveBatchOutputBody with _$RedriveBatchOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RedriveBatchOutputBody;
 
-  factory RedriveBatchOutputBody.fromJson(Map<String, Object?> json) =>
-      _$RedriveBatchOutputBodyFromJson(json);
+  factory RedriveBatchOutputBody.fromJson(Map<String, Object?> json) => _$RedriveBatchOutputBodyFromJson(json);
 }

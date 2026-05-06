@@ -19,6 +19,5 @@ abstract class GetThreadResponseBody with _$GetThreadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetThreadResponseBody;
 
-  factory GetThreadResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetThreadResponseBodyFromJson(json);
+  factory GetThreadResponseBody.fromJson(Map<String, Object?> json) => _$GetThreadResponseBodyFromJson(json);
 }

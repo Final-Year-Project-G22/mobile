@@ -17,6 +17,5 @@ abstract class SetStepTranslationsRequest with _$SetStepTranslationsRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _SetStepTranslationsRequest;
 
-  factory SetStepTranslationsRequest.fromJson(Map<String, Object?> json) =>
-      _$SetStepTranslationsRequestFromJson(json);
+  factory SetStepTranslationsRequest.fromJson(Map<String, Object?> json) => _$SetStepTranslationsRequestFromJson(json);
 }

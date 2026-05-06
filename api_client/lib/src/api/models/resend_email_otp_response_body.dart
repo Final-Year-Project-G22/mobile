@@ -17,6 +17,5 @@ abstract class ResendEmailOtpResponseBody with _$ResendEmailOtpResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ResendEmailOtpResponseBody;
 
-  factory ResendEmailOtpResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ResendEmailOtpResponseBodyFromJson(json);
+  factory ResendEmailOtpResponseBody.fromJson(Map<String, Object?> json) => _$ResendEmailOtpResponseBodyFromJson(json);
 }

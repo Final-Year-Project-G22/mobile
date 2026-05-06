@@ -34,6 +34,5 @@ abstract class InboxEntryResponse with _$InboxEntryResponse {
     DateTime? expiresAt,
   }) = _InboxEntryResponse;
 
-  factory InboxEntryResponse.fromJson(Map<String, Object?> json) =>
-      _$InboxEntryResponseFromJson(json);
+  factory InboxEntryResponse.fromJson(Map<String, Object?> json) => _$InboxEntryResponseFromJson(json);
 }

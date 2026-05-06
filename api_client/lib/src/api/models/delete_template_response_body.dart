@@ -17,6 +17,5 @@ abstract class DeleteTemplateResponseBody with _$DeleteTemplateResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteTemplateResponseBody;
 
-  factory DeleteTemplateResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteTemplateResponseBodyFromJson(json);
+  factory DeleteTemplateResponseBody.fromJson(Map<String, Object?> json) => _$DeleteTemplateResponseBodyFromJson(json);
 }

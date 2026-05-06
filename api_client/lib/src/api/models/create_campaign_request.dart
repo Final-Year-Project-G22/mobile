@@ -38,6 +38,5 @@ abstract class CreateCampaignRequest with _$CreateCampaignRequest {
     Map<String, dynamic>? targetSegment,
   }) = _CreateCampaignRequest;
 
-  factory CreateCampaignRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateCampaignRequestFromJson(json);
+  factory CreateCampaignRequest.fromJson(Map<String, Object?> json) => _$CreateCampaignRequestFromJson(json);
 }

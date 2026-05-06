@@ -8,8 +8,7 @@ part 'add_step_dependency_response_body.freezed.dart';
 part 'add_step_dependency_response_body.g.dart';
 
 @Freezed()
-abstract class AddStepDependencyResponseBody
-    with _$AddStepDependencyResponseBody {
+abstract class AddStepDependencyResponseBody with _$AddStepDependencyResponseBody {
   const factory AddStepDependencyResponseBody({
     /// Success message
     required String message,

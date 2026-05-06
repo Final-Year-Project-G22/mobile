@@ -8,8 +8,7 @@ part 'set_category_translations_request.freezed.dart';
 part 'set_category_translations_request.g.dart';
 
 @Freezed()
-abstract class SetCategoryTranslationsRequest
-    with _$SetCategoryTranslationsRequest {
+abstract class SetCategoryTranslationsRequest with _$SetCategoryTranslationsRequest {
   const factory SetCategoryTranslationsRequest({
     /// Full set of translations
     required List<dynamic>? translations,

@@ -17,6 +17,5 @@ abstract class DeleteRoleOutputBody with _$DeleteRoleOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteRoleOutputBody;
 
-  factory DeleteRoleOutputBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteRoleOutputBodyFromJson(json);
+  factory DeleteRoleOutputBody.fromJson(Map<String, Object?> json) => _$DeleteRoleOutputBodyFromJson(json);
 }

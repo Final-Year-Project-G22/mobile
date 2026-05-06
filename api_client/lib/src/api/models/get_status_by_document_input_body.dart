@@ -8,8 +8,7 @@ part 'get_status_by_document_input_body.freezed.dart';
 part 'get_status_by_document_input_body.g.dart';
 
 @Freezed()
-abstract class GetStatusByDocumentInputBody
-    with _$GetStatusByDocumentInputBody {
+abstract class GetStatusByDocumentInputBody with _$GetStatusByDocumentInputBody {
   const factory GetStatusByDocumentInputBody({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

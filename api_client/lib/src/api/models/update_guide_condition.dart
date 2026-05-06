@@ -21,6 +21,5 @@ abstract class UpdateGuideCondition with _$UpdateGuideCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _UpdateGuideCondition;
 
-  factory UpdateGuideCondition.fromJson(Map<String, Object?> json) =>
-      _$UpdateGuideConditionFromJson(json);
+  factory UpdateGuideCondition.fromJson(Map<String, Object?> json) => _$UpdateGuideConditionFromJson(json);
 }

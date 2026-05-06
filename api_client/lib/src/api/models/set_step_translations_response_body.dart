@@ -8,8 +8,7 @@ part 'set_step_translations_response_body.freezed.dart';
 part 'set_step_translations_response_body.g.dart';
 
 @Freezed()
-abstract class SetStepTranslationsResponseBody
-    with _$SetStepTranslationsResponseBody {
+abstract class SetStepTranslationsResponseBody with _$SetStepTranslationsResponseBody {
   const factory SetStepTranslationsResponseBody({
     /// Success message
     required String message,

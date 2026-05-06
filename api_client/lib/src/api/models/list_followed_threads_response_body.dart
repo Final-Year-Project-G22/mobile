@@ -8,8 +8,7 @@ part 'list_followed_threads_response_body.freezed.dart';
 part 'list_followed_threads_response_body.g.dart';
 
 @Freezed()
-abstract class ListFollowedThreadsResponseBody
-    with _$ListFollowedThreadsResponseBody {
+abstract class ListFollowedThreadsResponseBody with _$ListFollowedThreadsResponseBody {
   const factory ListFollowedThreadsResponseBody({
     /// Followed threads
     required List<dynamic>? threads,

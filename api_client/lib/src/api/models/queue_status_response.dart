@@ -29,6 +29,5 @@ abstract class QueueStatusResponse with _$QueueStatusResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _QueueStatusResponse;
 
-  factory QueueStatusResponse.fromJson(Map<String, Object?> json) =>
-      _$QueueStatusResponseFromJson(json);
+  factory QueueStatusResponse.fromJson(Map<String, Object?> json) => _$QueueStatusResponseFromJson(json);
 }

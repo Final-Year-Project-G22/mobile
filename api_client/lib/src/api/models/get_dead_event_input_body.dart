@@ -14,6 +14,5 @@ abstract class GetDeadEventInputBody with _$GetDeadEventInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetDeadEventInputBody;
 
-  factory GetDeadEventInputBody.fromJson(Map<String, Object?> json) =>
-      _$GetDeadEventInputBodyFromJson(json);
+  factory GetDeadEventInputBody.fromJson(Map<String, Object?> json) => _$GetDeadEventInputBodyFromJson(json);
 }

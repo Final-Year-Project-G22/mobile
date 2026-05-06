@@ -36,9 +36,7 @@ abstract class AdminStepsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/guides/steps')
-  Future<HttpResponse<CreateStepResponseBody>> createStep({
-    @Body() required CreateStepRequest body,
-  });
+  Future<HttpResponse<CreateStepResponseBody>> createStep({@Body() required CreateStepRequest body});
 
   /// Remove step condition.
   ///
@@ -46,9 +44,7 @@ abstract class AdminStepsClient {
   ///
   /// [condId] - Condition ID.
   @DELETE('/api/v1/admin/guides/steps/conditions/{condId}')
-  Future<HttpResponse<RemoveStepConditionResponseBody>> removeStepCondition({
-    @Path('condId') required String condId,
-  });
+  Future<HttpResponse<RemoveStepConditionResponseBody>> removeStepCondition({@Path('condId') required String condId});
 
   /// Remove step dependency.
   ///
@@ -56,9 +52,7 @@ abstract class AdminStepsClient {
   ///
   /// [depId] - Dependency ID.
   @DELETE('/api/v1/admin/guides/steps/dependencies/{depId}')
-  Future<HttpResponse<RemoveStepDependencyResponseBody>> removeStepDependency({
-    @Path('depId') required String depId,
-  });
+  Future<HttpResponse<RemoveStepDependencyResponseBody>> removeStepDependency({@Path('depId') required String depId});
 
   /// Reorder steps.
   ///
@@ -66,9 +60,7 @@ abstract class AdminStepsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/guides/steps/reorder')
-  Future<HttpResponse<ReorderStepsResponseBody>> reorderSteps({
-    @Body() required ReorderStepsRequest body,
-  });
+  Future<HttpResponse<ReorderStepsResponseBody>> reorderSteps({@Body() required ReorderStepsRequest body});
 
   /// Delete step.
   ///
@@ -76,9 +68,7 @@ abstract class AdminStepsClient {
   ///
   /// [id] - Step ID.
   @DELETE('/api/v1/admin/guides/steps/{id}')
-  Future<HttpResponse<DeleteStepResponseBody>> deleteStep({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<DeleteStepResponseBody>> deleteStep({@Path('id') required String id});
 
   /// Update step.
   ///

@@ -20,6 +20,5 @@ abstract class HumaErrorDetail with _$HumaErrorDetail {
     dynamic value,
   }) = _HumaErrorDetail;
 
-  factory HumaErrorDetail.fromJson(Map<String, Object?> json) =>
-      _$HumaErrorDetailFromJson(json);
+  factory HumaErrorDetail.fromJson(Map<String, Object?> json) => _$HumaErrorDetailFromJson(json);
 }
