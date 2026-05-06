@@ -1,0 +1,28 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'discussion_thread.freezed.dart';
+
+enum ThreadStatus { open, locked, archived }
+
+@freezed
+abstract class DiscussionThread with _$DiscussionThread {
+  const factory DiscussionThread({
+    required String id,
+    required String title,
+    required String slug,
+    required String categoryId,
+    required String authorId,
+    required bool isPinned,
+    required int viewCount,
+    required int shareCount,
+    required int replyCount,
+    String? authorUsername,
+    String? authorDisplayName,
+    String? authorAvatarUrl,
+    @Default(ThreadStatus.open) ThreadStatus status,
+    String? description,
+    DateTime? lastActivityAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _DiscussionThread;
+}

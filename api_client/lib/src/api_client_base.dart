@@ -9,13 +9,15 @@ import 'interceptors/logging_interceptor.dart';
 class ApiClient {
   late final Dio dio;
   late final AuthInterceptor _authInterceptor;
+  String? Function()? _getLocaleCode;
 
   ApiClient({
     required FlutterSecureStorage secureStorage,
     String? baseUrl,
     bool enableLogging = true,
     List<Interceptor>? additionalInterceptors,
-  }) {
+    String? Function()? getLocaleCode,
+  }) : _getLocaleCode = getLocaleCode {
     dio = _createDio(baseUrl: baseUrl ?? 'https://api.example.com/v1');
     _authInterceptor = AuthInterceptor(storage: secureStorage);
     _setupInterceptors(enableLogging, additionalInterceptors);
@@ -39,6 +41,13 @@ class ApiClient {
       _authInterceptor,
       ErrorInterceptor(),
       if (enableLogging) LoggingInterceptor(),
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final localeCode = _getLocaleCode?.call() ?? 'en';
+          options.headers['Accept-Language'] = localeCode;
+          handler.next(options);
+        },
+      ),
       ...?additional,
     ];
     dio.interceptors.addAll(interceptors);

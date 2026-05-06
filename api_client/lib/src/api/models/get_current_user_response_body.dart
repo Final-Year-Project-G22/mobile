@@ -16,6 +16,12 @@ abstract class GetCurrentUserResponseBody with _$GetCurrentUserResponseBody {
     /// Current user account
     required AccountDto account,
 
+    /// Current user permissions
+    required List<dynamic>? permissions,
+
+    /// Current user roles
+    required List<dynamic>? roles,
+
     /// Current user
     required UserDto user,
 

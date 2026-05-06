@@ -6,6 +6,10 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
 
+import '../models/admin_register_request.dart';
+import '../models/admin_register_response_body.dart';
+import '../models/admin_update_roles_output_body.dart';
+import '../models/admin_update_roles_request.dart';
 import '../models/get_current_user_response_body.dart';
 import '../models/login_request.dart';
 import '../models/login_response_body.dart';
@@ -23,6 +27,27 @@ part 'authentication_client.g.dart';
 @RestApi()
 abstract class AuthenticationClient {
   factory AuthenticationClient(Dio dio, {String? baseUrl}) = _AuthenticationClient;
+
+  /// Register a new admin.
+  ///
+  /// Creates an admin account and emails the generated password.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @POST('/api/v1/auth/admin/register')
+  Future<HttpResponse<AdminRegisterResponseBody>> registerAdmin({@Body() required AdminRegisterRequest body});
+
+  /// Update admin roles.
+  ///
+  /// Replaces roles assigned to an admin account.
+  ///
+  /// [accountId] - Admin account ID.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @PUT('/api/v1/auth/admin/{accountId}/roles')
+  Future<HttpResponse<AdminUpdateRolesOutputBody>> updateAdminRoles({
+    @Path('accountId') required String accountId,
+    @Body() required AdminUpdateRolesRequest body,
+  });
 
   /// Log in a user.
   ///

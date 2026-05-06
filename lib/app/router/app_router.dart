@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/application/auth_notifier.dart';
+import '../features/settings/presentation/pages/settings_page.dart';
 import 'routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -14,7 +15,13 @@ final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     initialLocation: const SplashRoute().location,
     debugLogDiagnostics: true,
-    routes: $appRoutes,
+    routes: [
+      ...$appRoutes,
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
+    ],
     redirect: (context, state) {
       final authState = ref.read(authProvider);
       final location = state.matchedLocation;

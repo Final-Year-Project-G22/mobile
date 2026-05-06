@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../network/app_network_info.dart';
+import 'app_providers.dart';
 
 part 'infra_providers.g.dart';
 
@@ -15,11 +16,11 @@ FlutterSecureStorage secureStorage(Ref ref) {
 @Riverpod(keepAlive: true)
 ApiClient apiClient(Ref ref) {
   final storage = ref.read(secureStorageProvider);
-
   return ApiClient(
     secureStorage: storage,
     baseUrl: AppConfig.apiBaseUrl,
     enableLogging: AppConfig.enableLogging,
+    getLocaleCode: () => ref.read(localeProvider)?.languageCode,
   );
 }
 
