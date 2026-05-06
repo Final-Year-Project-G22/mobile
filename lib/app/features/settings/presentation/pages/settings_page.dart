@@ -24,8 +24,7 @@ class SettingsPage extends ConsumerWidget {
           Text('Language', style: theme.textTheme.titleMedium),
           RadioGroup<Locale?>(
             groupValue: locale,
-            onChanged: (value) =>
-                ref.read(localeProvider.notifier).setLocale(value),
+            onChanged: (value) => ref.read(localeProvider.notifier).setLocale(value),
             child: const Column(
               children: [
                 RadioListTile<Locale?>(
@@ -43,8 +42,7 @@ class SettingsPage extends ConsumerWidget {
           Text('Theme', style: theme.textTheme.titleMedium),
           RadioGroup<ThemeMode>(
             groupValue: themeMode,
-            onChanged: (value) =>
-                ref.read(themeModeProvider.notifier).setThemeMode(value!),
+            onChanged: (value) => ref.read(themeModeProvider.notifier).setThemeMode(value!),
             child: const Column(
               children: [
                 RadioListTile<ThemeMode>(

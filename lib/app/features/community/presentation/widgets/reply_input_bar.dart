@@ -148,9 +148,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     setState(() => _isUploading = true);
     try {
       debugPrint('Uploading ${files.length} files...');
-      final result = await ref
-          .read(communityMutationsProvider.notifier)
-          .uploadAttachments(files);
+      final result = await ref.read(communityMutationsProvider.notifier).uploadAttachments(files);
 
       result.fold(
         (failure) {
@@ -190,9 +188,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     setState(() => _isSubmitting = true);
 
     try {
-      final attachmentIds = _attachments.isNotEmpty
-          ? _attachments.map((a) => a.id).join(',')
-          : null;
+      final attachmentIds = _attachments.isNotEmpty ? _attachments.map((a) => a.id).join(',') : null;
 
       if (editTarget != null) {
         final result = await ref
@@ -203,9 +199,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
               content: content,
               attachmentIds: attachmentIds,
               removeAllAttachments: _removeExistingAttachments,
-              removeAttachmentIds: _removeAttachmentIds.isNotEmpty
-                  ? _removeAttachmentIds.join(',')
-                  : null,
+              removeAttachmentIds: _removeAttachmentIds.isNotEmpty ? _removeAttachmentIds.join(',') : null,
             );
 
         if (!mounted) return;
@@ -294,10 +288,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     final isEditing = widget.editTarget != null;
     final isReplying = widget.replyTarget != null;
     final existingAttachments = widget.editTarget?.attachments;
-    final showExistingAttachments =
-        isEditing &&
-        existingAttachments != null &&
-        existingAttachments.isNotEmpty;
+    final showExistingAttachments = isEditing && existingAttachments != null && existingAttachments.isNotEmpty;
 
     final modeLabel = isEditing
         ? 'Editing post'
@@ -357,9 +348,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, size: 18),
-                      onPressed: (_isSubmitting || _isUploading)
-                          ? null
-                          : widget.onClearMode,
+                      onPressed: (_isSubmitting || _isUploading) ? null : widget.onClearMode,
                     ),
                   ],
                 ),
@@ -569,9 +558,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.attach_file),
-                  onPressed: (_isSubmitting || _isUploading)
-                      ? null
-                      : _showAttachmentPicker,
+                  onPressed: (_isSubmitting || _isUploading) ? null : _showAttachmentPicker,
                 ),
                 Expanded(
                   child: TextField(

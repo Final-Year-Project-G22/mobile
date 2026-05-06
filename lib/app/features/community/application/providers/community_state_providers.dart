@@ -18,7 +18,6 @@ class SelectedCategoryNotifier extends Notifier<String?> {
   void setCategoryId(String? id) => state = id;
 }
 
-final selectedCategoryIdProvider =
-    NotifierProvider<SelectedCategoryNotifier, String?>(
-      SelectedCategoryNotifier.new,
-    );
+final selectedCategoryIdProvider = NotifierProvider<SelectedCategoryNotifier, String?>(
+  SelectedCategoryNotifier.new,
+);
