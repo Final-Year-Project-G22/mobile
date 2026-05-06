@@ -11,5 +11,5 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 final sharedPreferencesProviderFuture = FutureProvider<SharedPreferences>((
   ref,
 ) async {
-  return await SharedPreferences.getInstance();
+  return SharedPreferences.getInstance();
 });

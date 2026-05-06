@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,7 +55,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
     final picker = ImagePicker();
     final picked = await picker.pickMultiImage();
     if (picked.isNotEmpty && mounted) {
-      _uploadFiles(picked);
+      unawaited(_uploadFiles(picked));
     }
   }
 
@@ -77,7 +79,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
         }
       }
       if (files.isNotEmpty) {
-        _uploadFiles(files);
+        unawaited(_uploadFiles(files));
       }
     }
   }
@@ -106,7 +108,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
           });
         },
       );
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Upload error: $e');
     } finally {
       if (mounted) setState(() => _isUploading = false);
@@ -166,7 +168,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
           Navigator.of(context).pop(threadId);
         },
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
@@ -233,7 +235,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   );
                 },
                 loading: () => const LinearProgressIndicator(),
-                error: (e, _) => Text('Error loading categories'),
+                error: (e, _) => const Text('Error loading categories'),
               ),
 
               const SizedBox(height: 12),

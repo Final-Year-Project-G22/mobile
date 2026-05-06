@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'preferences_provider.dart';
@@ -17,7 +18,7 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
         return [ThemeMode.system, ThemeMode.light, ThemeMode.dark][index];
       },
       loading: () => ThemeMode.system,
-      error: (_, __) => ThemeMode.system,
+      error: (_, _) => ThemeMode.system,
     );
   }
 
@@ -29,7 +30,7 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
         ThemeMode.light,
         ThemeMode.dark,
       ].indexOf(mode);
-      prefs.setInt('theme_mode_index', index);
+      unawaited(prefs.setInt('theme_mode_index', index));
     });
   }
 }
@@ -45,7 +46,7 @@ class LocaleNotifier extends _$LocaleNotifier {
         return code != null ? Locale(code) : null;
       },
       loading: () => null,
-      error: (_, __) => null,
+      error: (_, _) => null,
     );
   }
 
@@ -53,9 +54,9 @@ class LocaleNotifier extends _$LocaleNotifier {
     state = locale;
     ref.read(sharedPreferencesProviderFuture).whenData((prefs) {
       if (locale != null) {
-        prefs.setString('locale_code', locale.languageCode);
+        unawaited(prefs.setString('locale_code', locale.languageCode));
       } else {
-        prefs.remove('locale_code');
+        unawaited(prefs.remove('locale_code'));
       }
     });
   }

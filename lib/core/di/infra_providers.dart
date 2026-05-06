@@ -1,11 +1,10 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'app_providers.dart';
 import '../config/app_config.dart';
 import '../network/app_network_info.dart';
+import 'app_providers.dart';
 
 part 'infra_providers.g.dart';
 

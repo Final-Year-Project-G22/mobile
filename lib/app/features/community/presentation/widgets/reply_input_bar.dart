@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -138,7 +140,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
       }
     }
     if (files.isNotEmpty) {
-      _uploadFiles(files);
+      unawaited(_uploadFiles(files));
     }
   }
 
@@ -247,7 +249,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           },
           (_) {
             _controller.clear();
-            setState(() => _attachments.clear());
+            setState(_attachments.clear);
             widget.onClearMode();
           },
         );
@@ -270,7 +272,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           },
           (_) {
             _controller.clear();
-            setState(() => _attachments.clear());
+            setState(_attachments.clear);
           },
         );
       }

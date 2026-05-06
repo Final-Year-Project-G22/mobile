@@ -22,42 +22,45 @@ class SettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           Text('Language', style: theme.textTheme.titleMedium),
-          RadioListTile<Locale?>(
-            title: const Text('English'),
-            value: const Locale('en'),
+          RadioGroup<Locale?>(
             groupValue: locale,
             onChanged: (value) =>
                 ref.read(localeProvider.notifier).setLocale(value),
-          ),
-          RadioListTile<Locale?>(
-            title: const Text('አማርኛ'),
-            value: const Locale('am'),
-            groupValue: locale,
-            onChanged: (value) =>
-                ref.read(localeProvider.notifier).setLocale(value),
+            child: const Column(
+              children: [
+                RadioListTile<Locale?>(
+                  title: Text('English'),
+                  value: Locale('en'),
+                ),
+                RadioListTile<Locale?>(
+                  title: Text('አማርኛ'),
+                  value: Locale('am'),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 24),
           Text('Theme', style: theme.textTheme.titleMedium),
-          RadioListTile<ThemeMode>(
-            title: const Text('Light'),
-            value: ThemeMode.light,
+          RadioGroup<ThemeMode>(
             groupValue: themeMode,
             onChanged: (value) =>
                 ref.read(themeModeProvider.notifier).setThemeMode(value!),
-          ),
-          RadioListTile<ThemeMode>(
-            title: const Text('Dark'),
-            value: ThemeMode.dark,
-            groupValue: themeMode,
-            onChanged: (value) =>
-                ref.read(themeModeProvider.notifier).setThemeMode(value!),
-          ),
-          RadioListTile<ThemeMode>(
-            title: const Text('System'),
-            value: ThemeMode.system,
-            groupValue: themeMode,
-            onChanged: (value) =>
-                ref.read(themeModeProvider.notifier).setThemeMode(value!),
+            child: const Column(
+              children: [
+                RadioListTile<ThemeMode>(
+                  title: Text('Light'),
+                  value: ThemeMode.light,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text('Dark'),
+                  value: ThemeMode.dark,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text('System'),
+                  value: ThemeMode.system,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 48),
           ElevatedButton(
