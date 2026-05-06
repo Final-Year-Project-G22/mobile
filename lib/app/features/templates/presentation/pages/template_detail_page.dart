@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../application/providers/templates_data_providers.dart';
+import '../../application/providers/templates_providers.dart';
 import '../../domain/entities/template_group_detail.dart';
 import '../widgets/language_selector.dart';
 import '../widgets/tier_badge.dart';
@@ -19,6 +23,7 @@ class TemplateDetailPage extends ConsumerStatefulWidget {
 
 class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   String? _selectedLanguage;
+  bool _isDownloading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +153,23 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: FilledButton.icon(
-                            onPressed: () => _handleDownload(detail, effectiveLanguage),
-                            icon: const Icon(Icons.download),
+                            onPressed: _isDownloading
+                                ? null
+                                : () => _handleDownload(detail, effectiveLanguage),
+                            icon: _isDownloading
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Icon(Icons.download),
                             label: Text(
-                              detail.tierAccess == 'pro' ? 'Upgrade to Download' : 'Download',
+                              detail.tierAccess == 'pro'
+                                  ? 'Upgrade to Download'
+                                  : 'Download',
                             ),
                           ),
                         ),
@@ -173,15 +191,23 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       return;
     }
 
-    final result = await ref.read(
-      downloadTemplateProvider(slug: widget.slug, language: language).future,
-    );
+    try {
+      final result = await ref.read(
+        downloadTemplateProvider(slug: widget.slug, language: language).future,
+      );
 
-    final uri = Uri.parse(result.presignedUrl);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      final uri = Uri.parse(result.presignedUrl);
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open preview')),
+          );
+        }
+      }
+    } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open preview')),
+          SnackBar(content: Text('Preview failed: $e')),
         );
       }
     }
@@ -193,16 +219,76 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       return;
     }
 
-    // TODO: Phase 5 — actual file download via Dio + path_provider
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Download starting...')),
-    );
+    setState(() => _isDownloading = true);
+
+    try {
+      // 1. Get presigned URL
+      final result = await ref.read(
+        downloadTemplateProvider(slug: widget.slug, language: language).future,
+      );
+
+      // 2. Download file bytes via Dio (no auth needed for presigned URL)
+      final dio = Dio();
+      final dir = await getApplicationDocumentsDirectory();
+      final filePath = '${dir.path}/${result.filename}';
+      await dio.download(result.presignedUrl, filePath);
+
+      // 3. Cache download metadata
+      final cacheAsync = ref.read(downloadsCacheServiceProvider);
+      await cacheAsync.whenData((cache) async {
+        await cache.addDownload(
+          downloadId: result.filename, // Using filename as unique id for cache
+          templateId: detail.id,
+          groupId: detail.id,
+          slug: detail.slug,
+          title: detail.name,
+          thumbnailUrl: detail.thumbnailUrl,
+          downloadedAt: DateTime.now(),
+        );
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Downloaded to ${result.filename}'),
+            action: SnackBarAction(
+              label: 'Open',
+              onPressed: () async {
+                final file = File(filePath);
+                if (await file.exists()) {
+                  // Try to open with system viewer
+                  final uri = Uri.file(filePath);
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+            ),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Download failed: ${e.message}')),
+        );
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Download failed: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isDownloading = false);
+      }
+    }
   }
 
   void _showUpgradeModal() {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        icon: const Icon(Icons.lock, color: Colors.amber),
         title: const Text('Pro Template'),
         content: const Text(
           'This template is available with a Pro subscription. Upgrade to download and preview.',

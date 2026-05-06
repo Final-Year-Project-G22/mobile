@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'language_variant.freezed.dart';
 
 @freezed
-class LanguageVariant with _$LanguageVariant {
+abstract class LanguageVariant with _$LanguageVariant {
   const factory LanguageVariant({
     required String language,
     required String title,

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'template_group.freezed.dart';
 
 @freezed
-class TemplateGroup with _$TemplateGroup {
+abstract class TemplateGroup with _$TemplateGroup {
   const factory TemplateGroup({
     required String id,
     required String name,

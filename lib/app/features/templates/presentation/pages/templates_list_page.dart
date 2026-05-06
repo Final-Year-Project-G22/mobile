@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../application/providers/templates_list_notifier.dart';
+import '../../application/providers/templates_list_notifier.dart';
 import '../widgets/category_drawer.dart';
 import '../widgets/template_card.dart';
 
@@ -16,11 +16,18 @@ class TemplatesListPage extends ConsumerStatefulWidget {
 class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
+  bool _showClear = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _searchController.addListener(() {
+      final hasText = _searchController.text.isNotEmpty;
+      if (_showClear != hasText) {
+        setState(() => _showClear = hasText);
+      }
+    });
   }
 
   @override
@@ -49,6 +56,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
           IconButton(
             icon: const Icon(Icons.download_done),
             onPressed: () => context.push('/downloads'),
+            tooltip: 'My Downloads',
           ),
         ],
         bottom: PreferredSize(
@@ -60,11 +68,12 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               decoration: InputDecoration(
                 hintText: 'Search templates...',
                 prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchController.text.isNotEmpty
+                suffixIcon: _showClear
                     ? IconButton(
                         icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
+                          setState(() => _showClear = false);
                           ref
                               .read(templateListNotifierProvider.notifier)
                               .setSearch(null);
@@ -72,7 +81,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       )
                     : null,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
@@ -106,7 +115,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: ActionChip(
-                          avatar: const Icon(Icons.category),
+                          avatar: const Icon(Icons.category_outlined, size: 18),
                           label: const Text('All'),
                           onPressed: () => _showCategoryDrawer(categories),
                         ),
@@ -169,7 +178,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                     ),
-                    itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
+                    itemCount:
+                        state.items.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index >= state.items.length) {
                         return const Center(
@@ -183,7 +193,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       final template = state.items[index];
                       return TemplateCard(
                         template: template,
-                        onTap: () => context.push('/templates/${template.slug}'),
+                        onTap: () =>
+                            context.push('/templates/${template.slug}'),
                       );
                     },
                   );

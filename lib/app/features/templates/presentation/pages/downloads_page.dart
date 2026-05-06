@@ -4,11 +4,37 @@ import 'package:go_router/go_router.dart';
 
 import '../../application/providers/downloads_notifier.dart';
 
-class DownloadsPage extends ConsumerWidget {
+class DownloadsPage extends ConsumerStatefulWidget {
   const DownloadsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DownloadsPage> createState() => _DownloadsPageState();
+}
+
+class _DownloadsPageState extends ConsumerState<DownloadsPage> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref.read(myDownloadsNotifierProvider.notifier).loadMore();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final downloadsAsync = ref.watch(myDownloadsNotifierProvider);
 
     return Scaffold(
@@ -35,8 +61,10 @@ class DownloadsPage extends ConsumerWidget {
             }
 
             return ListView.builder(
+              controller: _scrollController,
               padding: const EdgeInsets.all(8),
-              itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
+              itemCount:
+                  state.items.length + (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index >= state.items.length) {
                   return const Center(
@@ -49,6 +77,10 @@ class DownloadsPage extends ConsumerWidget {
 
                 final item = state.items[index];
                 return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 4,
+                  ),
                   child: ListTile(
                     leading: item.thumbnailUrl != null
                         ? ClipRRect(
@@ -58,14 +90,15 @@ class DownloadsPage extends ConsumerWidget {
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
-                                  const Icon(Icons.insert_drive_file),
+                              errorBuilder: (_, __, ___) => const Icon(
+                                Icons.insert_drive_file,
+                              ),
                             ),
                           )
                         : const Icon(Icons.insert_drive_file),
                     title: Text(item.title ?? 'Template'),
                     subtitle: Text(
-                      item.downloadedAt.toLocal().toString(),
+                      _formatDate(item.downloadedAt),
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
@@ -83,5 +116,10 @@ class DownloadsPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    final local = date.toLocal();
+    return '${local.day}/${local.month}/${local.year} ${local.hour}:${local.minute.toString().padLeft(2, '0')}';
   }
 }

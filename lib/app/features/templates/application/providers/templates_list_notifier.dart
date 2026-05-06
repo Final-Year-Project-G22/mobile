@@ -9,7 +9,7 @@ part 'templates_list_notifier.freezed.dart';
 part 'templates_list_notifier.g.dart';
 
 @freezed
-class TemplateListState with _$TemplateListState {
+abstract class TemplateListState with _$TemplateListState {
   const factory TemplateListState({
     @Default(<TemplateGroup>[]) List<TemplateGroup> items,
     @Default(1) int page,

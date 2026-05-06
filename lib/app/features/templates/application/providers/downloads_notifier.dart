@@ -10,7 +10,7 @@ part 'downloads_notifier.freezed.dart';
 part 'downloads_notifier.g.dart';
 
 @freezed
-class EnrichedDownloadItem with _$EnrichedDownloadItem {
+abstract class EnrichedDownloadItem with _$EnrichedDownloadItem {
   const factory EnrichedDownloadItem({
     required String id,
     required String templateId,
@@ -23,7 +23,7 @@ class EnrichedDownloadItem with _$EnrichedDownloadItem {
 }
 
 @freezed
-class DownloadsState with _$DownloadsState {
+abstract class DownloadsState with _$DownloadsState {
   const factory DownloadsState({
     @Default(<EnrichedDownloadItem>[]) List<EnrichedDownloadItem> items,
     @Default(1) int page,
@@ -112,17 +112,19 @@ class MyDownloadsNotifier extends _$MyDownloadsNotifier {
       cache = null;
     }
 
-    return result.map((items) => items.map((item) {
-      final cached = cache?.findByGroupId(item.groupId);
-      return EnrichedDownloadItem(
-        id: item.id,
-        templateId: item.templateId,
-        groupId: item.groupId,
-        downloadedAt: item.downloadedAt,
-        title: cached?.title,
-        slug: cached?.slug,
-        thumbnailUrl: cached?.thumbnailUrl,
-      );
-    }).toList());
+    return result.map(
+      (items) => items.map((item) {
+        final cached = cache?.findByGroupId(item.groupId);
+        return EnrichedDownloadItem(
+          id: item.id,
+          templateId: item.templateId,
+          groupId: item.groupId,
+          downloadedAt: item.downloadedAt,
+          title: cached?.title,
+          slug: cached?.slug,
+          thumbnailUrl: cached?.thumbnailUrl,
+        );
+      }).toList(),
+    );
   }
 }

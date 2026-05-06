@@ -5,7 +5,7 @@ import 'language_variant.dart';
 part 'template_group_detail.freezed.dart';
 
 @freezed
-class TemplateGroupDetail with _$TemplateGroupDetail {
+abstract class TemplateGroupDetail with _$TemplateGroupDetail {
   const factory TemplateGroupDetail({
     required String id,
     required String name,
