@@ -9,6 +9,7 @@ import '../features/auth/presentation/pages/register_page.dart';
 import '../features/community/presentation/pages/community_home_page.dart';
 import '../features/community/presentation/pages/thread_details_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
+import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
@@ -61,6 +62,14 @@ class OAuthCompleteEmailRoute extends GoRouteData with $OAuthCompleteEmailRoute 
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const OAuthCompleteEmailPage();
+}
+
+@TypedGoRoute<OnboardingRoute>(path: '/onboarding')
+class OnboardingRoute extends GoRouteData with $OnboardingRoute {
+  const OnboardingRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const OnboardingPage();
 }
 
 @TypedShellRoute<MainAppShellRoute>(

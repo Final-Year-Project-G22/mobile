@@ -99,7 +99,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
           _isLoading = false;
         });
         unawaited(ref.read(authProvider.notifier).completeVerification());
-        const HomeRoute().go(context);
+        const OnboardingRoute().go(context);
       },
     );
   }

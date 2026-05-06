@@ -294,4 +294,194 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareApp => 'Share App';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get onboardingTitle => 'Community Setup';
+
+  @override
+  String get onboardingLanguageLabel => 'Eng';
+
+  @override
+  String onboardingStepLabel(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String onboardingProgress(int percent) {
+    return '$percent% Complete';
+  }
+
+  @override
+  String get onboardingRegionTitle => 'Where is your business primarily located?';
+
+  @override
+  String get onboardingRegionSubtitle => 'We use your region to surface relevant local guidance.';
+
+  @override
+  String get onboardingRegionAddis => 'Addis Ababa';
+
+  @override
+  String get onboardingRegionOromia => 'Oromia';
+
+  @override
+  String get onboardingRegionAmhara => 'Amhara';
+
+  @override
+  String get onboardingRegionTigray => 'Tigray';
+
+  @override
+  String get onboardingRegionSidama => 'Sidama';
+
+  @override
+  String get onboardingRegionSouthWest => 'South West';
+
+  @override
+  String get onboardingRegionSouthern => 'Southern';
+
+  @override
+  String get onboardingRegionSomali => 'Somali';
+
+  @override
+  String get onboardingRegionAfar => 'Afar';
+
+  @override
+  String get onboardingRegionBenishangul => 'Benishangul-Gumuz';
+
+  @override
+  String get onboardingRegionGambella => 'Gambella';
+
+  @override
+  String get onboardingRegionHarari => 'Harari';
+
+  @override
+  String get onboardingRegionDireDawa => 'Dire Dawa';
+
+  @override
+  String get onboardingLifecycleTitle => 'What stage is your business currently in?';
+
+  @override
+  String get onboardingLifecycleSubtitle => 'This helps us tailor advice for your current needs.';
+
+  @override
+  String get onboardingLifecycleIdea => 'Just an Idea';
+
+  @override
+  String get onboardingLifecycleRegistration => 'Currently Registering';
+
+  @override
+  String get onboardingLifecycleOperational => 'Operational';
+
+  @override
+  String get onboardingLifecycleScaling => 'Scaling/Expanding';
+
+  @override
+  String get onboardingIndustryTitle => 'What is your main industry?';
+
+  @override
+  String get onboardingIndustrySubtitle => 'Pick the sector that best matches your business.';
+
+  @override
+  String get onboardingIndustryTrade => 'Trade';
+
+  @override
+  String get onboardingIndustryManufacturing => 'Manufacturing';
+
+  @override
+  String get onboardingIndustryServices => 'Services';
+
+  @override
+  String get onboardingIndustryAgriculture => 'Agriculture';
+
+  @override
+  String get onboardingIndustryConstruction => 'Construction';
+
+  @override
+  String get onboardingLegalTitle => 'How is your business legally structured?';
+
+  @override
+  String get onboardingLegalSubtitle => 'If you are planning, choose the structure you expect.';
+
+  @override
+  String get onboardingLegalSoleProprietor => 'Sole Proprietor';
+
+  @override
+  String get onboardingLegalPlc => 'Private Limited Company';
+
+  @override
+  String get onboardingLegalShareCompany => 'Share Company';
+
+  @override
+  String get onboardingLegalPartnership => 'Partnership';
+
+  @override
+  String get onboardingLegalCooperative => 'Cooperative';
+
+  @override
+  String get onboardingTaxTitle => 'What is your tax registration status?';
+
+  @override
+  String get onboardingTaxVat => 'VAT Payer (>2M ETB)';
+
+  @override
+  String get onboardingTaxTot => 'TOT Payer (<2M ETB)';
+
+  @override
+  String get onboardingTaxExcise => 'Excise Tax Payer';
+
+  @override
+  String get onboardingTaxExempt => 'Tax Exempt';
+
+  @override
+  String get onboardingOpsTitle => 'What activities will your business do?';
+
+  @override
+  String get onboardingOpsSubtitle => 'Check all that apply.';
+
+  @override
+  String get onboardingOpsImporter => 'I import goods';
+
+  @override
+  String get onboardingOpsExporter => 'I export goods';
+
+  @override
+  String get onboardingOpsTender => 'I supply to Gov or NGOs';
+
+  @override
+  String get onboardingOpsFoodHandling => 'I handle food or beverages';
+
+  @override
+  String get onboardingOpsVehicles => 'I operate commercial vehicles';
+
+  @override
+  String get onboardingOpsHazardous => 'I use hazardous chemicals';
+
+  @override
+  String get onboardingOpsEcommerce => 'I sell online (E-commerce)';
+
+  @override
+  String get onboardingOpsHomeBased => 'I operate from my home';
+
+  @override
+  String get onboardingOpsEmployees => 'I have official salaried employees';
+
+  @override
+  String get onboardingDemoTitle => 'Tell us a bit more about the founders';
+
+  @override
+  String get onboardingDemoSubtitle => 'Unlock specific grants and guides. Optional.';
+
+  @override
+  String get onboardingDemoWomenOwned => 'Women-Owned';
+
+  @override
+  String get onboardingDemoYouth => 'Youth Enterprise (18-35)';
+
+  @override
+  String get onboardingDemoInvestor => 'Diaspora/Foreign Investor';
+
+  @override
+  String get onboardingDemoOptional => 'You can skip this step if you prefer.';
 }

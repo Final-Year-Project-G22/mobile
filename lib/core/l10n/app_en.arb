@@ -360,5 +360,266 @@
   "shareApp": "Share App",
   "@shareApp": {
     "description": "Share app text"
+  },
+  "finish": "Finish",
+  "@finish": {
+    "description": "Finish button text"
+  },
+  "onboardingTitle": "Community Setup",
+  "@onboardingTitle": {
+    "description": "Onboarding title"
+  },
+  "onboardingLanguageLabel": "Eng",
+  "@onboardingLanguageLabel": {
+    "description": "Language pill label"
+  },
+  "onboardingStepLabel": "Step {current} of {total}",
+  "@onboardingStepLabel": {
+    "description": "Onboarding step label",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingProgress": "{percent}% Complete",
+  "@onboardingProgress": {
+    "description": "Onboarding progress label",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingRegionTitle": "Where is your business primarily located?",
+  "@onboardingRegionTitle": {
+    "description": "Onboarding geography question"
+  },
+  "onboardingRegionSubtitle": "We use your region to surface relevant local guidance.",
+  "@onboardingRegionSubtitle": {
+    "description": "Onboarding geography subtitle"
+  },
+  "onboardingRegionAddis": "Addis Ababa",
+  "@onboardingRegionAddis": {
+    "description": "Region option"
+  },
+  "onboardingRegionOromia": "Oromia",
+  "@onboardingRegionOromia": {
+    "description": "Region option"
+  },
+  "onboardingRegionAmhara": "Amhara",
+  "@onboardingRegionAmhara": {
+    "description": "Region option"
+  },
+  "onboardingRegionTigray": "Tigray",
+  "@onboardingRegionTigray": {
+    "description": "Region option"
+  },
+  "onboardingRegionSidama": "Sidama",
+  "@onboardingRegionSidama": {
+    "description": "Region option"
+  },
+  "onboardingRegionSouthWest": "South West",
+  "@onboardingRegionSouthWest": {
+    "description": "Region option"
+  },
+  "onboardingRegionSouthern": "Southern",
+  "@onboardingRegionSouthern": {
+    "description": "Region option"
+  },
+  "onboardingRegionSomali": "Somali",
+  "@onboardingRegionSomali": {
+    "description": "Region option"
+  },
+  "onboardingRegionAfar": "Afar",
+  "@onboardingRegionAfar": {
+    "description": "Region option"
+  },
+  "onboardingRegionBenishangul": "Benishangul-Gumuz",
+  "@onboardingRegionBenishangul": {
+    "description": "Region option"
+  },
+  "onboardingRegionGambella": "Gambella",
+  "@onboardingRegionGambella": {
+    "description": "Region option"
+  },
+  "onboardingRegionHarari": "Harari",
+  "@onboardingRegionHarari": {
+    "description": "Region option"
+  },
+  "onboardingRegionDireDawa": "Dire Dawa",
+  "@onboardingRegionDireDawa": {
+    "description": "Region option"
+  },
+  "onboardingLifecycleTitle": "What stage is your business currently in?",
+  "@onboardingLifecycleTitle": {
+    "description": "Onboarding lifecycle question"
+  },
+  "onboardingLifecycleSubtitle": "This helps us tailor advice for your current needs.",
+  "@onboardingLifecycleSubtitle": {
+    "description": "Onboarding lifecycle subtitle"
+  },
+  "onboardingLifecycleIdea": "Just an Idea",
+  "@onboardingLifecycleIdea": {
+    "description": "Lifecycle option"
+  },
+  "onboardingLifecycleRegistration": "Currently Registering",
+  "@onboardingLifecycleRegistration": {
+    "description": "Lifecycle option"
+  },
+  "onboardingLifecycleOperational": "Operational",
+  "@onboardingLifecycleOperational": {
+    "description": "Lifecycle option"
+  },
+  "onboardingLifecycleScaling": "Scaling/Expanding",
+  "@onboardingLifecycleScaling": {
+    "description": "Lifecycle option"
+  },
+  "onboardingIndustryTitle": "What is your main industry?",
+  "@onboardingIndustryTitle": {
+    "description": "Onboarding industry question"
+  },
+  "onboardingIndustrySubtitle": "Pick the sector that best matches your business.",
+  "@onboardingIndustrySubtitle": {
+    "description": "Onboarding industry subtitle"
+  },
+  "onboardingIndustryTrade": "Trade",
+  "@onboardingIndustryTrade": {
+    "description": "Industry option"
+  },
+  "onboardingIndustryManufacturing": "Manufacturing",
+  "@onboardingIndustryManufacturing": {
+    "description": "Industry option"
+  },
+  "onboardingIndustryServices": "Services",
+  "@onboardingIndustryServices": {
+    "description": "Industry option"
+  },
+  "onboardingIndustryAgriculture": "Agriculture",
+  "@onboardingIndustryAgriculture": {
+    "description": "Industry option"
+  },
+  "onboardingIndustryConstruction": "Construction",
+  "@onboardingIndustryConstruction": {
+    "description": "Industry option"
+  },
+  "onboardingLegalTitle": "How is your business legally structured?",
+  "@onboardingLegalTitle": {
+    "description": "Onboarding legal question"
+  },
+  "onboardingLegalSubtitle": "If you are planning, choose the structure you expect.",
+  "@onboardingLegalSubtitle": {
+    "description": "Onboarding legal subtitle"
+  },
+  "onboardingLegalSoleProprietor": "Sole Proprietor",
+  "@onboardingLegalSoleProprietor": {
+    "description": "Legal option"
+  },
+  "onboardingLegalPlc": "Private Limited Company",
+  "@onboardingLegalPlc": {
+    "description": "Legal option"
+  },
+  "onboardingLegalShareCompany": "Share Company",
+  "@onboardingLegalShareCompany": {
+    "description": "Legal option"
+  },
+  "onboardingLegalPartnership": "Partnership",
+  "@onboardingLegalPartnership": {
+    "description": "Legal option"
+  },
+  "onboardingLegalCooperative": "Cooperative",
+  "@onboardingLegalCooperative": {
+    "description": "Legal option"
+  },
+  "onboardingTaxTitle": "What is your tax registration status?",
+  "@onboardingTaxTitle": {
+    "description": "Onboarding tax question"
+  },
+  "onboardingTaxVat": "VAT Payer (>2M ETB)",
+  "@onboardingTaxVat": {
+    "description": "Tax option"
+  },
+  "onboardingTaxTot": "TOT Payer (<2M ETB)",
+  "@onboardingTaxTot": {
+    "description": "Tax option"
+  },
+  "onboardingTaxExcise": "Excise Tax Payer",
+  "@onboardingTaxExcise": {
+    "description": "Tax option"
+  },
+  "onboardingTaxExempt": "Tax Exempt",
+  "@onboardingTaxExempt": {
+    "description": "Tax option"
+  },
+  "onboardingOpsTitle": "What activities will your business do?",
+  "@onboardingOpsTitle": {
+    "description": "Onboarding operations question"
+  },
+  "onboardingOpsSubtitle": "Check all that apply.",
+  "@onboardingOpsSubtitle": {
+    "description": "Onboarding operations subtitle"
+  },
+  "onboardingOpsImporter": "I import goods",
+  "@onboardingOpsImporter": {
+    "description": "Operations option"
+  },
+  "onboardingOpsExporter": "I export goods",
+  "@onboardingOpsExporter": {
+    "description": "Operations option"
+  },
+  "onboardingOpsTender": "I supply to Gov or NGOs",
+  "@onboardingOpsTender": {
+    "description": "Operations option"
+  },
+  "onboardingOpsFoodHandling": "I handle food or beverages",
+  "@onboardingOpsFoodHandling": {
+    "description": "Operations option"
+  },
+  "onboardingOpsVehicles": "I operate commercial vehicles",
+  "@onboardingOpsVehicles": {
+    "description": "Operations option"
+  },
+  "onboardingOpsHazardous": "I use hazardous chemicals",
+  "@onboardingOpsHazardous": {
+    "description": "Operations option"
+  },
+  "onboardingOpsEcommerce": "I sell online (E-commerce)",
+  "@onboardingOpsEcommerce": {
+    "description": "Operations option"
+  },
+  "onboardingOpsHomeBased": "I operate from my home",
+  "@onboardingOpsHomeBased": {
+    "description": "Operations option"
+  },
+  "onboardingOpsEmployees": "I have official salaried employees",
+  "@onboardingOpsEmployees": {
+    "description": "Operations option"
+  },
+  "onboardingDemoTitle": "Tell us a bit more about the founders",
+  "@onboardingDemoTitle": {
+    "description": "Onboarding demographics question"
+  },
+  "onboardingDemoSubtitle": "Unlock specific grants and guides. Optional.",
+  "@onboardingDemoSubtitle": {
+    "description": "Onboarding demographics subtitle"
+  },
+  "onboardingDemoWomenOwned": "Women-Owned",
+  "@onboardingDemoWomenOwned": {
+    "description": "Demographics option"
+  },
+  "onboardingDemoYouth": "Youth Enterprise (18-35)",
+  "@onboardingDemoYouth": {
+    "description": "Demographics option"
+  },
+  "onboardingDemoInvestor": "Diaspora/Foreign Investor",
+  "@onboardingDemoInvestor": {
+    "description": "Demographics option"
+  },
+  "onboardingDemoOptional": "You can skip this step if you prefer.",
+  "@onboardingDemoOptional": {
+    "description": "Demographics optional helper text"
   }
 }

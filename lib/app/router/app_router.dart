@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/application/auth_notifier.dart';
+import '../features/onboarding/application/onboarding_notifier.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import 'routes.dart';
 
@@ -8,6 +9,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   final loginLocation = const LoginRoute().location;
   final registerLocation = const RegisterRoute().location;
   final otpLocation = const OtpVerificationRoute().location;
+  final onboardingLocation = const OnboardingRoute().location;
   final splashLocation = const SplashRoute().location;
   final oauthCallbackLocation = const OAuthCallbackRoute().location;
   final oauthCompleteEmailLocation = const OAuthCompleteEmailRoute().location;
@@ -24,6 +26,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
     redirect: (context, state) {
       final authState = ref.read(authProvider);
+      final onboardingState = ref.read(onboardingProvider);
       final location = state.matchedLocation;
       final isAuthPage =
           location == loginLocation ||
@@ -31,6 +34,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           location == otpLocation ||
           location == oauthCallbackLocation ||
           location == oauthCompleteEmailLocation;
+      final isOnboardingPage = location == onboardingLocation;
 
       if (authState.isLoading) return null;
 
@@ -42,6 +46,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           return null;
         }
         return location == otpLocation ? null : otpLocation;
+      }
+
+      if (isAuthenticated && !onboardingState.isComplete) {
+        return isOnboardingPage ? null : onboardingLocation;
+      }
+
+      if (isOnboardingPage && onboardingState.isComplete) {
+        return const HomeRoute().location;
       }
 
       if (location == splashLocation) {

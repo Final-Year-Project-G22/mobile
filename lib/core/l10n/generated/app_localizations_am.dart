@@ -199,7 +199,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String fieldRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName ያስፈልጋል';
   }
 
   @override
@@ -207,9 +207,9 @@ class AppLocalizationsAm extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count items',
-      one: '1 item',
-      zero: 'No items',
+      other: '$count ዕቃዎች',
+      one: '1 ዕቃ',
+      zero: 'ምንም ዕቃ የለም',
     );
     return '$_temp0';
   }
@@ -219,8 +219,8 @@ class AppLocalizationsAm extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count ቀናት በፊት',
+      one: '1 ቀን በፊት',
     );
     return '$_temp0';
   }
@@ -230,8 +230,8 @@ class AppLocalizationsAm extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count ሰዓታት በፊት',
+      one: '1 ሰዓት በፊት',
     );
     return '$_temp0';
   }
@@ -241,23 +241,23 @@ class AppLocalizationsAm extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count ደቂቃዎች በፊት',
+      one: '1 ደቂቃ በፊት',
     );
     return '$_temp0';
   }
 
   @override
-  String get justNow => 'Just now';
+  String get justNow => 'አሁን';
 
   @override
-  String get today => 'Today';
+  String get today => 'ዛሬ';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => 'ትናንት';
 
   @override
-  String get thisWeek => 'This week';
+  String get thisWeek => 'ይህ ሳምንት';
 
   @override
   String get language => 'ቋንቋ';
@@ -294,4 +294,194 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get shareApp => 'አፕሊኬሽን አጋራ';
+
+  @override
+  String get finish => 'ጨርስ';
+
+  @override
+  String get onboardingTitle => 'የማህበረሰብ ማዋቀር';
+
+  @override
+  String get onboardingLanguageLabel => 'አማ';
+
+  @override
+  String onboardingStepLabel(int current, int total) {
+    return 'ደረጃ $current ከ $total';
+  }
+
+  @override
+  String onboardingProgress(int percent) {
+    return '$percent% ተጠናቋል';
+  }
+
+  @override
+  String get onboardingRegionTitle => 'የንግድ ድርጅትዎ በዋናነት የት ይገኛል?';
+
+  @override
+  String get onboardingRegionSubtitle => 'የክልል መመሪያዎችን ለማሳየት ክልልዎን እንጠቀማለን።';
+
+  @override
+  String get onboardingRegionAddis => 'አዲስ አበባ';
+
+  @override
+  String get onboardingRegionOromia => 'ኦሮሚያ';
+
+  @override
+  String get onboardingRegionAmhara => 'አማራ';
+
+  @override
+  String get onboardingRegionTigray => 'ትግራይ';
+
+  @override
+  String get onboardingRegionSidama => 'ሲዳማ';
+
+  @override
+  String get onboardingRegionSouthWest => 'ደቡብ ምዕራብ';
+
+  @override
+  String get onboardingRegionSouthern => 'ደቡብ';
+
+  @override
+  String get onboardingRegionSomali => 'ሶማሊ';
+
+  @override
+  String get onboardingRegionAfar => 'አፋር';
+
+  @override
+  String get onboardingRegionBenishangul => 'ቤንሻንጉል-ጉሙዝ';
+
+  @override
+  String get onboardingRegionGambella => 'ጋምቤላ';
+
+  @override
+  String get onboardingRegionHarari => 'ሐረሪ';
+
+  @override
+  String get onboardingRegionDireDawa => 'ድሬዳዋ';
+
+  @override
+  String get onboardingLifecycleTitle => 'የንግድ ድርጅትዎ አሁን በምን ደረጃ ላይ ይገኛል?';
+
+  @override
+  String get onboardingLifecycleSubtitle => 'ለእርስዎ ተስማሚ መመሪያ እንድንሰጥ ይረዳል።';
+
+  @override
+  String get onboardingLifecycleIdea => 'ሀሳብ ደረጃ';
+
+  @override
+  String get onboardingLifecycleRegistration => 'ምዝገባ ላይ';
+
+  @override
+  String get onboardingLifecycleOperational => 'ስራ የጀመረ';
+
+  @override
+  String get onboardingLifecycleScaling => 'በማደግ ላይ';
+
+  @override
+  String get onboardingIndustryTitle => 'ዋና የንግድ ዘርፍዎ ምንድነው?';
+
+  @override
+  String get onboardingIndustrySubtitle => 'ከእቅድዎ ጋር በጣም የሚዛመደውን ዘርፍ ይምረጡ።';
+
+  @override
+  String get onboardingIndustryTrade => 'ንግድ';
+
+  @override
+  String get onboardingIndustryManufacturing => 'ማምረቻ';
+
+  @override
+  String get onboardingIndustryServices => 'አገልግሎት';
+
+  @override
+  String get onboardingIndustryAgriculture => 'ግብርና';
+
+  @override
+  String get onboardingIndustryConstruction => 'ኮንስትራክሽን';
+
+  @override
+  String get onboardingLegalTitle => 'የንግድ ድርጅትዎ ህጋዊ አወቃቀር ምን ይመስላል?';
+
+  @override
+  String get onboardingLegalSubtitle => 'እቅድ ካለ የሚገመተውን አወቃቀር ይምረጡ።';
+
+  @override
+  String get onboardingLegalSoleProprietor => 'የግል ማህበር';
+
+  @override
+  String get onboardingLegalPlc => 'ኃ.የተ.የግ.ማ';
+
+  @override
+  String get onboardingLegalShareCompany => 'አ.ማ';
+
+  @override
+  String get onboardingLegalPartnership => 'ሽርክና ማህበር';
+
+  @override
+  String get onboardingLegalCooperative => 'ህብረት ስራ ማህበር';
+
+  @override
+  String get onboardingTaxTitle => 'የታክስ ምዝገባ ሁኔታዎ ምን ይመስላል?';
+
+  @override
+  String get onboardingTaxVat => 'የተጨማሪ እሴት ታክስ';
+
+  @override
+  String get onboardingTaxTot => 'የሽያጭ ታክስ';
+
+  @override
+  String get onboardingTaxExcise => 'ኤክሳይዝ ታክስ';
+
+  @override
+  String get onboardingTaxExempt => 'ከታክስ ነፃ';
+
+  @override
+  String get onboardingOpsTitle => 'ድርጅትዎ ምን አይነት የስራ እንቅስቃሴዎችን ያደርጋል?';
+
+  @override
+  String get onboardingOpsSubtitle => 'የሚመለከቱትን ሁሉ ይምረጡ።';
+
+  @override
+  String get onboardingOpsImporter => 'አስመጪ';
+
+  @override
+  String get onboardingOpsExporter => 'ላኪ';
+
+  @override
+  String get onboardingOpsTender => 'ለመንግስት/NGO አቅራቢ';
+
+  @override
+  String get onboardingOpsFoodHandling => 'ምግብና መጠጥ ነክ';
+
+  @override
+  String get onboardingOpsVehicles => 'የንግድ መኪና';
+
+  @override
+  String get onboardingOpsHazardous => 'አደገኛ ኬሚካል';
+
+  @override
+  String get onboardingOpsEcommerce => 'ኢ-ኮሜርስ';
+
+  @override
+  String get onboardingOpsHomeBased => 'ከቤት የሚሰራ';
+
+  @override
+  String get onboardingOpsEmployees => 'ሰራተኛ ያለው';
+
+  @override
+  String get onboardingDemoTitle => 'ስለ መስራቾቹ ተጨማሪ ይንገሩን';
+
+  @override
+  String get onboardingDemoSubtitle => 'ልዩ ድጋፎችን እና መመሪያዎችን ለማግኘት።';
+
+  @override
+  String get onboardingDemoWomenOwned => 'በሴቶች የተመሰረተ';
+
+  @override
+  String get onboardingDemoYouth => 'የወጣቶች ኢንተርፕራይዝ (18-35)';
+
+  @override
+  String get onboardingDemoInvestor => 'የውጭ/ዳያስፖራ ባለሀብት';
+
+  @override
+  String get onboardingDemoOptional => 'ይህን ደረጃ መዝለል ይችላሉ።';
 }

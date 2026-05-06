@@ -598,6 +598,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share App'**
   String get shareApp;
+
+  /// Finish button text
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// Onboarding title
+  ///
+  /// In en, this message translates to:
+  /// **'Community Setup'**
+  String get onboardingTitle;
+
+  /// Language pill label
+  ///
+  /// In en, this message translates to:
+  /// **'Eng'**
+  String get onboardingLanguageLabel;
+
+  /// Onboarding step label
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingStepLabel(int current, int total);
+
+  /// Onboarding progress label
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% Complete'**
+  String onboardingProgress(int percent);
+
+  /// Onboarding geography question
+  ///
+  /// In en, this message translates to:
+  /// **'Where is your business primarily located?'**
+  String get onboardingRegionTitle;
+
+  /// Onboarding geography subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'We use your region to surface relevant local guidance.'**
+  String get onboardingRegionSubtitle;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Addis Ababa'**
+  String get onboardingRegionAddis;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Oromia'**
+  String get onboardingRegionOromia;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Amhara'**
+  String get onboardingRegionAmhara;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Tigray'**
+  String get onboardingRegionTigray;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Sidama'**
+  String get onboardingRegionSidama;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'South West'**
+  String get onboardingRegionSouthWest;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Southern'**
+  String get onboardingRegionSouthern;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Somali'**
+  String get onboardingRegionSomali;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Afar'**
+  String get onboardingRegionAfar;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Benishangul-Gumuz'**
+  String get onboardingRegionBenishangul;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Gambella'**
+  String get onboardingRegionGambella;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Harari'**
+  String get onboardingRegionHarari;
+
+  /// Region option
+  ///
+  /// In en, this message translates to:
+  /// **'Dire Dawa'**
+  String get onboardingRegionDireDawa;
+
+  /// Onboarding lifecycle question
+  ///
+  /// In en, this message translates to:
+  /// **'What stage is your business currently in?'**
+  String get onboardingLifecycleTitle;
+
+  /// Onboarding lifecycle subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'This helps us tailor advice for your current needs.'**
+  String get onboardingLifecycleSubtitle;
+
+  /// Lifecycle option
+  ///
+  /// In en, this message translates to:
+  /// **'Just an Idea'**
+  String get onboardingLifecycleIdea;
+
+  /// Lifecycle option
+  ///
+  /// In en, this message translates to:
+  /// **'Currently Registering'**
+  String get onboardingLifecycleRegistration;
+
+  /// Lifecycle option
+  ///
+  /// In en, this message translates to:
+  /// **'Operational'**
+  String get onboardingLifecycleOperational;
+
+  /// Lifecycle option
+  ///
+  /// In en, this message translates to:
+  /// **'Scaling/Expanding'**
+  String get onboardingLifecycleScaling;
+
+  /// Onboarding industry question
+  ///
+  /// In en, this message translates to:
+  /// **'What is your main industry?'**
+  String get onboardingIndustryTitle;
+
+  /// Onboarding industry subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the sector that best matches your business.'**
+  String get onboardingIndustrySubtitle;
+
+  /// Industry option
+  ///
+  /// In en, this message translates to:
+  /// **'Trade'**
+  String get onboardingIndustryTrade;
+
+  /// Industry option
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturing'**
+  String get onboardingIndustryManufacturing;
+
+  /// Industry option
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get onboardingIndustryServices;
+
+  /// Industry option
+  ///
+  /// In en, this message translates to:
+  /// **'Agriculture'**
+  String get onboardingIndustryAgriculture;
+
+  /// Industry option
+  ///
+  /// In en, this message translates to:
+  /// **'Construction'**
+  String get onboardingIndustryConstruction;
+
+  /// Onboarding legal question
+  ///
+  /// In en, this message translates to:
+  /// **'How is your business legally structured?'**
+  String get onboardingLegalTitle;
+
+  /// Onboarding legal subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'If you are planning, choose the structure you expect.'**
+  String get onboardingLegalSubtitle;
+
+  /// Legal option
+  ///
+  /// In en, this message translates to:
+  /// **'Sole Proprietor'**
+  String get onboardingLegalSoleProprietor;
+
+  /// Legal option
+  ///
+  /// In en, this message translates to:
+  /// **'Private Limited Company'**
+  String get onboardingLegalPlc;
+
+  /// Legal option
+  ///
+  /// In en, this message translates to:
+  /// **'Share Company'**
+  String get onboardingLegalShareCompany;
+
+  /// Legal option
+  ///
+  /// In en, this message translates to:
+  /// **'Partnership'**
+  String get onboardingLegalPartnership;
+
+  /// Legal option
+  ///
+  /// In en, this message translates to:
+  /// **'Cooperative'**
+  String get onboardingLegalCooperative;
+
+  /// Onboarding tax question
+  ///
+  /// In en, this message translates to:
+  /// **'What is your tax registration status?'**
+  String get onboardingTaxTitle;
+
+  /// Tax option
+  ///
+  /// In en, this message translates to:
+  /// **'VAT Payer (>2M ETB)'**
+  String get onboardingTaxVat;
+
+  /// Tax option
+  ///
+  /// In en, this message translates to:
+  /// **'TOT Payer (<2M ETB)'**
+  String get onboardingTaxTot;
+
+  /// Tax option
+  ///
+  /// In en, this message translates to:
+  /// **'Excise Tax Payer'**
+  String get onboardingTaxExcise;
+
+  /// Tax option
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Exempt'**
+  String get onboardingTaxExempt;
+
+  /// Onboarding operations question
+  ///
+  /// In en, this message translates to:
+  /// **'What activities will your business do?'**
+  String get onboardingOpsTitle;
+
+  /// Onboarding operations subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Check all that apply.'**
+  String get onboardingOpsSubtitle;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I import goods'**
+  String get onboardingOpsImporter;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I export goods'**
+  String get onboardingOpsExporter;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I supply to Gov or NGOs'**
+  String get onboardingOpsTender;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I handle food or beverages'**
+  String get onboardingOpsFoodHandling;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I operate commercial vehicles'**
+  String get onboardingOpsVehicles;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I use hazardous chemicals'**
+  String get onboardingOpsHazardous;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I sell online (E-commerce)'**
+  String get onboardingOpsEcommerce;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I operate from my home'**
+  String get onboardingOpsHomeBased;
+
+  /// Operations option
+  ///
+  /// In en, this message translates to:
+  /// **'I have official salaried employees'**
+  String get onboardingOpsEmployees;
+
+  /// Onboarding demographics question
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us a bit more about the founders'**
+  String get onboardingDemoTitle;
+
+  /// Onboarding demographics subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock specific grants and guides. Optional.'**
+  String get onboardingDemoSubtitle;
+
+  /// Demographics option
+  ///
+  /// In en, this message translates to:
+  /// **'Women-Owned'**
+  String get onboardingDemoWomenOwned;
+
+  /// Demographics option
+  ///
+  /// In en, this message translates to:
+  /// **'Youth Enterprise (18-35)'**
+  String get onboardingDemoYouth;
+
+  /// Demographics option
+  ///
+  /// In en, this message translates to:
+  /// **'Diaspora/Foreign Investor'**
+  String get onboardingDemoInvestor;
+
+  /// Demographics optional helper text
+  ///
+  /// In en, this message translates to:
+  /// **'You can skip this step if you prefer.'**
+  String get onboardingDemoOptional;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

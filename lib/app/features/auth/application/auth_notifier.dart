@@ -98,8 +98,13 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> completeVerification() async {
     final apiClient = ref.read(apiClientProvider);
     await apiClient.loadTokensFromStorage();
-    state = const AsyncValue.data(
-      AuthStatus.authenticated(user: null, account: null),
+    final repository = ref.read(authRepositoryProvider);
+    final userResult = await repository.getCurrentUser();
+    userResult.fold(
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+      },
+      _applyAuthenticated,
     );
   }
 
