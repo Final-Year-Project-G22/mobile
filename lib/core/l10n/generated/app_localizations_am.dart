@@ -484,4 +484,28 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get onboardingDemoOptional => 'ይህን ደረጃ መዝለል ይችላሉ።';
+
+  @override
+  String get aiGuideTitle => 'AI መምሪያ';
+
+  @override
+  String get aiGuideConversations => 'ውይይቶች';
+
+  @override
+  String get aiGuideNoConversations => 'እስካሁን ምንም ውይይት የለም';
+
+  @override
+  String get aiGuideConversationsError => 'ውይይቶችን መጫን አልተቻለም';
+
+  @override
+  String get aiGuideInputHint => 'ጥያቄ ይጠይቁ...';
+
+  @override
+  String get aiGuideGreeting => 'ስለ መመሪያዎችዎ ማንኛውንም ነገር ይጠይቁ';
+
+  @override
+  String get aiGuideNewChat => 'አዲስ ውይይት';
+
+  @override
+  String get aiGuideStreamError => 'የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።';
 }

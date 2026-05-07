@@ -621,5 +621,37 @@
   "onboardingDemoOptional": "You can skip this step if you prefer.",
   "@onboardingDemoOptional": {
     "description": "Demographics optional helper text"
+  },
+  "aiGuideTitle": "AI Guide",
+  "@aiGuideTitle": {
+    "description": "AI Guide chat page title"
+  },
+  "aiGuideConversations": "Conversations",
+  "@aiGuideConversations": {
+    "description": "Conversation history drawer title"
+  },
+  "aiGuideNoConversations": "No conversations yet",
+  "@aiGuideNoConversations": {
+    "description": "Empty conversation list message"
+  },
+  "aiGuideConversationsError": "Couldn't load conversations",
+  "@aiGuideConversationsError": {
+    "description": "Conversation list error message"
+  },
+  "aiGuideInputHint": "Ask a question...",
+  "@aiGuideInputHint": {
+    "description": "Chat input placeholder"
+  },
+  "aiGuideGreeting": "Ask me anything about your guides",
+  "@aiGuideGreeting": {
+    "description": "Empty chat greeting subtitle"
+  },
+  "aiGuideNewChat": "New Chat",
+  "@aiGuideNewChat": {
+    "description": "New chat button label"
+  },
+  "aiGuideStreamError": "Something went wrong. Tap to retry.",
+  "@aiGuideStreamError": {
+    "description": "Stream error message with retry"
   }
 }

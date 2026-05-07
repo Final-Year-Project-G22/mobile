@@ -146,5 +146,13 @@
   "onboardingDemoWomenOwned": "በሴቶች የተመሰረተ",
   "onboardingDemoYouth": "የወጣቶች ኢንተርፕራይዝ (18-35)",
   "onboardingDemoInvestor": "የውጭ/ዳያስፖራ ባለሀብት",
-  "onboardingDemoOptional": "ይህን ደረጃ መዝለል ይችላሉ።"
+  "onboardingDemoOptional": "ይህን ደረጃ መዝለል ይችላሉ።",
+  "aiGuideTitle": "AI መምሪያ",
+  "aiGuideConversations": "ውይይቶች",
+  "aiGuideNoConversations": "እስካሁን ምንም ውይይት የለም",
+  "aiGuideConversationsError": "ውይይቶችን መጫን አልተቻለም",
+  "aiGuideInputHint": "ጥያቄ ይጠይቁ...",
+  "aiGuideGreeting": "ስለ መመሪያዎችዎ ማንኛውንም ነገር ይጠይቁ",
+  "aiGuideNewChat": "አዲስ ውይይት",
+  "aiGuideStreamError": "የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።"
 }
