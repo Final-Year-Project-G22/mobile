@@ -23,11 +23,11 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
       if (!_initialized) {
         _initialized = true;
-        ref.read(inboxProvider.notifier).loadInbox();
+        await ref.read(inboxProvider.notifier).loadInbox();
       }
     });
   }
@@ -38,10 +38,9 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     super.dispose();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      ref.read(inboxProvider.notifier).loadMore();
+  Future<void> _onScroll() async {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      await ref.read(inboxProvider.notifier).loadMore();
     }
   }
 
@@ -51,8 +50,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor:
-          isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AppBar(
         title: const Text('Inbox'),
         actions: [
@@ -133,10 +131,12 @@ class _InboxPageState extends ConsumerState<InboxPage> {
           }
           return _InboxTile(
             entry: state.entries[index],
-            onTap: () {
-              ref.read(inboxProvider.notifier).markAsRead(
-                state.entries[index].id,
-              );
+            onTap: () async {
+              await ref
+                  .read(inboxProvider.notifier)
+                  .markAsRead(
+                    state.entries[index].id,
+                  );
             },
           );
         },
@@ -163,9 +163,7 @@ class _InboxTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: isUnread
-            ? (isDark
-                ? AppColors.slate800.withValues(alpha: 0.6)
-                : AppColors.slate100.withValues(alpha: 0.6))
+            ? (isDark ? AppColors.slate800.withValues(alpha: 0.6) : AppColors.slate100.withValues(alpha: 0.6))
             : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight),
         borderRadius: AppSpacing.borderRadiusMd,
         border: Border.all(
@@ -189,9 +187,7 @@ class _InboxTile extends StatelessWidget {
                 child: Icon(
                   _iconForCategory(entry.category),
                   size: 20,
-                  color: isUnread
-                      ? AppColors.accent
-                      : (isDark ? AppColors.slate400 : AppColors.slate500),
+                  color: isUnread ? AppColors.accent : (isDark ? AppColors.slate400 : AppColors.slate500),
                 ),
               ),
               AppSpacing.gapHorizontalSm,
@@ -205,12 +201,9 @@ class _InboxTile extends StatelessWidget {
                           child: Text(
                             entry.notification.title,
                             style: TextStyle(
-                              fontWeight:
-                                  isUnread ? FontWeight.w600 : FontWeight.w400,
+                              fontWeight: isUnread ? FontWeight.w600 : FontWeight.w400,
                               fontSize: 14,
-                              color: isDark
-                                  ? AppColors.textPrimaryDark
-                                  : AppColors.textPrimaryLight,
+                              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -220,9 +213,7 @@ class _InboxTile extends StatelessWidget {
                           _formatTimeAgo(entry.notification.sentAt),
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                           ),
                         ),
                       ],
@@ -233,9 +224,7 @@ class _InboxTile extends StatelessWidget {
                         entry.notification.content,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

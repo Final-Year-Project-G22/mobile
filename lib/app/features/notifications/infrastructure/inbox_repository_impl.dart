@@ -30,13 +30,15 @@ class InboxRepositoryImpl implements IInboxRepository {
           .map((e) => _mapInboxEntry(InboxEntryResponse.fromJson(e as Map<String, dynamic>)))
           .toList();
 
-      return Right(ListInboxResult(
-        entries: entries,
-        page: response.data.page,
-        totalPages: response.data.totalPages,
-        total: response.data.total,
-        pageSize: response.data.pageSize,
-      ));
+      return Right(
+        ListInboxResult(
+          entries: entries,
+          page: response.data.page,
+          totalPages: response.data.totalPages,
+          total: response.data.total,
+          pageSize: response.data.pageSize,
+        ),
+      );
     } on DioException catch (e) {
       return Left(_handleDioError(e));
     } on Exception {
