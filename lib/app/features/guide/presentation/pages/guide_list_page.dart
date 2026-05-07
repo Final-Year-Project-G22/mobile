@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -168,7 +170,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
         return GuideCardWidget(
           guide: guide,
           onTap: () {
-            context.go('/guides/${guide.slug}');
+            unawaited(context.push('/guides/${guide.slug}'));
           },
         );
       },

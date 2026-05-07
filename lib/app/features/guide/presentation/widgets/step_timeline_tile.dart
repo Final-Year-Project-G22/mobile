@@ -91,7 +91,12 @@ class StepTimelineTile extends StatelessWidget {
                       if (step.description != null) ...[
                         AppSpacing.gapVerticalXxs,
                         Text(
-                          step.description!,
+                          step.description!
+                              .replaceAll(RegExp(r'<br\s*/?>'), '\n')
+                              .replaceAll(RegExp('</?p>'), '')
+                              .replaceAll(RegExp('<[^>]*>'), '')
+                              .replaceAll('&nbsp;', ' ')
+                              .trim(),
                           style: TextStyle(
                             fontSize: 13,
                             color: isLocked

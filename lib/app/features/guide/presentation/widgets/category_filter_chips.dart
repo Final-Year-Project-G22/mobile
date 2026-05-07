@@ -12,8 +12,8 @@ class CategoryFilterChips extends StatelessWidget {
   });
 
   final List<String> categories;
-  final String? selectedCategorySlug;
-  final ValueChanged<String?> onCategorySelected;
+  final String selectedCategorySlug;
+  final ValueChanged<String> onCategorySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class CategoryFilterChips extends StatelessWidget {
           _buildChip(
             context,
             label: 'All',
-            isSelected: selectedCategorySlug == null,
+            isSelected: selectedCategorySlug.isEmpty,
             isDark: isDark,
-            onTap: () => onCategorySelected(null),
+            onTap: () => onCategorySelected(''),
           ),
           AppSpacing.gapHorizontalXs,
           ...categories.map(

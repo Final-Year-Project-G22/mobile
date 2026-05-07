@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/di/guide_providers.dart';
 import '../domain/entities/guide_step.dart';
 import '../domain/entities/step_enums.dart';
-import '../infrastructure/guide_dummy_data.dart';
 
 part 'step_detail_notifier.g.dart';
 
@@ -11,21 +11,25 @@ class StepDetailState {
     this.step,
     this.isLoading = false,
     this.actionInProgress = false,
+    this.error,
   });
 
   final GuideStep? step;
   final bool isLoading;
   final bool actionInProgress;
+  final String? error;
 
   StepDetailState copyWith({
     GuideStep? step,
     bool? isLoading,
     bool? actionInProgress,
+    String? error,
   }) {
     return StepDetailState(
       step: step ?? this.step,
       isLoading: isLoading ?? this.isLoading,
       actionInProgress: actionInProgress ?? this.actionInProgress,
+      error: error ?? this.error,
     );
   }
 }
@@ -35,31 +39,71 @@ class StepDetailNotifier extends _$StepDetailNotifier {
   @override
   StepDetailState build() => const StepDetailState();
 
-  void loadStep(String guideSlug, String stepSlug) {
-    final step = GuideDummyData.getStep(guideSlug, stepSlug);
+  void loadStepFromGuide(GuideStep step) {
     state = state.copyWith(step: step);
   }
 
-  void startStep() {
-    _updateStatus(StepStatus.inProgress);
+  Future<void> startStep() async {
+    final s = state.step;
+    if (s == null) return;
+    state = state.copyWith(actionInProgress: true);
+    final repo = ref.read(guideRepositoryProvider);
+    final result = await repo.startStep(s.id);
+    result.fold(
+      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to start step'),
+      (_) => _updateStatus(StepStatus.inProgress),
+    );
   }
 
-  void completeStep() {
-    _updateStatus(StepStatus.completed);
+  Future<void> completeStep() async {
+    final s = state.step;
+    if (s == null) return;
+    state = state.copyWith(actionInProgress: true);
+    final repo = ref.read(guideRepositoryProvider);
+    final result = await repo.completeStep(s.id);
+    result.fold(
+      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to complete step'),
+      (_) => _updateStatus(StepStatus.completed),
+    );
   }
 
-  void skipStep() {
-    _updateStatus(StepStatus.skipped);
+  Future<void> skipStep() async {
+    final s = state.step;
+    if (s == null || !s.isOptional) return;
+    state = state.copyWith(actionInProgress: true);
+    final repo = ref.read(guideRepositoryProvider);
+    final result = await repo.skipStep(s.id);
+    result.fold(
+      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to skip step'),
+      (_) => _updateStatus(StepStatus.skipped),
+    );
   }
 
-  void markIncomplete() {
-    _updateStatus(StepStatus.inProgress);
+  Future<void> markIncomplete() async {
+    final s = state.step;
+    if (s == null) return;
+    state = state.copyWith(actionInProgress: true);
+    final repo = ref.read(guideRepositoryProvider);
+    final result = await repo.markStepIncomplete(s.id);
+    result.fold(
+      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to mark incomplete'),
+      (_) => _updateStatus(StepStatus.inProgress),
+    );
+  }
+
+  Future<void> toggleBookmark() async {
+    final s = state.step;
+    if (s == null) return;
+    final repo = ref.read(guideRepositoryProvider);
+    // Track bookmark state to know whether to add or remove
+    await repo.addBookmark(s.id);
   }
 
   void _updateStatus(StepStatus newStatus) {
     final s = state.step;
     if (s == null) return;
     state = state.copyWith(
+      actionInProgress: false,
       step: GuideStep(
         id: s.id,
         slug: s.slug,

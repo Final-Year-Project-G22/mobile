@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
+import '../../domain/entities/step_enums.dart';
 import '../widgets/guide_progress_bar.dart';
 import '../widgets/step_timeline_tile.dart';
 
@@ -22,7 +25,7 @@ class _GuideDetailPageState extends ConsumerState<GuideDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(guideDetailProvider.notifier).loadGuide(widget.guideSlug);
+      unawaited(ref.read(guideDetailProvider.notifier).loadGuide(widget.guideSlug));
     });
   }
 
@@ -56,9 +59,15 @@ class _GuideDetailPageState extends ConsumerState<GuideDetailPage> {
                         step: step,
                         index: index,
                         isLast: index == guide.steps.length - 1,
-                        onTap: () {
-                          context.go('/guides/${widget.guideSlug}/step/${step.slug}');
-                        },
+                        onTap: step.status == StepStatus.locked
+                            ? null
+                            : () {
+                                unawaited(
+                                  context.push(
+                                    '/guides/${widget.guideSlug}/step/${step.slug}',
+                                  ),
+                                );
+                              },
                       );
                     },
                   ),

@@ -51,17 +51,18 @@ class StepActionBar extends StatelessWidget {
       case StepStatus.locked:
         return SizedBox(
           width: double.infinity,
-          child: ElevatedButton(
-            onPressed: null,
+          child: ElevatedButton.icon(
+            onPressed: onStart,
+            icon: const Icon(Icons.play_arrow, size: 18),
+            label: const Text('Start Step'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? AppColors.slate700 : AppColors.slate200,
-              foregroundColor: isDark ? AppColors.slate500 : AppColors.slate400,
+              backgroundColor: AppColors.accent,
+              foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: AppSpacing.borderRadiusMd,
               ),
             ),
-            child: const Text('Complete previous steps first'),
           ),
         );
       case StepStatus.inProgress:

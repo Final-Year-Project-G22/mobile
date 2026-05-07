@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,12 +32,30 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(stepDetailProvider.notifier).loadStep(widget.guideSlug, widget.stepSlug);
+      final guideState = ref.read(guideDetailProvider);
+      final step = guideState.guide?.steps.firstWhere((s) => s.slug == widget.stepSlug);
+      if (step != null) {
+        ref.read(stepDetailProvider.notifier).loadStepFromGuide(step);
+      }
     });
   }
 
-  void _completeAndReturn() {
-    ref.read(stepDetailProvider.notifier).completeStep();
+  Future<void> _startStep() async {
+    await ref.read(stepDetailProvider.notifier).startStep();
+    if (!mounted) return;
+    ref
+        .read(guideDetailProvider.notifier)
+        .updateStepStatus(
+          widget.stepSlug,
+          StepStatus.inProgress,
+        );
+  }
+
+  Future<void> _completeAndReturn() async {
+    final notifier = ref.read(stepDetailProvider.notifier);
+    await notifier.startStep();
+    await notifier.completeStep();
+    if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
         .updateStepStatus(
@@ -45,8 +65,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     Navigator.of(context).pop();
   }
 
-  void _skipAndReturn() {
-    ref.read(stepDetailProvider.notifier).skipStep();
+  Future<void> _skipAndReturn() async {
+    await ref.read(stepDetailProvider.notifier).skipStep();
+    if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
         .updateStepStatus(
@@ -56,8 +77,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     Navigator.of(context).pop();
   }
 
-  void _markIncompleteAndReturn() {
-    ref.read(stepDetailProvider.notifier).markIncomplete();
+  Future<void> _markIncompleteAndReturn() async {
+    await ref.read(stepDetailProvider.notifier).markIncomplete();
+    if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
         .updateStepStatus(
@@ -133,7 +155,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                       if (step.description != null) ...[
                         AppSpacing.gapVerticalSm,
                         Text(
-                          step.description!,
+                          _stripHtml(step.description!),
                           style: TextStyle(
                             fontSize: 14,
                             color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
@@ -153,10 +175,12 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                   status: step.status,
                   isOptional: step.isOptional,
                   isBookmarked: _isBookmarked,
+                  onStart: _startStep,
                   onComplete: _completeAndReturn,
                   onSkip: _skipAndReturn,
                   onMarkIncomplete: _markIncompleteAndReturn,
                   onToggleBookmark: () {
+                    unawaited(ref.read(stepDetailProvider.notifier).toggleBookmark());
                     setState(() {
                       _isBookmarked = !_isBookmarked;
                     });
@@ -194,57 +218,81 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
   }
 
   Widget _buildMarkdown(Map<String, dynamic>? content, bool isDark) {
-    if (content == null || !content.containsKey('markdown')) {
+    final markdown = content?['markdown'] as String?;
+    if (markdown == null || markdown.isEmpty) {
+      final step = ref.read(stepDetailProvider).step;
+      final desc = step?.description;
+      if (desc != null && desc.isNotEmpty) {
+        return MarkdownBody(
+          data: _stripHtml(desc),
+          selectable: true,
+          styleSheet: _markdownStyle(isDark),
+        );
+      }
       return Text(
         'No content available for this step.',
-        style: TextStyle(
-          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-        ),
+        style: TextStyle(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
       );
     }
 
     return MarkdownBody(
-      data: content['markdown'] as String,
+      data: markdown,
       selectable: true,
-      styleSheet: MarkdownStyleSheet(
-        h2: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-        ),
-        h3: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-        ),
-        p: TextStyle(
-          fontSize: 14,
-          height: 1.6,
-          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-        ),
-        strong: TextStyle(
-          fontWeight: FontWeight.w700,
-          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-        ),
-        listBullet: TextStyle(
-          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-        ),
-        blockquoteDecoration: BoxDecoration(
-          color: AppColors.accent.withValues(alpha: 0.08),
-          border: const Border(left: BorderSide(color: AppColors.accent, width: 3)),
-        ),
-        blockquotePadding: const EdgeInsets.all(AppSpacing.sm),
-        code: TextStyle(
-          backgroundColor: isDark ? AppColors.slate800 : AppColors.slate100,
-          color: isDark ? AppColors.accentLight : AppColors.accentDark,
-          fontSize: 13,
-        ),
-        codeblockDecoration: BoxDecoration(
-          color: isDark ? AppColors.slate800 : AppColors.slate100,
-          borderRadius: AppSpacing.borderRadiusSm,
-        ),
-        codeblockPadding: const EdgeInsets.all(AppSpacing.sm),
-      ),
+      styleSheet: _markdownStyle(isDark),
     );
+  }
+
+  MarkdownStyleSheet _markdownStyle(bool isDark) {
+    return MarkdownStyleSheet(
+      h2: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      ),
+      h3: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      ),
+      p: TextStyle(fontSize: 14, height: 1.6, color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+      strong: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      ),
+      listBullet: TextStyle(color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+      blockquoteDecoration: BoxDecoration(
+        color: AppColors.accent.withValues(alpha: 0.08),
+        border: const Border(left: BorderSide(color: AppColors.accent, width: 3)),
+      ),
+      blockquotePadding: const EdgeInsets.all(AppSpacing.sm),
+      code: TextStyle(
+        backgroundColor: isDark ? AppColors.slate800 : AppColors.slate100,
+        color: isDark ? AppColors.accentLight : AppColors.accentDark,
+        fontSize: 13,
+      ),
+      codeblockDecoration: BoxDecoration(
+        color: isDark ? AppColors.slate800 : AppColors.slate100,
+        borderRadius: AppSpacing.borderRadiusSm,
+      ),
+      codeblockPadding: const EdgeInsets.all(AppSpacing.sm),
+    );
+  }
+
+  String _stripHtml(String html) {
+    return html
+        .replaceAll(RegExp(r'<br\s*/?>'), '\n')
+        .replaceAll(RegExp('</p>'), '\n')
+        .replaceAll(RegExp('</li>'), '\n')
+        .replaceAll(RegExp('</ul>'), '\n')
+        .replaceAll(RegExp('</ol>'), '\n')
+        .replaceAll(RegExp('</blockquote>'), '\n')
+        .replaceAll(RegExp('</div>'), '\n')
+        .replaceAll(RegExp('<[^>]*>'), '')
+        .replaceAll('&nbsp;', ' ')
+        .replaceAll('&amp;', '&')
+        .replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>')
+        .replaceAll(RegExp(r'\n{3,}'), '\n\n')
+        .trim();
   }
 }

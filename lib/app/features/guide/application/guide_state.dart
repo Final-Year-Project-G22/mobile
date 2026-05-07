@@ -9,7 +9,7 @@ class GuideListState {
     this.recentGuides = const [],
     this.bookmarks = const [],
     this.searchQuery = '',
-    this.selectedCategorySlug,
+    this.selectedCategorySlug = '',
     this.showBookmarked = false,
     this.isLoading = false,
   });
@@ -19,7 +19,7 @@ class GuideListState {
   final List<GuideCard> recentGuides;
   final List<StepBookmark> bookmarks;
   final String searchQuery;
-  final String? selectedCategorySlug;
+  final String selectedCategorySlug;
   final bool showBookmarked;
   final bool isLoading;
 
