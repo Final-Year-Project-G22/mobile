@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +9,7 @@ import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_post.dart';
 import '../widgets/post_card.dart';
 import '../widgets/reply_input_bar.dart';
+import '../widgets/report_sheet.dart';
 
 class ThreadDetailsPage extends ConsumerStatefulWidget {
   const ThreadDetailsPage({
@@ -108,6 +111,39 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     );
   }
 
+  void _reportPost(DiscussionPost post) {
+    unawaited(showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => ReportSheet(
+        threadId: widget.threadId,
+        postId: post.id,
+      ),
+    ));
+  }
+
+  void _reportUser(DiscussionPost post) {
+    unawaited(showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => ReportSheet(
+        threadId: widget.threadId,
+        targetUserId: post.authorId,
+        targetUserName: _displayName(post.authorId, post.authorDisplayName),
+      ),
+    ));
+  }
+
+  void _reportThread() {
+    unawaited(showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => ReportSheet(
+        threadId: widget.threadId,
+      ),
+    ));
+  }
+
   int _nestingLevel(
     DiscussionPost post,
     Map<String, DiscussionPost> postsById,
@@ -187,6 +223,24 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.threadTitle),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'report') {
+                _reportThread();
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'report',
+                child: Text(
+                  'Report Thread',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: threadAsync.when(
         data: (thread) {
@@ -265,6 +319,20 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                   )
                                   ? () => _deletePost(initialPost!)
                                   : null,
+                              onReport:
+                                  _isAuthor(
+                                    initialPost.authorId,
+                                    currentAccountId,
+                                  )
+                                  ? null
+                                  : () => _reportPost(initialPost!),
+                              onReportUser:
+                                  _isAuthor(
+                                    initialPost.authorId,
+                                    currentAccountId,
+                                  )
+                                  ? null
+                                  : () => _reportUser(initialPost!),
                             )
                           else if (thread.description != null && thread.description!.isNotEmpty)
                             PostCard(
@@ -318,6 +386,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             onReply: () => _startReply(post),
                             onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
                             onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
+                            onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),
+                            onReportUser: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportUser(post),
                           );
                         },
                         childCount: orderedReplies.length,

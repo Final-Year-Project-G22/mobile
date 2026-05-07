@@ -22,6 +22,8 @@ class PostCard extends StatelessWidget {
     this.onReply,
     this.onEdit,
     this.onDelete,
+    this.onReport,
+    this.onReportUser,
     this.createdAt,
     super.key,
   });
@@ -38,6 +40,8 @@ class PostCard extends StatelessWidget {
   final VoidCallback? onReply;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final VoidCallback? onReport;
+  final VoidCallback? onReportUser;
   final DateTime? createdAt;
 
   Future<void> _launchUrl(String urlString) async {
@@ -180,11 +184,17 @@ class PostCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
-                          ? NetworkImage(authorAvatarUrl!)
-                          : null,
-                      child: (authorAvatarUrl == null || authorAvatarUrl!.isEmpty) ? const Icon(Icons.person) : null,
+                    GestureDetector(
+                      onLongPress: onReportUser,
+                      child: Tooltip(
+                        message: onReportUser != null ? 'Long-press to report user' : '',
+                        child: CircleAvatar(
+                          backgroundImage: authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
+                              ? NetworkImage(authorAvatarUrl!)
+                              : null,
+                          child: (authorAvatarUrl == null || authorAvatarUrl!.isEmpty) ? const Icon(Icons.person) : null,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -209,7 +219,7 @@ class PostCard extends StatelessWidget {
                         'edited',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                    if (onEdit != null || onDelete != null)
+                    if (onEdit != null || onDelete != null || onReport != null)
                       PopupMenuButton<String>(
                         onSelected: (value) {
                           if (value == 'edit') {
@@ -218,6 +228,8 @@ class PostCard extends StatelessWidget {
                             onDelete?.call();
                           } else if (value == 'reply') {
                             onReply?.call();
+                          } else if (value == 'report') {
+                            onReport?.call();
                           }
                         },
                         itemBuilder: (context) => [
@@ -236,6 +248,14 @@ class PostCard extends StatelessWidget {
                               value: 'delete',
                               child: Text(
                                 'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          if (onReport != null)
+                            const PopupMenuItem(
+                              value: 'report',
+                              child: Text(
+                                'Report',
                                 style: TextStyle(color: Colors.red),
                               ),
                             ),

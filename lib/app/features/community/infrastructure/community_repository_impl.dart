@@ -423,6 +423,66 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     }
   }
 
+  @override
+  Future<Either<CommunityFailure, Unit>> reportPost({
+    required String threadId,
+    required String postId,
+    required String reason,
+  }) async {
+    try {
+      await _client.reportPost(
+        id: threadId,
+        postId: postId,
+        body: ReportPostRequest(reason: reason),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> reportThread({
+    required String threadId,
+    required String reason,
+  }) async {
+    try {
+      await _client.reportThread(
+        id: threadId,
+        body: ReportThreadRequest(reason: reason),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> reportUser({
+    required String threadId,
+    required String reportedAccountId,
+    required String reason,
+  }) async {
+    try {
+      await _client.reportUser(
+        id: threadId,
+        body: ReportUserRequest(
+          reason: reason,
+          reportedAccountId: reportedAccountId,
+        ),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
   CommunityFailure _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
