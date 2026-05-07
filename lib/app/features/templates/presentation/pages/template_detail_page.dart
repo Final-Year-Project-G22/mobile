@@ -7,13 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
 import '../../domain/entities/template_group_detail.dart';
+import '../../domain/failures/template_failure.dart';
 import '../widgets/language_selector.dart';
 import '../widgets/tier_badge.dart';
 
 class TemplateDetailPage extends ConsumerStatefulWidget {
-  const TemplateDetailPage({required this.slug, super.key});
+  const TemplateDetailPage({required this.groupId, super.key});
 
-  final String slug;
+  final String groupId;
 
   @override
   ConsumerState<TemplateDetailPage> createState() => _TemplateDetailPageState();
@@ -25,7 +26,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final detailAsync = ref.watch(templateDetailProvider(widget.slug));
+    final detailAsync = ref.watch(templateDetailProvider(widget.groupId));
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +35,31 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       body: detailAsync.when(
         data: (detail) => _buildContent(detail),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('Error: $error')),
+        error: (error, _) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.grey),
+                const SizedBox(height: 16),
+                Text(
+                  _mapErrorToMessage(error),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () => ref.invalidate(
+                    templateDetailProvider(widget.groupId),
+                  ),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -43,10 +68,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     final theme = Theme.of(context);
     final languages = detail.languages;
     final effectiveLanguage = _selectedLanguage ?? detail.defaultLanguage;
-    final selectedVariant = languages.firstWhere(
-      (l) => l.language == effectiveLanguage,
-      orElse: () => languages.first,
-    );
+    final selectedVariant = languages.isNotEmpty
+        ? languages.firstWhere(
+            (l) => l.language == effectiveLanguage,
+            orElse: () => languages.first,
+          )
+        : null;
 
     return CustomScrollView(
       slivers: [
@@ -115,9 +142,9 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                     const SizedBox(height: 16),
 
                     // Description from selected language variant
-                    if (selectedVariant.description != null) ...[
+                    if (selectedVariant?.description != null) ...[
                       Text(
-                        selectedVariant.description!,
+                        selectedVariant!.description!,
                         style: theme.textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 16),
@@ -151,9 +178,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: FilledButton.icon(
-                            onPressed: _isDownloading
-                                ? null
-                                : () => _handleDownload(detail, effectiveLanguage),
+                            onPressed: _isDownloading ? null : () => _handleDownload(detail, effectiveLanguage),
                             icon: _isDownloading
                                 ? const SizedBox(
                                     width: 18,
@@ -165,9 +190,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                                   )
                                 : const Icon(Icons.download),
                             label: Text(
-                              detail.tierAccess == 'pro'
-                                  ? 'Upgrade to Download'
-                                  : 'Download',
+                              detail.tierAccess == 'pro' ? 'Upgrade to Download' : 'Download',
                             ),
                           ),
                         ),
@@ -191,7 +214,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
     try {
       final result = await ref.read(
-        downloadTemplateProvider(slug: widget.slug, language: language).future,
+        downloadTemplateProvider(groupId: widget.groupId, language: language).future,
       );
 
       final uri = Uri.parse(result.presignedUrl);
@@ -222,7 +245,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     try {
       // 1. Get presigned URL
       final result = await ref.read(
-        downloadTemplateProvider(slug: widget.slug, language: language).future,
+        downloadTemplateProvider(groupId: widget.groupId, language: language).future,
       );
 
       // 2. Download file bytes via Dio (no auth needed for presigned URL)
@@ -259,9 +282,14 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       }
     } on DioException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Download failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text('Download failed: ${e.message}'),
+              duration: const Duration(seconds: 4),
+            ),
+          );
       }
     } on Exception catch (e) {
       if (mounted) {
@@ -274,6 +302,19 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         setState(() => _isDownloading = false);
       }
     }
+  }
+
+  String _mapErrorToMessage(Object error) {
+    if (error is TemplateFailure) {
+      return error.when(
+        networkError: () => 'Network error. Please check your connection.',
+        notFound: () => 'Template not found.',
+        unauthorized: () => 'Please log in again.',
+        invalidData: () => 'This template has incomplete data.',
+        serverError: (detail) => detail ?? 'Something went wrong.',
+      );
+    }
+    return 'Error: $error';
   }
 
   Future<void> _showUpgradeModal() async {

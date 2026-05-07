@@ -102,9 +102,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      if (item.slug != null) {
-                        context.push('/templates/${item.slug}');
-                      }
+                      context.push('/templates/${item.groupId}');
                     },
                   ),
                 );

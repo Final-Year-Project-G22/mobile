@@ -1,6 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../domain/entities/category_node.dart';
 import '../domain/entities/download_item.dart';
@@ -71,17 +72,23 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
   @override
   Future<Either<TemplateFailure, TemplateGroupDetail>> getTemplateGroupDetail(
-    String slug, {
+    String groupId, {
     String? locale,
   }) async {
     try {
       final response = await _client.libraryGetTemplateGroup(
-        slug: slug,
+        groupId: groupId,
         locale: locale,
       );
 
-      final dto = response.data;
-      return Right(_mapTemplateGroupDetail(dto));
+      final detail = _mapTemplateGroupDetail(response.data);
+
+      // Validate mapped entity — mirror of ProfileRepositoryImpl pattern
+      if (detail.failureOption.isSome()) {
+        return const Left(TemplateFailure.invalidData());
+      }
+
+      return Right(detail);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
     } on Exception {
@@ -91,20 +98,20 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
   @override
   Future<Either<TemplateFailure, DownloadResult>> downloadTemplate(
-    String slug, {
+    String groupId, {
     String? language,
   }) async {
     try {
       final response = await _client.libraryDownloadTemplate(
-        slug: slug,
+        groupId: groupId,
         language: language,
       );
 
       final dto = response.data;
       return Right(
         DownloadResult(
-          presignedUrl: dto.presignedUrl,
-          expiresAt: DateTime.parse(dto.expiresAt),
+          presignedUrl: _fixPresignedUrlForEmulator(dto.presignedUrl),
+          expiresAt: _parseExpiresAt(dto.expiresAt),
           filename: dto.filename,
         ),
       );
@@ -241,5 +248,40 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       case DioExceptionType.unknown:
         return const TemplateFailure.serverError();
     }
+  }
+
+  DateTime _parseExpiresAt(String value) {
+    // 1. Try ISO 8601 first
+    final iso = DateTime.tryParse(value);
+    if (iso != null) return iso;
+
+    // 2. Try relative formats: "30s", "5m", "30m", "1h"
+    final pattern = RegExp(r'^(\d+)([smh])$');
+    final match = pattern.firstMatch(value.trim().toLowerCase());
+
+    if (match != null) {
+      final amount = int.parse(match.group(1)!);
+      final unit = match.group(2)!;
+
+      switch (unit) {
+        case 's':
+          return DateTime.now().add(Duration(seconds: amount));
+        case 'm':
+          return DateTime.now().add(Duration(minutes: amount));
+        case 'h':
+          return DateTime.now().add(Duration(hours: amount));
+      }
+    }
+
+    // 3. Fallback: 5 minutes from now
+    return DateTime.now().add(const Duration(minutes: 5));
+  }
+
+  // TODO: Remove for production — Android emulator uses 10.0.2.2 to reach host
+  String _fixPresignedUrlForEmulator(String url) {
+    if (kDebugMode && url.contains('localhost:8888')) {
+      return url.replaceFirst('localhost:8888', '10.0.2.2:8888');
+    }
+    return url;
   }
 }

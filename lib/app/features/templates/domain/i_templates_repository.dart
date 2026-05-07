@@ -20,12 +20,12 @@ abstract class ITemplatesRepository {
   });
 
   Future<Either<TemplateFailure, TemplateGroupDetail>> getTemplateGroupDetail(
-    String slug, {
+    String groupId, {
     String? locale,
   });
 
   Future<Either<TemplateFailure, DownloadResult>> downloadTemplate(
-    String slug, {
+    String groupId, {
     String? language,
   });
 

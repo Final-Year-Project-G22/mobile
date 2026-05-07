@@ -195,7 +195,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       return TemplateCard(
                         template: template,
                         onTap: () =>
-                            context.push('/templates/${template.slug}'),
+                            context.push('/templates/${template.id}'),
                       );
                     },
                   );

@@ -7,7 +7,7 @@ import 'templates_providers.dart';
 
 part 'templates_data_providers.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<CategoryNode>> categories(Ref ref) async {
   final repository = ref.watch(templatesRepositoryProvider);
   final result = await repository.listCategories();
@@ -18,10 +18,10 @@ Future<List<CategoryNode>> categories(Ref ref) async {
   );
 }
 
-@riverpod
-Future<TemplateGroupDetail> templateDetail(Ref ref, String slug) async {
+@Riverpod(keepAlive: true)
+Future<TemplateGroupDetail> templateDetail(Ref ref, String groupId) async {
   final repository = ref.watch(templatesRepositoryProvider);
-  final result = await repository.getTemplateGroupDetail(slug);
+  final result = await repository.getTemplateGroupDetail(groupId);
 
   return result.fold(
     (failure) => throw failure,
@@ -32,12 +32,12 @@ Future<TemplateGroupDetail> templateDetail(Ref ref, String slug) async {
 @riverpod
 Future<DownloadResult> downloadTemplate(
   Ref ref, {
-  required String slug,
+  required String groupId,
   required String language,
 }) async {
   final repository = ref.watch(templatesRepositoryProvider);
   final result = await repository.downloadTemplate(
-    slug,
+    groupId,
     language: language,
   );
 

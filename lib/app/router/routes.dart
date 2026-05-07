@@ -87,7 +87,7 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
     TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId'),
     TypedGoRoute<AiGuildRoute>(path: '/ai-guild'),
     TypedGoRoute<TemplatesRoute>(path: '/templates', routes: [
-      TypedGoRoute<TemplateDetailRoute>(path: ':slug'),
+      TypedGoRoute<TemplateDetailRoute>(path: ':groupId'),
     ]),
     TypedGoRoute<DownloadsRoute>(path: '/downloads'),
   ],
@@ -140,11 +140,11 @@ class TemplatesRoute extends GoRouteData with $TemplatesRoute {
 }
 
 class TemplateDetailRoute extends GoRouteData with $TemplateDetailRoute {
-  const TemplateDetailRoute({required this.slug});
-  final String slug;
+  const TemplateDetailRoute({required this.groupId});
+  final String groupId;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => TemplateDetailPage(slug: slug);
+  Widget build(BuildContext context, GoRouterState state) => TemplateDetailPage(groupId: groupId);
 }
 
 class DownloadsRoute extends GoRouteData with $DownloadsRoute {
