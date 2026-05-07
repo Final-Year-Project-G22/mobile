@@ -1,5 +1,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 import 'entities/chat_message.dart';
 import 'entities/conversation_summary.dart';
@@ -27,6 +28,7 @@ abstract class IAiRepository {
     required String query,
     String? sessionId,
     String? title,
+    CancelToken? cancelToken,
   });
 
   Future<Either<AiFailure, List<ConversationSummary>>> listConversations();

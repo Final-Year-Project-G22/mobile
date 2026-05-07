@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/chat_message.dart';
@@ -12,7 +15,11 @@ final aiChatNotifierProvider = NotifierProvider<AiChatNotifier, AiChatState>(AiC
 
 class AiChatNotifier extends Notifier<AiChatState> {
   StreamSubscription<SseEvent>? _streamSubscription;
+  CancelToken? _cancelToken;
   int _idCounter = 0;
+
+  final List<SseEvent> _eventQueue = [];
+  bool _frameScheduled = false;
 
   String get _nextId => '${DateTime.now().millisecondsSinceEpoch}-${_idCounter++}';
 
@@ -45,22 +52,68 @@ class AiChatNotifier extends Notifier<AiChatState> {
     final repository = ref.read(aiRepositoryProvider);
     final isNewSession = state.sessionId == null;
 
+    _cancelToken = CancelToken();
+
     _streamSubscription = repository
         .askStream(
           query: query,
           sessionId: state.sessionId,
           title: isNewSession ? _truncateTitle(query) : null,
+          cancelToken: _cancelToken,
         )
         .listen(
-          _handleSseEvent,
-          onError: (_) => _handleStreamError(),
-          onDone: _handleStreamDone,
+          (event) {
+            debugPrint('[AI Notifier] event: ${event.type.name} text=${event.text}');
+            _eventQueue.add(event);
+            _scheduleFrameProcess();
+          },
+          onError: (Object error) {
+            debugPrint('[AI Notifier] stream onError: $error (${error.runtimeType})');
+            _handleStreamError();
+          },
+          onDone: () {
+            debugPrint('[AI Notifier] stream onDone');
+            _handleStreamDone();
+          },
         );
   }
 
+  void _scheduleFrameProcess() {
+    if (_frameScheduled) return;
+    _frameScheduled = true;
+    SchedulerBinding.instance.scheduleFrameCallback((_) {
+      _processNextEvent();
+    });
+  }
+
+  void _processNextEvent() {
+    if (_eventQueue.isEmpty) {
+      _frameScheduled = false;
+      return;
+    }
+
+    final event = _eventQueue.removeAt(0);
+
+    if (state.isStreaming) {
+      _handleSseEvent(event);
+    }
+
+    if (_eventQueue.isNotEmpty || state.isStreaming) {
+      SchedulerBinding.instance.scheduleFrameCallback((_) {
+        _processNextEvent();
+      });
+    } else {
+      _frameScheduled = false;
+    }
+  }
+
   void stopStreaming() {
+    _cancelToken?.cancel();
+    _cancelToken = null;
     unawaited(_streamSubscription?.cancel());
     _streamSubscription = null;
+    _eventQueue.clear();
+    _frameScheduled = false;
 
     if (!state.isStreaming) return;
 
@@ -77,8 +130,12 @@ class AiChatNotifier extends Notifier<AiChatState> {
   }
 
   Future<void> loadConversation(String sessionId) async {
+    _cancelToken?.cancel();
+    _cancelToken = null;
     unawaited(_streamSubscription?.cancel());
     _streamSubscription = null;
+    _eventQueue.clear();
+    _frameScheduled = false;
 
     final repository = ref.read(aiRepositoryProvider);
     final result = await repository.getConversation(sessionId);
@@ -99,8 +156,12 @@ class AiChatNotifier extends Notifier<AiChatState> {
   }
 
   void startNewChat() {
+    _cancelToken?.cancel();
+    _cancelToken = null;
     unawaited(_streamSubscription?.cancel());
     _streamSubscription = null;
+    _eventQueue.clear();
+    _frameScheduled = false;
     state = const AiChatState();
   }
 
@@ -119,12 +180,14 @@ class AiChatNotifier extends Notifier<AiChatState> {
         if (event.sessionId != null) {
           state = state.copyWith(sessionId: event.sessionId);
         }
+        _cancelToken = null;
       case SseEventType.error:
         _handleStreamError(message: event.error);
     }
   }
 
   void _handleStreamDone() {
+    _cancelToken = null;
     if (!state.isStreaming) return;
     final messages = List<ChatMessage>.from(state.messages);
     if (messages.isNotEmpty && messages.last.role == ChatRole.assistant) {
@@ -140,6 +203,9 @@ class AiChatNotifier extends Notifier<AiChatState> {
   }
 
   void _handleStreamError({String? message}) {
+    _cancelToken = null;
+    _eventQueue.clear();
+    _frameScheduled = false;
     final messages = List<ChatMessage>.from(state.messages);
     if (messages.isNotEmpty && messages.last.role == ChatRole.assistant) {
       final last = messages.last;

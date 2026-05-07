@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:api_client/api_client.dart';
+import 'package:flutter/foundation.dart';
 
 import '../domain/i_ai_repository.dart';
 
@@ -9,61 +10,42 @@ class SseParser {
   const SseParser();
 
   Stream<SseEvent> parse(Stream<List<int>> byteStream) {
-    final buffer = StringBuffer();
-    var incompleteLineLength = 0;
+    final controller = StreamController<SseEvent>();
+    var eventType = '';
+    var eventData = '';
 
-    return byteStream.transform(utf8.decoder).expand((chunk) {
-      buffer.write(chunk);
-      final data = buffer.toString();
-      buffer.clear();
+    byteStream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .listen(
+          (line) {
+            final cleanLine = line.endsWith('\r') ? line.substring(0, line.length - 1) : line;
 
-      final events = <SseEvent>[];
-      final lines = data.split('\n');
-
-      var eventType = '';
-      var eventData = '';
-
-      for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-
-        if (i == 0 && incompleteLineLength > 0) {
-          line = '${' ' * incompleteLineLength}$line';
-          incompleteLineLength = 0;
-        }
-
-        if (line.startsWith('event: ')) {
-          eventType = line.substring(7).trim();
-        } else if (line.startsWith('data: ')) {
-          eventData = line.substring(6);
-        } else if (line.isEmpty) {
-          if (eventType.isNotEmpty && eventData.isNotEmpty) {
-            final event = _parseEvent(eventType, eventData);
-            if (event != null) {
-              events.add(event);
+            if (cleanLine.isEmpty) {
+              if (eventType.isNotEmpty && eventData.isNotEmpty) {
+                final event = _parseEvent(eventType, eventData);
+                debugPrint('[SSE Parser] parsed: type=$eventType data=$eventData');
+                if (event != null) {
+                  controller.add(event);
+                }
+              }
+              eventType = '';
+              eventData = '';
+            } else if (cleanLine.startsWith('event: ')) {
+              eventType = cleanLine.substring(7);
+            } else if (cleanLine.startsWith('data: ')) {
+              if (eventData.isNotEmpty) {
+                eventData += '\n';
+              }
+              eventData += cleanLine.substring(6);
             }
-          }
+          },
+          onError: controller.addError,
+          onDone: controller.close,
+          cancelOnError: true,
+        );
 
-          eventType = '';
-          eventData = '';
-        }
-      }
-
-      if (eventType.isNotEmpty && eventData.isNotEmpty) {
-        final event = _parseEvent(eventType, eventData);
-        if (event != null) {
-          events.add(event);
-        }
-      }
-
-      if (!chunk.endsWith('\n') && lines.isNotEmpty) {
-        buffer.write(lines.last);
-        for (var i = 0; i < lines.length - 1; i++) {
-          if (i == lines.length - 1) break;
-        }
-      }
-
-      return events;
-    });
+    return controller.stream;
   }
 
   SseEvent? _parseEvent(String eventType, String eventData) {
@@ -95,7 +77,8 @@ class SseParser {
         default:
           return null;
       }
-    } on FormatException {
+    } on FormatException catch (e) {
+      debugPrint('[SSE Parser] JSON parse error on type="$eventType": $e');
       return null;
     }
   }
