@@ -23,15 +23,13 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_initialized) {
-      _initialized = true;
-      ref.read(inboxProvider.notifier).loadInbox();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (!_initialized) {
+        _initialized = true;
+        ref.read(inboxProvider.notifier).loadInbox();
+      }
+    });
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_spacing.dart';
+import '../../../../features/notifications/application/unread_count_provider.dart';
 import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
@@ -15,6 +16,7 @@ class HomeShellPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeTabIndexProvider);
+    final unreadCountAsync = ref.watch(unreadCountProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -25,11 +27,8 @@ class HomeShellPage extends ConsumerWidget {
         ),
         actions: [
           HomeTopActions(
-            onNotificationsTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Notifications coming soon')),
-              );
-            },
+            unreadCount: unreadCountAsync.value,
+            onNotificationsTap: () => context.push('/inbox'),
             onProfileTap: () => context.push('/profile'),
           ),
           AppSpacing.gapHorizontalXs,
