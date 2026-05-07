@@ -8,6 +8,9 @@ import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/community/presentation/pages/community_home_page.dart';
 import '../features/community/presentation/pages/thread_details_page.dart';
+import '../features/guide/presentation/pages/guide_detail_page.dart';
+import '../features/guide/presentation/pages/guide_list_page.dart';
+import '../features/guide/presentation/pages/step_detail_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
@@ -75,6 +78,8 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
 @TypedShellRoute<MainAppShellRoute>(
   routes: [
     TypedGoRoute<HomeRoute>(path: '/home'),
+    TypedGoRoute<GuideDetailRoute>(path: '/guides/:guideSlug'),
+    TypedGoRoute<StepDetailRoute>(path: '/guides/:guideSlug/step/:stepSlug'),
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
     TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId'),
     TypedGoRoute<AiGuildRoute>(path: '/ai-guild'),
@@ -92,8 +97,26 @@ class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const Scaffold(body: Center(child: Text('Home - TODO: Create HomePage')));
+  Widget build(BuildContext context, GoRouterState state) => const GuideListPage();
+}
+
+class GuideDetailRoute extends GoRouteData with $GuideDetailRoute {
+  const GuideDetailRoute({required this.guideSlug});
+
+  final String guideSlug;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => GuideDetailPage(guideSlug: guideSlug);
+}
+
+class StepDetailRoute extends GoRouteData with $StepDetailRoute {
+  const StepDetailRoute({required this.guideSlug, required this.stepSlug});
+
+  final String guideSlug;
+  final String stepSlug;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => StepDetailPage(guideSlug: guideSlug, stepSlug: stepSlug);
 }
 
 class AiGuildRoute extends GoRouteData with $AiGuildRoute {
