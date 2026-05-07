@@ -156,6 +156,52 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     });
     return result;
   }
+
+  Future<Either<CommunityFailure, Unit>> reportPost({
+    required String threadId,
+    required String postId,
+    required String reason,
+  }) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.reportPost(
+      threadId: threadId,
+      postId: postId,
+      reason: reason,
+    );
+    state = const AsyncData(null);
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> reportThread({
+    required String threadId,
+    required String reason,
+  }) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.reportThread(
+      threadId: threadId,
+      reason: reason,
+    );
+    state = const AsyncData(null);
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> reportUser({
+    required String threadId,
+    required String reportedAccountId,
+    required String reason,
+  }) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.reportUser(
+      threadId: threadId,
+      reportedAccountId: reportedAccountId,
+      reason: reason,
+    );
+    state = const AsyncData(null);
+    return result;
+  }
 }
 
 final communityMutationsProvider = AsyncNotifierProvider<CommunityMutationsNotifier, void>(

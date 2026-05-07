@@ -92,4 +92,21 @@ abstract class ICommunityRepository {
     String threadId,
     String postId,
   );
+
+  Future<Either<CommunityFailure, Unit>> reportPost({
+    required String threadId,
+    required String postId,
+    required String reason,
+  });
+
+  Future<Either<CommunityFailure, Unit>> reportThread({
+    required String threadId,
+    required String reason,
+  });
+
+  Future<Either<CommunityFailure, Unit>> reportUser({
+    required String threadId,
+    required String reportedAccountId,
+    required String reason,
+  });
 }
