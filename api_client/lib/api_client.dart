@@ -69,3 +69,11 @@ export 'src/api/models/download_template_response_body.dart';
 export 'src/api/models/list_template_groups_response_body.dart';
 export 'src/api/models/list_my_downloads_response_body.dart';
 export 'src/api/models/my_download_response.dart';
+
+export 'src/api/notifications/notifications_client.dart';
+export 'src/api/models/inbox_entry_response.dart';
+export 'src/api/models/list_inbox_response_body.dart';
+export 'src/api/models/notification_summary_response.dart';
+export 'src/api/models/unread_count_response_body.dart';
+export 'src/api/models/mark_as_read_response_body.dart';
+export 'src/api/models/mark_all_as_read_response_body.dart';

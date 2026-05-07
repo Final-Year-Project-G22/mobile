@@ -12,6 +12,7 @@ import '../features/guide/presentation/pages/guide_detail_page.dart';
 import '../features/guide/presentation/pages/guide_list_page.dart';
 import '../features/guide/presentation/pages/step_detail_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
+import '../features/notifications/presentation/pages/inbox_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
@@ -190,4 +191,12 @@ class SettingsRoute extends GoRouteData with $SettingsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SettingsPage();
+}
+
+@TypedGoRoute<InboxRoute>(path: '/inbox')
+class InboxRoute extends GoRouteData with $InboxRoute {
+  const InboxRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const InboxPage();
 }
