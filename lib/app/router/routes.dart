@@ -86,9 +86,12 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
     TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId'),
     TypedGoRoute<AiGuildRoute>(path: '/ai-guild'),
-    TypedGoRoute<TemplatesRoute>(path: '/templates', routes: [
-      TypedGoRoute<TemplateDetailRoute>(path: ':groupId'),
-    ]),
+    TypedGoRoute<TemplatesRoute>(
+      path: '/templates',
+      routes: [
+        TypedGoRoute<TemplateDetailRoute>(path: ':groupId'),
+      ],
+    ),
     TypedGoRoute<DownloadsRoute>(path: '/downloads'),
   ],
 )
