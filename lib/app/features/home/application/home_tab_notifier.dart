@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_tab_notifier.g.dart';
 
-enum HomeTab { guide, community, aiGuild, templates }
+enum HomeTab { guide, community, aiGuide, templates }
 
 class HomeTabSpec {
   const HomeTabSpec({

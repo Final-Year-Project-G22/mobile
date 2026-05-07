@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,16 +40,18 @@ class HomeShellPage extends ConsumerWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
-          ref.read(homeTabIndexProvider.notifier).setIndex(index);
           switch (index) {
             case 0:
+              ref.read(homeTabIndexProvider.notifier).setIndex(0);
               context.go('/home');
             case 1:
+              ref.read(homeTabIndexProvider.notifier).setIndex(1);
               context.go('/community');
             case 2:
-              context.go('/ai-guild'); // Need to map these later
+              unawaited(context.push('/ai-guide'));
             case 3:
-              context.go('/templates'); // Need to map these later
+              ref.read(homeTabIndexProvider.notifier).setIndex(3);
+              context.go('/templates');
           }
         },
         destinations: homeTabSpecs

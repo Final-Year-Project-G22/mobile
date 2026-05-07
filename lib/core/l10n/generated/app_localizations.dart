@@ -973,6 +973,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can skip this step if you prefer.'**
   String get onboardingDemoOptional;
+
+  /// AI Guide chat page title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Guide'**
+  String get aiGuideTitle;
+
+  /// Conversation history drawer title
+  ///
+  /// In en, this message translates to:
+  /// **'Conversations'**
+  String get aiGuideConversations;
+
+  /// Empty conversation list message
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations yet'**
+  String get aiGuideNoConversations;
+
+  /// Conversation list error message
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load conversations'**
+  String get aiGuideConversationsError;
+
+  /// Chat input placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question...'**
+  String get aiGuideInputHint;
+
+  /// Empty chat greeting subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me anything about your guides'**
+  String get aiGuideGreeting;
+
+  /// New chat button label
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
+  String get aiGuideNewChat;
+
+  /// Stream error message with retry
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Tap to retry.'**
+  String get aiGuideStreamError;
 }
 
 class _AppLocalizationsDelegate

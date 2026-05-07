@@ -491,4 +491,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingDemoOptional => 'You can skip this step if you prefer.';
+
+  @override
+  String get aiGuideTitle => 'AI Guide';
+
+  @override
+  String get aiGuideConversations => 'Conversations';
+
+  @override
+  String get aiGuideNoConversations => 'No conversations yet';
+
+  @override
+  String get aiGuideConversationsError => 'Couldn\'t load conversations';
+
+  @override
+  String get aiGuideInputHint => 'Ask a question...';
+
+  @override
+  String get aiGuideGreeting => 'Ask me anything about your guides';
+
+  @override
+  String get aiGuideNewChat => 'New Chat';
+
+  @override
+  String get aiGuideStreamError => 'Something went wrong. Tap to retry.';
 }
