@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -126,8 +125,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: FilterChip(
                         label: Text(category.name),
-                        onSelected: (_) {
-                          ref.read(templateListProvider.notifier).setCategory(category.id);
+                        onSelected: (_) async {
+                          await ref.read(templateListProvider.notifier).setCategory(category.id);
                         },
                       ),
                     );
@@ -139,7 +138,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               height: 50,
               child: Center(child: LinearProgressIndicator()),
             ),
-            error: (_, __) => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
           ),
 
           // Template grid
@@ -203,8 +202,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
     );
   }
 
-  void _showCategoryDrawer(List<dynamic> categories) {
-    showModalBottomSheet<void>(
+  Future<void> _showCategoryDrawer(List<dynamic> categories) async {
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (_) => CategoryDrawer(
