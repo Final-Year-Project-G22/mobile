@@ -16,6 +16,9 @@ import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
+import '../features/templates/presentation/pages/downloads_page.dart';
+import '../features/templates/presentation/pages/template_detail_page.dart';
+import '../features/templates/presentation/pages/templates_list_page.dart';
 
 part 'routes.g.dart';
 
@@ -83,7 +86,13 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
     TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId'),
     TypedGoRoute<AiGuildRoute>(path: '/ai-guild'),
-    TypedGoRoute<TemplatesRoute>(path: '/templates'),
+    TypedGoRoute<TemplatesRoute>(
+      path: '/templates',
+      routes: [
+        TypedGoRoute<TemplateDetailRoute>(path: ':groupId'),
+      ],
+    ),
+    TypedGoRoute<DownloadsRoute>(path: '/downloads'),
   ],
 )
 class MainAppShellRoute extends ShellRouteData {
@@ -130,7 +139,22 @@ class TemplatesRoute extends GoRouteData with $TemplatesRoute {
   const TemplatesRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const Scaffold(body: Center(child: Text('Templates')));
+  Widget build(BuildContext context, GoRouterState state) => const TemplatesListPage();
+}
+
+class TemplateDetailRoute extends GoRouteData with $TemplateDetailRoute {
+  const TemplateDetailRoute({required this.groupId});
+  final String groupId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => TemplateDetailPage(groupId: groupId);
+}
+
+class DownloadsRoute extends GoRouteData with $DownloadsRoute {
+  const DownloadsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const DownloadsPage();
 }
 
 class CommunityHomeRoute extends GoRouteData with $CommunityHomeRoute {

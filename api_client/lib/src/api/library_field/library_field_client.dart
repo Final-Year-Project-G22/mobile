@@ -64,12 +64,12 @@ abstract class LibraryFieldClient {
   ///
   /// Gets a template group with its language variants.
   ///
-  /// [slug] - Template group slug.
+  /// [groupId] - Template group ID.
   ///
   /// [locale] - Language code.
-  @GET('/api/v1/library/templates/{slug}')
+  @GET('/api/v1/library/templates/{groupId}')
   Future<HttpResponse<UserTemplateGroupDetailResponse>> libraryGetTemplateGroup({
-    @Path('slug') required String slug,
+    @Path('groupId') required String groupId,
     @Query('locale') String? locale,
   });
 
@@ -77,12 +77,12 @@ abstract class LibraryFieldClient {
   ///
   /// Generates a presigned download URL for a template.
   ///
-  /// [slug] - Template group slug.
+  /// [groupId] - Template group ID.
   ///
   /// [language] - Language code.
-  @GET('/api/v1/library/templates/{slug}/download')
+  @GET('/api/v1/library/templates/{groupId}/download')
   Future<HttpResponse<DownloadTemplateResponseBody>> libraryDownloadTemplate({
-    @Path('slug') required String slug,
+    @Path('groupId') required String groupId,
     @Query('language') String? language,
   });
 }
