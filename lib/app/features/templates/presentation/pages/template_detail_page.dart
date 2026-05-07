@@ -88,7 +88,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                   child: Image.network(
                     detail.thumbnailUrl!,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
+                    errorBuilder: (context, error, stackTrace) => ColoredBox(
                       color: theme.colorScheme.surfaceContainerHighest,
                       child: const Center(
                         child: Icon(Icons.image, size: 64),

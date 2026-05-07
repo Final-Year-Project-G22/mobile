@@ -32,7 +32,7 @@ class TemplateCard extends StatelessWidget {
                       template.thumbnailUrl!,
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      errorBuilder: (_, __, ___) => _placeholder(theme),
+                      errorBuilder: (context, error, stackTrace) => _placeholder(theme),
                     )
                   : _placeholder(theme),
             ),
@@ -81,7 +81,7 @@ class TemplateCard extends StatelessWidget {
   }
 
   Widget _placeholder(ThemeData theme) {
-    return Container(
+    return ColoredBox(
       color: theme.colorScheme.surfaceContainerHighest,
       child: const Center(
         child: Icon(Icons.insert_drive_file, size: 40),

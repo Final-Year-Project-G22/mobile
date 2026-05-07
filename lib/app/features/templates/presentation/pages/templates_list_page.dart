@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,9 +42,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      ref.read(templateListProvider.notifier).loadMore();
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      unawaited(ref.read(templateListProvider.notifier).loadMore());
     }
   }
 
@@ -75,9 +77,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         onPressed: () {
                           _searchController.clear();
                           setState(() => _showClear = false);
-                          ref
-                              .read(templateListProvider.notifier)
-                              .setSearch(null);
+                          unawaited(ref.read(templateListProvider.notifier).setSearch(null));
                         },
                       )
                     : null,
@@ -90,9 +90,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                 contentPadding: EdgeInsets.zero,
               ),
               onChanged: (value) {
-                ref
-                    .read(templateListProvider.notifier)
-                    .setSearch(value.isEmpty ? null : value);
+                unawaited(ref.read(templateListProvider.notifier).setSearch(value.isEmpty ? null : value));
               },
             ),
           ),
@@ -129,9 +127,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       child: FilterChip(
                         label: Text(category.name),
                         onSelected: (_) {
-                          ref
-                              .read(templateListProvider.notifier)
-                              .setCategory(category.id);
+                          ref.read(templateListProvider.notifier).setCategory(category.id);
                         },
                       ),
                     );
@@ -150,9 +146,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                await ref
-                    .read(templateListProvider.notifier)
-                    .refresh();
+                await ref.read(templateListProvider.notifier).refresh();
               },
               child: listAsync.when(
                 data: (state) {
@@ -172,15 +166,13 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   return GridView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.all(8),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.75,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                     ),
-                    itemCount:
-                        state.items.length + (state.isLoadingMore ? 1 : 0),
+                    itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index >= state.items.length) {
                         return const Center(
@@ -194,8 +186,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       final template = state.items[index];
                       return TemplateCard(
                         template: template,
-                        onTap: () =>
-                            context.push('/templates/${template.id}'),
+                        onTap: () => context.push('/templates/${template.id}'),
                       );
                     },
                   );
@@ -213,16 +204,14 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   }
 
   void _showCategoryDrawer(List<dynamic> categories) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (_) => CategoryDrawer(
         categories: categories,
         onSelect: (categoryId) {
           Navigator.pop(context);
-          ref
-              .read(templateListProvider.notifier)
-              .setCategory(categoryId);
+          unawaited(ref.read(templateListProvider.notifier).setCategory(categoryId));
         },
       ),
     );

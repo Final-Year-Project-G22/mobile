@@ -5,9 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DownloadsCacheService {
   static const _key = 'templates_downloads_cache';
 
-  final SharedPreferences _prefs;
-
   DownloadsCacheService(this._prefs);
+  final SharedPreferences _prefs;
 
   Future<void> addDownload({
     required String downloadId,
@@ -15,37 +14,33 @@ class DownloadsCacheService {
     required String groupId,
     required String slug,
     required String title,
-    String? thumbnailUrl,
     required DateTime downloadedAt,
+    String? thumbnailUrl,
   }) async {
-    final entries = _getRawEntries();
-    entries.add({
-      'downloadId': downloadId,
-      'templateId': templateId,
-      'groupId': groupId,
-      'slug': slug,
-      'title': title,
-      'thumbnailUrl': thumbnailUrl,
-      'downloadedAt': downloadedAt.toIso8601String(),
-    });
+    final entries = _getRawEntries()
+      ..add({
+        'downloadId': downloadId,
+        'templateId': templateId,
+        'groupId': groupId,
+        'slug': slug,
+        'title': title,
+        'thumbnailUrl': thumbnailUrl,
+        'downloadedAt': downloadedAt.toIso8601String(),
+      });
     await _prefs.setString(_key, jsonEncode(entries));
   }
 
   List<DownloadCacheEntry> getDownloads() {
     final entries = _getRawEntries();
-    return entries
-        .map((e) => DownloadCacheEntry.fromJson(e as Map<String, dynamic>))
-        .toList()
-      ..sort((a, b) => b.downloadedAt.compareTo(a.downloadedAt));
+    return entries.map(DownloadCacheEntry.fromJson).toList()..sort((a, b) => b.downloadedAt.compareTo(a.downloadedAt));
   }
 
   DownloadCacheEntry? findByGroupId(String groupId) {
     final downloads = getDownloads();
-    try {
-      return downloads.firstWhere((d) => d.groupId == groupId);
-    } on StateError {
-      return null;
+    for (final d in downloads) {
+      if (d.groupId == groupId) return d;
     }
+    return null;
   }
 
   Future<void> clear() async {
@@ -57,7 +52,7 @@ class DownloadsCacheService {
     if (raw == null || raw.isEmpty) return [];
     try {
       final decoded = jsonDecode(raw) as List<dynamic>;
-      return decoded.cast<Map<String, dynamic>>();
+      return decoded.whereType<Map<String, dynamic>>().toList();
     } on Exception {
       return [];
     }

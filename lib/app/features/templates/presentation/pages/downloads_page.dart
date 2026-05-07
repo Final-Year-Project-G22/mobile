@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,9 +28,8 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      ref.read(myDownloadsProvider.notifier).loadMore();
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      unawaited(ref.read(myDownloadsProvider.notifier).loadMore());
     }
   }
 
@@ -63,8 +63,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
             return ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(8),
-              itemCount:
-                  state.items.length + (state.isLoadingMore ? 1 : 0),
+              itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index >= state.items.length) {
                   return const Center(
@@ -90,7 +89,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => const Icon(
+                              errorBuilder: (_context, _error, _stackTrace) => const Icon(
                                 Icons.insert_drive_file,
                               ),
                             ),

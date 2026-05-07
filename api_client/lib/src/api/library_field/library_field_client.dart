@@ -23,7 +23,9 @@ abstract class LibraryFieldClient {
   ///
   /// [locale] - Language code for localized names.
   @GET('/api/v1/library/categories')
-  Future<HttpResponse<dynamic>> libraryListCategories({@Query('locale') String? locale});
+  Future<HttpResponse<dynamic>> libraryListCategories({
+    @Query('locale') String? locale,
+  });
 
   /// My downloads.
   ///
@@ -52,7 +54,8 @@ abstract class LibraryFieldClient {
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/library/templates')
-  Future<HttpResponse<ListTemplateGroupsResponseBody>> libraryListTemplateGroups({
+  Future<HttpResponse<ListTemplateGroupsResponseBody>>
+  libraryListTemplateGroups({
     @Query('page') int? page = 1,
     @Query('pageSize') int? pageSize = 20,
     @Query('categoryId') String? categoryId,
@@ -64,12 +67,13 @@ abstract class LibraryFieldClient {
   ///
   /// Gets a template group with its language variants.
   ///
-  /// [slug] - Template group slug.
+  /// [groupId] - Template group ID.
   ///
   /// [locale] - Language code.
-  @GET('/api/v1/library/templates/{slug}')
-  Future<HttpResponse<UserTemplateGroupDetailResponse>> libraryGetTemplateGroup({
-    @Path('slug') required String slug,
+  @GET('/api/v1/library/templates/{groupId}')
+  Future<HttpResponse<UserTemplateGroupDetailResponse>>
+  libraryGetTemplateGroup({
+    @Path('groupId') required String groupId,
     @Query('locale') String? locale,
   });
 
@@ -77,12 +81,12 @@ abstract class LibraryFieldClient {
   ///
   /// Generates a presigned download URL for a template.
   ///
-  /// [slug] - Template group slug.
+  /// [groupId] - Template group ID.
   ///
   /// [language] - Language code.
-  @GET('/api/v1/library/templates/{slug}/download')
+  @GET('/api/v1/library/templates/{groupId}/download')
   Future<HttpResponse<DownloadTemplateResponseBody>> libraryDownloadTemplate({
-    @Path('slug') required String slug,
+    @Path('groupId') required String groupId,
     @Query('language') String? language,
   });
 }
