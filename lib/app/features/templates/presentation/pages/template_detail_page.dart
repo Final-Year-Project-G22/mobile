@@ -33,7 +33,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         title: const Text('Template Details'),
       ),
       body: detailAsync.when(
-        data: (detail) => _buildContent(detail),
+        data: _buildContent,
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
           child: Padding(
@@ -287,7 +287,6 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           ..showSnackBar(
             SnackBar(
               content: Text('Download failed: ${e.message}'),
-              duration: const Duration(seconds: 4),
             ),
           );
       }

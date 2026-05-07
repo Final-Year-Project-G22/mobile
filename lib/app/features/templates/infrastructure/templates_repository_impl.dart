@@ -277,7 +277,6 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
     return DateTime.now().add(const Duration(minutes: 5));
   }
 
-  // TODO: Remove for production. Android emulator uses 10.0.2.2 to reach host.
   String _fixPresignedUrlForEmulator(String url) {
     if (kDebugMode && url.contains('localhost:8888')) {
       return url.replaceFirst('localhost:8888', '10.0.2.2:8888');

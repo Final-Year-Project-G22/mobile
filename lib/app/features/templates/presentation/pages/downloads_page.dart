@@ -89,7 +89,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
-                              errorBuilder: (_context, _error, _stackTrace) => const Icon(
+                              errorBuilder: (context, error, stackTrace) => const Icon(
                                 Icons.insert_drive_file,
                               ),
                             ),
@@ -100,8 +100,8 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                       _formatDate(item.downloadedAt),
                     ),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      context.push('/templates/${item.groupId}');
+                    onTap: () async {
+                      await context.push('/templates/${item.groupId}');
                     },
                   ),
                 );

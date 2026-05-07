@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DownloadsCacheService {
-  static const _key = 'templates_downloads_cache';
-
   DownloadsCacheService(this._prefs);
+  static const _key = 'templates_downloads_cache';
   final SharedPreferences _prefs;
 
   Future<void> addDownload({
@@ -66,8 +65,8 @@ class DownloadCacheEntry {
     required this.groupId,
     required this.slug,
     required this.title,
-    this.thumbnailUrl,
     required this.downloadedAt,
+    this.thumbnailUrl,
   });
 
   factory DownloadCacheEntry.fromJson(Map<String, dynamic> json) {
