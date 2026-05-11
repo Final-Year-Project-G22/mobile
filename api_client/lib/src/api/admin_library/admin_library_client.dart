@@ -237,7 +237,7 @@ abstract class AdminLibraryClient {
   ///
   /// [groupId] - Group ID.
   ///
-  /// [descriptionOmitempty] - Template description.
+  /// [description] - Template description.
   /// Name not received - field will be skipped.
   ///
   /// [file] - Template file.
@@ -252,7 +252,7 @@ abstract class AdminLibraryClient {
   @POST('/api/v1/admin/library/template-groups/{groupId}/templates')
   Future<HttpResponse<LibraryCreateTemplateOutputBody>> libraryCreateTemplate({
     @Path('groupId') required String groupId,
-    @Part(name: 'description,omitempty') required String descriptionOmitempty,
+    @Part(name: 'description') required String description,
     @Part(name: 'file') required MultipartFile file,
     @Part(name: 'language') required String language,
     @Part(name: 'title') required String title,
@@ -284,25 +284,25 @@ abstract class AdminLibraryClient {
   ///
   /// [templateId] - Template ID.
   ///
-  /// [descriptionOmitempty] - Template description.
+  /// [description] - Template description.
   /// Name not received - field will be skipped.
   ///
   /// [file] - Template file (optional).
   /// Name not received - field will be skipped.
   ///
-  /// [isActiveOmitempty] - Active flag (true/false).
+  /// [isActive] - Active flag (true/false).
   /// Name not received - field will be skipped.
   ///
-  /// [titleOmitempty] - Template title.
+  /// [title] - Template title.
   /// Name not received - field will be skipped.
   @MultiPart()
   @PATCH('/api/v1/admin/library/templates/{templateId}')
   Future<HttpResponse<LibraryTemplateDetailResponse>> libraryUpdateTemplate({
     @Path('templateId') required String templateId,
-    @Part(name: 'description,omitempty') required String descriptionOmitempty,
+    @Part(name: 'description') required String description,
     @Part(name: 'file') required MultipartFile file,
-    @Part(name: 'isActive,omitempty') required String isActiveOmitempty,
-    @Part(name: 'title,omitempty') required String titleOmitempty,
+    @Part(name: 'isActive') required String isActive,
+    @Part(name: 'title') required String title,
   });
 
   /// Get interactive form.

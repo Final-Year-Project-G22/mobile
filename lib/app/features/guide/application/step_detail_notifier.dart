@@ -50,7 +50,10 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final repo = ref.read(guideRepositoryProvider);
     final result = await repo.startStep(s.id);
     result.fold(
-      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to start step'),
+      (f) => state = state.copyWith(
+        actionInProgress: false,
+        error: 'Failed to start step',
+      ),
       (_) => _updateStatus(StepStatus.inProgress),
     );
   }
@@ -62,7 +65,10 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final repo = ref.read(guideRepositoryProvider);
     final result = await repo.completeStep(s.id);
     result.fold(
-      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to complete step'),
+      (f) => state = state.copyWith(
+        actionInProgress: false,
+        error: 'Failed to complete step',
+      ),
       (_) => _updateStatus(StepStatus.completed),
     );
   }
@@ -74,7 +80,10 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final repo = ref.read(guideRepositoryProvider);
     final result = await repo.skipStep(s.id);
     result.fold(
-      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to skip step'),
+      (f) => state = state.copyWith(
+        actionInProgress: false,
+        error: 'Failed to skip step',
+      ),
       (_) => _updateStatus(StepStatus.skipped),
     );
   }
@@ -86,7 +95,10 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final repo = ref.read(guideRepositoryProvider);
     final result = await repo.markStepIncomplete(s.id);
     result.fold(
-      (f) => state = state.copyWith(actionInProgress: false, error: 'Failed to mark incomplete'),
+      (f) => state = state.copyWith(
+        actionInProgress: false,
+        error: 'Failed to mark incomplete',
+      ),
       (_) => _updateStatus(StepStatus.inProgress),
     );
   }

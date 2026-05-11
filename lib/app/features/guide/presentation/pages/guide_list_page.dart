@@ -32,7 +32,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     final state = ref.watch(guideListProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final categories = state.categories.map((c) => c.slug).toList();
+    const categories = <String>[];
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
@@ -40,7 +40,12 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.sm,
+              ),
               child: TextField(
                 controller: _searchController,
                 onChanged: (value) {
@@ -60,7 +65,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                       : null,
                   filled: true,
                   fillColor: isDark ? AppColors.inputFillDark : AppColors.inputFillLight,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: AppSpacing.borderRadiusMd,
                     borderSide: BorderSide.none,
@@ -91,7 +98,10 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                         ref.read(guideListProvider.notifier).toggleBookmarked();
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: state.showBookmarked
                               ? AppColors.accent
@@ -224,7 +234,11 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.bookmark, size: 16, color: AppColors.accent),
+                    const Icon(
+                      Icons.bookmark,
+                      size: 16,
+                      color: AppColors.accent,
+                    ),
                     AppSpacing.gapHorizontalXs,
                     Expanded(
                       child: Text(

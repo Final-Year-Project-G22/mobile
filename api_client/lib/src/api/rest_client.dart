@@ -4,18 +4,20 @@
 
 import 'package:dio/dio.dart' hide Headers;
 
+import 'admin_management/admin_management_client.dart';
 import 'admin_community/admin_community_client.dart';
 import 'admin_guides/admin_guides_client.dart';
-import 'admin_categories/admin_categories_client.dart';
 import 'admin_journeys/admin_journeys_client.dart';
 import 'admin_steps/admin_steps_client.dart';
 import 'admin_library/admin_library_client.dart';
+import 'admin_campaign_templates/admin_campaign_templates_client.dart';
 import 'admin_notifications/admin_notifications_client.dart';
+import 'admin_taxonomy/admin_taxonomy_client.dart';
 import 'ai_ask/ai_ask_client.dart';
 import 'ai_conversations/ai_conversations_client.dart';
 import 'ai_dlq/ai_dlq_client.dart';
-import 'ai_ingestion_status/ai_ingestion_status_client.dart';
 import 'ai_ingestion/ai_ingestion_client.dart';
+import 'ai_ingestion_status/ai_ingestion_status_client.dart';
 import 'authentication/authentication_client.dart';
 import 'o_auth/o_auth_client.dart';
 import 'community/community_client.dart';
@@ -37,18 +39,20 @@ class RestClient {
 
   static String get version => '1.0.0';
 
+  AdminManagementClient? _adminManagement;
   AdminCommunityClient? _adminCommunity;
   AdminGuidesClient? _adminGuides;
-  AdminCategoriesClient? _adminCategories;
   AdminJourneysClient? _adminJourneys;
   AdminStepsClient? _adminSteps;
   AdminLibraryClient? _adminLibrary;
+  AdminCampaignTemplatesClient? _adminCampaignTemplates;
   AdminNotificationsClient? _adminNotifications;
+  AdminTaxonomyClient? _adminTaxonomy;
   AiAskClient? _aiAsk;
   AiConversationsClient? _aiConversations;
   AiDlqClient? _aiDlq;
-  AiIngestionStatusClient? _aiIngestionStatus;
   AiIngestionClient? _aiIngestion;
+  AiIngestionStatusClient? _aiIngestionStatus;
   AuthenticationClient? _authentication;
   OAuthClient? _oAuth;
   CommunityClient? _community;
@@ -59,11 +63,11 @@ class RestClient {
   RolesClient? _roles;
   UsersClient? _users;
 
+  AdminManagementClient get adminManagement => _adminManagement ??= AdminManagementClient(_dio, baseUrl: _baseUrl);
+
   AdminCommunityClient get adminCommunity => _adminCommunity ??= AdminCommunityClient(_dio, baseUrl: _baseUrl);
 
   AdminGuidesClient get adminGuides => _adminGuides ??= AdminGuidesClient(_dio, baseUrl: _baseUrl);
-
-  AdminCategoriesClient get adminCategories => _adminCategories ??= AdminCategoriesClient(_dio, baseUrl: _baseUrl);
 
   AdminJourneysClient get adminJourneys => _adminJourneys ??= AdminJourneysClient(_dio, baseUrl: _baseUrl);
 
@@ -71,8 +75,13 @@ class RestClient {
 
   AdminLibraryClient get adminLibrary => _adminLibrary ??= AdminLibraryClient(_dio, baseUrl: _baseUrl);
 
+  AdminCampaignTemplatesClient get adminCampaignTemplates =>
+      _adminCampaignTemplates ??= AdminCampaignTemplatesClient(_dio, baseUrl: _baseUrl);
+
   AdminNotificationsClient get adminNotifications =>
       _adminNotifications ??= AdminNotificationsClient(_dio, baseUrl: _baseUrl);
+
+  AdminTaxonomyClient get adminTaxonomy => _adminTaxonomy ??= AdminTaxonomyClient(_dio, baseUrl: _baseUrl);
 
   AiAskClient get aiAsk => _aiAsk ??= AiAskClient(_dio, baseUrl: _baseUrl);
 
@@ -80,10 +89,10 @@ class RestClient {
 
   AiDlqClient get aiDlq => _aiDlq ??= AiDlqClient(_dio, baseUrl: _baseUrl);
 
+  AiIngestionClient get aiIngestion => _aiIngestion ??= AiIngestionClient(_dio, baseUrl: _baseUrl);
+
   AiIngestionStatusClient get aiIngestionStatus =>
       _aiIngestionStatus ??= AiIngestionStatusClient(_dio, baseUrl: _baseUrl);
-
-  AiIngestionClient get aiIngestion => _aiIngestion ??= AiIngestionClient(_dio, baseUrl: _baseUrl);
 
   AuthenticationClient get authentication => _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
 

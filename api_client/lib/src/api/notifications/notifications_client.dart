@@ -17,7 +17,6 @@ import '../models/list_inbox_response_body.dart';
 import '../models/list_mutes_response_body.dart';
 import '../models/mark_all_as_read_response_body.dart';
 import '../models/mark_as_read_response_body.dart';
-import '../models/mark_category_as_read_response_body.dart';
 import '../models/mute_account_request.dart';
 import '../models/mute_account_response_body.dart';
 import '../models/register_device_request.dart';
@@ -94,25 +93,11 @@ abstract class NotificationsClient {
   ///
   /// Lists the authenticated user's inbox with optional category filter.
   ///
-  /// [category] - Filter by notification category.
-  ///
   /// [page] - Page number.
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/notifications/inbox')
-  Future<HttpResponse<ListInboxResponseBody>> listInbox({
-    @Query('category') String? category,
-    @Query('page') int? page,
-    @Query('pageSize') int? pageSize,
-  });
-
-  /// Mark category as read.
-  ///
-  /// Marks all inbox notifications in a category as read.
-  ///
-  /// [category] - Notification category.
-  @POST('/api/v1/notifications/inbox/category/{category}/read')
-  Future<HttpResponse<MarkCategoryAsReadResponseBody>> markCategoryAsRead({@Path('category') required String category});
+  Future<HttpResponse<ListInboxResponseBody>> listInbox({@Query('page') int? page, @Query('pageSize') int? pageSize});
 
   /// Mark all as read.
   ///

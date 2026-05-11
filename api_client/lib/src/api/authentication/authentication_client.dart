@@ -10,6 +10,8 @@ import '../models/admin_register_request.dart';
 import '../models/admin_register_response_body.dart';
 import '../models/admin_update_roles_output_body.dart';
 import '../models/admin_update_roles_request.dart';
+import '../models/complete_admin_password_reset_output_body.dart';
+import '../models/complete_admin_password_reset_request.dart';
 import '../models/get_current_user_response_body.dart';
 import '../models/login_request.dart';
 import '../models/login_response_body.dart';
@@ -35,6 +37,16 @@ abstract class AuthenticationClient {
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/admin/register')
   Future<HttpResponse<AdminRegisterResponseBody>> registerAdmin({@Body() required AdminRegisterRequest body});
+
+  /// Complete admin password reset.
+  ///
+  /// Validates the reset token and sets a new password for the admin account.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @POST('/api/v1/auth/admin/reset-password')
+  Future<HttpResponse<CompleteAdminPasswordResetOutputBody>> completeAdminPasswordReset({
+    @Body() required CompleteAdminPasswordResetRequest body,
+  });
 
   /// Update admin roles.
   ///

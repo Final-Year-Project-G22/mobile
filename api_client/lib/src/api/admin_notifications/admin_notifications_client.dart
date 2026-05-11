@@ -114,14 +114,14 @@ abstract class AdminNotificationsClient {
   ///
   /// Lists notification templates with optional category filter.
   ///
-  /// [category] - Filter by category.
+  /// [templateGroup] - Filter by template group.
   ///
   /// [page] - Page number.
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/admin/notifications/templates')
   Future<HttpResponse<ListTemplatesResponseBody>> listTemplates({
-    @Query('category') String? category,
+    @Query('templateGroup') String? templateGroup,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });

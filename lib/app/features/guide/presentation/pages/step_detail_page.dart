@@ -33,7 +33,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final guideState = ref.read(guideDetailProvider);
-      final step = guideState.guide?.steps.firstWhere((s) => s.slug == widget.stepSlug);
+      final step = guideState.guide?.steps.firstWhere(
+        (s) => s.slug == widget.stepSlug,
+      );
       if (step != null) {
         ref.read(stepDetailProvider.notifier).loadStepFromGuide(step);
       }
@@ -125,7 +127,10 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                           if (step.estimatedTime != null) ...[
                             AppSpacing.gapHorizontalSm,
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: isDark ? AppColors.slate700 : AppColors.slate100,
                                 borderRadius: AppSpacing.borderRadiusFull,
@@ -180,7 +185,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                   onSkip: _skipAndReturn,
                   onMarkIncomplete: _markIncompleteAndReturn,
                   onToggleBookmark: () {
-                    unawaited(ref.read(stepDetailProvider.notifier).toggleBookmark());
+                    unawaited(
+                      ref.read(stepDetailProvider.notifier).toggleBookmark(),
+                    );
                     setState(() {
                       _isBookmarked = !_isBookmarked;
                     });
@@ -212,7 +219,11 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: color,
+        ),
       ),
     );
   }
@@ -231,7 +242,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       }
       return Text(
         'No content available for this step.',
-        style: TextStyle(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+        style: TextStyle(
+          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+        ),
       );
     }
 
@@ -254,15 +267,23 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
         fontWeight: FontWeight.w600,
         color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
       ),
-      p: TextStyle(fontSize: 14, height: 1.6, color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+      p: TextStyle(
+        fontSize: 14,
+        height: 1.6,
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      ),
       strong: TextStyle(
         fontWeight: FontWeight.w700,
         color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
       ),
-      listBullet: TextStyle(color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+      listBullet: TextStyle(
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      ),
       blockquoteDecoration: BoxDecoration(
         color: AppColors.accent.withValues(alpha: 0.08),
-        border: const Border(left: BorderSide(color: AppColors.accent, width: 3)),
+        border: const Border(
+          left: BorderSide(color: AppColors.accent, width: 3),
+        ),
       ),
       blockquotePadding: const EdgeInsets.all(AppSpacing.sm),
       code: TextStyle(

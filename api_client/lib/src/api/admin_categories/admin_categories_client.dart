@@ -11,6 +11,7 @@ import '../models/add_category_condition_response_body.dart';
 import '../models/create_category_request.dart';
 import '../models/create_category_response_body.dart';
 import '../models/delete_category_response_body.dart';
+import '../models/guide_category_tree_admin_response_body.dart';
 import '../models/remove_category_condition_response_body.dart';
 import '../models/set_category_translations_request.dart';
 import '../models/set_category_translations_response_body.dart';
@@ -39,6 +40,19 @@ abstract class AdminCategoriesClient {
   @DELETE('/api/v1/admin/guides/categories/conditions/{condId}')
   Future<HttpResponse<RemoveCategoryConditionResponseBody>> removeCategoryCondition({
     @Path('condId') required String condId,
+  });
+
+  /// Get admin guide category tree.
+  ///
+  /// Retrieves guide categories tree for admin management.
+  ///
+  /// [includeInactive] - Include inactive categories.
+  ///
+  /// [locale] - Language locale (en, am).
+  @GET('/api/v1/admin/guides/categories/tree')
+  Future<HttpResponse<GuideCategoryTreeAdminResponseBody>> getCategoryTreeAdmin({
+    @Query('includeInactive') bool? includeInactive,
+    @Query('locale') String? locale,
   });
 
   /// Delete category.

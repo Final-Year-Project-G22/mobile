@@ -76,7 +76,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         onPressed: () {
                           _searchController.clear();
                           setState(() => _showClear = false);
-                          unawaited(ref.read(templateListProvider.notifier).setSearch(null));
+                          unawaited(
+                            ref.read(templateListProvider.notifier).setSearch(null),
+                          );
                         },
                       )
                     : null,
@@ -85,11 +87,15 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                fillColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest,
                 contentPadding: EdgeInsets.zero,
               ),
               onChanged: (value) {
-                unawaited(ref.read(templateListProvider.notifier).setSearch(value.isEmpty ? null : value));
+                unawaited(
+                  ref.read(templateListProvider.notifier).setSearch(value.isEmpty ? null : value),
+                );
               },
             ),
           ),
@@ -210,7 +216,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
         categories: categories,
         onSelect: (categoryId) {
           Navigator.pop(context);
-          unawaited(ref.read(templateListProvider.notifier).setCategory(categoryId));
+          unawaited(
+            ref.read(templateListProvider.notifier).setCategory(categoryId),
+          );
         },
       ),
     );

@@ -1,4 +1,9 @@
-enum StepType { informational, actionRequired, documentSubmission, verification }
+enum StepType {
+  informational,
+  actionRequired,
+  documentSubmission,
+  verification,
+}
 
 enum StepStatus {
   locked,

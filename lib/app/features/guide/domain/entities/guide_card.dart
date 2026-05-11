@@ -3,7 +3,6 @@ class GuideCard {
     required this.id,
     required this.slug,
     required this.name,
-    required this.categoryId,
     this.description,
     this.icon,
   });
@@ -11,7 +10,6 @@ class GuideCard {
   final String id;
   final String slug;
   final String name;
-  final String categoryId;
   final String? description;
   final String? icon;
 }

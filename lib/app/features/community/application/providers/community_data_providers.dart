@@ -22,27 +22,11 @@ Future<List<CommunityCategory>> categories(Ref ref) async {
 @riverpod
 Future<List<DiscussionThread>> filteredThreads(Ref ref) async {
   final searchText = ref.watch(searchTextProvider);
-  final categoryId = ref.watch(selectedCategoryIdProvider);
   final repository = ref.watch(communityRepositoryProvider);
 
   final result = await repository.listThreads(
-    categoryId: categoryId,
     search: (searchText != null && searchText.isNotEmpty) ? searchText : null,
   );
-
-  return result.fold(
-    (failure) => throw Exception(failure.toString()),
-    (threads) => threads,
-  );
-}
-
-@riverpod
-Future<List<DiscussionThread>> categoryThreads(
-  Ref ref,
-  String categoryId,
-) async {
-  final repository = ref.watch(communityRepositoryProvider);
-  final result = await repository.listThreads(categoryId: categoryId);
 
   return result.fold(
     (failure) => throw Exception(failure.toString()),
@@ -54,12 +38,10 @@ Future<List<DiscussionThread>> categoryThreads(
 Future<List<DiscussionThread>> searchThreads(
   Ref ref, {
   String? keyword,
-  String? categoryId,
 }) async {
   final repository = ref.watch(communityRepositoryProvider);
-  final result = await repository.listThreads(
-    search: keyword,
-    categoryId: categoryId,
+  final result = await repository.searchThreads(
+    keyword: keyword,
   );
 
   return result.fold(

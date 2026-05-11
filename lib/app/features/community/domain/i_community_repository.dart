@@ -9,7 +9,6 @@ import 'failures/community_failure.dart';
 
 abstract class ICommunityRepository {
   Future<Either<CommunityFailure, List<DiscussionThread>>> listThreads({
-    String? categoryId,
     String? search,
     int? page,
     int? pageSize,
@@ -21,16 +20,8 @@ abstract class ICommunityRepository {
     String? search,
   });
 
-  Future<Either<CommunityFailure, List<DiscussionThread>>> getThreadsByCategory(
-    String categoryId, {
-    int? page,
-    int? pageSize,
-    String? search,
-  });
-
   Future<Either<CommunityFailure, List<DiscussionThread>>> searchThreads({
     String? keyword,
-    String? categoryId,
     int? page,
     int? pageSize,
   });
@@ -50,11 +41,12 @@ abstract class ICommunityRepository {
   Future<Either<CommunityFailure, Unit>> deleteOrphanAttachment(String id);
 
   Future<Either<CommunityFailure, String>> createThread({
-    required String categoryId,
     required String title,
     required String slug,
     required String description,
     required String initialPostContent,
+    List<String>? sectorIds,
+    List<String>? tagIds,
     String? parentThreadId,
     String? attachmentIds,
   });

@@ -15,19 +15,21 @@ class InboxRepositoryImpl implements IInboxRepository {
 
   @override
   Future<Either<InboxFailure, ListInboxResult>> listInbox({
-    String? category,
     int? page,
     int? pageSize,
   }) async {
     try {
       final response = await _client.listInbox(
-        category: category,
         page: page,
         pageSize: pageSize,
       );
 
       final entries = (response.data.data ?? [])
-          .map((e) => _mapInboxEntry(InboxEntryResponse.fromJson(e as Map<String, dynamic>)))
+          .map(
+            (e) => _mapInboxEntry(
+              InboxEntryResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
           .toList();
 
       return Right(
@@ -85,7 +87,6 @@ class InboxRepositoryImpl implements IInboxRepository {
   InboxEntry _mapInboxEntry(InboxEntryResponse dto) {
     return InboxEntry(
       id: dto.id,
-      category: dto.category,
       isRead: dto.isRead,
       isArchived: dto.isArchived,
       actionUrl: dto.actionUrl,

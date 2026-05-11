@@ -14,6 +14,7 @@ import '../models/create_step_request.dart';
 import '../models/create_step_response_body.dart';
 import '../models/delete_step_response_body.dart';
 import '../models/get_step_versions_response_body.dart';
+import '../models/list_guide_steps_admin_response_body.dart';
 import '../models/remove_step_condition_response_body.dart';
 import '../models/remove_step_dependency_response_body.dart';
 import '../models/reorder_steps_request.dart';
@@ -149,5 +150,33 @@ abstract class AdminStepsClient {
   Future<HttpResponse<RevertStepToVersionResponseBody>> revertStepToVersion({
     @Path('id') required String id,
     @Path('version') required int version,
+  });
+
+  /// List guide steps.
+  ///
+  /// Lists steps of a guide for admin editor.
+  ///
+  /// [id] - Guide ID.
+  ///
+  /// [page] - Page number.
+  ///
+  /// [pageSize] - Items per page.
+  ///
+  /// [search] - Search keyword.
+  ///
+  /// [sortBy] - Sort columns.
+  ///
+  /// [sortOrder] - Sort order (asc, desc).
+  ///
+  /// [locale] - Language locale (en, am).
+  @GET('/api/v1/admin/guides/{id}/steps')
+  Future<HttpResponse<ListGuideStepsAdminResponseBody>> listGuideStepsAdmin({
+    @Path('id') required String id,
+    @Query('page') int? page,
+    @Query('pageSize') int? pageSize,
+    @Query('search') String? search,
+    @Query('sortBy') List<dynamic>? sortBy,
+    @Query('sortOrder') List<dynamic>? sortOrder,
+    @Query('locale') String? locale,
   });
 }

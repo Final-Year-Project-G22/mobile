@@ -25,7 +25,9 @@ class _GuideDetailPageState extends ConsumerState<GuideDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(ref.read(guideDetailProvider.notifier).loadGuide(widget.guideSlug));
+      unawaited(
+        ref.read(guideDetailProvider.notifier).loadGuide(widget.guideSlug),
+      );
     });
   }
 

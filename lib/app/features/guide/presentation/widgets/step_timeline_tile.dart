@@ -39,7 +39,14 @@ class StepTimelineTile extends StatelessWidget {
                 width: 40,
                 child: Column(
                   children: [
-                    _buildCircle(context, isDark, isCompleted, isCurrent, isSkipped, isLocked),
+                    _buildCircle(
+                      context,
+                      isDark,
+                      isCompleted,
+                      isCurrent,
+                      isSkipped,
+                      isLocked,
+                    ),
                     if (!isLast)
                       Expanded(
                         child: Container(
@@ -73,7 +80,10 @@ class StepTimelineTile extends StatelessWidget {
                           ),
                           if (step.estimatedTime != null)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: (isDark ? AppColors.slate700 : AppColors.slate100),
                                 borderRadius: AppSpacing.borderRadiusFull,
@@ -222,7 +232,11 @@ class StepTimelineTile extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: textColor),
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: textColor,
+        ),
       ),
     );
   }

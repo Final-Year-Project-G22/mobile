@@ -34,8 +34,20 @@ abstract class FinalizeUploadRequest with _$FinalizeUploadRequest {
     /// Optional language hint (e.g. en, am)
     String? declaredLanguage,
 
+    /// Target region for document taxonomy
+    String? region,
+
+    /// Target sector IDs for document taxonomy
+    List<dynamic>? sectorIds,
+
     /// Optional original filename
     String? sourceFilename,
+
+    /// Target business stage for document taxonomy
+    String? stage,
+
+    /// Target tag IDs for document taxonomy
+    List<dynamic>? tagIds,
   }) = _FinalizeUploadRequest;
 
   factory FinalizeUploadRequest.fromJson(Map<String, Object?> json) => _$FinalizeUploadRequestFromJson(json);

@@ -14,7 +14,7 @@ class InboxNotifier extends _$InboxNotifier {
   @override
   InboxState build() => InboxState.initial();
 
-  Future<void> loadInbox({String? category}) async {
+  Future<void> loadInbox() async {
     state = state.copyWith(
       isLoading: true,
       errorMessage: null,
@@ -24,7 +24,6 @@ class InboxNotifier extends _$InboxNotifier {
 
     final repository = ref.read(inboxRepositoryProvider);
     final result = await repository.listInbox(
-      category: category,
       page: 1,
       pageSize: _pageSize,
     );
@@ -44,7 +43,7 @@ class InboxNotifier extends _$InboxNotifier {
     );
   }
 
-  Future<void> loadMore({String? category}) async {
+  Future<void> loadMore() async {
     if (state.isLoadingMore || !state.hasMore) return;
 
     final nextPage = state.currentPage + 1;
@@ -53,7 +52,6 @@ class InboxNotifier extends _$InboxNotifier {
 
     final repository = ref.read(inboxRepositoryProvider);
     final result = await repository.listInbox(
-      category: category,
       page: nextPage,
       pageSize: _pageSize,
     );
@@ -104,8 +102,8 @@ class InboxNotifier extends _$InboxNotifier {
     );
   }
 
-  Future<void> refresh({String? category}) async {
-    await loadInbox(category: category);
+  Future<void> refresh() async {
+    await loadInbox();
     ref.invalidate(unreadCountProvider);
   }
 

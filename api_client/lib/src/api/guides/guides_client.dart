@@ -9,11 +9,11 @@ import 'package:retrofit/error_logger.dart';
 import '../models/add_bookmark_response_body.dart';
 import '../models/complete_step_request.dart';
 import '../models/complete_step_response_body.dart';
-import '../models/get_category_tree_response_body.dart';
 import '../models/get_current_step_response_body.dart';
 import '../models/get_personalized_guide_response_body.dart';
 import '../models/get_recently_viewed_response_body.dart';
 import '../models/list_bookmarks_response_body.dart';
+import '../models/list_guides_response_body.dart';
 import '../models/mark_step_incomplete_response_body.dart';
 import '../models/remove_bookmark_response_body.dart';
 import '../models/search_guides_response_body.dart';
@@ -30,6 +30,22 @@ part 'guides_client.g.dart';
 abstract class GuidesClient {
   factory GuidesClient(Dio dio, {String? baseUrl}) = _GuidesClient;
 
+  /// List guides.
+  ///
+  /// Lists guides filtered by the user's business profile taxonomy (sector, tags, region, stage).
+  ///
+  /// [page] - Page number.
+  ///
+  /// [pageSize] - Items per page.
+  ///
+  /// [locale] - Language locale (en, am).
+  @GET('/api/v1/guides')
+  Future<HttpResponse<ListGuidesResponseBody>> listGuides({
+    @Query('page') int? page,
+    @Query('pageSize') int? pageSize,
+    @Query('locale') String? locale,
+  });
+
   /// List bookmarks.
   ///
   /// Lists all bookmarks for the user.
@@ -42,14 +58,6 @@ abstract class GuidesClient {
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });
-
-  /// Get guide category tree.
-  ///
-  /// Retrieves the hierarchical category tree for guides with localized names.
-  ///
-  /// [locale] - Language locale (en, am).
-  @GET('/api/v1/guides/categories/tree')
-  Future<HttpResponse<GetCategoryTreeResponseBody>> getCategoryTree({@Query('locale') String? locale});
 
   /// Get recently viewed guides.
   ///

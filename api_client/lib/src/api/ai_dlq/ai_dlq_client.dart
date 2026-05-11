@@ -7,8 +7,6 @@ import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
 
 import '../models/dead_event_dto.dart';
-import '../models/get_dead_event_input_body.dart';
-import '../models/list_dead_events_input_body.dart';
 import '../models/list_dead_events_output_body.dart';
 import '../models/redrive_batch_input_body.dart';
 import '../models/redrive_batch_output_body.dart';
@@ -24,10 +22,8 @@ abstract class AiDlqClient {
   /// List dead letter events.
   ///
   /// Get a paginated list of dead letter queue events for the account.
-  ///
-  /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/dlq/events')
-  Future<HttpResponse<ListDeadEventsOutputBody>> listDeadEvents({@Body() required ListDeadEventsInputBody body});
+  Future<HttpResponse<ListDeadEventsOutputBody>> listDeadEvents();
 
   /// Redrive batch.
   ///
@@ -42,13 +38,8 @@ abstract class AiDlqClient {
   /// Get a specific dead letter queue event by ID.
   ///
   /// [eventId] - Event ID.
-  ///
-  /// [body] - Name not received - field will be skipped.
   @GET('/api/v1/ai/ingestion/dlq/events/{eventId}')
-  Future<HttpResponse<DeadEventDto>> getDeadEvent({
-    @Path('eventId') required String eventId,
-    @Body() required GetDeadEventInputBody body,
-  });
+  Future<HttpResponse<DeadEventDto>> getDeadEvent({@Path('eventId') required String eventId});
 
   /// Redrive single event.
   ///

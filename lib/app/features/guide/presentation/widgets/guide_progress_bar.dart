@@ -60,7 +60,9 @@ class GuideProgressBar extends StatelessWidget {
               value: fraction,
               minHeight: 6,
               backgroundColor: isDark ? AppColors.slate700 : AppColors.slate200,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.success),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                AppColors.success,
+              ),
             ),
           ),
         ],

@@ -18,24 +18,23 @@ class CommunityRepositoryImpl implements ICommunityRepository {
 
   @override
   Future<Either<CommunityFailure, List<DiscussionThread>>> listThreads({
-    String? categoryId,
     String? search,
     int? page,
     int? pageSize,
   }) async {
     try {
-      final response = await _client.listAllCommunityThreads(
-        categoryId: categoryId,
+      final response = await _client.listCommunityThreads(
         search: search,
         page: page,
         pageSize: pageSize,
       );
 
-      final threads = (response.data.threads ?? []).map((e) {
-        final json = e as Map<String, dynamic>;
-        final dto = ThreadDto.fromJson(json);
-        return _mapThreadDtoToDomain(dto, json: json);
-      }).toList();
+      final threads = (response.data.threads ?? [])
+          .cast<Map<String, dynamic>>()
+          .map(
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+          )
+          .toList();
 
       return Right(threads);
     } on DioException catch (e) {
@@ -59,40 +58,11 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       );
 
       final categories = (response.data.categories ?? [])
-          .map((e) => CategoryDto.fromJson(e as Map<String, dynamic>))
-          .map(_mapCategoryDtoToDomain)
+          .cast<Map<String, dynamic>>()
+          .map((json) => _mapCategoryDtoToDomain(CategoryDto.fromJson(json)))
           .toList();
 
       return Right(categories);
-    } on DioException catch (e) {
-      return Left(_handleDioError(e));
-    } on Exception {
-      return const Left(CommunityFailure.serverError());
-    }
-  }
-
-  @override
-  Future<Either<CommunityFailure, List<DiscussionThread>>> getThreadsByCategory(
-    String categoryId, {
-    int? page,
-    int? pageSize,
-    String? search,
-  }) async {
-    try {
-      final response = await _client.listCommunityThreads(
-        id: categoryId,
-        page: page,
-        pageSize: pageSize,
-        search: search,
-      );
-
-      final threads = (response.data.threads ?? []).map((e) {
-        final json = e as Map<String, dynamic>;
-        final dto = ThreadDto.fromJson(json);
-        return _mapThreadDtoToDomain(dto, json: json);
-      }).toList();
-
-      return Right(threads);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
     } on Exception {
@@ -147,23 +117,22 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   @override
   Future<Either<CommunityFailure, List<DiscussionThread>>> searchThreads({
     String? keyword,
-    String? categoryId,
     int? page,
     int? pageSize,
   }) async {
     try {
       final response = await _client.searchCommunityThreads(
         keyword: keyword,
-        categoryId: categoryId,
         page: page,
         pageSize: pageSize,
       );
 
-      final threads = (response.data.threads ?? []).map((e) {
-        final json = e as Map<String, dynamic>;
-        final dto = ThreadDto.fromJson(json);
-        return _mapThreadDtoToDomain(dto, json: json);
-      }).toList();
+      final threads = (response.data.threads ?? [])
+          .cast<Map<String, dynamic>>()
+          .map(
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+          )
+          .toList();
 
       return Right(threads);
     } on DioException catch (e) {
@@ -248,21 +217,23 @@ class CommunityRepositoryImpl implements ICommunityRepository {
 
   @override
   Future<Either<CommunityFailure, String>> createThread({
-    required String categoryId,
     required String title,
     required String slug,
     required String description,
     required String initialPostContent,
+    List<String>? sectorIds,
+    List<String>? tagIds,
     String? parentThreadId,
     String? attachmentIds,
   }) async {
     try {
       final response = await _client.createCommunityThread(
-        categoryId: categoryId,
         title: title,
         slug: slug,
         description: description,
         initialPostContent: initialPostContent,
+        sectorIds: sectorIds?.join(','),
+        tagIds: tagIds?.join(','),
         parentThreadId: parentThreadId,
         attachmentIds: attachmentIds,
       );
@@ -537,7 +508,6 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       title: dto.title,
       slug: dto.slug,
       description: dto.description,
-      categoryId: dto.categoryId,
       authorId: dto.authorId,
       authorUsername: authorUsername,
       authorDisplayName: authorDisplayName,

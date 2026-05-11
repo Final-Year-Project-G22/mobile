@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
-import '../../application/providers/community_state_providers.dart';
 import '../../domain/entities/attachment.dart';
 
 class CreateThreadSheet extends ConsumerStatefulWidget {
@@ -23,16 +21,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
   final _descriptionController = TextEditingController();
   final _initialPostController = TextEditingController();
 
-  String? _selectedCategoryId;
   final List<Attachment> _attachments = [];
   bool _isSubmitting = false;
   bool _isUploading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedCategoryId = ref.read(selectedCategoryIdProvider);
-  }
 
   @override
   void dispose() {
@@ -120,13 +111,6 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    if (_selectedCategoryId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a category')),
-      );
-      return;
-    }
-
     setState(() => _isSubmitting = true);
 
     try {
@@ -141,7 +125,6 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
       final result = await ref
           .read(communityMutationsProvider.notifier)
           .createThread(
-            categoryId: _selectedCategoryId!,
             title: title,
             slug: _buildSlug(title),
             description: description,
@@ -158,7 +141,6 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
           );
         },
         (threadId) {
-          ref.read(selectedCategoryIdProvider.notifier).setCategoryId(_selectedCategoryId);
           Navigator.of(context).pop(threadId);
         },
       );
@@ -187,7 +169,6 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final categoriesAsync = ref.watch(categoriesProvider);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
@@ -204,30 +185,6 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
-
-              // Category dropdown
-              categoriesAsync.when(
-                data: (categories) {
-                  return DropdownButtonFormField<String>(
-                    initialValue: categories.any((c) => c.id == _selectedCategoryId) ? _selectedCategoryId : null,
-                    hint: const Text('Select category'),
-                    items: categories
-                        .map(
-                          (c) => DropdownMenuItem(
-                            value: c.id,
-                            child: Text(c.name),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: _isSubmitting ? null : (v) => setState(() => _selectedCategoryId = v),
-                    validator: (v) => v == null ? 'Category required' : null,
-                  );
-                },
-                loading: () => const LinearProgressIndicator(),
-                error: (e, _) => const Text('Error loading categories'),
-              ),
-
-              const SizedBox(height: 12),
 
               // Title
               TextFormField(
