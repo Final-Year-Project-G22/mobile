@@ -508,6 +508,8 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     final authorUsername = json?['authorUsername'] as String?;
     final authorDisplayName = json?['authorDisplayName'] as String?;
     final authorAvatarUrl = json?['authorAvatarUrl'] as String?;
+    final sectorIds = dto.sectorIds?.cast<String>().toList();
+    final tagIds = dto.tagIds?.cast<String>().toList();
 
     return DiscussionThread(
       id: dto.id,
@@ -523,6 +525,8 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       viewCount: dto.viewCount,
       shareCount: dto.shareCount,
       replyCount: dto.replyCount,
+      sectorIds: sectorIds,
+      tagIds: tagIds,
       lastActivityAt: dto.lastActivityAt,
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,

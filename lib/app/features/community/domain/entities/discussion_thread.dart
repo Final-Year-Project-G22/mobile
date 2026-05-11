@@ -20,6 +20,8 @@ abstract class DiscussionThread with _$DiscussionThread {
     String? authorAvatarUrl,
     @Default(ThreadStatus.open) ThreadStatus status,
     String? description,
+    List<String>? sectorIds,
+    List<String>? tagIds,
     DateTime? lastActivityAt,
     DateTime? createdAt,
     DateTime? updatedAt,
