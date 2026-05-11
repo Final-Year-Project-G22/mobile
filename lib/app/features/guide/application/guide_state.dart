@@ -1,10 +1,8 @@
 import '../domain/entities/guide_card.dart';
-import '../domain/entities/guide_category.dart';
 import '../domain/entities/step_bookmark.dart';
 
 class GuideListState {
   const GuideListState({
-    this.categories = const [],
     this.guides = const [],
     this.recentGuides = const [],
     this.bookmarks = const [],
@@ -14,7 +12,6 @@ class GuideListState {
     this.isLoading = false,
   });
 
-  final List<GuideCategory> categories;
   final List<GuideCard> guides;
   final List<GuideCard> recentGuides;
   final List<StepBookmark> bookmarks;
@@ -24,7 +21,6 @@ class GuideListState {
   final bool isLoading;
 
   GuideListState copyWith({
-    List<GuideCategory>? categories,
     List<GuideCard>? guides,
     List<GuideCard>? recentGuides,
     List<StepBookmark>? bookmarks,
@@ -34,7 +30,6 @@ class GuideListState {
     bool? isLoading,
   }) {
     return GuideListState(
-      categories: categories ?? this.categories,
       guides: guides ?? this.guides,
       recentGuides: recentGuides ?? this.recentGuides,
       bookmarks: bookmarks ?? this.bookmarks,

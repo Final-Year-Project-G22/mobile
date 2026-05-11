@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/di/guide_providers.dart';
 import '../domain/entities/guide_card.dart';
-import '../domain/entities/guide_category.dart';
 import '../domain/entities/step_bookmark.dart';
 import 'guide_state.dart';
 
@@ -23,28 +22,18 @@ class GuideListNotifier extends _$GuideListNotifier {
   Future<void> _loadData() async {
     final repo = ref.read(guideRepositoryProvider);
 
-    final catResult = await repo.getCategoryTree(null);
     final recentResult = await repo.getRecentlyViewed(null);
     final bkmkResult = await repo.listBookmarks();
 
-    final categories = catResult.fold((_) => <GuideCategory>[], (c) => c);
     final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
     final bookmarks = bkmkResult.fold((_) => <StepBookmark>[], (b) => b);
 
-    var allGuides = <GuideCard>[];
-    for (final cat in categories) {
-      allGuides.addAll(cat.guides);
-    }
-
-    if (allGuides.isEmpty) {
-      final searchResult = await repo.searchGuides('', null);
-      allGuides = searchResult.fold((_) => <GuideCard>[], (g) => g);
-    }
+    final searchResult = await repo.searchGuides('', null);
+    final allGuides = searchResult.fold((_) => <GuideCard>[], (g) => g);
 
     _allGuides = allGuides;
 
     state = state.copyWith(
-      categories: categories,
       guides: allGuides,
       recentGuides: recent,
       bookmarks: bookmarks,
@@ -74,16 +63,9 @@ class GuideListNotifier extends _$GuideListNotifier {
   }
 
   void selectCategory(String slug) {
-    if (slug.isEmpty) {
-      state = state.copyWith(selectedCategorySlug: '', guides: _allGuides);
-      return;
-    }
-    final cat = state.categories.firstWhere(
-      (c) => c.slug == slug,
-      orElse: () => state.categories.first,
-    );
-    final filtered = _allGuides.where((g) => g.categoryId == cat.id).toList();
-    state = state.copyWith(selectedCategorySlug: slug, guides: filtered);
+    // Category filtering removed — guides are now taxonomy-filtered by backend.
+    // This method is retained for UI compatibility; it currently just resets the list.
+    state = state.copyWith(selectedCategorySlug: slug, guides: _allGuides);
   }
 
   void toggleBookmarked() {

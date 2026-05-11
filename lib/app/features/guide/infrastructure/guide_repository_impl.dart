@@ -3,7 +3,6 @@
 
 import 'package:api_client/src/api/guides/guides_client.dart';
 import 'package:api_client/src/api/models/bookmark_with_step_dto.dart';
-import 'package:api_client/src/api/models/category_node_dto.dart';
 import 'package:api_client/src/api/models/complete_step_request.dart';
 import 'package:api_client/src/api/models/guide_card_dto.dart';
 import 'package:api_client/src/api/models/personalized_step_dto.dart';
@@ -11,7 +10,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import '../domain/entities/guide_card.dart';
-import '../domain/entities/guide_category.dart';
 import '../domain/entities/guide_detail.dart';
 import '../domain/entities/guide_step.dart';
 import '../domain/entities/step_bookmark.dart';
@@ -23,25 +21,6 @@ class GuideRepositoryImpl implements IGuideRepository {
   const GuideRepositoryImpl(this._client);
 
   final GuidesClient _client;
-
-  @override
-  Future<Either<GuideFailure, List<GuideCategory>>> getCategoryTree(String? locale) async {
-    try {
-      final response = await _client.getCategoryTree(locale: locale);
-      final raw = response.data.categories;
-      if (raw == null) return const Right([]);
-      final categories = <GuideCategory>[];
-      for (final item in raw) {
-        if (item is Map<String, dynamic>) {
-          final dto = CategoryNodeDto.fromJson(item);
-          categories.add(_mapCategoryNode(dto));
-        }
-      }
-      return Right(categories);
-    } on DioException catch (e) {
-      return Left(_handleError(e));
-    }
-  }
 
   @override
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(String query, String? locale) async {
@@ -261,41 +240,11 @@ class GuideRepositoryImpl implements IGuideRepository {
     }
   }
 
-  GuideCategory _mapCategoryNode(CategoryNodeDto dto) {
-    final children = <GuideCategory>[];
-    if (dto.children != null) {
-      for (final child in dto.children!) {
-        if (child is Map<String, dynamic>) {
-          children.add(_mapCategoryNode(CategoryNodeDto.fromJson(child)));
-        }
-      }
-    }
-    final guides = <GuideCard>[];
-    if (dto.guides != null) {
-      for (final guide in dto.guides!) {
-        if (guide is Map<String, dynamic>) {
-          guides.add(_mapGuideCard(GuideCardDto.fromJson(guide)));
-        }
-      }
-    }
-    return GuideCategory(
-      id: dto.id,
-      slug: dto.slug,
-      name: dto.name,
-      sortOrder: dto.sortOrder,
-      description: dto.description,
-      icon: dto.icon,
-      children: children,
-      guides: guides,
-    );
-  }
-
   GuideCard _mapGuideCard(GuideCardDto dto) {
     return GuideCard(
       id: dto.id,
       slug: dto.slug,
       name: dto.name,
-      categoryId: dto.categoryId,
       description: dto.description,
       icon: dto.icon,
     );

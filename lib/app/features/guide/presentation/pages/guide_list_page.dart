@@ -32,7 +32,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     final state = ref.watch(guideListProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final categories = state.categories.map((c) => c.slug).toList();
+    const categories = <String>[];
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
