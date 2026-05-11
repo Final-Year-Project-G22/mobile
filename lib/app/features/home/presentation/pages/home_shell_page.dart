@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_spacing.dart';
 import '../../../../features/notifications/application/unread_count_provider.dart';
+import '../../../../router/routes.dart';
+import '../../../business_profile/application/business_profile_notifier.dart';
+import '../../../business_profile/presentation/widgets/complete_profile_banner.dart';
 import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
@@ -19,6 +22,7 @@ class HomeShellPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeTabIndexProvider);
     final unreadCountAsync = ref.watch(unreadCountProvider);
+    final businessProfileAsync = ref.watch(businessProfileProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -36,7 +40,17 @@ class HomeShellPage extends ConsumerWidget {
           AppSpacing.gapHorizontalXs,
         ],
       ),
-      body: navigator,
+      body: Column(
+        children: [
+          if (businessProfileAsync.hasValue && businessProfileAsync.value == null)
+            CompleteProfileBanner(
+              onTap: () {
+                const OnboardingRoute().go(context);
+              },
+            ),
+          Expanded(child: navigator),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
