@@ -36,9 +36,11 @@ class AuthRepositoryImpl implements IAuthRepository {
         ),
       );
 
+      final refreshToken = _extractRefreshToken(httpResponse.response.headers);
+
       await _apiClient.setTokens(
         httpResponse.data.accessToken,
-        null,
+        refreshToken,
         expiresAt: httpResponse.data.expiresAt,
       );
 

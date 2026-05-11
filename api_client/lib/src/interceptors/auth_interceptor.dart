@@ -192,9 +192,26 @@ class AuthInterceptor extends Interceptor {
     _pendingRequests.add(_QueuedRequest(options, handler));
   }
 
-  void _retryPendingRequests() {
+  void _retryPendingRequests() async {
     for (final request in _pendingRequests) {
-      request.handler.resolve(Response(requestOptions: request.options, statusCode: 200));
+      try {
+        final clonedOptions = request.options.copyWith(
+          headers: {
+            ...request.options.headers,
+            'Authorization': 'Bearer $_accessToken',
+          },
+        );
+        final response = await _dio.fetch(clonedOptions);
+        request.handler.resolve(response);
+      } catch (e) {
+        request.handler.reject(
+          DioException(
+            requestOptions: request.options,
+            error: e,
+            type: DioExceptionType.unknown,
+          ),
+        );
+      }
     }
     _pendingRequests.clear();
   }

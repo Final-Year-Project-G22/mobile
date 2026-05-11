@@ -82,7 +82,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.verifyOtp(otp: _otpCode);
 
-    result.fold(
+    await result.fold(
       (failure) {
         setState(() {
           _isLoading = false;
@@ -94,12 +94,19 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
           );
         });
       },
-      (message) {
+      (message) async {
         setState(() {
           _isLoading = false;
         });
-        unawaited(ref.read(authProvider.notifier).completeVerification());
-        const OnboardingRoute().go(context);
+        await ref.read(authProvider.notifier).completeVerification();
+        if (!mounted) return;
+
+        final authState = ref.read(authProvider);
+        final isAuthenticated = authState.value?.isAuthenticated ?? false;
+        if (isAuthenticated) {
+          const OnboardingRoute().go(context);
+        }
+        // If not authenticated, the authProvider listener below will show the error
       },
     );
   }
