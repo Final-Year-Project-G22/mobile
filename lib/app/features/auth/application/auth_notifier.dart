@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,7 +33,20 @@ class AuthNotifier extends _$AuthNotifier {
       return const AuthStatus.unauthenticated();
     }
 
-    return const AuthStatus.authenticated(user: null, account: null);
+    // Fetch current user to populate auth state on app launch
+    final repository = ref.read(authRepositoryProvider);
+    final userResult = await repository.getCurrentUser();
+    return userResult.fold(
+      (failure) {
+        // Token is invalid or expired — force logout
+        unawaited(apiClient.clearTokens());
+        return const AuthStatus.unauthenticated();
+      },
+      (authResponse) => AuthStatus.authenticated(
+        user: authResponse.user,
+        account: authResponse.account,
+      ),
+    );
   }
 
   Future<void> forceLogout() async {
@@ -111,15 +126,19 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> logout() async {
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
+    final apiClient = ref.read(apiClientProvider);
 
-    final result = await repository.logout();
-    result.fold(
-      (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (_) {
-        _clearOAuthTransientState();
-        state = const AsyncValue.data(AuthStatus.unauthenticated());
-      },
-    );
+    try {
+      // Attempt backend logout, but don't let failure block local cleanup
+      await repository.logout();
+    } on Exception catch (_) {
+      // Ignore backend errors — still clear local session
+    }
+
+    // Always clear local tokens and state
+    await apiClient.clearTokens();
+    _clearOAuthTransientState();
+    state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
 
   Future<void> loadOAuthProviders() async {
