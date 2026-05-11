@@ -1,0 +1,150 @@
+import 'package:api_client/api_client.dart' as api;
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+
+import '../domain/entities/business_profile.dart';
+import '../domain/failures/business_profile_failure.dart';
+import '../domain/i_business_profile_repository.dart';
+
+class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
+  const BusinessProfileRepositoryImpl(this._client);
+
+  final api.BusinessProfileClient _client;
+
+  @override
+  Future<Either<BusinessProfileFailure, BusinessProfile>> getBusinessProfile() async {
+    try {
+      final response = await _client.getBusinessProfile();
+      return Right(_toDomain(response.data));
+    } on DioException catch (e) {
+      return Left(_mapDioError(e));
+    } on Exception {
+      return const Left(BusinessProfileFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<BusinessProfileFailure, BusinessProfile>> createBusinessProfile({
+    String? companyName,
+    String? companyEmail,
+    String? companyPhoneNumber,
+    String? physicalAddress,
+    String? description,
+    String? region,
+    String? stage,
+    String? sectorSlug,
+    List<String> tagSlugs = const [],
+  }) async {
+    try {
+      final response = await _client.createBusinessProfile(
+        body: api.CreateBusinessProfileRequest(
+          companyName: companyName,
+          companyEmail: companyEmail,
+          companyPhoneNumber: companyPhoneNumber,
+          physicalAddress: physicalAddress,
+          description: description,
+          region: region,
+          stage: stage,
+          sectorSlug: sectorSlug,
+          tagSlugs: tagSlugs,
+        ),
+      );
+      return Right(_toDomain(response.data));
+    } on DioException catch (e) {
+      return Left(_mapDioError(e));
+    } on Exception {
+      return const Left(BusinessProfileFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<BusinessProfileFailure, BusinessProfile>> updateBusinessProfile({
+    String? companyName,
+    String? companyEmail,
+    String? companyPhoneNumber,
+    String? physicalAddress,
+    String? description,
+    String? region,
+    String? stage,
+    String? sectorSlug,
+    List<String>? tagSlugs,
+  }) async {
+    try {
+      final response = await _client.updateBusinessProfile(
+        body: api.UpdateBusinessProfileRequest(
+          companyName: companyName,
+          companyEmail: companyEmail,
+          companyPhoneNumber: companyPhoneNumber,
+          physicalAddress: physicalAddress,
+          description: description,
+          region: region,
+          stage: stage,
+          sectorSlug: sectorSlug,
+          tagSlugs: tagSlugs,
+        ),
+      );
+      return Right(_toDomain(response.data));
+    } on DioException catch (e) {
+      return Left(_mapDioError(e));
+    } on Exception {
+      return const Left(BusinessProfileFailure.serverError());
+    }
+  }
+
+  BusinessProfile _toDomain(api.BusinessProfileResponse data) {
+    return BusinessProfile(
+      id: data.id,
+      companyName: data.companyName,
+      companyEmail: data.companyEmail,
+      companyPhoneNumber: data.companyPhoneNumber,
+      physicalAddress: data.physicalAddress,
+      description: data.description,
+      logoUrl: data.logoUrl,
+      bannerUrl: data.bannerUrl,
+      socialLinks: data.socialLinks,
+      registrationNumber: data.registrationNumber,
+      registrationDate: data.registrationDate,
+      taxIdentificationNumber: data.taxIdentificationNumber,
+      tradeLicenseNumber: data.tradeLicenseNumber,
+      region: data.region,
+      stage: data.stage,
+      sector: data.sector == null
+          ? null
+          : BusinessProfileSector(
+              id: data.sector!.id,
+              slug: data.sector!.slug,
+            ),
+      tags: data.tags
+          .map(
+            (tag) => BusinessProfileTag(
+              id: tag.id,
+              slug: tag.slug,
+              group: tag.group,
+              isMultiSelect: tag.isMultiSelect,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  BusinessProfileFailure _mapDioError(DioException error) {
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.connectionError:
+      case DioExceptionType.cancel:
+      case DioExceptionType.badCertificate:
+      case DioExceptionType.unknown:
+        return const BusinessProfileFailure.serverError();
+      case DioExceptionType.badResponse:
+        final status = error.response?.statusCode;
+        if (status == 404) return const BusinessProfileFailure.notFound();
+        if (status == 409) return const BusinessProfileFailure.alreadyExists();
+        if (status == 400 || status == 422) {
+          return const BusinessProfileFailure.invalidData();
+        }
+        return const BusinessProfileFailure.serverError();
+    }
+  }
+}
