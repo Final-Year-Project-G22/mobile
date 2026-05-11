@@ -33,7 +33,8 @@ part 'admin_notifications_client.g.dart';
 
 @RestApi()
 abstract class AdminNotificationsClient {
-  factory AdminNotificationsClient(Dio dio, {String? baseUrl}) = _AdminNotificationsClient;
+  factory AdminNotificationsClient(Dio dio, {String? baseUrl}) =
+      _AdminNotificationsClient;
 
   /// List campaigns.
   ///
@@ -57,7 +58,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/notifications/campaigns')
-  Future<HttpResponse<CreateCampaignResponseBody>> createCampaign({@Body() required CreateCampaignRequest body});
+  Future<HttpResponse<CreateCampaignResponseBody>> createCampaign({
+    @Body() required CreateCampaignRequest body,
+  });
 
   /// Get campaign.
   ///
@@ -65,7 +68,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [id] - Campaign ID.
   @GET('/api/v1/admin/notifications/campaigns/{id}')
-  Future<HttpResponse<CampaignDetailResponse>> getCampaign({@Path('id') required String id});
+  Future<HttpResponse<CampaignDetailResponse>> getCampaign({
+    @Path('id') required String id,
+  });
 
   /// Update campaign.
   ///
@@ -86,7 +91,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [id] - Campaign ID.
   @POST('/api/v1/admin/notifications/campaigns/{id}/cancel')
-  Future<HttpResponse<CancelCampaignResponseBody>> cancelCampaign({@Path('id') required String id});
+  Future<HttpResponse<CancelCampaignResponseBody>> cancelCampaign({
+    @Path('id') required String id,
+  });
 
   /// Schedule campaign.
   ///
@@ -94,7 +101,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [id] - Campaign ID.
   @POST('/api/v1/admin/notifications/campaigns/{id}/schedule')
-  Future<HttpResponse<ScheduleCampaignResponseBody>> scheduleCampaign({@Path('id') required String id});
+  Future<HttpResponse<ScheduleCampaignResponseBody>> scheduleCampaign({
+    @Path('id') required String id,
+  });
 
   /// Retry failed.
   ///
@@ -102,7 +111,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [batchSize] - Number of failed items to retry.
   @POST('/api/v1/admin/notifications/queue/retry')
-  Future<HttpResponse<RetryFailedResponseBody>> retryFailed({@Query('batchSize') int? batchSize = 50});
+  Future<HttpResponse<RetryFailedResponseBody>> retryFailed({
+    @Query('batchSize') int? batchSize = 50,
+  });
 
   /// Get queue status.
   ///
@@ -114,14 +125,14 @@ abstract class AdminNotificationsClient {
   ///
   /// Lists notification templates with optional category filter.
   ///
-  /// [category] - Filter by category.
+  /// [templateGroup] - Filter by template group.
   ///
   /// [page] - Page number.
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/admin/notifications/templates')
   Future<HttpResponse<ListTemplatesResponseBody>> listTemplates({
-    @Query('category') String? category,
+    @Query('templateGroup') String? templateGroup,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });
@@ -132,7 +143,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/notifications/templates')
-  Future<HttpResponse<CreateTemplateResponseBody>> createTemplate({@Body() required CreateTemplateRequest body});
+  Future<HttpResponse<CreateTemplateResponseBody>> createTemplate({
+    @Body() required CreateTemplateRequest body,
+  });
 
   /// Delete template.
   ///
@@ -140,7 +153,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [id] - Template ID.
   @DELETE('/api/v1/admin/notifications/templates/{id}')
-  Future<HttpResponse<DeleteTemplateResponseBody>> deleteTemplate({@Path('id') required String id});
+  Future<HttpResponse<DeleteTemplateResponseBody>> deleteTemplate({
+    @Path('id') required String id,
+  });
 
   /// Get template.
   ///
@@ -148,7 +163,9 @@ abstract class AdminNotificationsClient {
   ///
   /// [id] - Template ID.
   @GET('/api/v1/admin/notifications/templates/{id}')
-  Future<HttpResponse<TemplateDetailResponse>> getTemplate({@Path('id') required String id});
+  Future<HttpResponse<TemplateDetailResponse>> getTemplate({
+    @Path('id') required String id,
+  });
 
   /// Update template.
   ///

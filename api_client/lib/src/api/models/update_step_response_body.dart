@@ -17,5 +17,6 @@ abstract class UpdateStepResponseBody with _$UpdateStepResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateStepResponseBody;
 
-  factory UpdateStepResponseBody.fromJson(Map<String, Object?> json) => _$UpdateStepResponseBodyFromJson(json);
+  factory UpdateStepResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateStepResponseBodyFromJson(json);
 }

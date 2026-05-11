@@ -10,14 +10,17 @@ part 'create_guide_request.g.dart';
 @Freezed()
 abstract class CreateGuideRequest with _$CreateGuideRequest {
   const factory CreateGuideRequest({
-    /// Parent category ID
-    required String categoryId,
+    /// Target sector IDs
+    required List<dynamic>? sectorIds,
 
     /// Guide slug
     required String slug,
 
     /// Display order
     required int sortOrder,
+
+    /// Target tag IDs
+    required List<dynamic>? tagIds,
 
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
@@ -32,5 +35,6 @@ abstract class CreateGuideRequest with _$CreateGuideRequest {
     List<dynamic>? translations,
   }) = _CreateGuideRequest;
 
-  factory CreateGuideRequest.fromJson(Map<String, Object?> json) => _$CreateGuideRequestFromJson(json);
+  factory CreateGuideRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateGuideRequestFromJson(json);
 }

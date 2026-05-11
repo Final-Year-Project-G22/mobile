@@ -10,9 +10,6 @@ part 'template_detail_response.g.dart';
 @Freezed()
 abstract class TemplateDetailResponse with _$TemplateDetailResponse {
   const factory TemplateDetailResponse({
-    /// Notification category
-    required String category,
-
     /// Multi-channel content
     required Map<String, dynamic> defaultContent,
 
@@ -31,6 +28,9 @@ abstract class TemplateDetailResponse with _$TemplateDetailResponse {
     /// Default priority
     required int priority,
 
+    /// Template group
+    required String templateGroup,
+
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
@@ -47,5 +47,6 @@ abstract class TemplateDetailResponse with _$TemplateDetailResponse {
     Map<String, dynamic>? variablesSchema,
   }) = _TemplateDetailResponse;
 
-  factory TemplateDetailResponse.fromJson(Map<String, Object?> json) => _$TemplateDetailResponseFromJson(json);
+  factory TemplateDetailResponse.fromJson(Map<String, Object?> json) =>
+      _$TemplateDetailResponseFromJson(json);
 }

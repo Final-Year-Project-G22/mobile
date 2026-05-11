@@ -29,5 +29,6 @@ abstract class LoginResponseBody with _$LoginResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _LoginResponseBody;
 
-  factory LoginResponseBody.fromJson(Map<String, Object?> json) => _$LoginResponseBodyFromJson(json);
+  factory LoginResponseBody.fromJson(Map<String, Object?> json) =>
+      _$LoginResponseBodyFromJson(json);
 }

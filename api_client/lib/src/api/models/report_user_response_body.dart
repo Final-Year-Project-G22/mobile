@@ -17,5 +17,6 @@ abstract class ReportUserResponseBody with _$ReportUserResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReportUserResponseBody;
 
-  factory ReportUserResponseBody.fromJson(Map<String, Object?> json) => _$ReportUserResponseBodyFromJson(json);
+  factory ReportUserResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ReportUserResponseBodyFromJson(json);
 }

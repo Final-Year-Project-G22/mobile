@@ -10,9 +10,6 @@ part 'create_template_request.g.dart';
 @Freezed()
 abstract class CreateTemplateRequest with _$CreateTemplateRequest {
   const factory CreateTemplateRequest({
-    /// Notification category
-    required String category,
-
     /// Multi-channel content
     required Map<String, dynamic> defaultContent,
 
@@ -24,6 +21,9 @@ abstract class CreateTemplateRequest with _$CreateTemplateRequest {
 
     /// Default priority
     required int priority,
+
+    /// Template group
+    required String templateGroup,
 
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
@@ -38,5 +38,6 @@ abstract class CreateTemplateRequest with _$CreateTemplateRequest {
     Map<String, dynamic>? variablesSchema,
   }) = _CreateTemplateRequest;
 
-  factory CreateTemplateRequest.fromJson(Map<String, Object?> json) => _$CreateTemplateRequestFromJson(json);
+  factory CreateTemplateRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateTemplateRequestFromJson(json);
 }

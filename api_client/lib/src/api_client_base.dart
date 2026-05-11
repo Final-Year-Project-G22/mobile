@@ -30,7 +30,10 @@ class ApiClient {
         connectTimeout: ApiConstants.connectTimeout,
         receiveTimeout: ApiConstants.receiveTimeout,
         sendTimeout: ApiConstants.sendTimeout,
-        headers: {'Content-Type': ApiConstants.contentType, 'Accept': ApiConstants.accept},
+        headers: {
+          'Content-Type': ApiConstants.contentType,
+          'Accept': ApiConstants.accept,
+        },
         validateStatus: (status) => status != null && status < 400,
       ),
     );
@@ -75,8 +78,16 @@ class ApiClient {
   }
 
   // Token management (sets in-memory AND persists to secure storage)
-  Future<void> setTokens(String accessToken, String? refreshToken, {DateTime? expiresAt}) async {
-    await _authInterceptor.setTokens(accessToken, refreshToken, expiresAt: expiresAt);
+  Future<void> setTokens(
+    String accessToken,
+    String? refreshToken, {
+    DateTime? expiresAt,
+  }) async {
+    await _authInterceptor.setTokens(
+      accessToken,
+      refreshToken,
+      expiresAt: expiresAt,
+    );
   }
 
   Future<void> clearTokens() async {
@@ -89,7 +100,12 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.get<T>(path, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.get<T>(
+      path,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> post<T>(
@@ -99,7 +115,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.post<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.post<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> put<T>(
@@ -109,7 +131,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.put<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.put<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> patch<T>(
@@ -119,7 +147,13 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return dio.patch<T>(path, data: data, queryParameters: queryParameters, options: options, cancelToken: cancelToken);
+    return dio.patch<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<Response<T>> delete<T>(

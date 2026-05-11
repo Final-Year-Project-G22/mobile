@@ -12,9 +12,6 @@ part 'inbox_entry_response.g.dart';
 @Freezed()
 abstract class InboxEntryResponse with _$InboxEntryResponse {
   const factory InboxEntryResponse({
-    /// Notification category
-    required String category,
-
     /// Inbox entry ID
     required String id,
 
@@ -34,5 +31,6 @@ abstract class InboxEntryResponse with _$InboxEntryResponse {
     DateTime? expiresAt,
   }) = _InboxEntryResponse;
 
-  factory InboxEntryResponse.fromJson(Map<String, Object?> json) => _$InboxEntryResponseFromJson(json);
+  factory InboxEntryResponse.fromJson(Map<String, Object?> json) =>
+      _$InboxEntryResponseFromJson(json);
 }

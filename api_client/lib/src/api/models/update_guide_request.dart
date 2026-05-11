@@ -13,14 +13,14 @@ abstract class UpdateGuideRequest with _$UpdateGuideRequest {
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
-    /// Parent category ID
-    String? categoryId,
-
     /// Visibility conditions
     List<dynamic>? conditions,
 
     /// Icon identifier
     String? icon,
+
+    /// Target sector IDs
+    List<dynamic>? sectorIds,
 
     /// Guide slug
     String? slug,
@@ -28,9 +28,13 @@ abstract class UpdateGuideRequest with _$UpdateGuideRequest {
     /// Display order
     int? sortOrder,
 
+    /// Target tag IDs
+    List<dynamic>? tagIds,
+
     /// Localized translations
     List<dynamic>? translations,
   }) = _UpdateGuideRequest;
 
-  factory UpdateGuideRequest.fromJson(Map<String, Object?> json) => _$UpdateGuideRequestFromJson(json);
+  factory UpdateGuideRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateGuideRequestFromJson(json);
 }

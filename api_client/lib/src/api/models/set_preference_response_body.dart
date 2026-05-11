@@ -17,5 +17,6 @@ abstract class SetPreferenceResponseBody with _$SetPreferenceResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _SetPreferenceResponseBody;
 
-  factory SetPreferenceResponseBody.fromJson(Map<String, Object?> json) => _$SetPreferenceResponseBodyFromJson(json);
+  factory SetPreferenceResponseBody.fromJson(Map<String, Object?> json) =>
+      _$SetPreferenceResponseBodyFromJson(json);
 }

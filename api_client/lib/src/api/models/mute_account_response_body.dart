@@ -17,5 +17,6 @@ abstract class MuteAccountResponseBody with _$MuteAccountResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _MuteAccountResponseBody;
 
-  factory MuteAccountResponseBody.fromJson(Map<String, Object?> json) => _$MuteAccountResponseBodyFromJson(json);
+  factory MuteAccountResponseBody.fromJson(Map<String, Object?> json) =>
+      _$MuteAccountResponseBodyFromJson(json);
 }

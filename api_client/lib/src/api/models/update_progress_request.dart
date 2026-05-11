@@ -23,5 +23,6 @@ abstract class UpdateProgressRequest with _$UpdateProgressRequest {
     List<dynamic>? uploadedDocuments,
   }) = _UpdateProgressRequest;
 
-  factory UpdateProgressRequest.fromJson(Map<String, Object?> json) => _$UpdateProgressRequestFromJson(json);
+  factory UpdateProgressRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateProgressRequestFromJson(json);
 }

@@ -4,20 +4,26 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'campaign_created_by_response.dart';
+import 'campaign_template_info_response.dart';
+
 part 'campaign_detail_response.freezed.dart';
 part 'campaign_detail_response.g.dart';
 
 @Freezed()
 abstract class CampaignDetailResponse with _$CampaignDetailResponse {
   const factory CampaignDetailResponse({
+    /// Campaign template ID
+    required String campaignTemplateId,
+
     /// Campaign type
     required String campaignType,
 
     /// Creation time
     required DateTime createdAt,
 
-    /// Creator account ID
-    required String createdBy,
+    /// Creator account info
+    required CampaignCreatedByResponse createdBy,
 
     /// Campaign ID
     required String id,
@@ -25,23 +31,26 @@ abstract class CampaignDetailResponse with _$CampaignDetailResponse {
     /// Campaign name
     required String name,
 
+    /// Target sector IDs
+    required List<dynamic>? sectorIds,
+
     /// Campaign status
     required String status,
 
-    /// Notification template ID
-    required String templateId,
+    /// Target tag IDs
+    required List<dynamic>? tagIds,
 
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
-    /// Override multi-channel content
-    Map<String, dynamic>? customContent,
-
-    /// Override email subject
-    String? customSubject,
+    /// Campaign template details
+    CampaignTemplateInfoResponse? campaignTemplate,
 
     /// Campaign description
     String? description,
+
+    /// Target region
+    String? region,
 
     /// Scheduled sending time
     DateTime? scheduledFor,
@@ -49,9 +58,13 @@ abstract class CampaignDetailResponse with _$CampaignDetailResponse {
     /// Actual sending time
     DateTime? sentAt,
 
+    /// Target business stage
+    String? stage,
+
     /// Segment filters or resolved recipients
     Map<String, dynamic>? targetSegment,
   }) = _CampaignDetailResponse;
 
-  factory CampaignDetailResponse.fromJson(Map<String, Object?> json) => _$CampaignDetailResponseFromJson(json);
+  factory CampaignDetailResponse.fromJson(Map<String, Object?> json) =>
+      _$CampaignDetailResponseFromJson(json);
 }

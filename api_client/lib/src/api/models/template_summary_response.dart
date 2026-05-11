@@ -10,9 +10,6 @@ part 'template_summary_response.g.dart';
 @Freezed()
 abstract class TemplateSummaryResponse with _$TemplateSummaryResponse {
   const factory TemplateSummaryResponse({
-    /// Notification category
-    required String category,
-
     /// Template ID
     required String id,
 
@@ -24,7 +21,11 @@ abstract class TemplateSummaryResponse with _$TemplateSummaryResponse {
 
     /// Notification type
     required String notificationType,
+
+    /// Template group
+    required String templateGroup,
   }) = _TemplateSummaryResponse;
 
-  factory TemplateSummaryResponse.fromJson(Map<String, Object?> json) => _$TemplateSummaryResponseFromJson(json);
+  factory TemplateSummaryResponse.fromJson(Map<String, Object?> json) =>
+      _$TemplateSummaryResponseFromJson(json);
 }

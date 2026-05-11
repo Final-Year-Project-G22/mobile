@@ -14,6 +14,7 @@ import '../models/create_step_request.dart';
 import '../models/create_step_response_body.dart';
 import '../models/delete_step_response_body.dart';
 import '../models/get_step_versions_response_body.dart';
+import '../models/list_guide_steps_admin_response_body.dart';
 import '../models/remove_step_condition_response_body.dart';
 import '../models/remove_step_dependency_response_body.dart';
 import '../models/reorder_steps_request.dart';
@@ -36,7 +37,9 @@ abstract class AdminStepsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/guides/steps')
-  Future<HttpResponse<CreateStepResponseBody>> createStep({@Body() required CreateStepRequest body});
+  Future<HttpResponse<CreateStepResponseBody>> createStep({
+    @Body() required CreateStepRequest body,
+  });
 
   /// Remove step condition.
   ///
@@ -44,7 +47,9 @@ abstract class AdminStepsClient {
   ///
   /// [condId] - Condition ID.
   @DELETE('/api/v1/admin/guides/steps/conditions/{condId}')
-  Future<HttpResponse<RemoveStepConditionResponseBody>> removeStepCondition({@Path('condId') required String condId});
+  Future<HttpResponse<RemoveStepConditionResponseBody>> removeStepCondition({
+    @Path('condId') required String condId,
+  });
 
   /// Remove step dependency.
   ///
@@ -52,7 +57,9 @@ abstract class AdminStepsClient {
   ///
   /// [depId] - Dependency ID.
   @DELETE('/api/v1/admin/guides/steps/dependencies/{depId}')
-  Future<HttpResponse<RemoveStepDependencyResponseBody>> removeStepDependency({@Path('depId') required String depId});
+  Future<HttpResponse<RemoveStepDependencyResponseBody>> removeStepDependency({
+    @Path('depId') required String depId,
+  });
 
   /// Reorder steps.
   ///
@@ -60,7 +67,9 @@ abstract class AdminStepsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/guides/steps/reorder')
-  Future<HttpResponse<ReorderStepsResponseBody>> reorderSteps({@Body() required ReorderStepsRequest body});
+  Future<HttpResponse<ReorderStepsResponseBody>> reorderSteps({
+    @Body() required ReorderStepsRequest body,
+  });
 
   /// Delete step.
   ///
@@ -68,7 +77,9 @@ abstract class AdminStepsClient {
   ///
   /// [id] - Step ID.
   @DELETE('/api/v1/admin/guides/steps/{id}')
-  Future<HttpResponse<DeleteStepResponseBody>> deleteStep({@Path('id') required String id});
+  Future<HttpResponse<DeleteStepResponseBody>> deleteStep({
+    @Path('id') required String id,
+  });
 
   /// Update step.
   ///
@@ -149,5 +160,33 @@ abstract class AdminStepsClient {
   Future<HttpResponse<RevertStepToVersionResponseBody>> revertStepToVersion({
     @Path('id') required String id,
     @Path('version') required int version,
+  });
+
+  /// List guide steps.
+  ///
+  /// Lists steps of a guide for admin editor.
+  ///
+  /// [id] - Guide ID.
+  ///
+  /// [page] - Page number.
+  ///
+  /// [pageSize] - Items per page.
+  ///
+  /// [search] - Search keyword.
+  ///
+  /// [sortBy] - Sort columns.
+  ///
+  /// [sortOrder] - Sort order (asc, desc).
+  ///
+  /// [locale] - Language locale (en, am).
+  @GET('/api/v1/admin/guides/{id}/steps')
+  Future<HttpResponse<ListGuideStepsAdminResponseBody>> listGuideStepsAdmin({
+    @Path('id') required String id,
+    @Query('page') int? page,
+    @Query('pageSize') int? pageSize,
+    @Query('search') String? search,
+    @Query('sortBy') List<dynamic>? sortBy,
+    @Query('sortOrder') List<dynamic>? sortOrder,
+    @Query('locale') String? locale,
   });
 }

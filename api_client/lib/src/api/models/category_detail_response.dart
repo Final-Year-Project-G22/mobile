@@ -38,5 +38,6 @@ abstract class CategoryDetailResponse with _$CategoryDetailResponse {
     List<dynamic>? translations,
   }) = _CategoryDetailResponse;
 
-  factory CategoryDetailResponse.fromJson(Map<String, Object?> json) => _$CategoryDetailResponseFromJson(json);
+  factory CategoryDetailResponse.fromJson(Map<String, Object?> json) =>
+      _$CategoryDetailResponseFromJson(json);
 }

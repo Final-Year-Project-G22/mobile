@@ -8,7 +8,8 @@ part 'deactivate_device_response_body.freezed.dart';
 part 'deactivate_device_response_body.g.dart';
 
 @Freezed()
-abstract class DeactivateDeviceResponseBody with _$DeactivateDeviceResponseBody {
+abstract class DeactivateDeviceResponseBody
+    with _$DeactivateDeviceResponseBody {
   const factory DeactivateDeviceResponseBody({
     /// Success message
     required String message,

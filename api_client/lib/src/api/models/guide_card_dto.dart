@@ -10,17 +10,20 @@ part 'guide_card_dto.g.dart';
 @Freezed()
 abstract class GuideCardDto with _$GuideCardDto {
   const factory GuideCardDto({
-    /// Parent category ID
-    required String categoryId,
-
     /// Guide ID
     required String id,
 
     /// Localized guide name
     required String name,
 
+    /// Target sector IDs
+    required List<dynamic>? sectorIds,
+
     /// Guide slug
     required String slug,
+
+    /// Target tag IDs
+    required List<dynamic>? tagIds,
 
     /// Localized description
     String? description,
@@ -29,5 +32,6 @@ abstract class GuideCardDto with _$GuideCardDto {
     String? icon,
   }) = _GuideCardDto;
 
-  factory GuideCardDto.fromJson(Map<String, Object?> json) => _$GuideCardDtoFromJson(json);
+  factory GuideCardDto.fromJson(Map<String, Object?> json) =>
+      _$GuideCardDtoFromJson(json);
 }

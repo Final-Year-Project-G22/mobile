@@ -8,7 +8,8 @@ part 'template_group_summary_response.freezed.dart';
 part 'template_group_summary_response.g.dart';
 
 @Freezed()
-abstract class TemplateGroupSummaryResponse with _$TemplateGroupSummaryResponse {
+abstract class TemplateGroupSummaryResponse
+    with _$TemplateGroupSummaryResponse {
   const factory TemplateGroupSummaryResponse({
     /// Category ID
     required String categoryId,

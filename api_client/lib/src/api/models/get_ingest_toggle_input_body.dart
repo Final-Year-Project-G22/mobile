@@ -14,5 +14,6 @@ abstract class GetIngestToggleInputBody with _$GetIngestToggleInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetIngestToggleInputBody;
 
-  factory GetIngestToggleInputBody.fromJson(Map<String, Object?> json) => _$GetIngestToggleInputBodyFromJson(json);
+  factory GetIngestToggleInputBody.fromJson(Map<String, Object?> json) =>
+      _$GetIngestToggleInputBodyFromJson(json);
 }

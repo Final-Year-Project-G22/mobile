@@ -13,24 +13,31 @@ abstract class UpdateCampaignRequest with _$UpdateCampaignRequest {
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
-    /// Override multi-channel content
-    Map<String, dynamic>? customContent,
-
-    /// Override email subject
-    String? customSubject,
-
     /// Campaign description
     String? description,
 
     /// Campaign name
     String? name,
 
+    /// Target region
+    String? region,
+
     /// Scheduled sending time
     DateTime? scheduledFor,
+
+    /// Target sector IDs
+    List<dynamic>? sectorIds,
+
+    /// Target business stage
+    String? stage,
+
+    /// Target tag IDs
+    List<dynamic>? tagIds,
 
     /// Segment filters for segmented campaigns
     Map<String, dynamic>? targetSegment,
   }) = _UpdateCampaignRequest;
 
-  factory UpdateCampaignRequest.fromJson(Map<String, Object?> json) => _$UpdateCampaignRequestFromJson(json);
+  factory UpdateCampaignRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateCampaignRequestFromJson(json);
 }

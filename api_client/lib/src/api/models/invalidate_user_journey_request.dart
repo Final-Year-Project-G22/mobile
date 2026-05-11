@@ -8,7 +8,8 @@ part 'invalidate_user_journey_request.freezed.dart';
 part 'invalidate_user_journey_request.g.dart';
 
 @Freezed()
-abstract class InvalidateUserJourneyRequest with _$InvalidateUserJourneyRequest {
+abstract class InvalidateUserJourneyRequest
+    with _$InvalidateUserJourneyRequest {
   const factory InvalidateUserJourneyRequest({
     /// Guide ID
     required String guideId,

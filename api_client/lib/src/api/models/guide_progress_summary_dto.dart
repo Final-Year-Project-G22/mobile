@@ -23,5 +23,6 @@ abstract class GuideProgressSummaryDto with _$GuideProgressSummaryDto {
     required int totalSteps,
   }) = _GuideProgressSummaryDto;
 
-  factory GuideProgressSummaryDto.fromJson(Map<String, Object?> json) => _$GuideProgressSummaryDtoFromJson(json);
+  factory GuideProgressSummaryDto.fromJson(Map<String, Object?> json) =>
+      _$GuideProgressSummaryDtoFromJson(json);
 }

@@ -8,7 +8,8 @@ part 'delete_translation_response_body.freezed.dart';
 part 'delete_translation_response_body.g.dart';
 
 @Freezed()
-abstract class DeleteTranslationResponseBody with _$DeleteTranslationResponseBody {
+abstract class DeleteTranslationResponseBody
+    with _$DeleteTranslationResponseBody {
   const factory DeleteTranslationResponseBody({
     /// Success message
     required String message,

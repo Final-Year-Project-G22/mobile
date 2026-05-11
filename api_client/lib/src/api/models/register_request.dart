@@ -29,5 +29,6 @@ abstract class RegisterRequest with _$RegisterRequest {
     String? username,
   }) = _RegisterRequest;
 
-  factory RegisterRequest.fromJson(Map<String, Object?> json) => _$RegisterRequestFromJson(json);
+  factory RegisterRequest.fromJson(Map<String, Object?> json) =>
+      _$RegisterRequestFromJson(json);
 }

@@ -32,5 +32,6 @@ abstract class UpdateCategoryRequest with _$UpdateCategoryRequest {
     List<dynamic>? translations,
   }) = _UpdateCategoryRequest;
 
-  factory UpdateCategoryRequest.fromJson(Map<String, Object?> json) => _$UpdateCategoryRequestFromJson(json);
+  factory UpdateCategoryRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateCategoryRequestFromJson(json);
 }

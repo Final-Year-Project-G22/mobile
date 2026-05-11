@@ -21,5 +21,6 @@ abstract class UpdateStepCondition with _$UpdateStepCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _UpdateStepCondition;
 
-  factory UpdateStepCondition.fromJson(Map<String, Object?> json) => _$UpdateStepConditionFromJson(json);
+  factory UpdateStepCondition.fromJson(Map<String, Object?> json) =>
+      _$UpdateStepConditionFromJson(json);
 }

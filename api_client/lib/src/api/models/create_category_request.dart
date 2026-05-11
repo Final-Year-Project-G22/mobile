@@ -32,5 +32,6 @@ abstract class CreateCategoryRequest with _$CreateCategoryRequest {
     List<dynamic>? translations,
   }) = _CreateCategoryRequest;
 
-  factory CreateCategoryRequest.fromJson(Map<String, Object?> json) => _$CreateCategoryRequestFromJson(json);
+  factory CreateCategoryRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateCategoryRequestFromJson(json);
 }

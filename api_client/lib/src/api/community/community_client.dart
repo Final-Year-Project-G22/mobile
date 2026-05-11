@@ -53,7 +53,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Attachment ID.
   @DELETE('/api/v1/community/attachments/{id}')
-  Future<HttpResponse<DeletePostResponseBody>> deleteOrphanAttachment({@Path('id') required String id});
+  Future<HttpResponse<DeletePostResponseBody>> deleteOrphanAttachment({
+    @Path('id') required String id,
+  });
 
   /// List community categories.
   ///
@@ -77,7 +79,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Category ID.
   @GET('/api/v1/community/categories/{id}')
-  Future<HttpResponse<GetCategoryResponseBody>> getCommunityCategory({@Path('id') required String id});
+  Future<HttpResponse<GetCategoryResponseBody>> getCommunityCategory({
+    @Path('id') required String id,
+  });
 
   /// Unfollow category.
   ///
@@ -85,7 +89,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Category ID.
   @DELETE('/api/v1/community/categories/{id}/follow')
-  Future<HttpResponse<FollowResponseBody>> unfollowCommunityCategory({@Path('id') required String id});
+  Future<HttpResponse<FollowResponseBody>> unfollowCommunityCategory({
+    @Path('id') required String id,
+  });
 
   /// Follow category.
   ///
@@ -93,25 +99,8 @@ abstract class CommunityClient {
   ///
   /// [id] - Category ID.
   @POST('/api/v1/community/categories/{id}/follow')
-  Future<HttpResponse<FollowResponseBody>> followCommunityCategory({@Path('id') required String id});
-
-  /// List threads by category.
-  ///
-  /// Lists discussion threads in a category.
-  ///
-  /// [id] - Category ID.
-  ///
-  /// [page] - Page number.
-  ///
-  /// [pageSize] - Page size.
-  ///
-  /// [search] - Search term.
-  @GET('/api/v1/community/categories/{id}/threads')
-  Future<HttpResponse<ListThreadsResponseBody>> listCommunityThreads({
+  Future<HttpResponse<FollowResponseBody>> followCommunityCategory({
     @Path('id') required String id,
-    @Query('page') int? page,
-    @Query('pageSize') int? pageSize,
-    @Query('search') String? search,
   });
 
   /// List followed categories.
@@ -124,7 +113,8 @@ abstract class CommunityClient {
   ///
   /// [search] - Search term.
   @GET('/api/v1/community/follows/categories')
-  Future<HttpResponse<ListFollowedCategoriesResponseBody>> listFollowedCategories({
+  Future<HttpResponse<ListFollowedCategoriesResponseBody>>
+  listFollowedCategories({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
     @Query('search') String? search,
@@ -152,7 +142,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Post ID.
   @DELETE('/api/v1/community/posts/{id}')
-  Future<HttpResponse<DeletePostResponseBody>> deleteCommunityPost({@Path('id') required String id});
+  Future<HttpResponse<DeletePostResponseBody>> deleteCommunityPost({
+    @Path('id') required String id,
+  });
 
   /// Update post.
   ///
@@ -183,9 +175,7 @@ abstract class CommunityClient {
 
   /// List discussion threads.
   ///
-  /// Lists discussion threads across categories, including sub-threads.
-  ///
-  /// [categoryId] - Category ID.
+  /// Lists discussion threads filtered by user's business profile taxonomy.
   ///
   /// [search] - Search term.
   ///
@@ -193,8 +183,7 @@ abstract class CommunityClient {
   ///
   /// [pageSize] - Page size.
   @GET('/api/v1/community/threads')
-  Future<HttpResponse<ListThreadsResponseBody>> listAllCommunityThreads({
-    @Query('categoryId') String? categoryId,
+  Future<HttpResponse<ListThreadsResponseBody>> listCommunityThreads({
     @Query('search') String? search,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
@@ -207,9 +196,6 @@ abstract class CommunityClient {
   /// [attachmentIds] - Pre-uploaded attachment IDs (comma-separated).
   /// Name not received - field will be skipped.
   ///
-  /// [categoryId] - Category ID.
-  /// Name not received - field will be skipped.
-  ///
   /// [description] - Thread description.
   /// Name not received - field will be skipped.
   ///
@@ -219,7 +205,13 @@ abstract class CommunityClient {
   /// [parentThreadId] - Parent thread ID for sub-threads.
   /// Name not received - field will be skipped.
   ///
+  /// [sectorIds] - Sector IDs (comma-separated).
+  /// Name not received - field will be skipped.
+  ///
   /// [slug] - Thread slug.
+  /// Name not received - field will be skipped.
+  ///
+  /// [tagIds] - Tag IDs (comma-separated).
   /// Name not received - field will be skipped.
   ///
   /// [title] - Thread title.
@@ -227,22 +219,21 @@ abstract class CommunityClient {
   @MultiPart()
   @POST('/api/v1/community/threads')
   Future<HttpResponse<CreateThreadResponseBody>> createCommunityThread({
-    @Part(name: 'categoryId') required String categoryId,
     @Part(name: 'description') required String description,
     @Part(name: 'initialPostContent') required String initialPostContent,
     @Part(name: 'slug') required String slug,
     @Part(name: 'title') required String title,
     @Part(name: 'attachmentIds') String? attachmentIds,
     @Part(name: 'parentThreadId') String? parentThreadId,
+    @Part(name: 'sectorIds') String? sectorIds,
+    @Part(name: 'tagIds') String? tagIds,
   });
 
   /// Search discussion threads.
   ///
-  /// Searches threads by keyword and category.
+  /// Searches threads by keyword, filtered by user's business profile taxonomy.
   ///
   /// [keyword] - Search keyword.
-  ///
-  /// [categoryId] - Category ID.
   ///
   /// [page] - Page number.
   ///
@@ -250,7 +241,6 @@ abstract class CommunityClient {
   @GET('/api/v1/community/threads/search')
   Future<HttpResponse<ListThreadsResponseBody>> searchCommunityThreads({
     @Query('keyword') String? keyword,
-    @Query('categoryId') String? categoryId,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });
@@ -261,7 +251,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Thread ID.
   @GET('/api/v1/community/threads/{id}')
-  Future<HttpResponse<GetThreadResponseBody>> getCommunityThread({@Path('id') required String id});
+  Future<HttpResponse<GetThreadResponseBody>> getCommunityThread({
+    @Path('id') required String id,
+  });
 
   /// Block user in thread.
   ///
@@ -295,7 +287,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Thread ID.
   @DELETE('/api/v1/community/threads/{id}/follow')
-  Future<HttpResponse<FollowResponseBody>> unfollowCommunityThread({@Path('id') required String id});
+  Future<HttpResponse<FollowResponseBody>> unfollowCommunityThread({
+    @Path('id') required String id,
+  });
 
   /// Follow thread.
   ///
@@ -303,7 +297,9 @@ abstract class CommunityClient {
   ///
   /// [id] - Thread ID.
   @POST('/api/v1/community/threads/{id}/follow')
-  Future<HttpResponse<FollowResponseBody>> followCommunityThread({@Path('id') required String id});
+  Future<HttpResponse<FollowResponseBody>> followCommunityThread({
+    @Path('id') required String id,
+  });
 
   /// List thread posts.
   ///

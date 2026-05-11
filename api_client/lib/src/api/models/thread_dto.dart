@@ -16,9 +16,6 @@ abstract class ThreadDto with _$ThreadDto {
     /// Author account ID
     required String authorId,
 
-    /// Category ID
-    required String categoryId,
-
     /// Thread ID
     required String id,
 
@@ -28,6 +25,9 @@ abstract class ThreadDto with _$ThreadDto {
     /// Reply count
     required int replyCount,
 
+    /// Sector IDs
+    required List<dynamic>? sectorIds,
+
     /// Share count
     required int shareCount,
 
@@ -36,6 +36,9 @@ abstract class ThreadDto with _$ThreadDto {
 
     /// Thread status
     required String status,
+
+    /// Tag IDs
+    required List<dynamic>? tagIds,
 
     /// Thread title
     required String title,
@@ -65,5 +68,6 @@ abstract class ThreadDto with _$ThreadDto {
     DateTime? updatedAt,
   }) = _ThreadDto;
 
-  factory ThreadDto.fromJson(Map<String, Object?> json) => _$ThreadDtoFromJson(json);
+  factory ThreadDto.fromJson(Map<String, Object?> json) =>
+      _$ThreadDtoFromJson(json);
 }
