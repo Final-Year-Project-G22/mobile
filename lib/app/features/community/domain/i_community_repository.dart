@@ -2,7 +2,6 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 
 import 'entities/attachment.dart';
-import 'entities/community_category.dart';
 import 'entities/discussion_post.dart';
 import 'entities/discussion_thread.dart';
 import 'failures/community_failure.dart';
@@ -18,12 +17,6 @@ abstract class ICommunityRepository {
     String? search,
     int? page,
     int? pageSize,
-  });
-
-  Future<Either<CommunityFailure, List<CommunityCategory>>> getCategories({
-    int? page,
-    int? pageSize,
-    String? search,
   });
 
   Future<Either<CommunityFailure, List<DiscussionThread>>> searchThreads({
@@ -89,9 +82,6 @@ abstract class ICommunityRepository {
   });
 
   Future<Either<CommunityFailure, Unit>> deletePost(String postId);
-
-  Future<Either<CommunityFailure, Unit>> followCategory(String categoryId);
-  Future<Either<CommunityFailure, Unit>> unfollowCategory(String categoryId);
 
   Future<Either<CommunityFailure, Unit>> followThread(String threadId);
   Future<Either<CommunityFailure, Unit>> unfollowThread(String threadId);
