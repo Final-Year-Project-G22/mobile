@@ -77,3 +77,9 @@ export 'src/api/models/notification_summary_response.dart';
 export 'src/api/models/unread_count_response_body.dart';
 export 'src/api/models/mark_as_read_response_body.dart';
 export 'src/api/models/mark_all_as_read_response_body.dart';
+
+export 'src/api/ai_conversations/ai_conversations_client.dart';
+export 'src/api/models/ask_request.dart';
+export 'src/api/models/citation_dto.dart';
+export 'src/api/models/conversation_dto.dart';
+export 'src/api/models/message_dto.dart';
