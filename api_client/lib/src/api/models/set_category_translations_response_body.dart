@@ -8,8 +8,7 @@ part 'set_category_translations_response_body.freezed.dart';
 part 'set_category_translations_response_body.g.dart';
 
 @Freezed()
-abstract class SetCategoryTranslationsResponseBody
-    with _$SetCategoryTranslationsResponseBody {
+abstract class SetCategoryTranslationsResponseBody with _$SetCategoryTranslationsResponseBody {
   const factory SetCategoryTranslationsResponseBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class SetCategoryTranslationsResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _SetCategoryTranslationsResponseBody;
 
-  factory SetCategoryTranslationsResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$SetCategoryTranslationsResponseBodyFromJson(json);
+  factory SetCategoryTranslationsResponseBody.fromJson(Map<String, Object?> json) =>
+      _$SetCategoryTranslationsResponseBodyFromJson(json);
 }

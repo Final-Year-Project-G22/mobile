@@ -8,8 +8,7 @@ part 'list_status_by_account_input_body.freezed.dart';
 part 'list_status_by_account_input_body.g.dart';
 
 @Freezed()
-abstract class ListStatusByAccountInputBody
-    with _$ListStatusByAccountInputBody {
+abstract class ListStatusByAccountInputBody with _$ListStatusByAccountInputBody {
   const factory ListStatusByAccountInputBody({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

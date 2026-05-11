@@ -8,8 +8,7 @@ part 'remove_step_dependency_response_body.freezed.dart';
 part 'remove_step_dependency_response_body.g.dart';
 
 @Freezed()
-abstract class RemoveStepDependencyResponseBody
-    with _$RemoveStepDependencyResponseBody {
+abstract class RemoveStepDependencyResponseBody with _$RemoveStepDependencyResponseBody {
   const factory RemoveStepDependencyResponseBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class RemoveStepDependencyResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _RemoveStepDependencyResponseBody;
 
-  factory RemoveStepDependencyResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$RemoveStepDependencyResponseBodyFromJson(json);
+  factory RemoveStepDependencyResponseBody.fromJson(Map<String, Object?> json) =>
+      _$RemoveStepDependencyResponseBodyFromJson(json);
 }

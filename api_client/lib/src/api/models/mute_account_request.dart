@@ -23,6 +23,5 @@ abstract class MuteAccountRequest with _$MuteAccountRequest {
     String? reason,
   }) = _MuteAccountRequest;
 
-  factory MuteAccountRequest.fromJson(Map<String, Object?> json) =>
-      _$MuteAccountRequestFromJson(json);
+  factory MuteAccountRequest.fromJson(Map<String, Object?> json) => _$MuteAccountRequestFromJson(json);
 }

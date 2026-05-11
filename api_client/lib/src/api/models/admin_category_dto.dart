@@ -20,6 +20,5 @@ abstract class AdminCategoryDto with _$AdminCategoryDto {
     String? parentId,
   }) = _AdminCategoryDto;
 
-  factory AdminCategoryDto.fromJson(Map<String, Object?> json) =>
-      _$AdminCategoryDtoFromJson(json);
+  factory AdminCategoryDto.fromJson(Map<String, Object?> json) => _$AdminCategoryDtoFromJson(json);
 }

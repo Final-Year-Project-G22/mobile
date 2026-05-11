@@ -6,19 +6,13 @@ class TokenPair {
   final String? refreshToken;
   final DateTime? expiresAt;
 
-  const TokenPair({
-    required this.accessToken,
-    this.refreshToken,
-    this.expiresAt,
-  });
+  const TokenPair({required this.accessToken, this.refreshToken, this.expiresAt});
 
   factory TokenPair.fromJson(Map<String, dynamic> json) {
     return TokenPair(
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String?,
-      expiresAt: json['expiresAt'] != null
-          ? DateTime.tryParse(json['expiresAt'] as String)
-          : null,
+      expiresAt: json['expiresAt'] != null ? DateTime.tryParse(json['expiresAt'] as String) : null,
     );
   }
 }
@@ -46,12 +40,9 @@ class AuthInterceptor extends Interceptor {
   static const _refreshTokenKey = 'refresh_token';
   static const _expiresAtKey = 'expires_at';
 
-  AuthInterceptor({
-    required FlutterSecureStorage storage,
-    this.shouldSkipAuth = _defaultShouldSkipAuth,
-    Dio? dio,
-  }) : _storage = storage,
-       _dio = dio ?? Dio();
+  AuthInterceptor({required FlutterSecureStorage storage, this.shouldSkipAuth = _defaultShouldSkipAuth, Dio? dio})
+    : _storage = storage,
+      _dio = dio ?? Dio();
 
   void setOnUnauthorizedCallback(OnUnauthorized? callback) {
     onUnauthorized = callback;
@@ -62,9 +53,7 @@ class AuthInterceptor extends Interceptor {
   }
 
   static bool _defaultShouldSkipAuth(String path) {
-    return path.contains('/auth/login') ||
-        path.contains('/auth/register') ||
-        path.contains('/auth/refresh');
+    return path.contains('/auth/login') || path.contains('/auth/register') || path.contains('/auth/refresh');
   }
 
   String? get accessToken => _accessToken;
@@ -89,11 +78,7 @@ class AuthInterceptor extends Interceptor {
     }
   }
 
-  Future<void> setTokens(
-    String accessToken,
-    String? refreshToken, {
-    DateTime? expiresAt,
-  }) async {
+  Future<void> setTokens(String accessToken, String? refreshToken, {DateTime? expiresAt}) async {
     _accessToken = accessToken;
     _refreshToken = refreshToken;
     _expiresAt = expiresAt;
@@ -106,10 +91,7 @@ class AuthInterceptor extends Interceptor {
     }
 
     if (expiresAt != null) {
-      await _storage.write(
-        key: _expiresAtKey,
-        value: expiresAt.toIso8601String(),
-      );
+      await _storage.write(key: _expiresAtKey, value: expiresAt.toIso8601String());
     }
   }
 
@@ -125,10 +107,7 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (shouldSkipAuth(options.path)) {
       return handler.next(options);
     }
@@ -144,8 +123,7 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401 &&
-        !shouldSkipAuth(err.requestOptions.path)) {
+    if (err.response?.statusCode == 401 && !shouldSkipAuth(err.requestOptions.path)) {
       if (_isRefreshing) {
         _addPendingRequest(err.requestOptions, handler);
         return;
@@ -183,18 +161,11 @@ class AuthInterceptor extends Interceptor {
 
       if (response.statusCode == 200 && response.data != null) {
         final newAccessToken = response.data!['accessToken'] as String?;
-        final newRefreshToken = _extractRefreshTokenFromHeaders(
-          response.headers,
-        );
+        final newRefreshToken = _extractRefreshTokenFromHeaders(response.headers);
 
         if (newAccessToken != null) {
           await setTokens(newAccessToken, newRefreshToken ?? _refreshToken);
-          onTokenRefreshed?.call(
-            TokenPair(
-              accessToken: newAccessToken,
-              refreshToken: newRefreshToken,
-            ),
-          );
+          onTokenRefreshed?.call(TokenPair(accessToken: newAccessToken, refreshToken: newRefreshToken));
           return true;
         }
       }
@@ -217,18 +188,13 @@ class AuthInterceptor extends Interceptor {
     return null;
   }
 
-  void _addPendingRequest(
-    RequestOptions options,
-    ErrorInterceptorHandler handler,
-  ) {
+  void _addPendingRequest(RequestOptions options, ErrorInterceptorHandler handler) {
     _pendingRequests.add(_QueuedRequest(options, handler));
   }
 
   void _retryPendingRequests() {
     for (final request in _pendingRequests) {
-      request.handler.resolve(
-        Response(requestOptions: request.options, statusCode: 200),
-      );
+      request.handler.resolve(Response(requestOptions: request.options, statusCode: 200));
     }
     _pendingRequests.clear();
   }

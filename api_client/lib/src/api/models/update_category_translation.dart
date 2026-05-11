@@ -20,6 +20,5 @@ abstract class UpdateCategoryTranslation with _$UpdateCategoryTranslation {
     String? description,
   }) = _UpdateCategoryTranslation;
 
-  factory UpdateCategoryTranslation.fromJson(Map<String, Object?> json) =>
-      _$UpdateCategoryTranslationFromJson(json);
+  factory UpdateCategoryTranslation.fromJson(Map<String, Object?> json) => _$UpdateCategoryTranslationFromJson(json);
 }

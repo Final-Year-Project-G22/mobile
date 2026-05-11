@@ -20,6 +20,5 @@ abstract class CategoryTranslationItem with _$CategoryTranslationItem {
     String? description,
   }) = _CategoryTranslationItem;
 
-  factory CategoryTranslationItem.fromJson(Map<String, Object?> json) =>
-      _$CategoryTranslationItemFromJson(json);
+  factory CategoryTranslationItem.fromJson(Map<String, Object?> json) => _$CategoryTranslationItemFromJson(json);
 }

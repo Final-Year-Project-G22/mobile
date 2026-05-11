@@ -14,6 +14,5 @@ abstract class ListStatusByUserInputBody with _$ListStatusByUserInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListStatusByUserInputBody;
 
-  factory ListStatusByUserInputBody.fromJson(Map<String, Object?> json) =>
-      _$ListStatusByUserInputBodyFromJson(json);
+  factory ListStatusByUserInputBody.fromJson(Map<String, Object?> json) => _$ListStatusByUserInputBodyFromJson(json);
 }

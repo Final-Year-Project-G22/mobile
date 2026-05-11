@@ -8,8 +8,7 @@ part 'block_reported_user_response_body.freezed.dart';
 part 'block_reported_user_response_body.g.dart';
 
 @Freezed()
-abstract class BlockReportedUserResponseBody
-    with _$BlockReportedUserResponseBody {
+abstract class BlockReportedUserResponseBody with _$BlockReportedUserResponseBody {
   const factory BlockReportedUserResponseBody({
     /// Message
     required String message,

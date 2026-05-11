@@ -17,6 +17,5 @@ abstract class RetryFailedResponseBody with _$RetryFailedResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RetryFailedResponseBody;
 
-  factory RetryFailedResponseBody.fromJson(Map<String, Object?> json) =>
-      _$RetryFailedResponseBodyFromJson(json);
+  factory RetryFailedResponseBody.fromJson(Map<String, Object?> json) => _$RetryFailedResponseBodyFromJson(json);
 }

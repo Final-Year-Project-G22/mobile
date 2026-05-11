@@ -17,6 +17,5 @@ abstract class AdminConditionDto with _$AdminConditionDto {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _AdminConditionDto;
 
-  factory AdminConditionDto.fromJson(Map<String, Object?> json) =>
-      _$AdminConditionDtoFromJson(json);
+  factory AdminConditionDto.fromJson(Map<String, Object?> json) => _$AdminConditionDtoFromJson(json);
 }

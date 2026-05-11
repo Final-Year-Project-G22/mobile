@@ -35,6 +35,5 @@ abstract class CategoryDto with _$CategoryDto {
     DateTime? updatedAt,
   }) = _CategoryDto;
 
-  factory CategoryDto.fromJson(Map<String, Object?> json) =>
-      _$CategoryDtoFromJson(json);
+  factory CategoryDto.fromJson(Map<String, Object?> json) => _$CategoryDtoFromJson(json);
 }

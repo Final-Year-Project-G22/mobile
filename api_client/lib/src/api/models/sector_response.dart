@@ -50,6 +50,5 @@ abstract class SectorResponse with _$SectorResponse {
     DateTime? updatedAt,
   }) = _SectorResponse;
 
-  factory SectorResponse.fromJson(Map<String, Object?> json) =>
-      _$SectorResponseFromJson(json);
+  factory SectorResponse.fromJson(Map<String, Object?> json) => _$SectorResponseFromJson(json);
 }

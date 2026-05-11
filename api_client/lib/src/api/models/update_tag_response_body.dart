@@ -17,6 +17,5 @@ abstract class UpdateTagResponseBody with _$UpdateTagResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateTagResponseBody;
 
-  factory UpdateTagResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateTagResponseBodyFromJson(json);
+  factory UpdateTagResponseBody.fromJson(Map<String, Object?> json) => _$UpdateTagResponseBodyFromJson(json);
 }

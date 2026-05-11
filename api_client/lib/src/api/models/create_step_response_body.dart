@@ -17,6 +17,5 @@ abstract class CreateStepResponseBody with _$CreateStepResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateStepResponseBody;
 
-  factory CreateStepResponseBody.fromJson(Map<String, Object?> json) =>
-      _$CreateStepResponseBodyFromJson(json);
+  factory CreateStepResponseBody.fromJson(Map<String, Object?> json) => _$CreateStepResponseBodyFromJson(json);
 }

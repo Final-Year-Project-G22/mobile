@@ -17,6 +17,5 @@ abstract class UpdateTemplateResponseBody with _$UpdateTemplateResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateTemplateResponseBody;
 
-  factory UpdateTemplateResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateTemplateResponseBodyFromJson(json);
+  factory UpdateTemplateResponseBody.fromJson(Map<String, Object?> json) => _$UpdateTemplateResponseBodyFromJson(json);
 }

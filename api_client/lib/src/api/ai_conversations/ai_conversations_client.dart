@@ -14,8 +14,7 @@ part 'ai_conversations_client.g.dart';
 
 @RestApi()
 abstract class AiConversationsClient {
-  factory AiConversationsClient(Dio dio, {String? baseUrl}) =
-      _AiConversationsClient;
+  factory AiConversationsClient(Dio dio, {String? baseUrl}) = _AiConversationsClient;
 
   /// List conversations.
   ///
@@ -39,7 +38,5 @@ abstract class AiConversationsClient {
   ///
   /// [sessionId] - Session ID.
   @GET('/api/v1/ai/conversations/{sessionId}')
-  Future<HttpResponse<GetConversationOutputBody>> getConversation({
-    @Path('sessionId') required String sessionId,
-  });
+  Future<HttpResponse<GetConversationOutputBody>> getConversation({@Path('sessionId') required String sessionId});
 }

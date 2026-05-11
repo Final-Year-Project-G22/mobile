@@ -14,6 +14,5 @@ abstract class StreamStatusInputBody with _$StreamStatusInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _StreamStatusInputBody;
 
-  factory StreamStatusInputBody.fromJson(Map<String, Object?> json) =>
-      _$StreamStatusInputBodyFromJson(json);
+  factory StreamStatusInputBody.fromJson(Map<String, Object?> json) => _$StreamStatusInputBodyFromJson(json);
 }

@@ -8,8 +8,7 @@ part 'list_template_groups_response_body.freezed.dart';
 part 'list_template_groups_response_body.g.dart';
 
 @Freezed()
-abstract class ListTemplateGroupsResponseBody
-    with _$ListTemplateGroupsResponseBody {
+abstract class ListTemplateGroupsResponseBody with _$ListTemplateGroupsResponseBody {
   const factory ListTemplateGroupsResponseBody({
     /// Template groups
     required List<dynamic>? data,

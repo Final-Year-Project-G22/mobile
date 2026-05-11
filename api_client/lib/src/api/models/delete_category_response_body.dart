@@ -17,6 +17,5 @@ abstract class DeleteCategoryResponseBody with _$DeleteCategoryResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteCategoryResponseBody;
 
-  factory DeleteCategoryResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteCategoryResponseBodyFromJson(json);
+  factory DeleteCategoryResponseBody.fromJson(Map<String, Object?> json) => _$DeleteCategoryResponseBodyFromJson(json);
 }

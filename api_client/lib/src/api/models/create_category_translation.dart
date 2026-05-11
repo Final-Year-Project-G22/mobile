@@ -20,6 +20,5 @@ abstract class CreateCategoryTranslation with _$CreateCategoryTranslation {
     String? description,
   }) = _CreateCategoryTranslation;
 
-  factory CreateCategoryTranslation.fromJson(Map<String, Object?> json) =>
-      _$CreateCategoryTranslationFromJson(json);
+  factory CreateCategoryTranslation.fromJson(Map<String, Object?> json) => _$CreateCategoryTranslationFromJson(json);
 }

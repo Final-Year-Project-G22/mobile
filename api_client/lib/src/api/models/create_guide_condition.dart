@@ -21,6 +21,5 @@ abstract class CreateGuideCondition with _$CreateGuideCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _CreateGuideCondition;
 
-  factory CreateGuideCondition.fromJson(Map<String, Object?> json) =>
-      _$CreateGuideConditionFromJson(json);
+  factory CreateGuideCondition.fromJson(Map<String, Object?> json) => _$CreateGuideConditionFromJson(json);
 }

@@ -24,6 +24,5 @@ abstract class ContentDto with _$ContentDto {
     UserContentDto? user,
   }) = _ContentDto;
 
-  factory ContentDto.fromJson(Map<String, Object?> json) =>
-      _$ContentDtoFromJson(json);
+  factory ContentDto.fromJson(Map<String, Object?> json) => _$ContentDtoFromJson(json);
 }

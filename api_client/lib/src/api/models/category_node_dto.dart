@@ -35,6 +35,5 @@ abstract class CategoryNodeDto with _$CategoryNodeDto {
     String? icon,
   }) = _CategoryNodeDto;
 
-  factory CategoryNodeDto.fromJson(Map<String, Object?> json) =>
-      _$CategoryNodeDtoFromJson(json);
+  factory CategoryNodeDto.fromJson(Map<String, Object?> json) => _$CategoryNodeDtoFromJson(json);
 }

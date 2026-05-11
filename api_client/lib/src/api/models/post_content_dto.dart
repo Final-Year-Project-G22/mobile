@@ -47,6 +47,5 @@ abstract class PostContentDto with _$PostContentDto {
     String? updatedAt,
   }) = _PostContentDto;
 
-  factory PostContentDto.fromJson(Map<String, Object?> json) =>
-      _$PostContentDtoFromJson(json);
+  factory PostContentDto.fromJson(Map<String, Object?> json) => _$PostContentDtoFromJson(json);
 }

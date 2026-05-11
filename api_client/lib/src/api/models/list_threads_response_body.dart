@@ -17,6 +17,5 @@ abstract class ListThreadsResponseBody with _$ListThreadsResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListThreadsResponseBody;
 
-  factory ListThreadsResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListThreadsResponseBodyFromJson(json);
+  factory ListThreadsResponseBody.fromJson(Map<String, Object?> json) => _$ListThreadsResponseBodyFromJson(json);
 }

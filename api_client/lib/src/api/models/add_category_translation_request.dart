@@ -8,8 +8,7 @@ part 'add_category_translation_request.freezed.dart';
 part 'add_category_translation_request.g.dart';
 
 @Freezed()
-abstract class AddCategoryTranslationRequest
-    with _$AddCategoryTranslationRequest {
+abstract class AddCategoryTranslationRequest with _$AddCategoryTranslationRequest {
   const factory AddCategoryTranslationRequest({
     /// Language code
     required String language,

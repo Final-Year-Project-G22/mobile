@@ -8,8 +8,7 @@ part 'create_community_category_request.freezed.dart';
 part 'create_community_category_request.g.dart';
 
 @Freezed()
-abstract class CreateCommunityCategoryRequest
-    with _$CreateCommunityCategoryRequest {
+abstract class CreateCommunityCategoryRequest with _$CreateCommunityCategoryRequest {
   const factory CreateCommunityCategoryRequest({
     /// Active flag
     required bool isActive,

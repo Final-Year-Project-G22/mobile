@@ -16,6 +16,5 @@ abstract class SearchGuidesResponseBody with _$SearchGuidesResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _SearchGuidesResponseBody;
 
-  factory SearchGuidesResponseBody.fromJson(Map<String, Object?> json) =>
-      _$SearchGuidesResponseBodyFromJson(json);
+  factory SearchGuidesResponseBody.fromJson(Map<String, Object?> json) => _$SearchGuidesResponseBodyFromJson(json);
 }

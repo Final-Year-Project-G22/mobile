@@ -36,8 +36,7 @@ part 'admin_community_client.g.dart';
 
 @RestApi()
 abstract class AdminCommunityClient {
-  factory AdminCommunityClient(Dio dio, {String? baseUrl}) =
-      _AdminCommunityClient;
+  factory AdminCommunityClient(Dio dio, {String? baseUrl}) = _AdminCommunityClient;
 
   /// List all blocked users (admin).
   ///
@@ -47,8 +46,7 @@ abstract class AdminCommunityClient {
   ///
   /// [pageSize] - Page size.
   @GET('/api/v1/admin/community/blocks')
-  Future<HttpResponse<ListAllBlockedUsersResponseBody>>
-  adminListAllBlockedUsers({
+  Future<HttpResponse<ListAllBlockedUsersResponseBody>> adminListAllBlockedUsers({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });
@@ -63,8 +61,7 @@ abstract class AdminCommunityClient {
   ///
   /// [includeInactive] - Include inactive categories.
   @GET('/api/v1/admin/community/categories')
-  Future<HttpResponse<ListCategoriesResponseBody>>
-  adminListCommunityCategories({
+  Future<HttpResponse<ListCategoriesResponseBody>> adminListCommunityCategories({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
     @Query('includeInactive') bool? includeInactive,
@@ -76,8 +73,7 @@ abstract class AdminCommunityClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/community/categories')
-  Future<HttpResponse<CreateCommunityCategoryResponseBody>>
-  adminCreateCommunityCategory({
+  Future<HttpResponse<CreateCommunityCategoryResponseBody>> adminCreateCommunityCategory({
     @Body() required CreateCommunityCategoryRequest body,
   });
 
@@ -87,8 +83,9 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Category ID.
   @DELETE('/api/v1/admin/community/categories/{id}')
-  Future<HttpResponse<DeleteCommunityCategoryResponseBody>>
-  adminDeleteCommunityCategory({@Path('id') required String id});
+  Future<HttpResponse<DeleteCommunityCategoryResponseBody>> adminDeleteCommunityCategory({
+    @Path('id') required String id,
+  });
 
   /// Update community category.
   ///
@@ -98,8 +95,7 @@ abstract class AdminCommunityClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/community/categories/{id}')
-  Future<HttpResponse<UpdateCommunityCategoryResponseBody>>
-  adminUpdateCommunityCategory({
+  Future<HttpResponse<UpdateCommunityCategoryResponseBody>> adminUpdateCommunityCategory({
     @Path('id') required String id,
     @Body() required UpdateCommunityCategoryRequest body,
   });
@@ -129,8 +125,7 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Report ID.
   @DELETE('/api/v1/admin/community/reports/posts/{id}')
-  Future<HttpResponse<DeleteReportedContentResponseBody>>
-  adminDeleteReportedPost({@Path('id') required String id});
+  Future<HttpResponse<DeleteReportedContentResponseBody>> adminDeleteReportedPost({@Path('id') required String id});
 
   /// Get post report (admin).
   ///
@@ -138,9 +133,7 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Report ID.
   @GET('/api/v1/admin/community/reports/posts/{id}')
-  Future<HttpResponse<GetPostReportResponseBody>> adminGetPostReport({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<GetPostReportResponseBody>> adminGetPostReport({@Path('id') required String id});
 
   /// Update post report status (admin).
   ///
@@ -150,8 +143,7 @@ abstract class AdminCommunityClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/community/reports/posts/{id}/status')
-  Future<HttpResponse<UpdatePostReportStatusResponseBody>>
-  adminUpdatePostReportStatus({
+  Future<HttpResponse<UpdatePostReportStatusResponseBody>> adminUpdatePostReportStatus({
     @Path('id') required String id,
     @Body() required UpdatePostReportStatusRequest body,
   });
@@ -181,8 +173,7 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Report ID.
   @DELETE('/api/v1/admin/community/reports/threads/{id}')
-  Future<HttpResponse<DeleteReportedContentResponseBody>>
-  adminDeleteReportedThread({@Path('id') required String id});
+  Future<HttpResponse<DeleteReportedContentResponseBody>> adminDeleteReportedThread({@Path('id') required String id});
 
   /// Get thread report (admin).
   ///
@@ -190,9 +181,7 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Report ID.
   @GET('/api/v1/admin/community/reports/threads/{id}')
-  Future<HttpResponse<GetThreadReportResponseBody>> adminGetThreadReport({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<GetThreadReportResponseBody>> adminGetThreadReport({@Path('id') required String id});
 
   /// Update thread report status (admin).
   ///
@@ -202,8 +191,7 @@ abstract class AdminCommunityClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/community/reports/threads/{id}/status')
-  Future<HttpResponse<UpdateThreadReportStatusResponseBody>>
-  adminUpdateThreadReportStatus({
+  Future<HttpResponse<UpdateThreadReportStatusResponseBody>> adminUpdateThreadReportStatus({
     @Path('id') required String id,
     @Body() required UpdateThreadReportStatusRequest body,
   });
@@ -233,9 +221,7 @@ abstract class AdminCommunityClient {
   ///
   /// [id] - Report ID.
   @GET('/api/v1/admin/community/reports/users/{id}')
-  Future<HttpResponse<GetUserReportResponseBody>> adminGetUserReport({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<GetUserReportResponseBody>> adminGetUserReport({@Path('id') required String id});
 
   /// Block reported user (admin).
   ///
@@ -258,8 +244,7 @@ abstract class AdminCommunityClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/community/reports/users/{id}/status')
-  Future<HttpResponse<UpdateUserReportStatusResponseBody>>
-  adminUpdateUserReportStatus({
+  Future<HttpResponse<UpdateUserReportStatusResponseBody>> adminUpdateUserReportStatus({
     @Path('id') required String id,
     @Body() required UpdateUserReportStatusRequest body,
   });
@@ -274,8 +259,7 @@ abstract class AdminCommunityClient {
   ///
   /// [pageSize] - Page size.
   @GET('/api/v1/admin/community/threads/{id}/blocks')
-  Future<HttpResponse<ListBlockedUsersResponseBody>>
-  adminListThreadBlockedUsers({
+  Future<HttpResponse<ListBlockedUsersResponseBody>> adminListThreadBlockedUsers({
     @Path('id') required String id,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,

@@ -8,8 +8,7 @@ part 'archive_notification_response_body.freezed.dart';
 part 'archive_notification_response_body.g.dart';
 
 @Freezed()
-abstract class ArchiveNotificationResponseBody
-    with _$ArchiveNotificationResponseBody {
+abstract class ArchiveNotificationResponseBody with _$ArchiveNotificationResponseBody {
   const factory ArchiveNotificationResponseBody({
     /// Success message
     required String message,

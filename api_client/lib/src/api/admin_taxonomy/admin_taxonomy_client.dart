@@ -23,8 +23,7 @@ part 'admin_taxonomy_client.g.dart';
 
 @RestApi()
 abstract class AdminTaxonomyClient {
-  factory AdminTaxonomyClient(Dio dio, {String? baseUrl}) =
-      _AdminTaxonomyClient;
+  factory AdminTaxonomyClient(Dio dio, {String? baseUrl}) = _AdminTaxonomyClient;
 
   /// List sectors.
   ///
@@ -44,25 +43,19 @@ abstract class AdminTaxonomyClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/sectors')
-  Future<HttpResponse<CreateSectorResponseBody>> createSector({
-    @Body() required CreateSectorRequest body,
-  });
+  Future<HttpResponse<CreateSectorResponseBody>> createSector({@Body() required CreateSectorRequest body});
 
   /// Delete sector.
   ///
   /// [id] - Sector ID.
   @DELETE('/api/v1/admin/sectors/{id}')
-  Future<HttpResponse<UpdateSectorResponseBody>> deleteSector({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<UpdateSectorResponseBody>> deleteSector({@Path('id') required String id});
 
   /// Get sector.
   ///
   /// [id] - Sector ID.
   @GET('/api/v1/admin/sectors/{id}')
-  Future<HttpResponse<SectorResponse>> getSector({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<SectorResponse>> getSector({@Path('id') required String id});
 
   /// Update sector.
   ///
@@ -93,17 +86,13 @@ abstract class AdminTaxonomyClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/tags')
-  Future<HttpResponse<CreateTagResponseBody>> createTag({
-    @Body() required CreateTagRequest body,
-  });
+  Future<HttpResponse<CreateTagResponseBody>> createTag({@Body() required CreateTagRequest body});
 
   /// Delete tag.
   ///
   /// [id] - Tag ID.
   @DELETE('/api/v1/admin/tags/{id}')
-  Future<HttpResponse<UpdateTagResponseBody>> deleteTag({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<UpdateTagResponseBody>> deleteTag({@Path('id') required String id});
 
   /// Get tag.
   ///

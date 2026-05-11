@@ -17,6 +17,5 @@ abstract class VerifyEmailOtpResponseBody with _$VerifyEmailOtpResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _VerifyEmailOtpResponseBody;
 
-  factory VerifyEmailOtpResponseBody.fromJson(Map<String, Object?> json) =>
-      _$VerifyEmailOtpResponseBodyFromJson(json);
+  factory VerifyEmailOtpResponseBody.fromJson(Map<String, Object?> json) => _$VerifyEmailOtpResponseBodyFromJson(json);
 }

@@ -53,6 +53,5 @@ abstract class ThreadContentDto with _$ThreadContentDto {
     String? updatedAt,
   }) = _ThreadContentDto;
 
-  factory ThreadContentDto.fromJson(Map<String, Object?> json) =>
-      _$ThreadContentDtoFromJson(json);
+  factory ThreadContentDto.fromJson(Map<String, Object?> json) => _$ThreadContentDtoFromJson(json);
 }

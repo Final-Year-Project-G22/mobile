@@ -8,8 +8,7 @@ part 'interactive_form_detail_response.freezed.dart';
 part 'interactive_form_detail_response.g.dart';
 
 @Freezed()
-abstract class InteractiveFormDetailResponse
-    with _$InteractiveFormDetailResponse {
+abstract class InteractiveFormDetailResponse with _$InteractiveFormDetailResponse {
   const factory InteractiveFormDetailResponse({
     /// Form layout JSON
     required Map<String, dynamic> formLayout,

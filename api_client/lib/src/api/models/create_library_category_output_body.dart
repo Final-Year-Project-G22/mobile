@@ -8,8 +8,7 @@ part 'create_library_category_output_body.freezed.dart';
 part 'create_library_category_output_body.g.dart';
 
 @Freezed()
-abstract class CreateLibraryCategoryOutputBody
-    with _$CreateLibraryCategoryOutputBody {
+abstract class CreateLibraryCategoryOutputBody with _$CreateLibraryCategoryOutputBody {
   const factory CreateLibraryCategoryOutputBody({
     /// Created category ID
     required String id,

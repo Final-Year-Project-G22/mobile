@@ -17,6 +17,5 @@ abstract class AddTranslationResponseBody with _$AddTranslationResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddTranslationResponseBody;
 
-  factory AddTranslationResponseBody.fromJson(Map<String, Object?> json) =>
-      _$AddTranslationResponseBodyFromJson(json);
+  factory AddTranslationResponseBody.fromJson(Map<String, Object?> json) => _$AddTranslationResponseBodyFromJson(json);
 }

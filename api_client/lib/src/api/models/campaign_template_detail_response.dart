@@ -8,8 +8,7 @@ part 'campaign_template_detail_response.freezed.dart';
 part 'campaign_template_detail_response.g.dart';
 
 @Freezed()
-abstract class CampaignTemplateDetailResponse
-    with _$CampaignTemplateDetailResponse {
+abstract class CampaignTemplateDetailResponse with _$CampaignTemplateDetailResponse {
   const factory CampaignTemplateDetailResponse({
     /// Creation time
     required DateTime createdAt,

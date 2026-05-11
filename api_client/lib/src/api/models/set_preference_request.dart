@@ -29,6 +29,5 @@ abstract class SetPreferenceRequest with _$SetPreferenceRequest {
     DateTime? quietHoursStart,
   }) = _SetPreferenceRequest;
 
-  factory SetPreferenceRequest.fromJson(Map<String, Object?> json) =>
-      _$SetPreferenceRequestFromJson(json);
+  factory SetPreferenceRequest.fromJson(Map<String, Object?> json) => _$SetPreferenceRequestFromJson(json);
 }

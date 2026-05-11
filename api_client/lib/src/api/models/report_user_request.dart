@@ -20,6 +20,5 @@ abstract class ReportUserRequest with _$ReportUserRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReportUserRequest;
 
-  factory ReportUserRequest.fromJson(Map<String, Object?> json) =>
-      _$ReportUserRequestFromJson(json);
+  factory ReportUserRequest.fromJson(Map<String, Object?> json) => _$ReportUserRequestFromJson(json);
 }

@@ -8,8 +8,7 @@ part 'list_blocked_users_response_body.freezed.dart';
 part 'list_blocked_users_response_body.g.dart';
 
 @Freezed()
-abstract class ListBlockedUsersResponseBody
-    with _$ListBlockedUsersResponseBody {
+abstract class ListBlockedUsersResponseBody with _$ListBlockedUsersResponseBody {
   const factory ListBlockedUsersResponseBody({
     /// Blocked users list
     required List<dynamic>? blockedUsers,

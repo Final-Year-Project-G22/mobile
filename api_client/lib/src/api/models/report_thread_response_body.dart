@@ -17,6 +17,5 @@ abstract class ReportThreadResponseBody with _$ReportThreadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReportThreadResponseBody;
 
-  factory ReportThreadResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ReportThreadResponseBodyFromJson(json);
+  factory ReportThreadResponseBody.fromJson(Map<String, Object?> json) => _$ReportThreadResponseBodyFromJson(json);
 }

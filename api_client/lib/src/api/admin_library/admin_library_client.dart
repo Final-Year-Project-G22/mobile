@@ -44,9 +44,7 @@ abstract class AdminLibraryClient {
   ///
   /// [includeInactive] - Include inactive categories.
   @GET('/api/v1/admin/library/categories')
-  Future<HttpResponse<dynamic>> libraryListAllCategories({
-    @Query('includeInactive') bool? includeInactive = false,
-  });
+  Future<HttpResponse<dynamic>> libraryListAllCategories({@Query('includeInactive') bool? includeInactive = false});
 
   /// Create category.
   ///
@@ -64,9 +62,7 @@ abstract class AdminLibraryClient {
   ///
   /// [id] - Category ID.
   @DELETE('/api/v1/admin/library/categories/{id}')
-  Future<HttpResponse<LibraryDeleteCategoryOutputBody>> libraryDeleteCategory({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<LibraryDeleteCategoryOutputBody>> libraryDeleteCategory({@Path('id') required String id});
 
   /// Get category.
   ///
@@ -74,9 +70,7 @@ abstract class AdminLibraryClient {
   ///
   /// [id] - Category ID.
   @GET('/api/v1/admin/library/categories/{id}')
-  Future<HttpResponse<CategoryDetailResponse>> libraryGetCategory({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<CategoryDetailResponse>> libraryGetCategory({@Path('id') required String id});
 
   /// Update category.
   ///
@@ -99,8 +93,7 @@ abstract class AdminLibraryClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/library/categories/{id}/translations')
-  Future<HttpResponse<AddCategoryTranslationOutputBody>>
-  libraryAddCategoryTranslation({
+  Future<HttpResponse<AddCategoryTranslationOutputBody>> libraryAddCategoryTranslation({
     @Path('id') required String id,
     @Body() required AddCategoryTranslationRequest body,
   });
@@ -113,8 +106,7 @@ abstract class AdminLibraryClient {
   ///
   /// [lang] - Language code.
   @DELETE('/api/v1/admin/library/categories/{id}/translations/{lang}')
-  Future<HttpResponse<DeleteCategoryTranslationOutputBody>>
-  libraryDeleteCategoryTranslation({
+  Future<HttpResponse<DeleteCategoryTranslationOutputBody>> libraryDeleteCategoryTranslation({
     @Path('id') required String id,
     @Path('lang') required String lang,
   });
@@ -129,8 +121,7 @@ abstract class AdminLibraryClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/library/categories/{id}/translations/{lang}')
-  Future<HttpResponse<UpdateCategoryTranslationOutputBody>>
-  libraryUpdateCategoryTranslation({
+  Future<HttpResponse<UpdateCategoryTranslationOutputBody>> libraryUpdateCategoryTranslation({
     @Path('id') required String id,
     @Path('lang') required String lang,
     @Body() required UpdateCategoryTranslationRequest body,
@@ -158,8 +149,7 @@ abstract class AdminLibraryClient {
   ///
   /// [id] - Form ID.
   @DELETE('/api/v1/admin/library/interactive-forms/{id}')
-  Future<HttpResponse<DeleteInteractiveFormOutputBody>>
-  libraryDeleteInteractiveForm({@Path('id') required String id});
+  Future<HttpResponse<DeleteInteractiveFormOutputBody>> libraryDeleteInteractiveForm({@Path('id') required String id});
 
   /// Update interactive form.
   ///
@@ -169,8 +159,7 @@ abstract class AdminLibraryClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/library/interactive-forms/{id}')
-  Future<HttpResponse<InteractiveFormDetailResponse>>
-  libraryUpdateInteractiveForm({
+  Future<HttpResponse<InteractiveFormDetailResponse>> libraryUpdateInteractiveForm({
     @Path('id') required String id,
     @Body() required UpdateInteractiveFormRequest body,
   });
@@ -197,8 +186,7 @@ abstract class AdminLibraryClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/library/template-groups')
-  Future<HttpResponse<CreateTemplateGroupOutputBody>>
-  libraryCreateTemplateGroup({
+  Future<HttpResponse<CreateTemplateGroupOutputBody>> libraryCreateTemplateGroup({
     @Body() required CreateTemplateGroupRequest body,
   });
 
@@ -208,8 +196,9 @@ abstract class AdminLibraryClient {
   ///
   /// [groupId] - Group ID.
   @DELETE('/api/v1/admin/library/template-groups/{groupId}')
-  Future<HttpResponse<DeleteTemplateGroupOutputBody>>
-  libraryDeleteTemplateGroup({@Path('groupId') required String groupId});
+  Future<HttpResponse<DeleteTemplateGroupOutputBody>> libraryDeleteTemplateGroup({
+    @Path('groupId') required String groupId,
+  });
 
   /// Get template group.
   ///
@@ -217,8 +206,9 @@ abstract class AdminLibraryClient {
   ///
   /// [groupId] - Group ID.
   @GET('/api/v1/admin/library/template-groups/{groupId}')
-  Future<HttpResponse<TemplateGroupDetailResponse>>
-  libraryAdminGetTemplateGroup({@Path('groupId') required String groupId});
+  Future<HttpResponse<TemplateGroupDetailResponse>> libraryAdminGetTemplateGroup({
+    @Path('groupId') required String groupId,
+  });
 
   /// Update template group.
   ///
@@ -239,9 +229,7 @@ abstract class AdminLibraryClient {
   ///
   /// [groupId] - Group ID.
   @GET('/api/v1/admin/library/template-groups/{groupId}/templates')
-  Future<HttpResponse<dynamic>> libraryListTemplatesByGroup({
-    @Path('groupId') required String groupId,
-  });
+  Future<HttpResponse<dynamic>> libraryListTemplatesByGroup({@Path('groupId') required String groupId});
 
   /// Create template.
   ///
@@ -323,8 +311,9 @@ abstract class AdminLibraryClient {
   ///
   /// [templateId] - Template ID.
   @GET('/api/v1/admin/library/templates/{templateId}/interactive-form')
-  Future<HttpResponse<InteractiveFormDetailResponse>>
-  libraryGetInteractiveForm({@Path('templateId') required String templateId});
+  Future<HttpResponse<InteractiveFormDetailResponse>> libraryGetInteractiveForm({
+    @Path('templateId') required String templateId,
+  });
 
   /// Create interactive form.
   ///
@@ -334,8 +323,7 @@ abstract class AdminLibraryClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/library/templates/{templateId}/interactive-form')
-  Future<HttpResponse<CreateInteractiveFormOutputBody>>
-  libraryCreateInteractiveForm({
+  Future<HttpResponse<CreateInteractiveFormOutputBody>> libraryCreateInteractiveForm({
     @Path('templateId') required String templateId,
     @Body() required CreateInteractiveFormRequest body,
   });

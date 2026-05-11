@@ -24,6 +24,5 @@ abstract class AddGuideConditionRequest with _$AddGuideConditionRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddGuideConditionRequest;
 
-  factory AddGuideConditionRequest.fromJson(Map<String, Object?> json) =>
-      _$AddGuideConditionRequestFromJson(json);
+  factory AddGuideConditionRequest.fromJson(Map<String, Object?> json) => _$AddGuideConditionRequestFromJson(json);
 }

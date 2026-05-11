@@ -8,8 +8,7 @@ part 'create_campaign_template_request.freezed.dart';
 part 'create_campaign_template_request.g.dart';
 
 @Freezed()
-abstract class CreateCampaignTemplateRequest
-    with _$CreateCampaignTemplateRequest {
+abstract class CreateCampaignTemplateRequest with _$CreateCampaignTemplateRequest {
   const factory CreateCampaignTemplateRequest({
     /// Multi-channel content (in_app, email, push, sms)
     required Map<String, dynamic> defaultContent,

@@ -8,8 +8,7 @@ part 'campaign_template_info_response.freezed.dart';
 part 'campaign_template_info_response.g.dart';
 
 @Freezed()
-abstract class CampaignTemplateInfoResponse
-    with _$CampaignTemplateInfoResponse {
+abstract class CampaignTemplateInfoResponse with _$CampaignTemplateInfoResponse {
   const factory CampaignTemplateInfoResponse({
     /// Multi-channel content
     required Map<String, dynamic> defaultContent,
