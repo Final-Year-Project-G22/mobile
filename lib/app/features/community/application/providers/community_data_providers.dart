@@ -23,6 +23,21 @@ Future<List<DiscussionThread>> filteredThreads(Ref ref) async {
 }
 
 @riverpod
+Future<List<DiscussionThread>> allThreads(Ref ref) async {
+  final searchText = ref.watch(searchTextProvider);
+  final repository = ref.watch(communityRepositoryProvider);
+
+  final result = await repository.listAllThreads(
+    search: (searchText != null && searchText.isNotEmpty) ? searchText : null,
+  );
+
+  return result.fold(
+    (failure) => throw Exception(failure.toString()),
+    (threads) => threads,
+  );
+}
+
+@riverpod
 Future<List<DiscussionThread>> searchThreads(
   Ref ref, {
   String? keyword,
