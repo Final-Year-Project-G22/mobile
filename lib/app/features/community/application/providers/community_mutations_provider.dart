@@ -40,29 +40,29 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
   }
 
   Future<Either<CommunityFailure, String>> createThread({
-    required String categoryId,
     required String title,
     required String slug,
     required String description,
     required String initialPostContent,
+    List<String>? sectorIds,
+    List<String>? tagIds,
     String? attachmentIds,
   }) async {
     state = const AsyncLoading();
     final repo = ref.read(communityRepositoryProvider);
     final result = await repo.createThread(
-      categoryId: categoryId,
       title: title,
       slug: slug,
       description: description,
       initialPostContent: initialPostContent,
+      sectorIds: sectorIds,
+      tagIds: tagIds,
       attachmentIds: attachmentIds,
     );
 
     state = const AsyncData(null);
     result.fold((_) {}, (_) {
-      ref
-        ..invalidate(filteredThreadsProvider)
-        ..invalidate(categoryThreadsProvider);
+      ref.invalidate(filteredThreadsProvider);
     });
     return result;
   }

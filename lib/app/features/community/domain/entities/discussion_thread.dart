@@ -10,7 +10,6 @@ abstract class DiscussionThread with _$DiscussionThread {
     required String id,
     required String title,
     required String slug,
-    required String categoryId,
     required String authorId,
     required bool isPinned,
     required int viewCount,

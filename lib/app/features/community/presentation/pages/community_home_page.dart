@@ -11,9 +11,7 @@ class CommunityHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesAsync = ref.watch(categoriesProvider);
     final threadsAsync = ref.watch(filteredThreadsProvider);
-    final selectedCategoryId = ref.watch(selectedCategoryIdProvider);
     final searchText = ref.watch(searchTextProvider);
 
     return Scaffold(
@@ -50,46 +48,6 @@ class CommunityHomePage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // Category chips
-          categoriesAsync.when(
-            data: (categories) {
-              if (categories.isEmpty) return const SizedBox.shrink();
-
-              return Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    final category = categories[index];
-                    final isSelected = selectedCategoryId == category.id;
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: FilterChip(
-                        label: Text(category.name),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          ref
-                              .read(selectedCategoryIdProvider.notifier)
-                              .setCategoryId(
-                                selected ? category.id : null,
-                              );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-            loading: () => const SizedBox(
-              height: 50,
-              child: Center(child: LinearProgressIndicator()),
-            ),
-            error: (error, stackTrace) => const SizedBox.shrink(),
-          ),
-
           // Thread list
           Expanded(
             child: threadsAsync.when(
@@ -104,8 +62,6 @@ class CommunityHomePage extends ConsumerWidget {
                         Text(
                           searchText != null && searchText.isNotEmpty
                               ? 'No threads found for "$searchText"'
-                              : selectedCategoryId != null
-                              ? 'No threads in this category'
                               : 'No threads available yet',
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
