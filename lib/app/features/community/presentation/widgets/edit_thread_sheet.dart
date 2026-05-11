@@ -1,0 +1,275 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../taxonomy/application/providers/taxonomy_providers.dart';
+import '../../../taxonomy/domain/entities/sector.dart';
+import '../../../taxonomy/domain/entities/tag.dart';
+import '../../application/providers/community_mutations_provider.dart';
+import '../../domain/entities/discussion_thread.dart';
+
+class EditThreadSheet extends ConsumerStatefulWidget {
+  const EditThreadSheet({
+    required this.thread,
+    super.key,
+  });
+
+  final DiscussionThread thread;
+
+  @override
+  ConsumerState<EditThreadSheet> createState() => _EditThreadSheetState();
+}
+
+class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late final Set<String> _selectedSectorIds;
+  late final Set<String> _selectedTagIds;
+  bool _isSubmitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.thread.title);
+    _descriptionController = TextEditingController(text: widget.thread.description ?? '');
+    _selectedSectorIds = {...?widget.thread.sectorIds};
+    _selectedTagIds = {...?widget.thread.tagIds};
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSector(String sectorId) {
+    setState(() {
+      if (_selectedSectorIds.contains(sectorId)) {
+        _selectedSectorIds.remove(sectorId);
+      } else {
+        _selectedSectorIds.add(sectorId);
+      }
+    });
+  }
+
+  void _toggleTag(String tagId) {
+    setState(() {
+      if (_selectedTagIds.contains(tagId)) {
+        _selectedTagIds.remove(tagId);
+      } else {
+        _selectedTagIds.add(tagId);
+      }
+    });
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isSubmitting = true);
+
+    try {
+      final title = _titleController.text.trim();
+      final description = _descriptionController.text.trim();
+      final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
+      final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
+
+      final result = await ref.read(communityMutationsProvider.notifier).updateThread(
+            threadId: widget.thread.id,
+            title: title,
+            description: description,
+            sectorIds: sectorIds,
+            tagIds: tagIds,
+          );
+
+      if (!mounted) return;
+
+      result.fold(
+        (failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed: $failure')),
+          );
+        },
+        (_) {
+          Navigator.of(context).pop(true);
+        },
+      );
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final sectorsAsync = ref.watch(sectorsProvider);
+    final tagsAsync = ref.watch(tagsProvider);
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomInset + 16),
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Edit Thread',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+
+              TextFormField(
+                controller: _titleController,
+                enabled: !_isSubmitting,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (v) {
+                  final t = v?.trim() ?? '';
+                  if (t.isEmpty) return 'Title required';
+                  if (t.length < 5) return 'Min 5 chars';
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 12),
+
+              TextFormField(
+                controller: _descriptionController,
+                enabled: !_isSubmitting,
+                minLines: 2,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  labelText: 'Thread Summary',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
+              ),
+
+              const SizedBox(height: 16),
+
+              sectorsAsync.when(
+                data: _buildSectorChips,
+                loading: () => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (e, s) => const SizedBox.shrink(),
+              ),
+
+              const SizedBox(height: 12),
+
+              tagsAsync.when(
+                data: _buildTagChips,
+                loading: () => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (e, s) => const SizedBox.shrink(),
+              ),
+
+              const SizedBox(height: 16),
+
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: _isSubmitting ? null : _submit,
+                  child: _isSubmitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text('Save Changes'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectorChips(List<Sector> sectors) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Sectors (optional)',
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: sectors.map((sector) {
+            final isSelected = _selectedSectorIds.contains(sector.id);
+            return FilterChip(
+              label: Text(sector.name),
+              selected: isSelected,
+              onSelected: (_) => _toggleSector(sector.id),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTagChips(List<Tag> tags) {
+    final grouped = <String, List<Tag>>{};
+    for (final tag in tags) {
+      grouped.putIfAbsent(tag.group, () => []).add(tag);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Tags (optional)',
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: 8),
+        ...grouped.entries.map((entry) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                entry.key,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: entry.value.map((tag) {
+                  final isSelected = _selectedTagIds.contains(tag.id);
+                  return FilterChip(
+                    label: Text(tag.name),
+                    selected: isSelected,
+                    onSelected: (_) => _toggleTag(tag.id),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 8),
+            ],
+          );
+        }),
+      ],
+    );
+  }
+}

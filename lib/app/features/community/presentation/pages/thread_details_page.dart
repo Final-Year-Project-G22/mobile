@@ -7,6 +7,8 @@ import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_post.dart';
+import '../../domain/entities/discussion_thread.dart';
+import '../widgets/edit_thread_sheet.dart';
 import '../widgets/post_card.dart';
 import '../widgets/reply_input_bar.dart';
 import '../widgets/report_sheet.dart';
@@ -152,6 +154,62 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     );
   }
 
+  Future<void> _editThread(DiscussionThread thread) async {
+    final didUpdate = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => EditThreadSheet(thread: thread),
+    );
+
+    if (didUpdate == true && mounted) {
+      ref.invalidate(threadDetailsProvider(widget.threadId));
+    }
+  }
+
+  Future<void> _deleteThread(DiscussionThread thread) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Thread'),
+        content: const Text('Are you sure you want to delete this thread? This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) {
+      return;
+    }
+
+    final result = await ref.read(communityMutationsProvider.notifier).deleteThread(thread.id);
+
+    if (!mounted) {
+      return;
+    }
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete: $failure')),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Thread deleted successfully')),
+        );
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
   int _nestingLevel(
     DiscussionPost post,
     Map<String, DiscussionPost> postsById,
@@ -234,21 +292,53 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       appBar: AppBar(
         title: Text(widget.threadTitle),
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if (value == 'report') {
-                _reportThread();
-              }
+          Consumer(
+            builder: (context, ref, _) {
+              final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+              final authState = ref.watch(authProvider);
+              final currentAccountId = authState.asData?.value.account?.id;
+
+              return threadAsync.when(
+                data: (thread) {
+                  final isAuthor = _isAuthor(thread.authorId, currentAccountId);
+                  return PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'report') {
+                        _reportThread();
+                      } else if (value == 'edit') {
+                        unawaited(_editThread(thread));
+                      } else if (value == 'delete') {
+                        unawaited(_deleteThread(thread));
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      if (isAuthor) ...[
+                        const PopupMenuItem(
+                          value: 'edit',
+                          child: Text('Edit Thread'),
+                        ),
+                        const PopupMenuItem(
+                          value: 'delete',
+                          child: Text(
+                            'Delete Thread',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                      const PopupMenuItem(
+                        value: 'report',
+                        child: Text(
+                          'Report Thread',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                loading: () => const SizedBox.shrink(),
+                error: (e, s) => const SizedBox.shrink(),
+              );
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'report',
-                child: Text(
-                  'Report Thread',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
           ),
         ],
       ),
