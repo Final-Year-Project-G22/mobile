@@ -185,7 +185,7 @@ class _InboxTile extends StatelessWidget {
                     ? AppColors.accent.withValues(alpha: 0.15)
                     : (isDark ? AppColors.slate700 : AppColors.slate100),
                 child: Icon(
-                  _iconForCategory(entry.category),
+                  _iconForType(entry.notification.type),
                   size: 20,
                   color: isUnread ? AppColors.accent : (isDark ? AppColors.slate400 : AppColors.slate500),
                 ),
@@ -253,8 +253,8 @@ class _InboxTile extends StatelessWidget {
     );
   }
 
-  IconData _iconForCategory(String category) {
-    switch (category.toLowerCase()) {
+  IconData _iconForType(String type) {
+    switch (type.toLowerCase()) {
       case 'system':
         return Icons.campaign_rounded;
       case 'comment':

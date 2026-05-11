@@ -5,7 +5,6 @@ import 'failures/inbox_failure.dart';
 
 abstract class IInboxRepository {
   Future<Either<InboxFailure, ListInboxResult>> listInbox({
-    String? category,
     int? page,
     int? pageSize,
   });
