@@ -63,7 +63,52 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
 
     state = const AsyncData(null);
     result.fold((_) {}, (_) {
-      ref.invalidate(filteredThreadsProvider);
+      ref
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider);
+    });
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> updateThread({
+    required String threadId,
+    String? title,
+    String? description,
+    List<String>? sectorIds,
+    List<String>? tagIds,
+  }) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.updateThread(
+      threadId,
+      title: title,
+      description: description,
+      sectorIds: sectorIds,
+      tagIds: tagIds,
+    );
+
+    state = const AsyncData(null);
+    result.fold((_) {}, (_) {
+      ref
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider)
+        ..invalidate(threadDetailsProvider(threadId));
+    });
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> deleteThread(
+    String threadId,
+  ) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.deleteThread(threadId);
+
+    state = const AsyncData(null);
+    result.fold((_) {}, (_) {
+      ref
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider);
     });
     return result;
   }
