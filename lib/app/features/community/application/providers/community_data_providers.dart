@@ -1,23 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../domain/entities/community_category.dart';
 import '../../domain/entities/discussion_post.dart';
 import '../../domain/entities/discussion_thread.dart';
 import 'community_providers.dart';
 import 'community_state_providers.dart';
 
 part 'community_data_providers.g.dart';
-
-@riverpod
-Future<List<CommunityCategory>> categories(Ref ref) async {
-  final repository = ref.watch(communityRepositoryProvider);
-  final result = await repository.getCategories();
-
-  return result.fold(
-    (failure) => throw Exception(failure.toString()),
-    (categories) => categories,
-  );
-}
 
 @riverpod
 Future<List<DiscussionThread>> filteredThreads(Ref ref) async {

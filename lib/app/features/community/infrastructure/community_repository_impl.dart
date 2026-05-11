@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/entities/attachment.dart';
-import '../domain/entities/community_category.dart';
 import '../domain/entities/discussion_post.dart';
 import '../domain/entities/discussion_thread.dart';
 import '../domain/failures/community_failure.dart';
@@ -66,32 +65,6 @@ class CommunityRepositoryImpl implements ICommunityRepository {
           .toList();
 
       return Right(threads);
-    } on DioException catch (e) {
-      return Left(_handleDioError(e));
-    } on Exception {
-      return const Left(CommunityFailure.serverError());
-    }
-  }
-
-  @override
-  Future<Either<CommunityFailure, List<CommunityCategory>>> getCategories({
-    int? page,
-    int? pageSize,
-    String? search,
-  }) async {
-    try {
-      final response = await _client.listCommunityCategories(
-        page: page,
-        pageSize: pageSize,
-        search: search,
-      );
-
-      final categories = (response.data.categories ?? [])
-          .cast<Map<String, dynamic>>()
-          .map((json) => _mapCategoryDtoToDomain(CategoryDto.fromJson(json)))
-          .toList();
-
-      return Right(categories);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
     } on Exception {
@@ -397,34 +370,6 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   }
 
   @override
-  Future<Either<CommunityFailure, Unit>> followCategory(
-    String categoryId,
-  ) async {
-    try {
-      await _client.followCommunityCategory(id: categoryId);
-      return const Right(unit);
-    } on DioException catch (e) {
-      return Left(_handleDioError(e));
-    } on Exception {
-      return const Left(CommunityFailure.serverError());
-    }
-  }
-
-  @override
-  Future<Either<CommunityFailure, Unit>> unfollowCategory(
-    String categoryId,
-  ) async {
-    try {
-      await _client.unfollowCommunityCategory(id: categoryId);
-      return const Right(unit);
-    } on DioException catch (e) {
-      return Left(_handleDioError(e));
-    } on Exception {
-      return const Left(CommunityFailure.serverError());
-    }
-  }
-
-  @override
   Future<Either<CommunityFailure, Unit>> followThread(String threadId) async {
     try {
       await _client.followCommunityThread(id: threadId);
@@ -550,19 +495,6 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       case DioExceptionType.unknown:
         return const CommunityFailure.serverError();
     }
-  }
-
-  CommunityCategory _mapCategoryDtoToDomain(CategoryDto dto) {
-    return CommunityCategory(
-      id: dto.id,
-      name: dto.name,
-      slug: dto.slug,
-      description: dto.description,
-      parentCategoryId: dto.parentCategoryId,
-      isActive: dto.isActive,
-      createdAt: dto.createdAt,
-      updatedAt: dto.updatedAt,
-    );
   }
 
   DiscussionThread _mapThreadDtoToDomain(
