@@ -82,7 +82,9 @@ class AiRepositoryImpl implements IAiRepository {
       final response = await _conversationsClient.listConversations();
       final data = response.data;
 
-      final sessions = (data.sessions ?? []).cast<Map<String, dynamic>>().map((json) {
+      final sessions = (data.sessions ?? []).cast<Map<String, dynamic>>().map((
+        json,
+      ) {
         final dto = ConversationDto.fromJson(json);
         return ConversationSummary(
           id: dto.id,
@@ -107,7 +109,9 @@ class AiRepositoryImpl implements IAiRepository {
       );
       final data = response.data;
 
-      final messages = (data.messages ?? []).cast<Map<String, dynamic>>().map((json) {
+      final messages = (data.messages ?? []).cast<Map<String, dynamic>>().map((
+        json,
+      ) {
         final dto = MessageDto.fromJson(json);
 
         final citations = (dto.citations ?? []).cast<Map<String, dynamic>>().map(CitationDto.fromJson).toList();

@@ -31,7 +31,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
 
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
-          .map((json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json))
+          .map(
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+          )
           .toList();
 
       return Right(threads);
@@ -127,7 +129,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
 
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
-          .map((json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json))
+          .map(
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+          )
           .toList();
 
       return Right(threads);

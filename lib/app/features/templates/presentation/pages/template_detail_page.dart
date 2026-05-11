@@ -178,7 +178,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: FilledButton.icon(
-                            onPressed: _isDownloading ? null : () => _handleDownload(detail, effectiveLanguage),
+                            onPressed: _isDownloading
+                                ? null
+                                : () => _handleDownload(
+                                    detail,
+                                    effectiveLanguage,
+                                  ),
                             icon: _isDownloading
                                 ? const SizedBox(
                                     width: 18,
@@ -206,7 +211,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     );
   }
 
-  Future<void> _handlePreview(TemplateGroupDetail detail, String language) async {
+  Future<void> _handlePreview(
+    TemplateGroupDetail detail,
+    String language,
+  ) async {
     if (detail.tierAccess == 'pro') {
       await _showUpgradeModal();
       return;
@@ -214,7 +222,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
     try {
       final result = await ref.read(
-        downloadTemplateProvider(groupId: widget.groupId, language: language).future,
+        downloadTemplateProvider(
+          groupId: widget.groupId,
+          language: language,
+        ).future,
       );
 
       final uri = Uri.parse(result.presignedUrl);
@@ -234,7 +245,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     }
   }
 
-  Future<void> _handleDownload(TemplateGroupDetail detail, String language) async {
+  Future<void> _handleDownload(
+    TemplateGroupDetail detail,
+    String language,
+  ) async {
     if (detail.tierAccess == 'pro') {
       await _showUpgradeModal();
       return;
@@ -245,7 +259,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     try {
       // 1. Get presigned URL
       final result = await ref.read(
-        downloadTemplateProvider(groupId: widget.groupId, language: language).future,
+        downloadTemplateProvider(
+          groupId: widget.groupId,
+          language: language,
+        ).future,
       );
 
       // 2. Download file bytes via Dio (no auth needed for presigned URL)

@@ -69,7 +69,10 @@ class _CitationCardState extends State<CitationCard> {
             const Divider(height: 1),
             ...widget.citations.map(
               (c) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -86,13 +89,17 @@ class _CitationCardState extends State<CitationCard> {
                           Text(
                             c.title ?? 'Untitled source',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.8,
+                              ),
                             ),
                           ),
                           Text(
                             '${c.sourceType} · ${(c.score * 100).toStringAsFixed(0)}% match',
                             style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.4,
+                              ),
                             ),
                           ),
                         ],

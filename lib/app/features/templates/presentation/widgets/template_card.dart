@@ -61,7 +61,9 @@ class TemplateCard extends StatelessWidget {
                         Icon(
                           Icons.download,
                           size: 14,
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                         const SizedBox(width: 2),
                         Text(

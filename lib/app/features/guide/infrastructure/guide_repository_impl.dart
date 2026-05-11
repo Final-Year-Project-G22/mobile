@@ -23,7 +23,10 @@ class GuideRepositoryImpl implements IGuideRepository {
   final GuidesClient _client;
 
   @override
-  Future<Either<GuideFailure, List<GuideCard>>> searchGuides(String query, String? locale) async {
+  Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
+    String query,
+    String? locale,
+  ) async {
     try {
       final response = await _client.searchGuides(
         q: query.isEmpty ? null : query,
@@ -45,7 +48,9 @@ class GuideRepositoryImpl implements IGuideRepository {
   }
 
   @override
-  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed(String? locale) async {
+  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed(
+    String? locale,
+  ) async {
     try {
       final response = await _client.getRecentlyViewed(locale: locale);
       final raw = response.data.guides;
@@ -64,7 +69,10 @@ class GuideRepositoryImpl implements IGuideRepository {
   }
 
   @override
-  Future<Either<GuideFailure, GuideDetail>> getPersonalizedGuide(String guideSlug, String? locale) async {
+  Future<Either<GuideFailure, GuideDetail>> getPersonalizedGuide(
+    String guideSlug,
+    String? locale,
+  ) async {
     try {
       final response = await _client.getPersonalizedGuide(
         guideSlug: guideSlug,

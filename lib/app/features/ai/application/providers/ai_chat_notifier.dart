@@ -11,7 +11,9 @@ import '../../domain/i_ai_repository.dart';
 import 'ai_chat_state.dart';
 import 'ai_providers.dart';
 
-final aiChatNotifierProvider = NotifierProvider<AiChatNotifier, AiChatState>(AiChatNotifier.new);
+final aiChatNotifierProvider = NotifierProvider<AiChatNotifier, AiChatState>(
+  AiChatNotifier.new,
+);
 
 class AiChatNotifier extends Notifier<AiChatState> {
   StreamSubscription<SseEvent>? _streamSubscription;
@@ -63,12 +65,16 @@ class AiChatNotifier extends Notifier<AiChatState> {
         )
         .listen(
           (event) {
-            debugPrint('[AI Notifier] event: ${event.type.name} text=${event.text}');
+            debugPrint(
+              '[AI Notifier] event: ${event.type.name} text=${event.text}',
+            );
             _eventQueue.add(event);
             _scheduleFrameProcess();
           },
           onError: (Object error) {
-            debugPrint('[AI Notifier] stream onError: $error (${error.runtimeType})');
+            debugPrint(
+              '[AI Notifier] stream onError: $error (${error.runtimeType})',
+            );
             _handleStreamError();
           },
           onDone: () {

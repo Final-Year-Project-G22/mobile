@@ -112,36 +112,42 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   }
 
   void _reportPost(DiscussionPost post) {
-    unawaited(showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => ReportSheet(
-        threadId: widget.threadId,
-        postId: post.id,
+    unawaited(
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => ReportSheet(
+          threadId: widget.threadId,
+          postId: post.id,
+        ),
       ),
-    ));
+    );
   }
 
   void _reportUser(DiscussionPost post) {
-    unawaited(showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => ReportSheet(
-        threadId: widget.threadId,
-        targetUserId: post.authorId,
-        targetUserName: _displayName(post.authorId, post.authorDisplayName),
+    unawaited(
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => ReportSheet(
+          threadId: widget.threadId,
+          targetUserId: post.authorId,
+          targetUserName: _displayName(post.authorId, post.authorDisplayName),
+        ),
       ),
-    ));
+    );
   }
 
   void _reportThread() {
-    unawaited(showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => ReportSheet(
-        threadId: widget.threadId,
+    unawaited(
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => ReportSheet(
+          threadId: widget.threadId,
+        ),
       ),
-    ));
+    );
   }
 
   int _nestingLevel(

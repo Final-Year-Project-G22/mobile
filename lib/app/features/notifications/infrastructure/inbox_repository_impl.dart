@@ -25,7 +25,11 @@ class InboxRepositoryImpl implements IInboxRepository {
       );
 
       final entries = (response.data.data ?? [])
-          .map((e) => _mapInboxEntry(InboxEntryResponse.fromJson(e as Map<String, dynamic>)))
+          .map(
+            (e) => _mapInboxEntry(
+              InboxEntryResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
           .toList();
 
       return Right(

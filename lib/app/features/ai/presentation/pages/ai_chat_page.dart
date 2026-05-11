@@ -117,13 +117,17 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       ),
       body: hasMessages ? _buildMessageList(messages, streamError) : const EmptyChatView(),
       bottomNavigationBar: ChatInputBar(
-        onSend: (text) => unawaited(ref.read(aiChatNotifierProvider.notifier).sendMessage(text)),
+        onSend: (text) => unawaited(
+          ref.read(aiChatNotifierProvider.notifier).sendMessage(text),
+        ),
         onStop: () => ref.read(aiChatNotifierProvider.notifier).stopStreaming(),
         isStreaming: isStreaming,
       ),
       drawer: ConversationHistoryDrawer(
         onConversationSelected: (sessionId) {
-          unawaited(ref.read(aiChatNotifierProvider.notifier).loadConversation(sessionId));
+          unawaited(
+            ref.read(aiChatNotifierProvider.notifier).loadConversation(sessionId),
+          );
         },
       ),
       floatingActionButton: _showScrollToBottom

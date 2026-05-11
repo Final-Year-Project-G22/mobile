@@ -24,7 +24,9 @@ class SseParser {
             if (cleanLine.isEmpty) {
               if (eventType.isNotEmpty && eventData.isNotEmpty) {
                 final event = _parseEvent(eventType, eventData);
-                debugPrint('[SSE Parser] parsed: type=$eventType data=$eventData');
+                debugPrint(
+                  '[SSE Parser] parsed: type=$eventType data=$eventData',
+                );
                 if (event != null) {
                   controller.add(event);
                 }

@@ -58,7 +58,9 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       );
 
       final items = (response.data.data ?? [])
-          .map((e) => TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) => TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>),
+          )
           .map(_mapTemplateGroupCard)
           .toList();
 

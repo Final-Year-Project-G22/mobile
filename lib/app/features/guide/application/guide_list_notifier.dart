@@ -43,7 +43,11 @@ class GuideListNotifier extends _$GuideListNotifier {
 
   void search(String query) {
     if (query.isEmpty) {
-      state = state.copyWith(searchQuery: '', selectedCategorySlug: '', guides: _allGuides);
+      state = state.copyWith(
+        searchQuery: '',
+        selectedCategorySlug: '',
+        guides: _allGuides,
+      );
       return;
     }
     state = state.copyWith(searchQuery: query, isLoading: true);
@@ -57,7 +61,11 @@ class GuideListNotifier extends _$GuideListNotifier {
       (_) => state = state.copyWith(isLoading: false),
       (guides) {
         _allGuides = guides;
-        state = state.copyWith(guides: guides, isLoading: false, selectedCategorySlug: '');
+        state = state.copyWith(
+          guides: guides,
+          isLoading: false,
+          selectedCategorySlug: '',
+        );
       },
     );
   }
