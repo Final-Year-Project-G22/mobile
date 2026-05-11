@@ -1,8 +1,4 @@
-import 'dart:async';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../../core/di/preferences_provider.dart';
 
 import 'onboarding_state.dart';
 
@@ -10,20 +6,8 @@ part 'onboarding_notifier.g.dart';
 
 @riverpod
 class OnboardingNotifier extends _$OnboardingNotifier {
-  static const _completedKey = 'onboarding_complete';
-
   @override
-  OnboardingState build() {
-    final prefsAsync = ref.watch(sharedPreferencesProviderFuture);
-    return prefsAsync.when(
-      data: (prefs) {
-        final isComplete = prefs.getBool(_completedKey) ?? false;
-        return OnboardingState.initial().copyWith(isComplete: isComplete);
-      },
-      loading: OnboardingState.initial,
-      error: (_, _) => OnboardingState.initial(),
-    );
-  }
+  OnboardingState build() => OnboardingState.initial();
 
   void setRegion(String value) {
     state = state.copyWith(answers: state.answers.copyWith(region: value));
@@ -90,15 +74,9 @@ class OnboardingNotifier extends _$OnboardingNotifier {
 
   void complete() {
     state = state.copyWith(isComplete: true);
-    ref.read(sharedPreferencesProviderFuture).whenData((prefs) {
-      unawaited(prefs.setBool(_completedKey, true));
-    });
   }
 
   void reset() {
     state = OnboardingState.initial();
-    ref.read(sharedPreferencesProviderFuture).whenData((prefs) {
-      unawaited(prefs.remove(_completedKey));
-    });
   }
 }

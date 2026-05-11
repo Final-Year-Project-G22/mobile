@@ -7,6 +7,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
+import '../../../business_profile/application/business_profile_notifier.dart';
 import '../../application/onboarding_notifier.dart';
 import '../../application/onboarding_state.dart';
 import '../widgets/onboarding_option_card.dart';
@@ -21,6 +22,7 @@ class OnboardingPage extends ConsumerStatefulWidget {
 
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   late final PageController _pageController;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -52,16 +54,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         );
       }
       if (!mounted) return;
-      if (!(previous?.isComplete ?? false) && next.isComplete) {
-        const HomeRoute().go(context);
-      }
     });
-
-    if (state.isComplete) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) const HomeRoute().go(context);
-      });
-    }
 
     final canContinue = _canContinue(state);
     final progress = (state.currentStep + 1) / 6;
@@ -181,19 +174,28 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   else
                     const Spacer(),
                   AppSpacing.gapHorizontalSm,
+                  TextButton(
+                    onPressed: _isSubmitting
+                        ? null
+                        : () {
+                            const HomeRoute().go(context);
+                          },
+                    child: const Text('Skip for now'),
+                  ),
+                  AppSpacing.gapHorizontalSm,
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: canContinue
-                          ? () {
+                      onPressed: canContinue && !_isSubmitting
+                          ? () async {
                               if (state.currentStep == 5) {
-                                notifier.complete();
+                                await _submitOnboarding(state, notifier);
                               } else {
                                 notifier.nextStep();
                               }
                             }
                           : null,
                       child: Text(
-                        state.currentStep == 5 ? l10n.finish : l10n.next,
+                        _isSubmitting ? 'Saving...' : (state.currentStep == 5 ? l10n.finish : l10n.next),
                       ),
                     ),
                   ),
@@ -223,6 +225,34 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       default:
         return false;
     }
+  }
+
+  Future<void> _submitOnboarding(
+    OnboardingState state,
+    OnboardingNotifier notifier,
+  ) async {
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    final profileNotifier = ref.read(businessProfileProvider.notifier);
+    await profileNotifier.createFromOnboarding(state.answers);
+
+    if (!mounted) return;
+
+    final profileState = ref.read(businessProfileProvider);
+    if (profileState.hasError) {
+      setState(() {
+        _isSubmitting = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to save business profile. Please try again.')),
+      );
+      return;
+    }
+
+    notifier.complete();
+    const HomeRoute().go(context);
   }
 }
 
