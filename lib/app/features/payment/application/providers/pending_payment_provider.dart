@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../../../core/di/preferences_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'pending_payment_provider.g.dart';
 
@@ -9,20 +9,25 @@ class PendingPayment extends _$PendingPayment {
   static const _key = 'pending_tx_ref';
 
   @override
-  String? build() {
-    final prefs = ref.read(sharedPreferencesProvider);
-    return prefs.getString(_key);
-  }
+  String? build() => null;
 
   Future<void> set(String txRef) async {
-    final prefs = ref.read(sharedPreferencesProvider);
-    await prefs.setString(_key, txRef);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_key, txRef);
+    } on Exception catch (e) {
+      debugPrint('[PAYMENT] Failed to persist txRef: $e');
+    }
     state = txRef;
   }
 
   Future<void> clear() async {
-    final prefs = ref.read(sharedPreferencesProvider);
-    await prefs.remove(_key);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_key);
+    } on Exception catch (e) {
+      debugPrint('[PAYMENT] Failed to clear txRef: $e');
+    }
     state = null;
   }
 }

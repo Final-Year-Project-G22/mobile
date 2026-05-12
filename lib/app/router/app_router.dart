@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/application/auth_notifier.dart';
-import '../features/settings/presentation/pages/settings_page.dart';
 import 'routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -19,10 +18,6 @@ final routerProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: true,
     routes: [
       ...$appRoutes,
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsPage(),
-      ),
     ],
     redirect: (context, state) {
       final authState = ref.read(authProvider);
@@ -32,9 +27,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           location == registerLocation ||
           location == otpLocation ||
           location == oauthCallbackLocation ||
-          location == oauthCompleteEmailLocation ||
-          location == plansLocation ||
-          location == paymentSuccessLocation;
+          location == oauthCompleteEmailLocation;
+
+      final isPublicPage = location == plansLocation || location == paymentSuccessLocation;
 
       if (authState.isLoading) return null;
 
@@ -53,7 +48,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
 
       if (!isAuthenticated) {
-        return isAuthPage ? null : loginLocation;
+        return (isAuthPage || isPublicPage) ? null : loginLocation;
       }
 
       return isAuthPage ? const HomeRoute().location : null;

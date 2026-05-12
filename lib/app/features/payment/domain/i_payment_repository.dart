@@ -8,10 +8,14 @@ import 'failures/payment_failure.dart';
 
 abstract class IPaymentRepository {
   Future<Either<PaymentFailure, List<SubscriptionPlan>>> getPlans();
-  Future<Either<PaymentFailure, PaymentCheckout>> initiatePayment(
-    String planName,
-    String period,
-  );
+  Future<Either<PaymentFailure, PaymentCheckout>> initiatePayment({
+    required String planName,
+    required String period,
+    required String email,
+    required String firstName,
+    required String lastName,
+    String? phone,
+  });
   Future<Either<PaymentFailure, PaymentVerification>> verifyPayment(
     String txRef,
   );

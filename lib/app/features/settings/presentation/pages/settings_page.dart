@@ -7,6 +7,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../../business_profile/application/business_profile_notifier.dart';
+import '../../../payment/application/providers/subscription_provider.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -18,6 +19,7 @@ class SettingsPage extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
     final businessProfileAsync = ref.watch(businessProfileProvider);
+    final subAsync = ref.watch(subscriptionProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
@@ -72,7 +74,41 @@ class SettingsPage extends ConsumerWidget {
               trailing: const Icon(Icons.chevron_right),
               onTap: () => const OnboardingRoute().go(context),
             ),
-          const SizedBox(height: 48),
+          const SizedBox(height: 24),
+          Text('Plan', style: theme.textTheme.titleMedium),
+          subAsync.when(
+            data: (sub) => ListTile(
+              leading: Icon(
+                sub?.planName == 'Pro' ? Icons.workspace_premium : Icons.account_circle,
+                color: sub?.planName == 'Pro' ? Colors.amber : null,
+              ),
+              title: Text(sub?.planName == 'Pro' ? 'Pro' : 'Basic'),
+              subtitle: sub != null && sub.status == 'active'
+                  ? Text('Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}')
+                  : const Text('Free plan'),
+              trailing: sub?.planName == 'Pro'
+                  ? Chip(
+                      label: const Text('Pro', style: TextStyle(fontSize: 10)),
+                      backgroundColor: Colors.amber.shade100,
+                      padding: EdgeInsets.zero,
+                      visualDensity: VisualDensity.compact,
+                    )
+                  : const Icon(Icons.chevron_right),
+              onTap: () => context.push(const PlansRoute().location),
+            ),
+            loading: () => const ListTile(
+              leading: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2)),
+              title: Text('Loading...'),
+            ),
+            error: (_, _) => ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Basic'),
+              subtitle: const Text('Free plan'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(const PlansRoute().location),
+            ),
+          ),
+          const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => _handleLogout(context, ref),
             style: ElevatedButton.styleFrom(

@@ -1,6 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../domain/entities/payment_checkout.dart';
 import '../domain/entities/payment_verification.dart';
@@ -18,7 +19,10 @@ class PaymentRepositoryImpl implements IPaymentRepository {
   Future<Either<PaymentFailure, List<SubscriptionPlan>>> getPlans() async {
     try {
       final response = await _client.listPlans();
-      final plans = (response.data.data ?? []).cast<PlanResponse>().map(_mapPlanToDomain).toList();
+      final plans = (response.data.data ?? [])
+          .map((e) => PlanResponse.fromJson(e as Map<String, Object?>))
+          .map(_mapPlanToDomain)
+          .toList();
       return Right(plans);
     } on DioException catch (e) {
       return Left(_mapDioError(e));
@@ -28,19 +32,34 @@ class PaymentRepositoryImpl implements IPaymentRepository {
   }
 
   @override
-  Future<Either<PaymentFailure, PaymentCheckout>> initiatePayment(
-    String planName,
-    String period,
-  ) async {
+  Future<Either<PaymentFailure, PaymentCheckout>> initiatePayment({
+    required String planName,
+    required String period,
+    required String email,
+    required String firstName,
+    required String lastName,
+    String? phone,
+  }) async {
     try {
       final response = await _client.initiatePayment(
-        body: InitiatePaymentRequestBody(planName: planName, period: period),
+        body: InitiatePaymentRequestBody(
+          planName: planName,
+          period: period,
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+        ),
       );
+      debugPrint('[PAYMENT] initiatePayment response: status=${response.response.statusCode}, data=${response.data}');
       final checkout = _mapCheckoutToDomain(response.data);
+      debugPrint('[PAYMENT] mapped checkout: txRef=${checkout.txRef}, url=${checkout.checkoutUrl}');
       return Right(checkout);
     } on DioException catch (e) {
+      debugPrint('[PAYMENT] initiatePayment DioException: status=${e.response?.statusCode}, data=${e.response?.data}');
       return Left(_mapDioError(e));
-    } on Exception {
+    } on Exception catch (e) {
+      debugPrint('[PAYMENT] initiatePayment Exception: $e');
       return const Left(PaymentFailure.serverError());
     }
   }

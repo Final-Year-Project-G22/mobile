@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../app/router/routes.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
 import '../../domain/entities/template_group_detail.dart';
@@ -334,6 +338,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   }
 
   Future<void> _showUpgradeModal() async {
+    final router = GoRouter.of(context);
     await showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
@@ -350,6 +355,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
+              unawaited(router.push(const PlansRoute().location));
             },
             child: const Text('Upgrade to Pro'),
           ),
