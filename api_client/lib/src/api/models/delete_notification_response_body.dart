@@ -8,8 +8,7 @@ part 'delete_notification_response_body.freezed.dart';
 part 'delete_notification_response_body.g.dart';
 
 @Freezed()
-abstract class DeleteNotificationResponseBody
-    with _$DeleteNotificationResponseBody {
+abstract class DeleteNotificationResponseBody with _$DeleteNotificationResponseBody {
   const factory DeleteNotificationResponseBody({
     /// Success message
     required String message,

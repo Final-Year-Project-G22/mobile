@@ -29,6 +29,5 @@ abstract class LanguageVariantResponse with _$LanguageVariantResponse {
     String? description,
   }) = _LanguageVariantResponse;
 
-  factory LanguageVariantResponse.fromJson(Map<String, Object?> json) =>
-      _$LanguageVariantResponseFromJson(json);
+  factory LanguageVariantResponse.fromJson(Map<String, Object?> json) => _$LanguageVariantResponseFromJson(json);
 }

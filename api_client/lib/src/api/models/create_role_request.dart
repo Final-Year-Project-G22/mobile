@@ -26,6 +26,5 @@ abstract class CreateRoleRequest with _$CreateRoleRequest {
     String? description,
   }) = _CreateRoleRequest;
 
-  factory CreateRoleRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateRoleRequestFromJson(json);
+  factory CreateRoleRequest.fromJson(Map<String, Object?> json) => _$CreateRoleRequestFromJson(json);
 }

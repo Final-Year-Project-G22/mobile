@@ -29,6 +29,5 @@ abstract class PlanResponse with _$PlanResponse {
     required String period,
   }) = _PlanResponse;
 
-  factory PlanResponse.fromJson(Map<String, Object?> json) =>
-      _$PlanResponseFromJson(json);
+  factory PlanResponse.fromJson(Map<String, Object?> json) => _$PlanResponseFromJson(json);
 }

@@ -10,8 +10,7 @@ part 'get_my_subscription_response_body.freezed.dart';
 part 'get_my_subscription_response_body.g.dart';
 
 @Freezed()
-abstract class GetMySubscriptionResponseBody
-    with _$GetMySubscriptionResponseBody {
+abstract class GetMySubscriptionResponseBody with _$GetMySubscriptionResponseBody {
   const factory GetMySubscriptionResponseBody({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

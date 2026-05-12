@@ -16,6 +16,5 @@ abstract class RedriveBatchInputBody with _$RedriveBatchInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RedriveBatchInputBody;
 
-  factory RedriveBatchInputBody.fromJson(Map<String, Object?> json) =>
-      _$RedriveBatchInputBodyFromJson(json);
+  factory RedriveBatchInputBody.fromJson(Map<String, Object?> json) => _$RedriveBatchInputBodyFromJson(json);
 }

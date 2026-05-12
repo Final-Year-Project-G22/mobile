@@ -14,8 +14,7 @@ part 'business_profile_client.g.dart';
 
 @RestApi()
 abstract class BusinessProfileClient {
-  factory BusinessProfileClient(Dio dio, {String? baseUrl}) =
-      _BusinessProfileClient;
+  factory BusinessProfileClient(Dio dio, {String? baseUrl}) = _BusinessProfileClient;
 
   /// Get business profile.
   ///

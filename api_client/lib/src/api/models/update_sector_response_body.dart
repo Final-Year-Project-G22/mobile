@@ -17,6 +17,5 @@ abstract class UpdateSectorResponseBody with _$UpdateSectorResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateSectorResponseBody;
 
-  factory UpdateSectorResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateSectorResponseBodyFromJson(json);
+  factory UpdateSectorResponseBody.fromJson(Map<String, Object?> json) => _$UpdateSectorResponseBodyFromJson(json);
 }

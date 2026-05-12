@@ -17,6 +17,5 @@ abstract class CancelCampaignResponseBody with _$CancelCampaignResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CancelCampaignResponseBody;
 
-  factory CancelCampaignResponseBody.fromJson(Map<String, Object?> json) =>
-      _$CancelCampaignResponseBodyFromJson(json);
+  factory CancelCampaignResponseBody.fromJson(Map<String, Object?> json) => _$CancelCampaignResponseBodyFromJson(json);
 }

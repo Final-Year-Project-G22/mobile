@@ -8,8 +8,7 @@ part 'update_bookmark_note_response_body.freezed.dart';
 part 'update_bookmark_note_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateBookmarkNoteResponseBody
-    with _$UpdateBookmarkNoteResponseBody {
+abstract class UpdateBookmarkNoteResponseBody with _$UpdateBookmarkNoteResponseBody {
   const factory UpdateBookmarkNoteResponseBody({
     /// Success message
     required String message,

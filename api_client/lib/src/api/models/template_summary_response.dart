@@ -26,6 +26,5 @@ abstract class TemplateSummaryResponse with _$TemplateSummaryResponse {
     required String templateGroup,
   }) = _TemplateSummaryResponse;
 
-  factory TemplateSummaryResponse.fromJson(Map<String, Object?> json) =>
-      _$TemplateSummaryResponseFromJson(json);
+  factory TemplateSummaryResponse.fromJson(Map<String, Object?> json) => _$TemplateSummaryResponseFromJson(json);
 }

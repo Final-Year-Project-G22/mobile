@@ -19,6 +19,5 @@ abstract class CreateRoleResponseBody with _$CreateRoleResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateRoleResponseBody;
 
-  factory CreateRoleResponseBody.fromJson(Map<String, Object?> json) =>
-      _$CreateRoleResponseBodyFromJson(json);
+  factory CreateRoleResponseBody.fromJson(Map<String, Object?> json) => _$CreateRoleResponseBodyFromJson(json);
 }

@@ -8,8 +8,7 @@ part 'remove_step_condition_response_body.freezed.dart';
 part 'remove_step_condition_response_body.g.dart';
 
 @Freezed()
-abstract class RemoveStepConditionResponseBody
-    with _$RemoveStepConditionResponseBody {
+abstract class RemoveStepConditionResponseBody with _$RemoveStepConditionResponseBody {
   const factory RemoveStepConditionResponseBody({
     /// Success message
     required String message,

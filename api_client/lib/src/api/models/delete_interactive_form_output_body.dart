@@ -8,8 +8,7 @@ part 'delete_interactive_form_output_body.freezed.dart';
 part 'delete_interactive_form_output_body.g.dart';
 
 @Freezed()
-abstract class DeleteInteractiveFormOutputBody
-    with _$DeleteInteractiveFormOutputBody {
+abstract class DeleteInteractiveFormOutputBody with _$DeleteInteractiveFormOutputBody {
   const factory DeleteInteractiveFormOutputBody({
     /// Success message
     required String message,

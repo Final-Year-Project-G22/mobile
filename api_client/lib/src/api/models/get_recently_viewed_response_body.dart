@@ -8,8 +8,7 @@ part 'get_recently_viewed_response_body.freezed.dart';
 part 'get_recently_viewed_response_body.g.dart';
 
 @Freezed()
-abstract class GetRecentlyViewedResponseBody
-    with _$GetRecentlyViewedResponseBody {
+abstract class GetRecentlyViewedResponseBody with _$GetRecentlyViewedResponseBody {
   const factory GetRecentlyViewedResponseBody({
     required List<dynamic>? guides,
 

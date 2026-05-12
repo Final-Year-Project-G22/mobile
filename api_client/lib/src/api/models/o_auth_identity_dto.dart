@@ -16,6 +16,5 @@ abstract class OAuthIdentityDto with _$OAuthIdentityDto {
     String? providerEmail,
   }) = _OAuthIdentityDto;
 
-  factory OAuthIdentityDto.fromJson(Map<String, Object?> json) =>
-      _$OAuthIdentityDtoFromJson(json);
+  factory OAuthIdentityDto.fromJson(Map<String, Object?> json) => _$OAuthIdentityDtoFromJson(json);
 }

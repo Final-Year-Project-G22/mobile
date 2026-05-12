@@ -41,6 +41,5 @@ abstract class TemplateGroupCardResponse with _$TemplateGroupCardResponse {
     String? thumbnailUrl,
   }) = _TemplateGroupCardResponse;
 
-  factory TemplateGroupCardResponse.fromJson(Map<String, Object?> json) =>
-      _$TemplateGroupCardResponseFromJson(json);
+  factory TemplateGroupCardResponse.fromJson(Map<String, Object?> json) => _$TemplateGroupCardResponseFromJson(json);
 }

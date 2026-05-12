@@ -8,8 +8,7 @@ part 'update_translation_response_body.freezed.dart';
 part 'update_translation_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateTranslationResponseBody
-    with _$UpdateTranslationResponseBody {
+abstract class UpdateTranslationResponseBody with _$UpdateTranslationResponseBody {
   const factory UpdateTranslationResponseBody({
     /// Success message
     required String message,

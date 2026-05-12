@@ -8,8 +8,7 @@ part 'ingestion_status_projection_response.freezed.dart';
 part 'ingestion_status_projection_response.g.dart';
 
 @Freezed()
-abstract class IngestionStatusProjectionResponse
-    with _$IngestionStatusProjectionResponse {
+abstract class IngestionStatusProjectionResponse with _$IngestionStatusProjectionResponse {
   const factory IngestionStatusProjectionResponse({
     /// Account identifier
     required String accountId,
@@ -51,7 +50,6 @@ abstract class IngestionStatusProjectionResponse
     String? lastError,
   }) = _IngestionStatusProjectionResponse;
 
-  factory IngestionStatusProjectionResponse.fromJson(
-    Map<String, Object?> json,
-  ) => _$IngestionStatusProjectionResponseFromJson(json);
+  factory IngestionStatusProjectionResponse.fromJson(Map<String, Object?> json) =>
+      _$IngestionStatusProjectionResponseFromJson(json);
 }

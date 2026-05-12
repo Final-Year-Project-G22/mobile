@@ -41,6 +41,5 @@ abstract class VerifyPaymentResponseBody with _$VerifyPaymentResponseBody {
     String? verifiedAt,
   }) = _VerifyPaymentResponseBody;
 
-  factory VerifyPaymentResponseBody.fromJson(Map<String, Object?> json) =>
-      _$VerifyPaymentResponseBodyFromJson(json);
+  factory VerifyPaymentResponseBody.fromJson(Map<String, Object?> json) => _$VerifyPaymentResponseBodyFromJson(json);
 }

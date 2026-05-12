@@ -44,6 +44,5 @@ abstract class UpdateTemplateGroupRequest with _$UpdateTemplateGroupRequest {
     String? tierAccess,
   }) = _UpdateTemplateGroupRequest;
 
-  factory UpdateTemplateGroupRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateTemplateGroupRequestFromJson(json);
+  factory UpdateTemplateGroupRequest.fromJson(Map<String, Object?> json) => _$UpdateTemplateGroupRequestFromJson(json);
 }

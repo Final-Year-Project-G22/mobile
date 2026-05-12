@@ -38,6 +38,5 @@ abstract class UpdateCampaignRequest with _$UpdateCampaignRequest {
     Map<String, dynamic>? targetSegment,
   }) = _UpdateCampaignRequest;
 
-  factory UpdateCampaignRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateCampaignRequestFromJson(json);
+  factory UpdateCampaignRequest.fromJson(Map<String, Object?> json) => _$UpdateCampaignRequestFromJson(json);
 }

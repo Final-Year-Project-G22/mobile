@@ -8,8 +8,7 @@ part 'library_create_template_output_body.freezed.dart';
 part 'library_create_template_output_body.g.dart';
 
 @Freezed()
-abstract class LibraryCreateTemplateOutputBody
-    with _$LibraryCreateTemplateOutputBody {
+abstract class LibraryCreateTemplateOutputBody with _$LibraryCreateTemplateOutputBody {
   const factory LibraryCreateTemplateOutputBody({
     /// Created template ID
     required String id,

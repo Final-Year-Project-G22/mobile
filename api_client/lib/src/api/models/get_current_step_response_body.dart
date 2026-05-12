@@ -38,6 +38,5 @@ abstract class GetCurrentStepResponseBody with _$GetCurrentStepResponseBody {
     int? estimatedTime,
   }) = _GetCurrentStepResponseBody;
 
-  factory GetCurrentStepResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetCurrentStepResponseBodyFromJson(json);
+  factory GetCurrentStepResponseBody.fromJson(Map<String, Object?> json) => _$GetCurrentStepResponseBodyFromJson(json);
 }

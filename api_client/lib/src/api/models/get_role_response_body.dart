@@ -22,6 +22,5 @@ abstract class GetRoleResponseBody with _$GetRoleResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetRoleResponseBody;
 
-  factory GetRoleResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetRoleResponseBodyFromJson(json);
+  factory GetRoleResponseBody.fromJson(Map<String, Object?> json) => _$GetRoleResponseBodyFromJson(json);
 }

@@ -35,11 +35,7 @@ import 'business_profile/business_profile_client.dart';
 ///
 /// Backend API for the Adisu platform.
 class RestClient {
-  RestClient(
-    Dio dio, {
-    String? baseUrl,
-  }) : _dio = dio,
-       _baseUrl = baseUrl;
+  RestClient(Dio dio, {String? baseUrl}) : _dio = dio, _baseUrl = baseUrl;
 
   final Dio _dio;
   final String? _baseUrl;
@@ -73,78 +69,58 @@ class RestClient {
   UsersClient? _users;
   BusinessProfileClient? _businessProfile;
 
-  AdminManagementClient get adminManagement =>
-      _adminManagement ??= AdminManagementClient(_dio, baseUrl: _baseUrl);
+  AdminManagementClient get adminManagement => _adminManagement ??= AdminManagementClient(_dio, baseUrl: _baseUrl);
 
-  AdminCommunityClient get adminCommunity =>
-      _adminCommunity ??= AdminCommunityClient(_dio, baseUrl: _baseUrl);
+  AdminCommunityClient get adminCommunity => _adminCommunity ??= AdminCommunityClient(_dio, baseUrl: _baseUrl);
 
-  AdminGuidesClient get adminGuides =>
-      _adminGuides ??= AdminGuidesClient(_dio, baseUrl: _baseUrl);
+  AdminGuidesClient get adminGuides => _adminGuides ??= AdminGuidesClient(_dio, baseUrl: _baseUrl);
 
-  AdminJourneysClient get adminJourneys =>
-      _adminJourneys ??= AdminJourneysClient(_dio, baseUrl: _baseUrl);
+  AdminJourneysClient get adminJourneys => _adminJourneys ??= AdminJourneysClient(_dio, baseUrl: _baseUrl);
 
-  AdminStepsClient get adminSteps =>
-      _adminSteps ??= AdminStepsClient(_dio, baseUrl: _baseUrl);
+  AdminStepsClient get adminSteps => _adminSteps ??= AdminStepsClient(_dio, baseUrl: _baseUrl);
 
-  AdminLibraryClient get adminLibrary =>
-      _adminLibrary ??= AdminLibraryClient(_dio, baseUrl: _baseUrl);
+  AdminLibraryClient get adminLibrary => _adminLibrary ??= AdminLibraryClient(_dio, baseUrl: _baseUrl);
 
   AdminCampaignTemplatesClient get adminCampaignTemplates =>
-      _adminCampaignTemplates ??= AdminCampaignTemplatesClient(
-        _dio,
-        baseUrl: _baseUrl,
-      );
+      _adminCampaignTemplates ??= AdminCampaignTemplatesClient(_dio, baseUrl: _baseUrl);
 
   AdminNotificationsClient get adminNotifications =>
       _adminNotifications ??= AdminNotificationsClient(_dio, baseUrl: _baseUrl);
 
-  AdminTaxonomyClient get adminTaxonomy =>
-      _adminTaxonomy ??= AdminTaxonomyClient(_dio, baseUrl: _baseUrl);
+  AdminTaxonomyClient get adminTaxonomy => _adminTaxonomy ??= AdminTaxonomyClient(_dio, baseUrl: _baseUrl);
 
   AiAskClient get aiAsk => _aiAsk ??= AiAskClient(_dio, baseUrl: _baseUrl);
 
-  AiConversationsClient get aiConversations =>
-      _aiConversations ??= AiConversationsClient(_dio, baseUrl: _baseUrl);
+  AiConversationsClient get aiConversations => _aiConversations ??= AiConversationsClient(_dio, baseUrl: _baseUrl);
 
   AiDlqClient get aiDlq => _aiDlq ??= AiDlqClient(_dio, baseUrl: _baseUrl);
 
-  AiIngestionClient get aiIngestion =>
-      _aiIngestion ??= AiIngestionClient(_dio, baseUrl: _baseUrl);
+  AiIngestionClient get aiIngestion => _aiIngestion ??= AiIngestionClient(_dio, baseUrl: _baseUrl);
 
   AiIngestionStatusClient get aiIngestionStatus =>
       _aiIngestionStatus ??= AiIngestionStatusClient(_dio, baseUrl: _baseUrl);
 
-  AuthenticationClient get authentication =>
-      _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
+  AuthenticationClient get authentication => _authentication ??= AuthenticationClient(_dio, baseUrl: _baseUrl);
 
   OAuthClient get oAuth => _oAuth ??= OAuthClient(_dio, baseUrl: _baseUrl);
 
-  CommunityClient get community =>
-      _community ??= CommunityClient(_dio, baseUrl: _baseUrl);
+  CommunityClient get community => _community ??= CommunityClient(_dio, baseUrl: _baseUrl);
 
   GuidesClient get guides => _guides ??= GuidesClient(_dio, baseUrl: _baseUrl);
 
-  LibraryFieldClient get libraryField =>
-      _libraryField ??= LibraryFieldClient(_dio, baseUrl: _baseUrl);
+  LibraryFieldClient get libraryField => _libraryField ??= LibraryFieldClient(_dio, baseUrl: _baseUrl);
 
-  PaymentsClient get payments =>
-      _payments ??= PaymentsClient(_dio, baseUrl: _baseUrl);
+  PaymentsClient get payments => _payments ??= PaymentsClient(_dio, baseUrl: _baseUrl);
 
-  NotificationsClient get notifications =>
-      _notifications ??= NotificationsClient(_dio, baseUrl: _baseUrl);
+  NotificationsClient get notifications => _notifications ??= NotificationsClient(_dio, baseUrl: _baseUrl);
 
-  PermissionsClient get permissions =>
-      _permissions ??= PermissionsClient(_dio, baseUrl: _baseUrl);
+  PermissionsClient get permissions => _permissions ??= PermissionsClient(_dio, baseUrl: _baseUrl);
 
   RolesClient get roles => _roles ??= RolesClient(_dio, baseUrl: _baseUrl);
 
-  TaxonomyClient get taxonomy =>
-      _taxonomy ??= TaxonomyClient(_dio, baseUrl: _baseUrl);
+  TaxonomyClient get taxonomy => _taxonomy ??= TaxonomyClient(_dio, baseUrl: _baseUrl);
 
   UsersClient get users => _users ??= UsersClient(_dio, baseUrl: _baseUrl);
 
-  BusinessProfileClient get businessProfile =>
-      _businessProfile ??= BusinessProfileClient(_dio, baseUrl: _baseUrl);
+  BusinessProfileClient get businessProfile => _businessProfile ??= BusinessProfileClient(_dio, baseUrl: _baseUrl);
 }

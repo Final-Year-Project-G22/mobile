@@ -38,6 +38,5 @@ abstract class CreateTemplateRequest with _$CreateTemplateRequest {
     Map<String, dynamic>? variablesSchema,
   }) = _CreateTemplateRequest;
 
-  factory CreateTemplateRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateTemplateRequestFromJson(json);
+  factory CreateTemplateRequest.fromJson(Map<String, Object?> json) => _$CreateTemplateRequestFromJson(json);
 }

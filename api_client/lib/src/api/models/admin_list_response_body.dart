@@ -29,6 +29,5 @@ abstract class AdminListResponseBody with _$AdminListResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AdminListResponseBody;
 
-  factory AdminListResponseBody.fromJson(Map<String, Object?> json) =>
-      _$AdminListResponseBodyFromJson(json);
+  factory AdminListResponseBody.fromJson(Map<String, Object?> json) => _$AdminListResponseBodyFromJson(json);
 }

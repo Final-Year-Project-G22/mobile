@@ -8,8 +8,7 @@ part 'complete_admin_password_reset_output_body.freezed.dart';
 part 'complete_admin_password_reset_output_body.g.dart';
 
 @Freezed()
-abstract class CompleteAdminPasswordResetOutputBody
-    with _$CompleteAdminPasswordResetOutputBody {
+abstract class CompleteAdminPasswordResetOutputBody with _$CompleteAdminPasswordResetOutputBody {
   const factory CompleteAdminPasswordResetOutputBody({
     /// Status message
     required String message,
@@ -18,7 +17,6 @@ abstract class CompleteAdminPasswordResetOutputBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _CompleteAdminPasswordResetOutputBody;
 
-  factory CompleteAdminPasswordResetOutputBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$CompleteAdminPasswordResetOutputBodyFromJson(json);
+  factory CompleteAdminPasswordResetOutputBody.fromJson(Map<String, Object?> json) =>
+      _$CompleteAdminPasswordResetOutputBodyFromJson(json);
 }

@@ -23,6 +23,5 @@ abstract class TranslationResponse with _$TranslationResponse {
     required String subject,
   }) = _TranslationResponse;
 
-  factory TranslationResponse.fromJson(Map<String, Object?> json) =>
-      _$TranslationResponseFromJson(json);
+  factory TranslationResponse.fromJson(Map<String, Object?> json) => _$TranslationResponseFromJson(json);
 }

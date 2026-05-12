@@ -8,8 +8,7 @@ part 'invalidate_all_journeys_response_body.freezed.dart';
 part 'invalidate_all_journeys_response_body.g.dart';
 
 @Freezed()
-abstract class InvalidateAllJourneysResponseBody
-    with _$InvalidateAllJourneysResponseBody {
+abstract class InvalidateAllJourneysResponseBody with _$InvalidateAllJourneysResponseBody {
   const factory InvalidateAllJourneysResponseBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class InvalidateAllJourneysResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _InvalidateAllJourneysResponseBody;
 
-  factory InvalidateAllJourneysResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$InvalidateAllJourneysResponseBodyFromJson(json);
+  factory InvalidateAllJourneysResponseBody.fromJson(Map<String, Object?> json) =>
+      _$InvalidateAllJourneysResponseBodyFromJson(json);
 }

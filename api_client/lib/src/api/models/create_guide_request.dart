@@ -35,6 +35,5 @@ abstract class CreateGuideRequest with _$CreateGuideRequest {
     List<dynamic>? translations,
   }) = _CreateGuideRequest;
 
-  factory CreateGuideRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateGuideRequestFromJson(json);
+  factory CreateGuideRequest.fromJson(Map<String, Object?> json) => _$CreateGuideRequestFromJson(json);
 }

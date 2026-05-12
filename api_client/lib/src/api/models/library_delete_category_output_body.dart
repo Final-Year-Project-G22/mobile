@@ -8,8 +8,7 @@ part 'library_delete_category_output_body.freezed.dart';
 part 'library_delete_category_output_body.g.dart';
 
 @Freezed()
-abstract class LibraryDeleteCategoryOutputBody
-    with _$LibraryDeleteCategoryOutputBody {
+abstract class LibraryDeleteCategoryOutputBody with _$LibraryDeleteCategoryOutputBody {
   const factory LibraryDeleteCategoryOutputBody({
     /// Success message
     required String message,

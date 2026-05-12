@@ -8,8 +8,7 @@ part 'download_template_response_body.freezed.dart';
 part 'download_template_response_body.g.dart';
 
 @Freezed()
-abstract class DownloadTemplateResponseBody
-    with _$DownloadTemplateResponseBody {
+abstract class DownloadTemplateResponseBody with _$DownloadTemplateResponseBody {
   const factory DownloadTemplateResponseBody({
     /// Expiry time
     required String expiresAt,

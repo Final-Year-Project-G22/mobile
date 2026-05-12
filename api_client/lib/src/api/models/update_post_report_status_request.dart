@@ -8,8 +8,7 @@ part 'update_post_report_status_request.freezed.dart';
 part 'update_post_report_status_request.g.dart';
 
 @Freezed()
-abstract class UpdatePostReportStatusRequest
-    with _$UpdatePostReportStatusRequest {
+abstract class UpdatePostReportStatusRequest with _$UpdatePostReportStatusRequest {
   const factory UpdatePostReportStatusRequest({
     /// Status: pending, under_review, resolved, dismissed
     required String status,

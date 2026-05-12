@@ -32,6 +32,5 @@ abstract class UpdateTemplateRequest with _$UpdateTemplateRequest {
     Map<String, dynamic>? variablesSchema,
   }) = _UpdateTemplateRequest;
 
-  factory UpdateTemplateRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateTemplateRequestFromJson(json);
+  factory UpdateTemplateRequest.fromJson(Map<String, Object?> json) => _$UpdateTemplateRequestFromJson(json);
 }

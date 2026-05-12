@@ -8,8 +8,7 @@ part 'update_campaign_template_response_body.freezed.dart';
 part 'update_campaign_template_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateCampaignTemplateResponseBody
-    with _$UpdateCampaignTemplateResponseBody {
+abstract class UpdateCampaignTemplateResponseBody with _$UpdateCampaignTemplateResponseBody {
   const factory UpdateCampaignTemplateResponseBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class UpdateCampaignTemplateResponseBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCampaignTemplateResponseBody;
 
-  factory UpdateCampaignTemplateResponseBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$UpdateCampaignTemplateResponseBodyFromJson(json);
+  factory UpdateCampaignTemplateResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateCampaignTemplateResponseBodyFromJson(json);
 }

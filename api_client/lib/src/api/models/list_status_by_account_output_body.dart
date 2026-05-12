@@ -8,8 +8,7 @@ part 'list_status_by_account_output_body.freezed.dart';
 part 'list_status_by_account_output_body.g.dart';
 
 @Freezed()
-abstract class ListStatusByAccountOutputBody
-    with _$ListStatusByAccountOutputBody {
+abstract class ListStatusByAccountOutputBody with _$ListStatusByAccountOutputBody {
   const factory ListStatusByAccountOutputBody({
     /// List of status projections
     required List<dynamic>? projections,

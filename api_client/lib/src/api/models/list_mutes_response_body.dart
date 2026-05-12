@@ -29,6 +29,5 @@ abstract class ListMutesResponseBody with _$ListMutesResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListMutesResponseBody;
 
-  factory ListMutesResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListMutesResponseBodyFromJson(json);
+  factory ListMutesResponseBody.fromJson(Map<String, Object?> json) => _$ListMutesResponseBodyFromJson(json);
 }

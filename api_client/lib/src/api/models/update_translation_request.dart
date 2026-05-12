@@ -20,6 +20,5 @@ abstract class UpdateTranslationRequest with _$UpdateTranslationRequest {
     String? subject,
   }) = _UpdateTranslationRequest;
 
-  factory UpdateTranslationRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateTranslationRequestFromJson(json);
+  factory UpdateTranslationRequest.fromJson(Map<String, Object?> json) => _$UpdateTranslationRequestFromJson(json);
 }

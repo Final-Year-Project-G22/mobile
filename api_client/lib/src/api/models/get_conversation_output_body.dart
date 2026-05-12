@@ -20,6 +20,5 @@ abstract class GetConversationOutputBody with _$GetConversationOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetConversationOutputBody;
 
-  factory GetConversationOutputBody.fromJson(Map<String, Object?> json) =>
-      _$GetConversationOutputBodyFromJson(json);
+  factory GetConversationOutputBody.fromJson(Map<String, Object?> json) => _$GetConversationOutputBodyFromJson(json);
 }
