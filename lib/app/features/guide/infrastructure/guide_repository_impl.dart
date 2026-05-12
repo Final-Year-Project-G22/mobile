@@ -9,9 +9,11 @@ import 'package:api_client/src/api/models/personalized_step_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
+import '../domain/entities/completion_stats.dart';
 import '../domain/entities/guide_card.dart';
 import '../domain/entities/guide_detail.dart';
 import '../domain/entities/guide_step.dart';
+import '../domain/entities/guide_with_progress.dart';
 import '../domain/entities/step_bookmark.dart';
 import '../domain/entities/step_enums.dart';
 import '../domain/failures/guide_failures.dart';
@@ -155,6 +157,23 @@ class GuideRepositoryImpl implements IGuideRepository {
     } on DioException catch (e) {
       return Left(_handleError(e));
     }
+  }
+
+  @override
+  Future<Either<GuideFailure, List<GuideWithProgress>>> getInProgressGuides() async {
+    return const Right([]);
+  }
+
+  @override
+  Future<Either<GuideFailure, CompletionStats>> getCompletionStats() async {
+    return const Right(
+      CompletionStats(
+        completedGuides: 0,
+        inProgressGuides: 0,
+        totalStepsCompleted: 0,
+        totalStepsAll: 0,
+      ),
+    );
   }
 
   @override
