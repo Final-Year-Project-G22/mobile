@@ -38,19 +38,26 @@ Future<List<DiscussionThread>> allThreads(Ref ref) async {
 }
 
 @riverpod
-Future<List<DiscussionThread>> searchThreads(
-  Ref ref, {
-  String? keyword,
-}) async {
-  final repository = ref.watch(communityRepositoryProvider);
-  final result = await repository.searchThreads(
-    keyword: keyword,
-  );
+Future<List<DiscussionThread>> filteredAllThreads(Ref ref) async {
+  final threads = await ref.watch(allThreadsProvider.future);
+  final selectedSectors = ref.watch(selectedSectorIdsProvider);
+  final selectedTags = ref.watch(selectedTagIdsProvider);
+  final showFollowed = ref.watch(showFollowedOnlyProvider);
 
-  return result.fold(
-    (failure) => throw Exception(failure.toString()),
-    (threads) => threads,
-  );
+  return threads.where((t) {
+    if (selectedSectors.isNotEmpty &&
+        !(t.sectorIds?.any(selectedSectors.contains) ?? false)) {
+      return false;
+    }
+    if (selectedTags.isNotEmpty &&
+        !(t.tagIds?.any(selectedTags.contains) ?? false)) {
+      return false;
+    }
+    if (showFollowed && !t.isFollowed) {
+      return false;
+    }
+    return true;
+  }).toList();
 }
 
 @riverpod
