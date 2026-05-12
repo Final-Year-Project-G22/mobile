@@ -47,7 +47,7 @@ class QuickActionsGrid extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: AppSpacing.sm,
             crossAxisSpacing: AppSpacing.sm,
-            childAspectRatio: 1.6,
+            childAspectRatio: 1.4,
             children: actions.map((action) => _QuickActionCard(action: action)).toList(),
           ),
         ],
@@ -79,7 +79,8 @@ class _QuickActionCard extends StatelessWidget {
         borderRadius: AppSpacing.borderRadiusMd,
         child: Padding(
           padding: AppSpacing.paddingMd,
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 width: 40,
@@ -90,21 +91,17 @@ class _QuickActionCard extends StatelessWidget {
                 ),
                 child: Icon(action.icon, color: AppColors.accent, size: 20),
               ),
-              AppSpacing.gapHorizontalSm,
-              Expanded(
-                child: Text(
-                  action.label,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                  ),
+              AppSpacing.gapVerticalXs,
+              Text(
+                action.label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
                 ),
-              ),
-              Icon(
-                Icons.chevron_right,
-                size: 18,
-                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
             ],
           ),

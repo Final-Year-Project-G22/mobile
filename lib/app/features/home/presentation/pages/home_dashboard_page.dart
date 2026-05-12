@@ -18,34 +18,37 @@ class HomeDashboardPage extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
+    final actions = <QuickAction>[
+      if (state.recentlyViewed.isNotEmpty)
+        QuickAction(
+          icon: Icons.play_circle_outline,
+          label: 'Continue Last Guide',
+          onTap: () => GuideDetailRoute(guideSlug: state.recentlyViewed.first.slug).go(context),
+        ),
+      QuickAction(
+        icon: Icons.history,
+        label: 'Continue Chat',
+        onTap: () => context.push('/ai-guide'),
+      ),
+      QuickAction(
+        icon: Icons.inbox_outlined,
+        label: 'Inbox',
+        onTap: () => context.push('/inbox'),
+      ),
+      QuickAction(
+        icon: Icons.person_outline,
+        label: 'Profile',
+        onTap: () => context.push('/profile'),
+      ),
+    ];
+
     return HomeDashboardContent(
       completionStats: state.completionStats,
       inProgressGuides: state.inProgressGuides,
       recentlyViewed: state.recentlyViewed,
       onGuideTap: (slug) => GuideDetailRoute(guideSlug: slug).go(context),
       onRefresh: () => ref.read(homeDashboardProvider.notifier).refresh(),
-      quickActions: [
-        QuickAction(
-          icon: Icons.menu_book,
-          label: 'Start Guide',
-          onTap: () => const GuidesRoute().go(context),
-        ),
-        QuickAction(
-          icon: Icons.auto_awesome,
-          label: 'Ask AI',
-          onTap: () => context.push('/ai-guide'),
-        ),
-        QuickAction(
-          icon: Icons.groups,
-          label: 'Community',
-          onTap: () => const CommunityHomeRoute().go(context),
-        ),
-        QuickAction(
-          icon: Icons.grid_view,
-          label: 'Browse Templates',
-          onTap: () => const TemplatesRoute().go(context),
-        ),
-      ],
+      quickActions: actions,
     );
   }
 }
