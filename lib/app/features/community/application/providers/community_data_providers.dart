@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../core/providers/websocket_providers.dart';
 import '../../domain/entities/discussion_post.dart';
 import '../../domain/entities/discussion_thread.dart';
 import 'community_providers.dart';
@@ -86,4 +87,28 @@ Future<List<DiscussionPost>> threadPosts(
     (failure) => throw Exception(failure.toString()),
     (posts) => posts,
   );
+}
+
+@riverpod
+void communityWsListener(Ref ref) {
+  ref.listen(wsMessagesProvider, (_, next) {
+    final msg = next.asData?.value;
+    if (msg == null) return;
+
+    final type = msg['type'] as String?;
+    final threadId = msg['threadId'] as String?;
+    if (threadId == null) return;
+
+    if (type == 'post.created') {
+      ref
+        ..invalidate(threadPostsProvider(threadId))
+        ..invalidate(threadDetailsProvider(threadId));
+    }
+    if (type == 'thread.updated') {
+      ref
+        ..invalidate(threadDetailsProvider(threadId))
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider);
+    }
+  });
 }

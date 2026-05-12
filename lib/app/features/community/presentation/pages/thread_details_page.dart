@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/providers/websocket_providers.dart';
+import '../../../../../core/services/websocket_service.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
@@ -34,22 +36,51 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   DiscussionPost? _editTarget;
   bool _initialScrollDone = false;
   bool _markReadDone = false;
+  bool _isScrolling = false;
+  bool _pendingScroll = false;
   int? _previousPostCount;
+  late final WebSocketService _webSocketService;
+
+  @override
+  void initState() {
+    super.initState();
+    _webSocketService = ref.read(webSocketServiceProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _webSocketService.send({
+        'type': 'subscribe',
+        'threadId': widget.threadId,
+      });
+    });
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _webSocketService.send({
+      'type': 'unsubscribe',
+      'threadId': widget.threadId,
+    });
     super.dispose();
   }
 
   void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_scrollController.hasClients) {
-        await _scrollController.animateTo(
+    if (_isScrolling) {
+      _pendingScroll = true;
+      return;
+    }
+    _isScrolling = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients &&
+          _scrollController.position.maxScrollExtent > 0) {
+        _scrollController.jumpTo(
           _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
         );
+      }
+      _isScrolling = false;
+      if (_pendingScroll) {
+        _pendingScroll = false;
+        _scrollToBottom();
       }
     });
   }

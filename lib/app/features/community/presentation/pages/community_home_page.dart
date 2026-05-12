@@ -106,7 +106,6 @@ class _ThreadListView extends ConsumerWidget {
     required this.searchText,
     this.currentAccountId,
     this.useFilteredAll = false,
-    super.key,
   });
 
   final bool useAllThreads;
@@ -117,9 +116,7 @@ class _ThreadListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final threadsAsync = ref.watch(
-      useFilteredAll
-          ? filteredAllThreadsProvider
-          : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
+      useFilteredAll ? filteredAllThreadsProvider : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
     );
 
     return threadsAsync.when(
@@ -145,9 +142,7 @@ class _ThreadListView extends ConsumerWidget {
 
         return RefreshIndicator(
           onRefresh: () async => ref.invalidate(
-            useFilteredAll
-                ? allThreadsProvider
-                : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
+            useFilteredAll ? allThreadsProvider : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
           ),
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
@@ -239,17 +234,13 @@ class _ThreadListView extends ConsumerWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
+                                color: Theme.of(context).colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 'Owned',
                                 style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -318,8 +309,7 @@ class _ThreadListView extends ConsumerWidget {
                               ),
                           ],
                         ),
-                      if (thread.hasSolution)
-                        const SizedBox(height: 4),
+                      if (thread.hasSolution) const SizedBox(height: 4),
                       if (thread.hasSolution)
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -398,9 +388,7 @@ class _FilterChipsRow extends ConsumerWidget {
     final selectedTags = ref.watch(selectedTagIdsProvider);
     final showFollowed = ref.watch(showFollowedOnlyProvider);
 
-    final hasFilters = selectedSectors.isNotEmpty ||
-        selectedTags.isNotEmpty ||
-        showFollowed;
+    final hasFilters = selectedSectors.isNotEmpty || selectedTags.isNotEmpty || showFollowed;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -426,33 +414,58 @@ class _FilterChipsRow extends ConsumerWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      FilterChip(
-                        avatar: Icon(
-                          Icons.chat_bubble,
-                          size: 14,
-                          color: showFollowed
-                              ? Theme.of(context).colorScheme.onPrimaryContainer
-                              : null,
-                        ),
-                        label: const Text('Followed', style: TextStyle(fontSize: 12)),
-                        selected: showFollowed,
-                        onSelected: (_) {
-                          ref.read(showFollowedOnlyProvider.notifier).toggle(value: !showFollowed);
+                    children:
+                        [
+                              FilterChip(
+                                avatar: Icon(
+                                  Icons.chat_bubble,
+                                  size: 14,
+                                  color: showFollowed ? Theme.of(context).colorScheme.onPrimaryContainer : null,
+                                ),
+                                label: const Text('Followed', style: TextStyle(fontSize: 12)),
+                                selected: showFollowed,
+                                onSelected: (_) {
+                                  ref.read(showFollowedOnlyProvider.notifier).toggle(value: !showFollowed);
+                                },
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                      ..._buildSelectedChips(
+                        ref,
+                        sectorsAsync.asData?.value
+                            .map((s) => _FilterItem(
+                                  id: s.id,
+                                  displayName: s.name.isNotEmpty ? s.name : s.slug,
+                                ))
+                            .toList() ??
+                            [],
+                        selectedSectors,
+                        (id) {
+                          ref.read(selectedSectorIdsProvider.notifier).toggle(id);
                         },
-                        visualDensity: VisualDensity.compact,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      ..._buildSelectedChips(ref, sectorsAsync, selectedSectors, (id) {
-                        ref.read(selectedSectorIdsProvider.notifier).toggle(id);
-                      }),
-                      ..._buildSelectedChips(ref, tagsAsync, selectedTags, (id) {
-                        ref.read(selectedTagIdsProvider.notifier).toggle(id);
-                      }),
-                    ].map((w) => Padding(
-                          padding: const EdgeInsets.only(left: 6),
-                          child: w,
-                        )).toList(),
+                      ..._buildSelectedChips(
+                        ref,
+                        tagsAsync.asData?.value
+                            .map((t) => _FilterItem(
+                                  id: t.id,
+                                  displayName: t.name.isNotEmpty ? t.name : t.slug,
+                                ))
+                            .toList() ??
+                            [],
+                        selectedTags,
+                        (id) {
+                          ref.read(selectedTagIdsProvider.notifier).toggle(id);
+                        },
+                      ),
+                            ]
+                            .map(
+                              (w) => Padding(
+                                padding: const EdgeInsets.only(left: 6),
+                                child: w,
+                              ),
+                            )
+                            .toList(),
                   ),
                 ),
               ),
@@ -476,21 +489,16 @@ class _FilterChipsRow extends ConsumerWidget {
 
   List<Widget> _buildSelectedChips(
     WidgetRef ref,
-    AsyncValue<List<dynamic>> dataAsync,
+    List<_FilterItem> items,
     Set<String> selectedIds,
     void Function(String) onRemove,
   ) {
-    final data = dataAsync.asData?.value ?? const [];
-    return data
-        .where((item) => selectedIds.contains((item as dynamic).id as String))
+    return items
+        .where((item) => selectedIds.contains(item.id))
         .map((item) {
-      final id = (item as dynamic).id as String;
-      final name = (item as dynamic).name as String;
-      final slug = (item as dynamic).slug as String;
-      final label = name.isNotEmpty ? name : slug;
       return ActionChip(
-        label: Text(label, style: const TextStyle(fontSize: 11)),
-        onPressed: () => onRemove(id),
+        label: Text(item.displayName, style: const TextStyle(fontSize: 11)),
+        onPressed: () => onRemove(item.id),
         visualDensity: VisualDensity.compact,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -501,12 +509,19 @@ class _FilterChipsRow extends ConsumerWidget {
   void _openFilterSheet(BuildContext context, WidgetRef ref) {
     unawaited(
       showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (_) => _FilterBottomSheet(),
-    ));
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (_) => _FilterBottomSheet(),
+      ),
+    );
   }
+}
+
+class _FilterItem {
+  const _FilterItem({required this.id, required this.displayName});
+  final String id;
+  final String displayName;
 }
 
 class _FilterBottomSheet extends ConsumerStatefulWidget {
@@ -586,13 +601,35 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
               controller: scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                _buildFilterSection('Sectors', sectorsAsync, selectedSectors, (id) {
-                  ref.read(selectedSectorIdsProvider.notifier).toggle(id);
-                }),
+                _buildFilterSection(
+                  'Sectors',
+                  sectorsAsync.asData?.value
+                      .map((s) => _FilterItem(
+                            id: s.id,
+                            displayName: s.name.isNotEmpty ? s.name : s.slug,
+                          ))
+                      .toList() ??
+                      [],
+                  selectedSectors,
+                  (id) {
+                    ref.read(selectedSectorIdsProvider.notifier).toggle(id);
+                  },
+                ),
                 const SizedBox(height: 16),
-                _buildFilterSection('Tags', tagsAsync, selectedTags, (id) {
-                  ref.read(selectedTagIdsProvider.notifier).toggle(id);
-                }),
+                _buildFilterSection(
+                  'Tags',
+                  tagsAsync.asData?.value
+                      .map((t) => _FilterItem(
+                            id: t.id,
+                            displayName: t.name.isNotEmpty ? t.name : t.slug,
+                          ))
+                      .toList() ??
+                      [],
+                  selectedTags,
+                  (id) {
+                    ref.read(selectedTagIdsProvider.notifier).toggle(id);
+                  },
+                ),
                 const SizedBox(height: 16),
                 SwitchListTile(
                   title: const Text('Followed only'),
@@ -614,18 +651,14 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
 
   Widget _buildFilterSection(
     String title,
-    AsyncValue<List<dynamic>> dataAsync,
+    List<_FilterItem> items,
     Set<String> selectedIds,
     void Function(String) onToggle,
   ) {
-    final data = dataAsync.asData?.value ?? const [];
     final filtered = _searchText.isEmpty
-        ? data
-        : data.where((item) {
-            final d = item as dynamic;
-            final name = (d.name as String).toLowerCase();
-            final slug = (d.slug as String).toLowerCase();
-            return name.contains(_searchText) || slug.contains(_searchText);
+        ? items
+        : items.where((item) {
+            return item.displayName.toLowerCase().contains(_searchText);
           }).toList();
 
     if (filtered.isEmpty && _searchText.isNotEmpty) return const SizedBox.shrink();
@@ -649,15 +682,10 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             spacing: 8,
             runSpacing: 4,
             children: filtered.map<Widget>((item) {
-              final d = item as dynamic;
-              final id = d.id as String;
-              final name = d.name as String;
-              final slug = d.slug as String;
-              final label = name.isNotEmpty ? name : slug;
               return FilterChip(
-                label: Text(label),
-                selected: selectedIds.contains(id),
-                onSelected: (_) => onToggle(id),
+                label: Text(item.displayName),
+                selected: selectedIds.contains(item.id),
+                onSelected: (_) => onToggle(item.id),
                 visualDensity: VisualDensity.compact,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               );
