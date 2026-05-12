@@ -17,5 +17,6 @@ abstract class AttachmentDto with _$AttachmentDto {
     int? fileSize,
   }) = _AttachmentDto;
 
-  factory AttachmentDto.fromJson(Map<String, Object?> json) => _$AttachmentDtoFromJson(json);
+  factory AttachmentDto.fromJson(Map<String, Object?> json) =>
+      _$AttachmentDtoFromJson(json);
 }

@@ -29,5 +29,6 @@ abstract class ListCampaignsResponseBody with _$ListCampaignsResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListCampaignsResponseBody;
 
-  factory ListCampaignsResponseBody.fromJson(Map<String, Object?> json) => _$ListCampaignsResponseBodyFromJson(json);
+  factory ListCampaignsResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ListCampaignsResponseBodyFromJson(json);
 }

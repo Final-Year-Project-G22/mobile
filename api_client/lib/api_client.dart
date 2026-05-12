@@ -92,3 +92,13 @@ export 'src/api/models/ask_request.dart';
 export 'src/api/models/citation_dto.dart';
 export 'src/api/models/conversation_dto.dart';
 export 'src/api/models/message_dto.dart';
+
+export 'src/api/payments/payments_client.dart';
+export 'src/api/models/get_my_subscription_response_body.dart';
+export 'src/api/models/initiate_payment_request_body.dart';
+export 'src/api/models/initiate_payment_response_body.dart';
+export 'src/api/models/list_plans_response_body.dart';
+export 'src/api/models/plan_response.dart';
+export 'src/api/models/subscription_response.dart';
+export 'src/api/models/verify_payment_request_body.dart';
+export 'src/api/models/verify_payment_response_body.dart';

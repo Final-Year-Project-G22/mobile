@@ -23,5 +23,6 @@ abstract class GetPostReportResponseBody with _$GetPostReportResponseBody {
     ContentDto? content,
   }) = _GetPostReportResponseBody;
 
-  factory GetPostReportResponseBody.fromJson(Map<String, Object?> json) => _$GetPostReportResponseBodyFromJson(json);
+  factory GetPostReportResponseBody.fromJson(Map<String, Object?> json) =>
+      _$GetPostReportResponseBodyFromJson(json);
 }

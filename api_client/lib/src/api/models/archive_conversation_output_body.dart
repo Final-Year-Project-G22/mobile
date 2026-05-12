@@ -8,7 +8,8 @@ part 'archive_conversation_output_body.freezed.dart';
 part 'archive_conversation_output_body.g.dart';
 
 @Freezed()
-abstract class ArchiveConversationOutputBody with _$ArchiveConversationOutputBody {
+abstract class ArchiveConversationOutputBody
+    with _$ArchiveConversationOutputBody {
   const factory ArchiveConversationOutputBody({
     required bool success,
     required DateTime updatedAt,

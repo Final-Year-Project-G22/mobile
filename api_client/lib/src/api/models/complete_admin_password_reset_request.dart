@@ -8,7 +8,8 @@ part 'complete_admin_password_reset_request.freezed.dart';
 part 'complete_admin_password_reset_request.g.dart';
 
 @Freezed()
-abstract class CompleteAdminPasswordResetRequest with _$CompleteAdminPasswordResetRequest {
+abstract class CompleteAdminPasswordResetRequest
+    with _$CompleteAdminPasswordResetRequest {
   const factory CompleteAdminPasswordResetRequest({
     /// Confirm new password
     required String confirmPassword,
@@ -23,6 +24,7 @@ abstract class CompleteAdminPasswordResetRequest with _$CompleteAdminPasswordRes
     @JsonKey(name: '\$schema') String? schema,
   }) = _CompleteAdminPasswordResetRequest;
 
-  factory CompleteAdminPasswordResetRequest.fromJson(Map<String, Object?> json) =>
-      _$CompleteAdminPasswordResetRequestFromJson(json);
+  factory CompleteAdminPasswordResetRequest.fromJson(
+    Map<String, Object?> json,
+  ) => _$CompleteAdminPasswordResetRequestFromJson(json);
 }

@@ -8,7 +8,8 @@ part 'skip_optional_step_response_body.freezed.dart';
 part 'skip_optional_step_response_body.g.dart';
 
 @Freezed()
-abstract class SkipOptionalStepResponseBody with _$SkipOptionalStepResponseBody {
+abstract class SkipOptionalStepResponseBody
+    with _$SkipOptionalStepResponseBody {
   const factory SkipOptionalStepResponseBody({
     /// Success message
     required String message,

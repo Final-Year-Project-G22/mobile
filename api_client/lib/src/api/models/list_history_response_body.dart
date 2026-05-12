@@ -29,5 +29,6 @@ abstract class ListHistoryResponseBody with _$ListHistoryResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListHistoryResponseBody;
 
-  factory ListHistoryResponseBody.fromJson(Map<String, Object?> json) => _$ListHistoryResponseBodyFromJson(json);
+  factory ListHistoryResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ListHistoryResponseBodyFromJson(json);
 }

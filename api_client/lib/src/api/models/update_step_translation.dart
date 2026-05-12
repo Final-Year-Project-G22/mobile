@@ -23,5 +23,6 @@ abstract class UpdateStepTranslation with _$UpdateStepTranslation {
     dynamic detailedContent,
   }) = _UpdateStepTranslation;
 
-  factory UpdateStepTranslation.fromJson(Map<String, Object?> json) => _$UpdateStepTranslationFromJson(json);
+  factory UpdateStepTranslation.fromJson(Map<String, Object?> json) =>
+      _$UpdateStepTranslationFromJson(json);
 }

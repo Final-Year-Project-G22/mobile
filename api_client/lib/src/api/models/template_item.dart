@@ -35,5 +35,6 @@ abstract class TemplateItem with _$TemplateItem {
     String? description,
   }) = _TemplateItem;
 
-  factory TemplateItem.fromJson(Map<String, Object?> json) => _$TemplateItemFromJson(json);
+  factory TemplateItem.fromJson(Map<String, Object?> json) =>
+      _$TemplateItemFromJson(json);
 }

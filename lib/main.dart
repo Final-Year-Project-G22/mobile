@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,5 +15,9 @@ void main() async {
       ? 'assets/.env.development'
       : 'assets/.env';
   await dotenv.load(fileName: envFile);
-  runApp(const ProviderScope(child: App()));
+  runApp(
+    DevicePreview(
+      builder: (context) => const ProviderScope(child: App()),
+    ),
+  );
 }

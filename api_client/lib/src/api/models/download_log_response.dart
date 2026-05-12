@@ -26,5 +26,6 @@ abstract class DownloadLogResponse with _$DownloadLogResponse {
     required String templateId,
   }) = _DownloadLogResponse;
 
-  factory DownloadLogResponse.fromJson(Map<String, Object?> json) => _$DownloadLogResponseFromJson(json);
+  factory DownloadLogResponse.fromJson(Map<String, Object?> json) =>
+      _$DownloadLogResponseFromJson(json);
 }

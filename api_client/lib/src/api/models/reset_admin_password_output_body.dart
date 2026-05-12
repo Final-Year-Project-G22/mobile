@@ -8,7 +8,8 @@ part 'reset_admin_password_output_body.freezed.dart';
 part 'reset_admin_password_output_body.g.dart';
 
 @Freezed()
-abstract class ResetAdminPasswordOutputBody with _$ResetAdminPasswordOutputBody {
+abstract class ResetAdminPasswordOutputBody
+    with _$ResetAdminPasswordOutputBody {
   const factory ResetAdminPasswordOutputBody({
     /// Status message
     required String message,

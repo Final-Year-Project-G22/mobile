@@ -8,7 +8,8 @@ part 'add_campaign_template_translation_response_body.freezed.dart';
 part 'add_campaign_template_translation_response_body.g.dart';
 
 @Freezed()
-abstract class AddCampaignTemplateTranslationResponseBody with _$AddCampaignTemplateTranslationResponseBody {
+abstract class AddCampaignTemplateTranslationResponseBody
+    with _$AddCampaignTemplateTranslationResponseBody {
   const factory AddCampaignTemplateTranslationResponseBody({
     /// Created translation ID
     required String id,
@@ -17,6 +18,7 @@ abstract class AddCampaignTemplateTranslationResponseBody with _$AddCampaignTemp
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddCampaignTemplateTranslationResponseBody;
 
-  factory AddCampaignTemplateTranslationResponseBody.fromJson(Map<String, Object?> json) =>
-      _$AddCampaignTemplateTranslationResponseBodyFromJson(json);
+  factory AddCampaignTemplateTranslationResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$AddCampaignTemplateTranslationResponseBodyFromJson(json);
 }

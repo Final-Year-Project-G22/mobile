@@ -17,5 +17,6 @@ abstract class ReportThreadRequest with _$ReportThreadRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReportThreadRequest;
 
-  factory ReportThreadRequest.fromJson(Map<String, Object?> json) => _$ReportThreadRequestFromJson(json);
+  factory ReportThreadRequest.fromJson(Map<String, Object?> json) =>
+      _$ReportThreadRequestFromJson(json);
 }

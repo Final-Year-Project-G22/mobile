@@ -8,7 +8,8 @@ part 'create_interactive_form_request.freezed.dart';
 part 'create_interactive_form_request.g.dart';
 
 @Freezed()
-abstract class CreateInteractiveFormRequest with _$CreateInteractiveFormRequest {
+abstract class CreateInteractiveFormRequest
+    with _$CreateInteractiveFormRequest {
   const factory CreateInteractiveFormRequest({
     /// Form layout JSON
     required Map<String, dynamic> formLayout,

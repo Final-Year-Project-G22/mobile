@@ -17,5 +17,6 @@ abstract class ReorderStepsResponseBody with _$ReorderStepsResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ReorderStepsResponseBody;
 
-  factory ReorderStepsResponseBody.fromJson(Map<String, Object?> json) => _$ReorderStepsResponseBodyFromJson(json);
+  factory ReorderStepsResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ReorderStepsResponseBodyFromJson(json);
 }

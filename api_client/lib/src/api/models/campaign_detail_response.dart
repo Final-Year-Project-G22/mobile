@@ -65,5 +65,6 @@ abstract class CampaignDetailResponse with _$CampaignDetailResponse {
     Map<String, dynamic>? targetSegment,
   }) = _CampaignDetailResponse;
 
-  factory CampaignDetailResponse.fromJson(Map<String, Object?> json) => _$CampaignDetailResponseFromJson(json);
+  factory CampaignDetailResponse.fromJson(Map<String, Object?> json) =>
+      _$CampaignDetailResponseFromJson(json);
 }

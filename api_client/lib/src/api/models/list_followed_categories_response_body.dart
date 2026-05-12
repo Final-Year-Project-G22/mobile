@@ -8,7 +8,8 @@ part 'list_followed_categories_response_body.freezed.dart';
 part 'list_followed_categories_response_body.g.dart';
 
 @Freezed()
-abstract class ListFollowedCategoriesResponseBody with _$ListFollowedCategoriesResponseBody {
+abstract class ListFollowedCategoriesResponseBody
+    with _$ListFollowedCategoriesResponseBody {
   const factory ListFollowedCategoriesResponseBody({
     /// Followed categories
     required List<dynamic>? categories,
@@ -17,6 +18,7 @@ abstract class ListFollowedCategoriesResponseBody with _$ListFollowedCategoriesR
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListFollowedCategoriesResponseBody;
 
-  factory ListFollowedCategoriesResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListFollowedCategoriesResponseBodyFromJson(json);
+  factory ListFollowedCategoriesResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$ListFollowedCategoriesResponseBodyFromJson(json);
 }

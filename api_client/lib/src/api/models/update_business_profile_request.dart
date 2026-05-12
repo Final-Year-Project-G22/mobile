@@ -1,27 +1,66 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, unused_import, invalid_annotation_target, unnecessary_import
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'update_business_profile_request.freezed.dart';
 part 'update_business_profile_request.g.dart';
 
-@freezed
-abstract class UpdateBusinessProfileRequest with _$UpdateBusinessProfileRequest {
+@Freezed()
+abstract class UpdateBusinessProfileRequest
+    with _$UpdateBusinessProfileRequest {
   const factory UpdateBusinessProfileRequest({
-    String? companyName,
-    String? companyEmail,
-    String? companyPhoneNumber,
-    String? physicalAddress,
-    String? description,
-    String? logoUrl,
+    /// A URL to the JSON Schema for this object.
+    @JsonKey(name: '\$schema') String? schema,
+
+    /// Banner URL
     String? bannerUrl,
-    Map<String, dynamic>? socialLinks,
-    String? registrationNumber,
-    DateTime? registrationDate,
-    String? taxIdentificationNumber,
-    String? tradeLicenseNumber,
+
+    /// Company email
+    String? companyEmail,
+
+    /// Company name
+    String? companyName,
+
+    /// Company phone
+    String? companyPhoneNumber,
+
+    /// Business description
+    String? description,
+
+    /// Logo URL
+    String? logoUrl,
+
+    /// Physical address
+    String? physicalAddress,
+
+    /// Business region
     String? region,
-    String? stage,
+
+    /// Registration date
+    DateTime? registrationDate,
+
+    /// Business registration number
+    String? registrationNumber,
+
+    /// Sector slug
     String? sectorSlug,
-    List<String>? tagSlugs,
+
+    /// Social media links
+    Map<String, dynamic>? socialLinks,
+
+    /// Business lifecycle stage
+    String? stage,
+
+    /// Tag slugs
+    List<dynamic>? tagSlugs,
+
+    /// TIN
+    String? taxIdentificationNumber,
+
+    /// Trade license number
+    String? tradeLicenseNumber,
   }) = _UpdateBusinessProfileRequest;
 
   factory UpdateBusinessProfileRequest.fromJson(Map<String, Object?> json) =>

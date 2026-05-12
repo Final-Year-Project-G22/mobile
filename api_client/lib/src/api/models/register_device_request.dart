@@ -35,5 +35,6 @@ abstract class RegisterDeviceRequest with _$RegisterDeviceRequest {
     String? pushToken,
   }) = _RegisterDeviceRequest;
 
-  factory RegisterDeviceRequest.fromJson(Map<String, Object?> json) => _$RegisterDeviceRequestFromJson(json);
+  factory RegisterDeviceRequest.fromJson(Map<String, Object?> json) =>
+      _$RegisterDeviceRequestFromJson(json);
 }

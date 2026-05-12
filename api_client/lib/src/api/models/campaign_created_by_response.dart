@@ -20,5 +20,6 @@ abstract class CampaignCreatedByResponse with _$CampaignCreatedByResponse {
     required String name,
   }) = _CampaignCreatedByResponse;
 
-  factory CampaignCreatedByResponse.fromJson(Map<String, Object?> json) => _$CampaignCreatedByResponseFromJson(json);
+  factory CampaignCreatedByResponse.fromJson(Map<String, Object?> json) =>
+      _$CampaignCreatedByResponseFromJson(json);
 }

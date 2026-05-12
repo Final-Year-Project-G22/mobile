@@ -23,5 +23,6 @@ abstract class UpdateRoleRequest with _$UpdateRoleRequest {
     String? name,
   }) = _UpdateRoleRequest;
 
-  factory UpdateRoleRequest.fromJson(Map<String, Object?> json) => _$UpdateRoleRequestFromJson(json);
+  factory UpdateRoleRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateRoleRequestFromJson(json);
 }

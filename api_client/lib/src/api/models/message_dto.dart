@@ -20,5 +20,6 @@ abstract class MessageDto with _$MessageDto {
     UsageDto? usage,
   }) = _MessageDto;
 
-  factory MessageDto.fromJson(Map<String, Object?> json) => _$MessageDtoFromJson(json);
+  factory MessageDto.fromJson(Map<String, Object?> json) =>
+      _$MessageDtoFromJson(json);
 }

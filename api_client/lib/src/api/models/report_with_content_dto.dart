@@ -20,5 +20,6 @@ abstract class ReportWithContentDto with _$ReportWithContentDto {
     ContentDto? content,
   }) = _ReportWithContentDto;
 
-  factory ReportWithContentDto.fromJson(Map<String, Object?> json) => _$ReportWithContentDtoFromJson(json);
+  factory ReportWithContentDto.fromJson(Map<String, Object?> json) =>
+      _$ReportWithContentDtoFromJson(json);
 }

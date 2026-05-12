@@ -17,5 +17,6 @@ abstract class UnmuteAccountResponseBody with _$UnmuteAccountResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UnmuteAccountResponseBody;
 
-  factory UnmuteAccountResponseBody.fromJson(Map<String, Object?> json) => _$UnmuteAccountResponseBodyFromJson(json);
+  factory UnmuteAccountResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UnmuteAccountResponseBodyFromJson(json);
 }

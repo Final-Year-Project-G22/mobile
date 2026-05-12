@@ -17,5 +17,6 @@ abstract class UpdateGuideResponseBody with _$UpdateGuideResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateGuideResponseBody;
 
-  factory UpdateGuideResponseBody.fromJson(Map<String, Object?> json) => _$UpdateGuideResponseBodyFromJson(json);
+  factory UpdateGuideResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateGuideResponseBodyFromJson(json);
 }

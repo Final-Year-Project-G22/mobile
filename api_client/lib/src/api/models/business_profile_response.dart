@@ -1,50 +1,78 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, unused_import, invalid_annotation_target, unnecessary_import
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'sector_ref.dart';
 
 part 'business_profile_response.freezed.dart';
 part 'business_profile_response.g.dart';
 
-@freezed
+@Freezed()
 abstract class BusinessProfileResponse with _$BusinessProfileResponse {
   const factory BusinessProfileResponse({
-    required String id,
-    required String companyName,
+    /// Company email
     required String companyEmail,
+
+    /// Company name
+    required String companyName,
+
+    /// Company phone number
     required String companyPhoneNumber,
-    String? physicalAddress,
-    String? description,
-    String? logoUrl,
+
+    /// Creation timestamp
+    required String? createdAt,
+
+    /// Business profile identifier
+    required String id,
+
+    /// Social media links
+    required Map<String, dynamic> socialLinks,
+
+    /// Associated tags
+    required List<dynamic>? tags,
+
+    /// Last update timestamp
+    required String? updatedAt,
+
+    /// A URL to the JSON Schema for this object.
+    @JsonKey(name: '\$schema') String? schema,
+
+    /// Banner URL
     String? bannerUrl,
-    @Default({}) Map<String, dynamic> socialLinks,
-    String? registrationNumber,
-    DateTime? registrationDate,
-    String? taxIdentificationNumber,
-    String? tradeLicenseNumber,
+
+    /// Business description
+    String? description,
+
+    /// Logo URL
+    String? logoUrl,
+
+    /// Physical address
+    String? physicalAddress,
+
+    /// Business region
     String? region,
+
+    /// Registration date
+    DateTime? registrationDate,
+
+    /// Business registration number
+    String? registrationNumber,
+
+    /// Business sector
+    SectorRef? sector,
+
+    /// Business lifecycle stage
     String? stage,
-    BusinessProfileSector? sector,
-    @Default([]) List<BusinessProfileTag> tags,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+
+    /// TIN
+    String? taxIdentificationNumber,
+
+    /// Trade license number
+    String? tradeLicenseNumber,
   }) = _BusinessProfileResponse;
 
-  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) => _$BusinessProfileResponseFromJson(json);
-}
-
-@freezed
-abstract class BusinessProfileSector with _$BusinessProfileSector {
-  const factory BusinessProfileSector({required String id, required String slug}) = _BusinessProfileSector;
-
-  factory BusinessProfileSector.fromJson(Map<String, Object?> json) => _$BusinessProfileSectorFromJson(json);
-}
-
-@freezed
-abstract class BusinessProfileTag with _$BusinessProfileTag {
-  const factory BusinessProfileTag({
-    required String id,
-    required String slug,
-    required String group,
-    required bool isMultiSelect,
-  }) = _BusinessProfileTag;
-
-  factory BusinessProfileTag.fromJson(Map<String, Object?> json) => _$BusinessProfileTagFromJson(json);
+  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) =>
+      _$BusinessProfileResponseFromJson(json);
 }

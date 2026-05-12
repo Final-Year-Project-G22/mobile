@@ -8,7 +8,8 @@ part 'update_community_category_request.freezed.dart';
 part 'update_community_category_request.g.dart';
 
 @Freezed()
-abstract class UpdateCommunityCategoryRequest with _$UpdateCommunityCategoryRequest {
+abstract class UpdateCommunityCategoryRequest
+    with _$UpdateCommunityCategoryRequest {
   const factory UpdateCommunityCategoryRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

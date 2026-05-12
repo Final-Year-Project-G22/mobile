@@ -8,7 +8,8 @@ part 'delete_template_group_output_body.freezed.dart';
 part 'delete_template_group_output_body.g.dart';
 
 @Freezed()
-abstract class DeleteTemplateGroupOutputBody with _$DeleteTemplateGroupOutputBody {
+abstract class DeleteTemplateGroupOutputBody
+    with _$DeleteTemplateGroupOutputBody {
   const factory DeleteTemplateGroupOutputBody({
     /// Success message
     required String message,

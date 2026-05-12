@@ -8,7 +8,8 @@ part 'delete_community_category_response_body.freezed.dart';
 part 'delete_community_category_response_body.g.dart';
 
 @Freezed()
-abstract class DeleteCommunityCategoryResponseBody with _$DeleteCommunityCategoryResponseBody {
+abstract class DeleteCommunityCategoryResponseBody
+    with _$DeleteCommunityCategoryResponseBody {
   const factory DeleteCommunityCategoryResponseBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class DeleteCommunityCategoryResponseBody with _$DeleteCommunityCategor
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteCommunityCategoryResponseBody;
 
-  factory DeleteCommunityCategoryResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteCommunityCategoryResponseBodyFromJson(json);
+  factory DeleteCommunityCategoryResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$DeleteCommunityCategoryResponseBodyFromJson(json);
 }

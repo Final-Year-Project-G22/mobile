@@ -17,5 +17,6 @@ abstract class CreateTagResponseBody with _$CreateTagResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateTagResponseBody;
 
-  factory CreateTagResponseBody.fromJson(Map<String, Object?> json) => _$CreateTagResponseBodyFromJson(json);
+  factory CreateTagResponseBody.fromJson(Map<String, Object?> json) =>
+      _$CreateTagResponseBodyFromJson(json);
 }

@@ -35,5 +35,6 @@ abstract class CampaignSummaryResponse with _$CampaignSummaryResponse {
     DateTime? sentAt,
   }) = _CampaignSummaryResponse;
 
-  factory CampaignSummaryResponse.fromJson(Map<String, Object?> json) => _$CampaignSummaryResponseFromJson(json);
+  factory CampaignSummaryResponse.fromJson(Map<String, Object?> json) =>
+      _$CampaignSummaryResponseFromJson(json);
 }

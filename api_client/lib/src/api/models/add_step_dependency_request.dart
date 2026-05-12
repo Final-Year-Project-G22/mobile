@@ -20,5 +20,6 @@ abstract class AddStepDependencyRequest with _$AddStepDependencyRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddStepDependencyRequest;
 
-  factory AddStepDependencyRequest.fromJson(Map<String, Object?> json) => _$AddStepDependencyRequestFromJson(json);
+  factory AddStepDependencyRequest.fromJson(Map<String, Object?> json) =>
+      _$AddStepDependencyRequestFromJson(json);
 }

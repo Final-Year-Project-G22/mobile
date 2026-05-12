@@ -8,7 +8,8 @@ part 'library_template_detail_response.freezed.dart';
 part 'library_template_detail_response.g.dart';
 
 @Freezed()
-abstract class LibraryTemplateDetailResponse with _$LibraryTemplateDetailResponse {
+abstract class LibraryTemplateDetailResponse
+    with _$LibraryTemplateDetailResponse {
   const factory LibraryTemplateDetailResponse({
     /// MIME type
     required String contentType,

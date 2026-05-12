@@ -8,7 +8,8 @@ part 'create_upload_intent_response_body.freezed.dart';
 part 'create_upload_intent_response_body.g.dart';
 
 @Freezed()
-abstract class CreateUploadIntentResponseBody with _$CreateUploadIntentResponseBody {
+abstract class CreateUploadIntentResponseBody
+    with _$CreateUploadIntentResponseBody {
   const factory CreateUploadIntentResponseBody({
     /// Upload intent expiry timestamp
     required DateTime expiresAt,

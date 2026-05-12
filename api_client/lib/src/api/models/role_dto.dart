@@ -32,5 +32,6 @@ abstract class RoleDto with _$RoleDto {
     String? description,
   }) = _RoleDto;
 
-  factory RoleDto.fromJson(Map<String, Object?> json) => _$RoleDtoFromJson(json);
+  factory RoleDto.fromJson(Map<String, Object?> json) =>
+      _$RoleDtoFromJson(json);
 }

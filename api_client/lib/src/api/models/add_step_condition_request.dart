@@ -24,5 +24,6 @@ abstract class AddStepConditionRequest with _$AddStepConditionRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddStepConditionRequest;
 
-  factory AddStepConditionRequest.fromJson(Map<String, Object?> json) => _$AddStepConditionRequestFromJson(json);
+  factory AddStepConditionRequest.fromJson(Map<String, Object?> json) =>
+      _$AddStepConditionRequestFromJson(json);
 }

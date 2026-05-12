@@ -10,7 +10,8 @@ part 'update_user_report_status_response_body.freezed.dart';
 part 'update_user_report_status_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateUserReportStatusResponseBody with _$UpdateUserReportStatusResponseBody {
+abstract class UpdateUserReportStatusResponseBody
+    with _$UpdateUserReportStatusResponseBody {
   const factory UpdateUserReportStatusResponseBody({
     /// Updated report
     required ReportDto report,
@@ -19,6 +20,7 @@ abstract class UpdateUserReportStatusResponseBody with _$UpdateUserReportStatusR
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateUserReportStatusResponseBody;
 
-  factory UpdateUserReportStatusResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateUserReportStatusResponseBodyFromJson(json);
+  factory UpdateUserReportStatusResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$UpdateUserReportStatusResponseBodyFromJson(json);
 }
