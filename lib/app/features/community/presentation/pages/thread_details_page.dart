@@ -28,14 +28,54 @@ class ThreadDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
+  final _scrollController = ScrollController();
+  final _postKeys = <String, GlobalKey>{};
   DiscussionPost? _replyTarget;
   DiscussionPost? _editTarget;
+  bool _initialScrollDone = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (_scrollController.hasClients) {
+        await _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
   void _startReply(DiscussionPost post) {
     setState(() {
       _replyTarget = post;
       _editTarget = null;
     });
+  }
+
+  void _scrollToParent(String parentPostId) {
+    final key = _postKeys[parentPostId];
+    if (key?.currentContext != null) {
+      unawaited(
+        WidgetsBinding.instance.endOfFrame.then((_) {
+          if (key?.currentContext != null) {
+            return Scrollable.ensureVisible(
+              key!.currentContext!,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              alignment: 0.1,
+            );
+          }
+          return Future<void>.value();
+        }),
+      );
+    }
   }
 
   void _startEdit(DiscussionPost post) {
@@ -50,6 +90,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       _replyTarget = null;
       _editTarget = null;
     });
+    _scrollToBottom();
   }
 
   String _displayName(String authorId, String? authorDisplayName) {
@@ -90,9 +131,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       return;
     }
 
-    final result = await ref
-        .read(communityMutationsProvider.notifier)
-        .deletePost(post.id, widget.threadId);
+    final result = await ref.read(communityMutationsProvider.notifier).deletePost(post.id, widget.threadId);
 
     if (!mounted) {
       return;
@@ -247,10 +286,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     for (final entries in byParent.values) {
       entries.sort(
-        (a, b) =>
-            (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
-              b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-            ),
+        (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+          b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+        ),
       );
     }
 
@@ -270,10 +308,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       final remaining = source.where((post) => !ordered.contains(post));
       final leftovers = remaining.toList()
         ..sort(
-          (a, b) =>
-              (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
-                b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-              ),
+          (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+            b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+          ),
         );
       ordered.addAll(leftovers);
     }
@@ -317,13 +354,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                           value: 'edit',
                           child: Text('Edit Thread'),
                         ),
-                        const PopupMenuItem(
-                          value: 'delete',
-                          child: Text(
-                            'Delete Thread',
-                            style: TextStyle(color: Colors.red),
+                        if (thread.replyCount == 0)
+                          const PopupMenuItem(
+                            value: 'delete',
+                            child: Text(
+                              'Delete Thread',
+                              style: TextStyle(color: Colors.red),
+                            ),
                           ),
-                        ),
                       ],
                       const PopupMenuItem(
                         value: 'report',
@@ -348,12 +386,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             data: (posts) {
               final sortedPosts = [...posts]
                 ..sort(
-                  (a, b) =>
-                      (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
-                          .compareTo(
-                            b.createdAt ??
-                                DateTime.fromMillisecondsSinceEpoch(0),
-                          ),
+                  (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+                    b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ),
                 );
 
               final postsById = {
@@ -371,149 +406,155 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               final initialPostId = initialPost?.id;
               final repliesSource = initialPostId == null
                   ? sortedPosts
-                  : sortedPosts
-                        .where((post) => post.id != initialPostId)
-                        .toList();
+                  : sortedPosts.where((post) => post.id != initialPostId).toList();
 
               final orderedReplies = _buildThreadedReplies(
                 repliesSource,
                 initialPostId,
               );
 
-              return CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              thread.title,
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          if (initialPost != null)
-                            PostCard(
-                              authorId: initialPost.authorId,
-                              authorDisplayName: _displayName(
-                                initialPost.authorId,
-                                initialPost.authorDisplayName,
+              if (!_initialScrollDone) {
+                _initialScrollDone = true;
+                if (orderedReplies.isNotEmpty) {
+                  _scrollToBottom();
+                }
+              }
+
+              _postKeys.clear();
+              for (final post in orderedReplies) {
+                _postKeys.putIfAbsent(post.id, GlobalKey.new);
+              }
+              if (initialPost != null) {
+                _postKeys.putIfAbsent(initialPost.id, GlobalKey.new);
+              }
+
+              return ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                thread.title,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
-                              authorAvatarUrl: initialPost.authorAvatarUrl,
-                              content: initialPost.content,
-                              attachments: initialPost.attachments,
-                              upvoteCount: initialPost.upvoteCount,
-                              createdAt: thread.createdAt,
-                              isEdited:
-                                  initialPost.editCount > 0 ||
-                                  initialPost.editedAt != null,
-                              onReply: () => _startReply(initialPost!),
-                              onEdit:
-                                  _isAuthor(
-                                    initialPost.authorId,
-                                    currentAccountId,
-                                  )
-                                  ? () => _startEdit(initialPost!)
-                                  : null,
-                              onDelete:
-                                  _isAuthor(
-                                    initialPost.authorId,
-                                    currentAccountId,
-                                  )
-                                  ? () => _deletePost(initialPost!)
-                                  : null,
-                              onReport:
-                                  _isAuthor(
-                                    initialPost.authorId,
-                                    currentAccountId,
-                                  )
-                                  ? null
-                                  : () => _reportPost(initialPost!),
-                              onReportUser:
-                                  _isAuthor(
-                                    initialPost.authorId,
-                                    currentAccountId,
-                                  )
-                                  ? null
-                                  : () => _reportUser(initialPost!),
-                            )
-                          else if (thread.description != null &&
-                              thread.description!.isNotEmpty)
-                            PostCard(
-                              authorId: thread.authorId,
-                              authorDisplayName: _displayName(
-                                thread.authorId,
-                                thread.authorDisplayName,
-                              ),
-                              authorAvatarUrl: thread.authorAvatarUrl,
-                              content: thread.description!,
-                              createdAt: thread.createdAt,
                             ),
-                          const Divider(),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (orderedReplies.isEmpty)
-                    const SliverToBoxAdapter(
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(32),
-                          child: Text('No replies yet. Be the first!'),
+                            const SizedBox(height: 8),
+                            if (initialPost != null)
+                              PostCard(
+                                key: _postKeys[initialPost.id],
+                                authorId: initialPost.authorId,
+                                authorDisplayName: _displayName(
+                                  initialPost.authorId,
+                                  initialPost.authorDisplayName,
+                                ),
+                                authorAvatarUrl: initialPost.authorAvatarUrl,
+                                content: initialPost.content,
+                                attachments: initialPost.attachments,
+                                upvoteCount: initialPost.upvoteCount,
+                                createdAt: initialPost.createdAt ?? thread.createdAt,
+                                isEdited: initialPost.editCount > 0 || initialPost.editedAt != null,
+                                onReply: () => _startReply(initialPost!),
+                                onEdit:
+                                    _isAuthor(
+                                      initialPost.authorId,
+                                      currentAccountId,
+                                    )
+                                    ? () => _startEdit(initialPost!)
+                                    : null,
+                                onDelete:
+                                    _isAuthor(
+                                      initialPost.authorId,
+                                      currentAccountId,
+                                    )
+                                    ? () => _deletePost(initialPost!)
+                                    : null,
+                                onReport:
+                                    _isAuthor(
+                                      initialPost.authorId,
+                                      currentAccountId,
+                                    )
+                                    ? null
+                                    : () => _reportPost(initialPost!),
+                                onReportUser:
+                                    _isAuthor(
+                                      initialPost.authorId,
+                                      currentAccountId,
+                                    )
+                                    ? null
+                                    : () => _reportUser(initialPost!),
+                              )
+                            else if (thread.description != null && thread.description!.isNotEmpty)
+                              PostCard(
+                                authorId: thread.authorId,
+                                authorDisplayName: _displayName(
+                                  thread.authorId,
+                                  thread.authorDisplayName,
+                                ),
+                                authorAvatarUrl: thread.authorAvatarUrl,
+                                content: thread.description!,
+                                createdAt: thread.createdAt,
+                              ),
+                            const Divider(),
+                          ],
                         ),
                       ),
-                    )
-                  else
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final post = orderedReplies[index];
-                          final parent = post.parentPostId == null
-                              ? null
-                              : postsById[post.parentPostId!];
-                          final parentPreview = parent == null
-                              ? null
-                              : 'Replying to ${_displayName(parent.authorId, parent.authorDisplayName)}: ${parent.content}';
-
-                          return PostCard(
-                            authorId: post.authorId,
-                            authorDisplayName: _displayName(
-                              post.authorId,
-                              post.authorDisplayName,
-                            ),
-                            authorAvatarUrl: post.authorAvatarUrl,
-                            content: post.content,
-                            upvoteCount: post.upvoteCount,
-                            attachments: post.attachments,
-                            nestingLevel: _nestingLevel(post, postsById),
-                            parentPreview: parentPreview,
-                            createdAt: thread.createdAt,
-                            isEdited:
-                                post.editCount > 0 || post.editedAt != null,
-                            onReply: () => _startReply(post),
-                            onEdit: _isAuthor(post.authorId, currentAccountId)
-                                ? () => _startEdit(post)
-                                : null,
-                            onDelete: _isAuthor(post.authorId, currentAccountId)
-                                ? () => _deletePost(post)
-                                : null,
-                            onReport: _isAuthor(post.authorId, currentAccountId)
-                                ? null
-                                : () => _reportPost(post),
-                            onReportUser:
-                                _isAuthor(post.authorId, currentAccountId)
-                                ? null
-                                : () => _reportUser(post),
-                          );
-                        },
-                        childCount: orderedReplies.length,
-                      ),
                     ),
-                ],
+                    if (orderedReplies.isEmpty)
+                      const SliverToBoxAdapter(
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(32),
+                            child: Text('No replies yet. Be the first!'),
+                          ),
+                        ),
+                      )
+                    else
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final post = orderedReplies[index];
+                            final parent = post.parentPostId == null ? null : postsById[post.parentPostId!];
+                            final parentPreview = parent == null
+                                ? null
+                                : 'Replying to ${_displayName(parent.authorId, parent.authorDisplayName)}: ${parent.content}';
+                            final parentPostId = post.parentPostId;
+
+                            return PostCard(
+                              key: _postKeys[post.id],
+                              authorId: post.authorId,
+                              authorDisplayName: _displayName(
+                                post.authorId,
+                                post.authorDisplayName,
+                              ),
+                              authorAvatarUrl: post.authorAvatarUrl,
+                              content: post.content,
+                              upvoteCount: post.upvoteCount,
+                              attachments: post.attachments,
+                              nestingLevel: _nestingLevel(post, postsById),
+                              parentPreview: parentPreview,
+                              onParentPreviewTap: parentPostId != null ? () => _scrollToParent(parentPostId) : null,
+                              createdAt: post.createdAt ?? thread.createdAt,
+                              isEdited: post.editCount > 0 || post.editedAt != null,
+                              onReply: () => _startReply(post),
+                              onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
+                              onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
+                              onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),
+                              onReportUser: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportUser(post),
+                            );
+                          },
+                          childCount: orderedReplies.length,
+                        ),
+                      ),
+                  ],
+                ),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
