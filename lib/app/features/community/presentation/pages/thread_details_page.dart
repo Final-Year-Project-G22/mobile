@@ -33,6 +33,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   DiscussionPost? _replyTarget;
   DiscussionPost? _editTarget;
   bool _initialScrollDone = false;
+  bool _markReadDone = false;
   int? _previousPostCount;
 
   @override
@@ -330,49 +331,52 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       appBar: AppBar(
         title: Text(widget.threadTitle),
         actions: [
-          Consumer(
-            builder: (context, ref, _) {
-              final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+          if (_isAuthor(threadAsync.asData?.value.authorId ?? '', currentAccountId))
+            const SizedBox.shrink()
+          else
+            Consumer(
+              builder: (context, ref, _) {
+                final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
 
-              return threadAsync.when(
-                data: (thread) {
-                  return IconButton(
-                    icon: Icon(
-                      thread.isFollowed ? Icons.bookmark : Icons.bookmark_border,
-                    ),
-                    tooltip: thread.isFollowed ? 'Unfollow thread' : 'Follow thread',
-                    onPressed: () async {
-                      final notifier = ref.read(communityMutationsProvider.notifier);
-                      final result = await (thread.isFollowed
-                          ? notifier.unfollowThread(thread.id)
-                          : notifier.followThread(thread.id));
-                      if (!context.mounted) return;
-                      result.fold(
-                        (failure) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed: $failure')),
-                          );
-                        },
-                        (_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                thread.isFollowed
-                                    ? 'Unfollowed thread'
-                                    : 'Following thread',
+                return threadAsync.when(
+                  data: (thread) {
+                    return IconButton(
+                      icon: Icon(
+                        thread.isFollowed ? Icons.bookmark : Icons.bookmark_border,
+                      ),
+                      tooltip: thread.isFollowed ? 'Unfollow thread' : 'Follow thread',
+                      onPressed: () async {
+                        final notifier = ref.read(communityMutationsProvider.notifier);
+                        final result = await (thread.isFollowed
+                            ? notifier.unfollowThread(thread.id)
+                            : notifier.followThread(thread.id));
+                        if (!context.mounted) return;
+                        result.fold(
+                          (failure) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed: $failure')),
+                            );
+                          },
+                          (_) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  thread.isFollowed
+                                      ? 'Unfollowed thread'
+                                      : 'Following thread',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-                loading: () => const SizedBox.shrink(),
-                error: (e, s) => const SizedBox.shrink(),
-              );
-            },
-          ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                  loading: () => const SizedBox.shrink(),
+                  error: (e, s) => const SizedBox.shrink(),
+                );
+              },
+            ),
           Consumer(
             builder: (context, ref, _) {
               final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
@@ -426,6 +430,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       ),
       body: threadAsync.when(
         data: (thread) {
+          if (!_markReadDone && thread.unreadCount > 0) {
+            _markReadDone = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              unawaited(
+                ref.read(communityMutationsProvider.notifier).markThreadRead(thread.id),
+              );
+            });
+          }
           return postsAsync.when(
             data: (posts) {
               final sortedPosts = [...posts]

@@ -394,6 +394,18 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   }
 
   @override
+  Future<Either<CommunityFailure, Unit>> markThreadRead(String threadId) async {
+    try {
+      await _client.markThreadRead(id: threadId);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
   Future<Either<CommunityFailure, Unit>> markSolution(
     String threadId,
     String postId,
@@ -519,6 +531,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       authorAvatarUrl: authorAvatarUrl,
       isPinned: dto.isPinned,
       isFollowed: dto.isFollowed,
+      unreadCount: dto.unreadCount,
       status: status,
       viewCount: dto.viewCount,
       shareCount: dto.shareCount,
