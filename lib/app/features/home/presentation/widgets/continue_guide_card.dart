@@ -40,11 +40,11 @@ class ContinueGuideCard extends StatelessWidget {
               children: [
                 CircularProgressRing(
                   percent: guide.percent,
-                  size: 48,
+                  size: 40,
                   strokeWidth: 4,
                   label: '${(guide.percent * 100).round()}%',
                 ),
-                AppSpacing.gapVerticalXs,
+                AppSpacing.gapVerticalXxs,
                 Text(
                   guide.name,
                   style: TextStyle(
