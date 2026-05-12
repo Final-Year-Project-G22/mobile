@@ -11,6 +11,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   final splashLocation = const SplashRoute().location;
   final oauthCallbackLocation = const OAuthCallbackRoute().location;
   final oauthCompleteEmailLocation = const OAuthCompleteEmailRoute().location;
+  final plansLocation = const PlansRoute().location;
+  final paymentSuccessLocation = const PaymentSuccessRoute().location;
 
   final router = GoRouter(
     initialLocation: const SplashRoute().location,
@@ -30,7 +32,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           location == registerLocation ||
           location == otpLocation ||
           location == oauthCallbackLocation ||
-          location == oauthCompleteEmailLocation;
+          location == oauthCompleteEmailLocation ||
+          location == plansLocation ||
+          location == paymentSuccessLocation;
 
       if (authState.isLoading) return null;
 

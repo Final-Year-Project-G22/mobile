@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../app/router/routes.dart';
+
 class CheckoutLauncherPage extends ConsumerStatefulWidget {
   const CheckoutLauncherPage({required this.checkoutUrl, required this.txRef, super.key});
 
@@ -30,17 +32,17 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
       );
 
       if (!mounted) return;
-      context.replace('/payment-result?txRef=${widget.txRef}');
+      context.replace(PaymentResultRoute(txRef: widget.txRef).location);
     } on Exception catch (e) {
       if (!mounted) return;
       final message = e.toString().toLowerCase();
       if (message.contains('cancelled') || message.contains('canceled')) {
-        context.replace('/plans');
+        context.replace(const PlansRoute().location);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment cancelled')),
         );
       } else {
-        context.replace('/payment-result?txRef=${widget.txRef}');
+        context.replace(PaymentResultRoute(txRef: widget.txRef).location);
       }
     }
   }
