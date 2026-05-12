@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 
+import 'entities/completion_stats.dart';
 import 'entities/guide_card.dart';
 import 'entities/guide_detail.dart';
+import 'entities/guide_with_progress.dart';
 import 'entities/step_bookmark.dart';
 import 'failures/guide_failures.dart';
 
@@ -17,6 +19,8 @@ abstract class IGuideRepository {
     String guideSlug,
     String? locale,
   );
+  Future<Either<GuideFailure, List<GuideWithProgress>>> getInProgressGuides();
+  Future<Either<GuideFailure, CompletionStats>> getCompletionStats();
   Future<Either<GuideFailure, Unit>> startStep(String stepId);
   Future<Either<GuideFailure, Unit>> completeStep(String stepId);
   Future<Either<GuideFailure, Unit>> skipStep(String stepId);
