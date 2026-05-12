@@ -299,9 +299,45 @@ class _ThreadListView extends ConsumerWidget {
                               ),
                           ],
                         ),
-                      if (thread.isPinned) ...[
+                      if (thread.hasSolution) ...[
                         if (thread.authorId == currentAccountId ||
                             thread.isFollowed)
+                          const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.green),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                                size: 12,
+                              ),
+                              SizedBox(width: 2),
+                              Text(
+                                'Solved',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (thread.isPinned) ...[
+                        if (thread.authorId == currentAccountId ||
+                            thread.isFollowed ||
+                            thread.hasSolution)
                           const SizedBox(width: 8),
                         Icon(
                           Icons.push_pin,

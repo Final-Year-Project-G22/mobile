@@ -14,6 +14,7 @@ abstract class DiscussionThread with _$DiscussionThread {
     required bool isPinned,
     required bool isFollowed,
     required int unreadCount,
+    required bool hasSolution,
     required int viewCount,
     required int shareCount,
     required int replyCount,
