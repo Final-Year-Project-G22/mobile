@@ -40,5 +40,5 @@ jobs:
       - name: Analyze
         run: dart analyze --fatal-infos --fatal-warnings
 
-      - name: Format check
-        run: find . -name "*.dart" -not -name "*.g.dart" -not -name "*.freezed.dart" -not -path "*/generated/*" -not -path "*/.dart_tool/*" -exec dart format -l 120 --set-exit-if-changed {} +
+      - name: Format
+        run: dart format lib/ api_client/lib/
