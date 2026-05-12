@@ -17,6 +17,5 @@ abstract class CreateGuideResponseBody with _$CreateGuideResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateGuideResponseBody;
 
-  factory CreateGuideResponseBody.fromJson(Map<String, Object?> json) =>
-      _$CreateGuideResponseBodyFromJson(json);
+  factory CreateGuideResponseBody.fromJson(Map<String, Object?> json) => _$CreateGuideResponseBodyFromJson(json);
 }

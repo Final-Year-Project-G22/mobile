@@ -8,8 +8,7 @@ part 'upload_attachments_response_body.freezed.dart';
 part 'upload_attachments_response_body.g.dart';
 
 @Freezed()
-abstract class UploadAttachmentsResponseBody
-    with _$UploadAttachmentsResponseBody {
+abstract class UploadAttachmentsResponseBody with _$UploadAttachmentsResponseBody {
   const factory UploadAttachmentsResponseBody({
     required List<dynamic>? attachments,
 

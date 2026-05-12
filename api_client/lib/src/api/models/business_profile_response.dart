@@ -73,6 +73,5 @@ abstract class BusinessProfileResponse with _$BusinessProfileResponse {
     String? tradeLicenseNumber,
   }) = _BusinessProfileResponse;
 
-  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) =>
-      _$BusinessProfileResponseFromJson(json);
+  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) => _$BusinessProfileResponseFromJson(json);
 }

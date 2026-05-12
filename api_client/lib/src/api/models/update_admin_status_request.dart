@@ -17,6 +17,5 @@ abstract class UpdateAdminStatusRequest with _$UpdateAdminStatusRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateAdminStatusRequest;
 
-  factory UpdateAdminStatusRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateAdminStatusRequestFromJson(json);
+  factory UpdateAdminStatusRequest.fromJson(Map<String, Object?> json) => _$UpdateAdminStatusRequestFromJson(json);
 }

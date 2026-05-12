@@ -18,6 +18,5 @@ abstract class GetGuideAdminResponseBody with _$GetGuideAdminResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetGuideAdminResponseBody;
 
-  factory GetGuideAdminResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetGuideAdminResponseBodyFromJson(json);
+  factory GetGuideAdminResponseBody.fromJson(Map<String, Object?> json) => _$GetGuideAdminResponseBodyFromJson(json);
 }

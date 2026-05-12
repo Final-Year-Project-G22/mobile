@@ -31,8 +31,7 @@ part 'notifications_client.g.dart';
 
 @RestApi()
 abstract class NotificationsClient {
-  factory NotificationsClient(Dio dio, {String? baseUrl}) =
-      _NotificationsClient;
+  factory NotificationsClient(Dio dio, {String? baseUrl}) = _NotificationsClient;
 
   /// List devices.
   ///
@@ -46,9 +45,7 @@ abstract class NotificationsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/notifications/devices')
-  Future<HttpResponse<RegisterDeviceResponseBody>> registerDevice({
-    @Body() required RegisterDeviceRequest body,
-  });
+  Future<HttpResponse<RegisterDeviceResponseBody>> registerDevice({@Body() required RegisterDeviceRequest body});
 
   /// Deactivate device.
   ///
@@ -56,9 +53,7 @@ abstract class NotificationsClient {
   ///
   /// [id] - Device ID.
   @DELETE('/api/v1/notifications/devices/{id}')
-  Future<HttpResponse<DeactivateDeviceResponseBody>> deactivateDevice({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<DeactivateDeviceResponseBody>> deactivateDevice({@Path('id') required String id});
 
   /// Update device.
   ///
@@ -92,9 +87,7 @@ abstract class NotificationsClient {
   ///
   /// [id] - History entry ID.
   @GET('/api/v1/notifications/history/{id}')
-  Future<HttpResponse<HistoryEntryResponse>> getHistoryDetail({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<HistoryEntryResponse>> getHistoryDetail({@Path('id') required String id});
 
   /// List inbox.
   ///
@@ -104,10 +97,7 @@ abstract class NotificationsClient {
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/notifications/inbox')
-  Future<HttpResponse<ListInboxResponseBody>> listInbox({
-    @Query('page') int? page,
-    @Query('pageSize') int? pageSize,
-  });
+  Future<HttpResponse<ListInboxResponseBody>> listInbox({@Query('page') int? page, @Query('pageSize') int? pageSize});
 
   /// Mark all as read.
   ///
@@ -127,9 +117,7 @@ abstract class NotificationsClient {
   ///
   /// [id] - Inbox entry ID.
   @DELETE('/api/v1/notifications/inbox/{id}')
-  Future<HttpResponse<DeleteNotificationResponseBody>> deleteNotification({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<DeleteNotificationResponseBody>> deleteNotification({@Path('id') required String id});
 
   /// Archive notification.
   ///
@@ -137,9 +125,7 @@ abstract class NotificationsClient {
   ///
   /// [id] - Inbox entry ID.
   @PATCH('/api/v1/notifications/inbox/{id}/archive')
-  Future<HttpResponse<ArchiveNotificationResponseBody>> archiveNotification({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<ArchiveNotificationResponseBody>> archiveNotification({@Path('id') required String id});
 
   /// Mark as read.
   ///
@@ -147,9 +133,7 @@ abstract class NotificationsClient {
   ///
   /// [id] - Inbox entry ID.
   @PATCH('/api/v1/notifications/inbox/{id}/read')
-  Future<HttpResponse<MarkAsReadResponseBody>> markAsRead({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<MarkAsReadResponseBody>> markAsRead({@Path('id') required String id});
 
   /// List mutes.
   ///
@@ -159,10 +143,7 @@ abstract class NotificationsClient {
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/notifications/mutes')
-  Future<HttpResponse<ListMutesResponseBody>> listMutes({
-    @Query('page') int? page,
-    @Query('pageSize') int? pageSize,
-  });
+  Future<HttpResponse<ListMutesResponseBody>> listMutes({@Query('page') int? page, @Query('pageSize') int? pageSize});
 
   /// Mute account.
   ///
@@ -170,9 +151,7 @@ abstract class NotificationsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/notifications/mutes')
-  Future<HttpResponse<MuteAccountResponseBody>> muteAccount({
-    @Body() required MuteAccountRequest body,
-  });
+  Future<HttpResponse<MuteAccountResponseBody>> muteAccount({@Body() required MuteAccountRequest body});
 
   /// Unmute account.
   ///
@@ -180,9 +159,7 @@ abstract class NotificationsClient {
   ///
   /// [accountId] - Muted account ID.
   @DELETE('/api/v1/notifications/mutes/{accountId}')
-  Future<HttpResponse<UnmuteAccountResponseBody>> unmuteAccount({
-    @Path('accountId') required String accountId,
-  });
+  Future<HttpResponse<UnmuteAccountResponseBody>> unmuteAccount({@Path('accountId') required String accountId});
 
   /// List preferences.
   ///
@@ -196,9 +173,7 @@ abstract class NotificationsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/notifications/preferences')
-  Future<HttpResponse<SetPreferenceResponseBody>> setPreference({
-    @Body() required SetPreferenceRequest body,
-  });
+  Future<HttpResponse<SetPreferenceResponseBody>> setPreference({@Body() required SetPreferenceRequest body});
 
   /// Delete preference.
   ///

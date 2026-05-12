@@ -23,6 +23,5 @@ abstract class GetUserReportResponseBody with _$GetUserReportResponseBody {
     ContentDto? content,
   }) = _GetUserReportResponseBody;
 
-  factory GetUserReportResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetUserReportResponseBodyFromJson(json);
+  factory GetUserReportResponseBody.fromJson(Map<String, Object?> json) => _$GetUserReportResponseBodyFromJson(json);
 }

@@ -41,6 +41,5 @@ abstract class CreateSectorRequest with _$CreateSectorRequest {
     String? parentId,
   }) = _CreateSectorRequest;
 
-  factory CreateSectorRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateSectorRequestFromJson(json);
+  factory CreateSectorRequest.fromJson(Map<String, Object?> json) => _$CreateSectorRequestFromJson(json);
 }

@@ -8,8 +8,7 @@ part 'update_campaign_template_request.freezed.dart';
 part 'update_campaign_template_request.g.dart';
 
 @Freezed()
-abstract class UpdateCampaignTemplateRequest
-    with _$UpdateCampaignTemplateRequest {
+abstract class UpdateCampaignTemplateRequest with _$UpdateCampaignTemplateRequest {
   const factory UpdateCampaignTemplateRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

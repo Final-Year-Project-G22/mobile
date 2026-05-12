@@ -17,6 +17,5 @@ abstract class DeleteGuideResponseBody with _$DeleteGuideResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteGuideResponseBody;
 
-  factory DeleteGuideResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteGuideResponseBodyFromJson(json);
+  factory DeleteGuideResponseBody.fromJson(Map<String, Object?> json) => _$DeleteGuideResponseBodyFromJson(json);
 }

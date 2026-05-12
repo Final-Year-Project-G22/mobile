@@ -26,6 +26,5 @@ abstract class FinalizeUploadResponseBody with _$FinalizeUploadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _FinalizeUploadResponseBody;
 
-  factory FinalizeUploadResponseBody.fromJson(Map<String, Object?> json) =>
-      _$FinalizeUploadResponseBodyFromJson(json);
+  factory FinalizeUploadResponseBody.fromJson(Map<String, Object?> json) => _$FinalizeUploadResponseBodyFromJson(json);
 }

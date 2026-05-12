@@ -8,8 +8,7 @@ part 'update_business_profile_request.freezed.dart';
 part 'update_business_profile_request.g.dart';
 
 @Freezed()
-abstract class UpdateBusinessProfileRequest
-    with _$UpdateBusinessProfileRequest {
+abstract class UpdateBusinessProfileRequest with _$UpdateBusinessProfileRequest {
   const factory UpdateBusinessProfileRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

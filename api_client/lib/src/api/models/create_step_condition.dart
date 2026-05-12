@@ -21,6 +21,5 @@ abstract class CreateStepCondition with _$CreateStepCondition {
     @JsonKey(name: 'operator') required String operatorField,
   }) = _CreateStepCondition;
 
-  factory CreateStepCondition.fromJson(Map<String, Object?> json) =>
-      _$CreateStepConditionFromJson(json);
+  factory CreateStepCondition.fromJson(Map<String, Object?> json) => _$CreateStepConditionFromJson(json);
 }

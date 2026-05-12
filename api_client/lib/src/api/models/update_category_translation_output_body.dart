@@ -8,8 +8,7 @@ part 'update_category_translation_output_body.freezed.dart';
 part 'update_category_translation_output_body.g.dart';
 
 @Freezed()
-abstract class UpdateCategoryTranslationOutputBody
-    with _$UpdateCategoryTranslationOutputBody {
+abstract class UpdateCategoryTranslationOutputBody with _$UpdateCategoryTranslationOutputBody {
   const factory UpdateCategoryTranslationOutputBody({
     /// Success message
     required String message,
@@ -18,7 +17,6 @@ abstract class UpdateCategoryTranslationOutputBody
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCategoryTranslationOutputBody;
 
-  factory UpdateCategoryTranslationOutputBody.fromJson(
-    Map<String, Object?> json,
-  ) => _$UpdateCategoryTranslationOutputBodyFromJson(json);
+  factory UpdateCategoryTranslationOutputBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateCategoryTranslationOutputBodyFromJson(json);
 }

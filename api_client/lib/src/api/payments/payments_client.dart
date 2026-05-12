@@ -31,9 +31,7 @@ abstract class PaymentsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/payments/initiate')
-  Future<HttpResponse<InitiatePaymentResponseBody>> initiatePayment({
-    @Body() required InitiatePaymentRequestBody body,
-  });
+  Future<HttpResponse<InitiatePaymentResponseBody>> initiatePayment({@Body() required InitiatePaymentRequestBody body});
 
   /// List subscription plans.
   ///
@@ -47,7 +45,5 @@ abstract class PaymentsClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/payments/verify')
-  Future<HttpResponse<VerifyPaymentResponseBody>> verifyPayment({
-    @Body() required VerifyPaymentRequestBody body,
-  });
+  Future<HttpResponse<VerifyPaymentResponseBody>> verifyPayment({@Body() required VerifyPaymentRequestBody body});
 }

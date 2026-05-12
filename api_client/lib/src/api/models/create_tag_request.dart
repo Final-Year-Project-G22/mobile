@@ -44,6 +44,5 @@ abstract class CreateTagRequest with _$CreateTagRequest {
     String? icon,
   }) = _CreateTagRequest;
 
-  factory CreateTagRequest.fromJson(Map<String, Object?> json) =>
-      _$CreateTagRequestFromJson(json);
+  factory CreateTagRequest.fromJson(Map<String, Object?> json) => _$CreateTagRequestFromJson(json);
 }

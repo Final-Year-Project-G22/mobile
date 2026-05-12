@@ -16,6 +16,5 @@ abstract class IngestToggleStateResponse with _$IngestToggleStateResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _IngestToggleStateResponse;
 
-  factory IngestToggleStateResponse.fromJson(Map<String, Object?> json) =>
-      _$IngestToggleStateResponseFromJson(json);
+  factory IngestToggleStateResponse.fromJson(Map<String, Object?> json) => _$IngestToggleStateResponseFromJson(json);
 }

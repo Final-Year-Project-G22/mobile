@@ -26,6 +26,5 @@ abstract class StepVersionDto with _$StepVersionDto {
     required int version,
   }) = _StepVersionDto;
 
-  factory StepVersionDto.fromJson(Map<String, Object?> json) =>
-      _$StepVersionDtoFromJson(json);
+  factory StepVersionDto.fromJson(Map<String, Object?> json) => _$StepVersionDtoFromJson(json);
 }

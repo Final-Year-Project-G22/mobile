@@ -17,6 +17,5 @@ abstract class MarkAllAsReadResponseBody with _$MarkAllAsReadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _MarkAllAsReadResponseBody;
 
-  factory MarkAllAsReadResponseBody.fromJson(Map<String, Object?> json) =>
-      _$MarkAllAsReadResponseBodyFromJson(json);
+  factory MarkAllAsReadResponseBody.fromJson(Map<String, Object?> json) => _$MarkAllAsReadResponseBodyFromJson(json);
 }

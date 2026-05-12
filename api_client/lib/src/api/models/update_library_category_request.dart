@@ -8,8 +8,7 @@ part 'update_library_category_request.freezed.dart';
 part 'update_library_category_request.g.dart';
 
 @Freezed()
-abstract class UpdateLibraryCategoryRequest
-    with _$UpdateLibraryCategoryRequest {
+abstract class UpdateLibraryCategoryRequest with _$UpdateLibraryCategoryRequest {
   const factory UpdateLibraryCategoryRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

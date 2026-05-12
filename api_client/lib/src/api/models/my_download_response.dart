@@ -23,6 +23,5 @@ abstract class MyDownloadResponse with _$MyDownloadResponse {
     required String templateId,
   }) = _MyDownloadResponse;
 
-  factory MyDownloadResponse.fromJson(Map<String, Object?> json) =>
-      _$MyDownloadResponseFromJson(json);
+  factory MyDownloadResponse.fromJson(Map<String, Object?> json) => _$MyDownloadResponseFromJson(json);
 }

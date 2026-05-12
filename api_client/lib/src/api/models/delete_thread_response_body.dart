@@ -17,6 +17,5 @@ abstract class DeleteThreadResponseBody with _$DeleteThreadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteThreadResponseBody;
 
-  factory DeleteThreadResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteThreadResponseBodyFromJson(json);
+  factory DeleteThreadResponseBody.fromJson(Map<String, Object?> json) => _$DeleteThreadResponseBodyFromJson(json);
 }

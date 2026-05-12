@@ -16,6 +16,5 @@ abstract class AdminStepTranslationDto with _$AdminStepTranslationDto {
     dynamic detailedContent,
   }) = _AdminStepTranslationDto;
 
-  factory AdminStepTranslationDto.fromJson(Map<String, Object?> json) =>
-      _$AdminStepTranslationDtoFromJson(json);
+  factory AdminStepTranslationDto.fromJson(Map<String, Object?> json) => _$AdminStepTranslationDtoFromJson(json);
 }

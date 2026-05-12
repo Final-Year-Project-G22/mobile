@@ -8,8 +8,7 @@ part 'create_template_group_output_body.freezed.dart';
 part 'create_template_group_output_body.g.dart';
 
 @Freezed()
-abstract class CreateTemplateGroupOutputBody
-    with _$CreateTemplateGroupOutputBody {
+abstract class CreateTemplateGroupOutputBody with _$CreateTemplateGroupOutputBody {
   const factory CreateTemplateGroupOutputBody({
     /// Created group ID
     required String id,

@@ -8,8 +8,7 @@ part 'update_interactive_form_request.freezed.dart';
 part 'update_interactive_form_request.g.dart';
 
 @Freezed()
-abstract class UpdateInteractiveFormRequest
-    with _$UpdateInteractiveFormRequest {
+abstract class UpdateInteractiveFormRequest with _$UpdateInteractiveFormRequest {
   const factory UpdateInteractiveFormRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

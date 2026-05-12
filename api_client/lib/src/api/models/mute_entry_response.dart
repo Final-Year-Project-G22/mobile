@@ -26,6 +26,5 @@ abstract class MuteEntryResponse with _$MuteEntryResponse {
     String? reason,
   }) = _MuteEntryResponse;
 
-  factory MuteEntryResponse.fromJson(Map<String, Object?> json) =>
-      _$MuteEntryResponseFromJson(json);
+  factory MuteEntryResponse.fromJson(Map<String, Object?> json) => _$MuteEntryResponseFromJson(json);
 }

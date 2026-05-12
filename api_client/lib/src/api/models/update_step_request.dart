@@ -50,6 +50,5 @@ abstract class UpdateStepRequest with _$UpdateStepRequest {
     List<dynamic>? translations,
   }) = _UpdateStepRequest;
 
-  factory UpdateStepRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateStepRequestFromJson(json);
+  factory UpdateStepRequest.fromJson(Map<String, Object?> json) => _$UpdateStepRequestFromJson(json);
 }

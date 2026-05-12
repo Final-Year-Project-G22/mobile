@@ -50,6 +50,5 @@ abstract class FinalizeUploadRequest with _$FinalizeUploadRequest {
     List<dynamic>? tagIds,
   }) = _FinalizeUploadRequest;
 
-  factory FinalizeUploadRequest.fromJson(Map<String, Object?> json) =>
-      _$FinalizeUploadRequestFromJson(json);
+  factory FinalizeUploadRequest.fromJson(Map<String, Object?> json) => _$FinalizeUploadRequestFromJson(json);
 }

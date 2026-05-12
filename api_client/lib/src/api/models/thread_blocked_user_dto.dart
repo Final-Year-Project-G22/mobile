@@ -47,6 +47,5 @@ abstract class ThreadBlockedUserDto with _$ThreadBlockedUserDto {
     String? threadTitle,
   }) = _ThreadBlockedUserDto;
 
-  factory ThreadBlockedUserDto.fromJson(Map<String, Object?> json) =>
-      _$ThreadBlockedUserDtoFromJson(json);
+  factory ThreadBlockedUserDto.fromJson(Map<String, Object?> json) => _$ThreadBlockedUserDtoFromJson(json);
 }

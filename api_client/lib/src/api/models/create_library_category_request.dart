@@ -8,8 +8,7 @@ part 'create_library_category_request.freezed.dart';
 part 'create_library_category_request.g.dart';
 
 @Freezed()
-abstract class CreateLibraryCategoryRequest
-    with _$CreateLibraryCategoryRequest {
+abstract class CreateLibraryCategoryRequest with _$CreateLibraryCategoryRequest {
   const factory CreateLibraryCategoryRequest({
     /// Category name
     required String name,

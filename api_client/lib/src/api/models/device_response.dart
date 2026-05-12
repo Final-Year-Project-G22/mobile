@@ -44,6 +44,5 @@ abstract class DeviceResponse with _$DeviceResponse {
     String? pushToken,
   }) = _DeviceResponse;
 
-  factory DeviceResponse.fromJson(Map<String, Object?> json) =>
-      _$DeviceResponseFromJson(json);
+  factory DeviceResponse.fromJson(Map<String, Object?> json) => _$DeviceResponseFromJson(json);
 }

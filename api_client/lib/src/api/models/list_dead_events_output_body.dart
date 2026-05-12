@@ -17,6 +17,5 @@ abstract class ListDeadEventsOutputBody with _$ListDeadEventsOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListDeadEventsOutputBody;
 
-  factory ListDeadEventsOutputBody.fromJson(Map<String, Object?> json) =>
-      _$ListDeadEventsOutputBodyFromJson(json);
+  factory ListDeadEventsOutputBody.fromJson(Map<String, Object?> json) => _$ListDeadEventsOutputBodyFromJson(json);
 }

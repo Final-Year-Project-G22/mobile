@@ -8,8 +8,7 @@ part 'create_interactive_form_output_body.freezed.dart';
 part 'create_interactive_form_output_body.g.dart';
 
 @Freezed()
-abstract class CreateInteractiveFormOutputBody
-    with _$CreateInteractiveFormOutputBody {
+abstract class CreateInteractiveFormOutputBody with _$CreateInteractiveFormOutputBody {
   const factory CreateInteractiveFormOutputBody({
     /// Created form ID
     required String id,
