@@ -41,7 +41,9 @@ class CompleteProfileBanner extends StatelessWidget {
                   'Complete your business profile',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                    color: isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -49,7 +51,9 @@ class CompleteProfileBanner extends StatelessWidget {
                   'Unlock personalized guidance and better recommendations.',
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                    color: isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                   ),
                 ),
               ],

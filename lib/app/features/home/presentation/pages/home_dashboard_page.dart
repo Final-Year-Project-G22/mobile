@@ -23,7 +23,9 @@ class HomeDashboardPage extends ConsumerWidget {
         QuickAction(
           icon: Icons.play_circle_outline,
           label: 'Continue Last Guide',
-          onTap: () => GuideDetailRoute(guideSlug: state.recentlyViewed.first.slug).go(context),
+          onTap: () => GuideDetailRoute(
+            guideSlug: state.recentlyViewed.first.slug,
+          ).go(context),
         ),
       QuickAction(
         icon: Icons.history,

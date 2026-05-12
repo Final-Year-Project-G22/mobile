@@ -23,7 +23,8 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     final result = await repo.uploadAttachments(files);
     result.fold(
       (failure) => debugPrint('Mutations: upload failed: $failure'),
-      (attachments) => debugPrint('Mutations: upload success: ${attachments.length} files'),
+      (attachments) =>
+          debugPrint('Mutations: upload success: ${attachments.length} files'),
     );
     state = const AsyncData(null);
     return result;
@@ -204,6 +205,7 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
   }
 }
 
-final communityMutationsProvider = AsyncNotifierProvider<CommunityMutationsNotifier, void>(
-  CommunityMutationsNotifier.new,
-);
+final communityMutationsProvider =
+    AsyncNotifierProvider<CommunityMutationsNotifier, void>(
+      CommunityMutationsNotifier.new,
+    );

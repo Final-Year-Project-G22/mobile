@@ -95,7 +95,9 @@ class InboxNotifier extends _$InboxNotifier {
     result.fold(
       (_) => null,
       (_) {
-        final updated = state.entries.map((e) => e.copyWith(isRead: true)).toList();
+        final updated = state.entries
+            .map((e) => e.copyWith(isRead: true))
+            .toList();
         state = state.copyWith(entries: updated);
         ref.invalidate(unreadCountProvider);
       },

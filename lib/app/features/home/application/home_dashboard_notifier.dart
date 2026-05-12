@@ -25,7 +25,10 @@ class HomeDashboardNotifier extends _$HomeDashboardNotifier {
     final recentResult = await repo.getRecentlyViewed(null);
 
     final stats = statsResult.fold((_) => null, (s) => s);
-    final inProgress = inProgressResult.fold((_) => <GuideWithProgress>[], (r) => r);
+    final inProgress = inProgressResult.fold(
+      (_) => <GuideWithProgress>[],
+      (r) => r,
+    );
     final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
 
     state = HomeDashboardState(

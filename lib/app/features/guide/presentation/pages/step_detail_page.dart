@@ -98,10 +98,14 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       appBar: AppBar(
         title: Text(step?.title ?? 'Step'),
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+        backgroundColor: isDark
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
       ),
       body: step == null
           ? const Center(child: CircularProgressIndicator())
@@ -111,10 +115,14 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                    color: isDark
+                        ? AppColors.surfaceDark
+                        : AppColors.surfaceLight,
                     border: Border(
                       bottom: BorderSide(
-                        color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                        color: isDark
+                            ? AppColors.borderDark
+                            : AppColors.borderLight,
                       ),
                     ),
                   ),
@@ -132,7 +140,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: isDark ? AppColors.slate700 : AppColors.slate100,
+                                color: isDark
+                                    ? AppColors.slate700
+                                    : AppColors.slate100,
                                 borderRadius: AppSpacing.borderRadiusFull,
                               ),
                               child: Row(
@@ -141,14 +151,18 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                                   Icon(
                                     Icons.timer_outlined,
                                     size: 14,
-                                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                    color: isDark
+                                        ? AppColors.textSecondaryDark
+                                        : AppColors.textSecondaryLight,
                                   ),
                                   AppSpacing.gapHorizontalXxs,
                                   Text(
                                     '~${step.estimatedTime} min',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                      color: isDark
+                                          ? AppColors.textSecondaryDark
+                                          : AppColors.textSecondaryLight,
                                     ),
                                   ),
                                 ],
@@ -163,7 +177,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                           _stripHtml(step.description!),
                           style: TextStyle(
                             fontSize: 14,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                       ],
@@ -243,7 +259,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       return Text(
         'No content available for this step.',
         style: TextStyle(
-          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+          color: isDark
+              ? AppColors.textSecondaryDark
+              : AppColors.textSecondaryLight,
         ),
       );
     }

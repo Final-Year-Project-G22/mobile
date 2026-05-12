@@ -19,7 +19,9 @@ class SseParser {
         .transform(const LineSplitter())
         .listen(
           (line) {
-            final cleanLine = line.endsWith('\r') ? line.substring(0, line.length - 1) : line;
+            final cleanLine = line.endsWith('\r')
+                ? line.substring(0, line.length - 1)
+                : line;
 
             if (cleanLine.isEmpty) {
               if (eventType.isNotEmpty && eventData.isNotEmpty) {
@@ -64,7 +66,9 @@ class SseParser {
           final citationsList = json['citations'] as List<dynamic>?;
           return SseEvent(
             type: SseEventType.citations,
-            citations: citationsList?.map((c) => CitationDto.fromJson(c as Map<String, dynamic>)).toList(),
+            citations: citationsList
+                ?.map((c) => CitationDto.fromJson(c as Map<String, dynamic>))
+                .toList(),
           );
         case 'done':
           return SseEvent(

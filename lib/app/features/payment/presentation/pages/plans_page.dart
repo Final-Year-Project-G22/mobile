@@ -43,8 +43,17 @@ class PlansPage extends ConsumerWidget {
       next.whenOrNull(
         data: (checkout) {
           if (checkout != null) {
-            debugPrint('[PAYMENT] PlansPage navigating to checkout: url=${checkout.checkoutUrl}');
-            unawaited(context.push(CheckoutLauncherRoute(url: checkout.checkoutUrl, txRef: checkout.txRef).location));
+            debugPrint(
+              '[PAYMENT] PlansPage navigating to checkout: url=${checkout.checkoutUrl}',
+            );
+            unawaited(
+              context.push(
+                CheckoutLauncherRoute(
+                  url: checkout.checkoutUrl,
+                  txRef: checkout.txRef,
+                ).location,
+              ),
+            );
           }
         },
         error: (error, _) {
@@ -69,13 +78,17 @@ class PlansPage extends ConsumerWidget {
       appBar: AppBar(title: const Text('Choose Your Plan')),
       body: Stack(
         children: [
-          if (authState.isLoading || authState.value?.user == null || subAsync.isLoading)
+          if (authState.isLoading ||
+              authState.value?.user == null ||
+              subAsync.isLoading)
             const Center(child: CircularProgressIndicator())
           else
             plansAsync.when(
-              data: (plans) => _buildContent(context, ref, plans, subAsync.value),
+              data: (plans) =>
+                  _buildContent(context, ref, plans, subAsync.value),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(child: Text('Failed to load plans: $error')),
+              error: (error, _) =>
+                  Center(child: Text('Failed to load plans: $error')),
             ),
           if (checkoutAsync.isLoading)
             const ColoredBox(
@@ -93,19 +106,26 @@ class PlansPage extends ConsumerWidget {
     List<SubscriptionPlan> plans,
     Subscription? sub,
   ) {
-    final hasPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+    final hasPro =
+        sub != null && sub.planName == 'Pro' && sub.status == 'active';
     final basicPlans = plans.where((p) => p.name == 'Basic').toList();
-    final basicMonthly = basicPlans.where((p) => p.period == 'monthly').firstOrNull;
+    final basicMonthly = basicPlans
+        .where((p) => p.period == 'monthly')
+        .firstOrNull;
     final proPlans = plans.where((p) => p.name == 'Pro').toList();
     final proMonthly = proPlans.where((p) => p.period == 'monthly').firstOrNull;
     final proYearly = proPlans.where((p) => p.period == 'yearly').firstOrNull;
 
     void handleSubscribe(String planName, String period) {
-      debugPrint('[PAYMENT] handleSubscribe called: plan=$planName, period=$period');
+      debugPrint(
+        '[PAYMENT] handleSubscribe called: plan=$planName, period=$period',
+      );
       final authState = ref.read(authProvider);
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
       if (!isAuthenticated) {
-        debugPrint('[PAYMENT] handleSubscribe: not authenticated, redirecting to login');
+        debugPrint(
+          '[PAYMENT] handleSubscribe: not authenticated, redirecting to login',
+        );
         unawaited(context.push(const LoginRoute().location));
         return;
       }
@@ -115,7 +135,9 @@ class PlansPage extends ConsumerWidget {
         debugPrint('[PAYMENT] handleSubscribe: user or account is null');
         return;
       }
-      debugPrint('[PAYMENT] handleSubscribe: user=${user.firstName}, email=${account.email}');
+      debugPrint(
+        '[PAYMENT] handleSubscribe: user=${user.firstName}, email=${account.email}',
+      );
       unawaited(
         ref
             .read(checkoutProvider.notifier)
@@ -150,10 +172,16 @@ class PlansPage extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('You are on Pro', style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'You are on Pro',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         Text(
                           'Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}',
-                          style: const TextStyle(color: AppColors.slate500, fontSize: 12),
+                          style: const TextStyle(
+                            color: AppColors.slate500,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
@@ -179,7 +207,9 @@ class PlansPage extends ConsumerWidget {
               features: _proFeatures,
               isPro: true,
               highlight: !hasPro,
-              onSubscribe: hasPro ? null : () => handleSubscribe('Pro', 'monthly'),
+              onSubscribe: hasPro
+                  ? null
+                  : () => handleSubscribe('Pro', 'monthly'),
               currentPlan: hasPro && sub.planPeriod == 'monthly',
             ),
           if (proYearly != null) ...[
@@ -190,8 +220,11 @@ class PlansPage extends ConsumerWidget {
               period: '/year',
               features: _proFeatures,
               isPro: true,
-              onSubscribe: hasPro ? null : () => handleSubscribe('Pro', 'yearly'),
-              highlight: _yearlySavings(proMonthly?.amount, proYearly.amount) > 0,
+              onSubscribe: hasPro
+                  ? null
+                  : () => handleSubscribe('Pro', 'yearly'),
+              highlight:
+                  _yearlySavings(proMonthly?.amount, proYearly.amount) > 0,
               currentPlan: hasPro && sub.planPeriod == 'yearly',
             ),
             if (_yearlySavings(proMonthly?.amount, proYearly.amount) > 0)

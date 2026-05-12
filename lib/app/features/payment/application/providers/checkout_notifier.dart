@@ -21,7 +21,9 @@ class CheckoutNotifier extends _$CheckoutNotifier {
     required String lastName,
     String? phone,
   }) async {
-    debugPrint('[PAYMENT] CheckoutNotifier.initiate called: plan=$planName, period=$period');
+    debugPrint(
+      '[PAYMENT] CheckoutNotifier.initiate called: plan=$planName, period=$period',
+    );
     state = const AsyncLoading();
     final repo = ref.read(paymentRepositoryProvider);
 
@@ -48,7 +50,9 @@ class CheckoutNotifier extends _$CheckoutNotifier {
           throw Exception(msg);
         },
         (checkout) async {
-          debugPrint('[PAYMENT] CheckoutNotifier SUCCESS: txRef=${checkout.txRef}');
+          debugPrint(
+            '[PAYMENT] CheckoutNotifier SUCCESS: txRef=${checkout.txRef}',
+          );
           await ref.read(pendingPaymentProvider.notifier).set(checkout.txRef);
           return checkout;
         },

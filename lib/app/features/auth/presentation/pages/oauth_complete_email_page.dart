@@ -16,10 +16,12 @@ class OAuthCompleteEmailPage extends ConsumerStatefulWidget {
   const OAuthCompleteEmailPage({super.key});
 
   @override
-  ConsumerState<OAuthCompleteEmailPage> createState() => _OAuthCompleteEmailPageState();
+  ConsumerState<OAuthCompleteEmailPage> createState() =>
+      _OAuthCompleteEmailPageState();
 }
 
-class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage> {
+class _OAuthCompleteEmailPageState
+    extends ConsumerState<OAuthCompleteEmailPage> {
   late TextEditingController _emailController;
 
   @override
@@ -50,8 +52,10 @@ class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage>
 
             final message = error.maybeWhen(
               networkError: (_) => 'No internet connection',
-              oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
-              oauthStateInvalidOrExpired: (value) => value ?? 'OAuth session expired, try again',
+              oauthCallbackInvalid: (value) =>
+                  value ?? 'Invalid OAuth callback',
+              oauthStateInvalidOrExpired: (value) =>
+                  value ?? 'OAuth session expired, try again',
               serverError: (value) => value ?? 'Server error',
               orElse: () => 'Unable to complete OAuth login',
             );
@@ -66,16 +70,20 @@ class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage>
         );
       })
       ..listen(authOAuthStateProvider, (previous, next) {
-        if (next.oauthProvidersFailure == null || previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
+        if (next.oauthProvidersFailure == null ||
+            previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
           return;
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
           networkError: (_) => 'No internet connection',
           oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
-          oauthStateInvalidOrExpired: (value) => value ?? 'OAuth session expired, try again',
-          oauthProviderUnavailable: (value) => value ?? 'OAuth provider is unavailable',
-          unsupportedOAuthProvider: (value) => value ?? 'Unsupported OAuth provider',
+          oauthStateInvalidOrExpired: (value) =>
+              value ?? 'OAuth session expired, try again',
+          oauthProviderUnavailable: (value) =>
+              value ?? 'OAuth provider is unavailable',
+          unsupportedOAuthProvider: (value) =>
+              value ?? 'Unsupported OAuth provider',
           oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
           serverError: (value) => value ?? 'Server error',
           orElse: () => 'Unable to complete OAuth login',
@@ -108,7 +116,9 @@ class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage>
     }
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -121,7 +131,9 @@ class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage>
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                 ),
               ),
               AppSpacing.gapVerticalXs,
@@ -129,23 +141,33 @@ class _OAuthCompleteEmailPageState extends ConsumerState<OAuthCompleteEmailPage>
                 'Add an email to finish signing in with ${pending.provider}.',
                 style: TextStyle(
                   fontSize: 16,
-                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                  color: isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
               Container(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                  color: isDark
+                      ? AppColors.surfaceDark
+                      : AppColors.surfaceLight,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                   border: Border.all(
-                    color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    color: isDark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight,
                   ),
                 ),
                 child: Text(
-                  pending.name.isNotEmpty ? 'Signed in as ${pending.name}' : 'Provider subject: ${pending.subject}',
+                  pending.name.isNotEmpty
+                      ? 'Signed in as ${pending.name}'
+                      : 'Provider subject: ${pending.subject}',
                   style: TextStyle(
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                    color: isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                   ),
                 ),
               ),

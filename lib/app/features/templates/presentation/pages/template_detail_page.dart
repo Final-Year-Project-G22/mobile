@@ -164,7 +164,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                       LanguageSelector(
                         languages: languages.map((l) => l.language).toList(),
                         selected: effectiveLanguage,
-                        onSelect: (lang) => setState(() => _selectedLanguage = lang),
+                        onSelect: (lang) =>
+                            setState(() => _selectedLanguage = lang),
                       ),
                       const SizedBox(height: 24),
                     ],
@@ -174,7 +175,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => _handlePreview(detail, effectiveLanguage),
+                            onPressed: () =>
+                                _handlePreview(detail, effectiveLanguage),
                             icon: const Icon(Icons.visibility),
                             label: const Text('Preview'),
                           ),
@@ -199,7 +201,9 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                                   )
                                 : const Icon(Icons.download),
                             label: Text(
-                              detail.tierAccess == 'pro' ? 'Upgrade to Download' : 'Download',
+                              detail.tierAccess == 'pro'
+                                  ? 'Upgrade to Download'
+                                  : 'Download',
                             ),
                           ),
                         ),

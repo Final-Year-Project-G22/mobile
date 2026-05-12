@@ -106,7 +106,9 @@ class StepActionBar extends StatelessWidget {
                 isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                 color: isBookmarked
                     ? AppColors.accent
-                    : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                    : (isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight),
               ),
               tooltip: isBookmarked ? 'Remove bookmark' : 'Add bookmark',
             ),
@@ -137,7 +139,9 @@ class StepActionBar extends StatelessWidget {
                 isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                 color: isBookmarked
                     ? AppColors.accent
-                    : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                    : (isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight),
               ),
               tooltip: isBookmarked ? 'Remove bookmark' : 'Add bookmark',
             ),

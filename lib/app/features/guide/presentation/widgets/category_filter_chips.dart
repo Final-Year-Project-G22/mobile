@@ -61,7 +61,9 @@ class CategoryFilterChips extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.accent : (isDark ? AppColors.slate700 : AppColors.slate100),
+          color: isSelected
+              ? AppColors.accent
+              : (isDark ? AppColors.slate700 : AppColors.slate100),
           borderRadius: AppSpacing.borderRadiusFull,
         ),
         child: Text(
@@ -69,7 +71,11 @@ class CategoryFilterChips extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected ? Colors.white : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+            color: isSelected
+                ? Colors.white
+                : (isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight),
           ),
         ),
       ),

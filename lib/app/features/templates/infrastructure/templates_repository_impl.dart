@@ -59,7 +59,8 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
       final items = (response.data.data ?? [])
           .map(
-            (e) => TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>),
+            (e) =>
+                TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>),
           )
           .map(_mapTemplateGroupCard)
           .toList();
@@ -237,7 +238,9 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 404) {
           return const TemplateFailure.notFound();

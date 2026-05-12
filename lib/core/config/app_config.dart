@@ -43,7 +43,8 @@ class AppConfig {
     return baseUrl;
   }
 
-  static String get oauthCallbackScheme => _requireEnv('OAUTH_CALLBACK_SCHEME').toLowerCase();
+  static String get oauthCallbackScheme =>
+      _requireEnv('OAUTH_CALLBACK_SCHEME').toLowerCase();
 
   static String get oauthCallbackHost => _requireEnv('OAUTH_CALLBACK_HOST');
 
@@ -53,7 +54,9 @@ class AppConfig {
   }
 
   static Uri get oauthCallbackUri {
-    final normalizedPath = oauthCallbackPath.startsWith('/') ? oauthCallbackPath.substring(1) : oauthCallbackPath;
+    final normalizedPath = oauthCallbackPath.startsWith('/')
+        ? oauthCallbackPath.substring(1)
+        : oauthCallbackPath;
     return Uri(
       scheme: oauthCallbackScheme,
       host: oauthCallbackHost,

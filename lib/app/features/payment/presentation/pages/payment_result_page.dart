@@ -149,7 +149,9 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
             ),
             const SizedBox(height: 32),
             OutlinedButton(
-              style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(48),
+              ),
               onPressed: () => context.replace(const PlansRoute().location),
               child: const Text('Try Again'),
             ),
@@ -166,7 +168,11 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.hourglass_empty, size: 80, color: AppColors.warning),
+            const Icon(
+              Icons.hourglass_empty,
+              size: 80,
+              color: AppColors.warning,
+            ),
             const SizedBox(height: 16),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),

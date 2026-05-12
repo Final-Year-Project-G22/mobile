@@ -187,12 +187,18 @@ class PostCard extends StatelessWidget {
                     GestureDetector(
                       onLongPress: onReportUser,
                       child: Tooltip(
-                        message: onReportUser != null ? 'Long-press to report user' : '',
+                        message: onReportUser != null
+                            ? 'Long-press to report user'
+                            : '',
                         child: CircleAvatar(
-                          backgroundImage: authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
+                          backgroundImage:
+                              authorAvatarUrl != null &&
+                                  authorAvatarUrl!.isNotEmpty
                               ? NetworkImage(authorAvatarUrl!)
                               : null,
-                          child: (authorAvatarUrl == null || authorAvatarUrl!.isEmpty)
+                          child:
+                              (authorAvatarUrl == null ||
+                                  authorAvatarUrl!.isEmpty)
                               ? const Icon(Icons.person)
                               : null,
                         ),
@@ -280,7 +286,10 @@ class PostCard extends StatelessWidget {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest
+                          .withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(8),
                       border: Border(
                         left: BorderSide(
@@ -311,7 +320,10 @@ class PostCard extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest
+                            .withValues(alpha: 0.5),
                         border: Border.all(
                           color: Theme.of(
                             context,
@@ -382,7 +394,9 @@ class PostCard extends StatelessWidget {
                                   child: Image.network(
                                     att.fileUrl,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => const Text('Failed to load image'),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Text('Failed to load image'),
                                   ),
                                 ),
                               ),

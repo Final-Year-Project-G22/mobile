@@ -81,7 +81,8 @@ class GuideDetailNotifier extends _$GuideDetailNotifier {
     if (newStatus == StepStatus.completed) {
       final idx = newSteps.indexWhere((s) => s.slug == stepSlug);
       final nextIdx = idx + 1;
-      if (nextIdx < newSteps.length && newSteps[nextIdx].status == StepStatus.locked) {
+      if (nextIdx < newSteps.length &&
+          newSteps[nextIdx].status == StepStatus.locked) {
         final s = guide.steps[nextIdx];
         newSteps[nextIdx] = GuideStep(
           id: s.id,
@@ -98,9 +99,15 @@ class GuideDetailNotifier extends _$GuideDetailNotifier {
       }
     }
 
-    final completed = newSteps.where((s) => s.status == StepStatus.completed).length;
-    final skipped = newSteps.where((s) => s.status == StepStatus.skipped).length;
-    final inProgress = newSteps.where((s) => s.status == StepStatus.inProgress).length;
+    final completed = newSteps
+        .where((s) => s.status == StepStatus.completed)
+        .length;
+    final skipped = newSteps
+        .where((s) => s.status == StepStatus.skipped)
+        .length;
+    final inProgress = newSteps
+        .where((s) => s.status == StepStatus.inProgress)
+        .length;
 
     state = state.copyWith(
       guide: GuideDetail(

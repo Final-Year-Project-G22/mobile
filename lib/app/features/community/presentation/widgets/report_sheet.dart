@@ -118,7 +118,8 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 'Report $_reportType',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              if (widget.targetUserId != null && widget.targetUserName != null) ...[
+              if (widget.targetUserId != null &&
+                  widget.targetUserName != null) ...[
                 const SizedBox(height: 4),
                 Text(
                   'Reporting @${widget.targetUserName}',

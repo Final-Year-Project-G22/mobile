@@ -14,5 +14,6 @@ abstract class GetConversationInputBody with _$GetConversationInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetConversationInputBody;
 
-  factory GetConversationInputBody.fromJson(Map<String, Object?> json) => _$GetConversationInputBodyFromJson(json);
+  factory GetConversationInputBody.fromJson(Map<String, Object?> json) =>
+      _$GetConversationInputBodyFromJson(json);
 }

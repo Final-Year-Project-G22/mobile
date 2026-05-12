@@ -23,7 +23,9 @@ class ChatMessageBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: Row(
-        mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[
@@ -45,12 +47,18 @@ class ChatMessageBubble extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: isUser ? theme.colorScheme.primaryContainer : theme.colorScheme.surfaceContainerHighest,
+                color: isUser
+                    ? theme.colorScheme.primaryContainer
+                    : theme.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
-                  bottomLeft: isUser ? const Radius.circular(16) : const Radius.circular(4),
-                  bottomRight: isUser ? const Radius.circular(4) : const Radius.circular(16),
+                  bottomLeft: isUser
+                      ? const Radius.circular(16)
+                      : const Radius.circular(4),
+                  bottomRight: isUser
+                      ? const Radius.circular(4)
+                      : const Radius.circular(16),
                 ),
               ),
               child: isEmpty
@@ -76,7 +84,8 @@ class ChatMessageBubble extends StatelessWidget {
                               ),
                               code: theme.textTheme.bodySmall?.copyWith(
                                 fontFamily: 'monospace',
-                                backgroundColor: theme.colorScheme.surfaceContainerLow,
+                                backgroundColor:
+                                    theme.colorScheme.surfaceContainerLow,
                               ),
                               codeblockDecoration: BoxDecoration(
                                 color: theme.colorScheme.surfaceContainerLow,

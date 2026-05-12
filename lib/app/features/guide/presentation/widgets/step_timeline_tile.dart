@@ -51,7 +51,11 @@ class StepTimelineTile extends StatelessWidget {
                       Expanded(
                         child: Container(
                           width: 2,
-                          color: isCompleted ? AppColors.success : (isDark ? AppColors.slate700 : AppColors.slate200),
+                          color: isCompleted
+                              ? AppColors.success
+                              : (isDark
+                                    ? AppColors.slate700
+                                    : AppColors.slate200),
                         ),
                       ),
                   ],
@@ -73,8 +77,12 @@ class StepTimelineTile extends StatelessWidget {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                                 color: isLocked
-                                    ? (isDark ? AppColors.slate600 : AppColors.slate400)
-                                    : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                                    ? (isDark
+                                          ? AppColors.slate600
+                                          : AppColors.slate400)
+                                    : (isDark
+                                          ? AppColors.textPrimaryDark
+                                          : AppColors.textPrimaryLight),
                               ),
                             ),
                           ),
@@ -85,14 +93,18 @@ class StepTimelineTile extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: (isDark ? AppColors.slate700 : AppColors.slate100),
+                                color: (isDark
+                                    ? AppColors.slate700
+                                    : AppColors.slate100),
                                 borderRadius: AppSpacing.borderRadiusFull,
                               ),
                               child: Text(
                                 '~${step.estimatedTime}m',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                  color: isDark
+                                      ? AppColors.textSecondaryDark
+                                      : AppColors.textSecondaryLight,
                                 ),
                               ),
                             ),
@@ -110,8 +122,12 @@ class StepTimelineTile extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13,
                             color: isLocked
-                                ? (isDark ? AppColors.slate600 : AppColors.slate400)
-                                : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                                ? (isDark
+                                      ? AppColors.slate600
+                                      : AppColors.slate400)
+                                : (isDark
+                                      ? AppColors.textSecondaryDark
+                                      : AppColors.textSecondaryLight),
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

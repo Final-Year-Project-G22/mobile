@@ -29,7 +29,8 @@ class SettingsPage extends ConsumerWidget {
           Text('Language', style: theme.textTheme.titleMedium),
           RadioGroup<Locale?>(
             groupValue: locale,
-            onChanged: (value) => ref.read(localeProvider.notifier).setLocale(value),
+            onChanged: (value) =>
+                ref.read(localeProvider.notifier).setLocale(value),
             child: const Column(
               children: [
                 RadioListTile<Locale?>(
@@ -47,7 +48,8 @@ class SettingsPage extends ConsumerWidget {
           Text('Theme', style: theme.textTheme.titleMedium),
           RadioGroup<ThemeMode>(
             groupValue: themeMode,
-            onChanged: (value) => ref.read(themeModeProvider.notifier).setThemeMode(value!),
+            onChanged: (value) =>
+                ref.read(themeModeProvider.notifier).setThemeMode(value!),
             child: const Column(
               children: [
                 RadioListTile<ThemeMode>(
@@ -66,7 +68,8 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 24),
-          if (businessProfileAsync.hasValue && businessProfileAsync.value == null)
+          if (businessProfileAsync.hasValue &&
+              businessProfileAsync.value == null)
             ListTile(
               leading: const Icon(Icons.business_center_outlined),
               title: const Text('Complete business profile'),
@@ -79,12 +82,16 @@ class SettingsPage extends ConsumerWidget {
           subAsync.when(
             data: (sub) => ListTile(
               leading: Icon(
-                sub?.planName == 'Pro' ? Icons.workspace_premium : Icons.account_circle,
+                sub?.planName == 'Pro'
+                    ? Icons.workspace_premium
+                    : Icons.account_circle,
                 color: sub?.planName == 'Pro' ? Colors.amber : null,
               ),
               title: Text(sub?.planName == 'Pro' ? 'Pro' : 'Basic'),
               subtitle: sub != null && sub.status == 'active'
-                  ? Text('Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}')
+                  ? Text(
+                      'Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}',
+                    )
                   : const Text('Free plan'),
               trailing: sub?.planName == 'Pro'
                   ? Chip(
@@ -97,7 +104,11 @@ class SettingsPage extends ConsumerWidget {
               onTap: () => context.push(const PlansRoute().location),
             ),
             loading: () => const ListTile(
-              leading: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2)),
+              leading: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
               title: Text('Loading...'),
             ),
             error: (_, _) => ListTile(

@@ -61,9 +61,13 @@ class OAuthProviderSection extends StatelessWidget {
                 label: Text('Continue with ${provider.displayName}'),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                  foregroundColor: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  foregroundColor: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   side: BorderSide(
-                    color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    color: isDark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
@@ -98,7 +102,10 @@ class _ProviderIcon extends StatelessWidget {
   }
 
   IconData _resolveProviderIcon(OAuthProvider provider) {
-    final normalized = (provider.name.isNotEmpty ? provider.name : provider.icon).trim().toLowerCase();
+    final normalized =
+        (provider.name.isNotEmpty ? provider.name : provider.icon)
+            .trim()
+            .toLowerCase();
 
     switch (normalized) {
       case 'google':

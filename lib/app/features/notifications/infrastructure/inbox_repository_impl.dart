@@ -117,7 +117,9 @@ class InboxRepositoryImpl implements IInboxRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 404) {
           return const InboxFailure.notFound();

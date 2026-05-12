@@ -53,7 +53,9 @@ class AppExceptionMapper {
     }
     if (e.statusCode == 400) {
       final data = e.data;
-      final errors = data is Map<String, dynamic> ? data['errors'] as Map<String, dynamic>? : null;
+      final errors = data is Map<String, dynamic>
+          ? data['errors'] as Map<String, dynamic>?
+          : null;
       if (errors != null) {
         return ValidationException(
           message: e.message,

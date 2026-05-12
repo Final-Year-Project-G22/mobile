@@ -8,7 +8,8 @@ part 'guide_category_tree_admin_response_body.freezed.dart';
 part 'guide_category_tree_admin_response_body.g.dart';
 
 @Freezed()
-abstract class GuideCategoryTreeAdminResponseBody with _$GuideCategoryTreeAdminResponseBody {
+abstract class GuideCategoryTreeAdminResponseBody
+    with _$GuideCategoryTreeAdminResponseBody {
   const factory GuideCategoryTreeAdminResponseBody({
     required List<dynamic>? categories,
 
@@ -16,6 +17,7 @@ abstract class GuideCategoryTreeAdminResponseBody with _$GuideCategoryTreeAdminR
     @JsonKey(name: '\$schema') String? schema,
   }) = _GuideCategoryTreeAdminResponseBody;
 
-  factory GuideCategoryTreeAdminResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GuideCategoryTreeAdminResponseBodyFromJson(json);
+  factory GuideCategoryTreeAdminResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$GuideCategoryTreeAdminResponseBodyFromJson(json);
 }

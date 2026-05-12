@@ -21,7 +21,9 @@ class OnboardingOptionChip extends StatelessWidget {
     final background = selected
         ? (isDark ? AppColors.slate700 : AppColors.slate100)
         : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight);
-    final borderColor = selected ? AppColors.accent : (isDark ? AppColors.borderDark : AppColors.borderLight);
+    final borderColor = selected
+        ? AppColors.accent
+        : (isDark ? AppColors.borderDark : AppColors.borderLight);
 
     return InkWell(
       onTap: onTap,
@@ -38,7 +40,9 @@ class OnboardingOptionChip extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+            color: isDark
+                ? AppColors.textPrimaryDark
+                : AppColors.textPrimaryLight,
           ),
         ),
       ),

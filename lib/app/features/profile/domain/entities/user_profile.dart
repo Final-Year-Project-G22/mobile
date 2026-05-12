@@ -16,7 +16,8 @@ abstract class UserProfile with _$UserProfile {
   }) = _UserProfile;
   const UserProfile._();
 
-  String get fullName => '${firstName.getOrCrash()} ${lastName.getOrCrash()}'.trim();
+  String get fullName =>
+      '${firstName.getOrCrash()} ${lastName.getOrCrash()}'.trim();
 
   Option<ProfileValueFailure<dynamic>> get failureOption {
     final firstNameResult = firstName.failureOrUnit;

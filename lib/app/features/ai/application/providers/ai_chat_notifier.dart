@@ -23,7 +23,8 @@ class AiChatNotifier extends Notifier<AiChatState> {
   final List<SseEvent> _eventQueue = [];
   bool _frameScheduled = false;
 
-  String get _nextId => '${DateTime.now().millisecondsSinceEpoch}-${_idCounter++}';
+  String get _nextId =>
+      '${DateTime.now().millisecondsSinceEpoch}-${_idCounter++}';
 
   @override
   AiChatState build() => const AiChatState();

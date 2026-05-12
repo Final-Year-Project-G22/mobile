@@ -123,7 +123,9 @@ class _ChatInputBarState extends State<ChatInputBar> {
               onPressed: _hasText ? _handleSend : null,
               icon: const Icon(Icons.arrow_upward_rounded, size: 20),
               style: IconButton.styleFrom(
-                backgroundColor: _hasText ? theme.colorScheme.primary : theme.colorScheme.surfaceContainerHighest,
+                backgroundColor: _hasText
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.surfaceContainerHighest,
                 foregroundColor: _hasText
                     ? theme.colorScheme.onPrimary
                     : theme.colorScheme.onSurface.withValues(alpha: 0.3),

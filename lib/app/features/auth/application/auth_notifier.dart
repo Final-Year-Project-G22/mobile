@@ -64,7 +64,9 @@ class AuthNotifier extends _$AuthNotifier {
       await apiClient.setTokens(
         accessToken,
         refreshToken,
-        expiresAt: expiresAtStr != null ? DateTime.tryParse(expiresAtStr) : null,
+        expiresAt: expiresAtStr != null
+            ? DateTime.tryParse(expiresAtStr)
+            : null,
       );
       return true;
     } on Exception catch (_) {
@@ -85,7 +87,10 @@ class AuthNotifier extends _$AuthNotifier {
         await prefs.remove(_prefsRefreshToken);
       }
       if (apiClient.expiresAt != null) {
-        await prefs.setString(_prefsExpiresAt, apiClient.expiresAt!.toIso8601String());
+        await prefs.setString(
+          _prefsExpiresAt,
+          apiClient.expiresAt!.toIso8601String(),
+        );
       } else {
         await prefs.remove(_prefsExpiresAt);
       }
@@ -253,7 +258,8 @@ class AuthNotifier extends _$AuthNotifier {
       );
       return ok;
     } on Exception catch (e) {
-      if (e.toString().contains('cancelled') || e.toString().contains('canceled')) {
+      if (e.toString().contains('cancelled') ||
+          e.toString().contains('canceled')) {
         _setOAuthFailure(
           const AuthUserFailure.oauthCancelled(
             message: 'OAuth sign in was cancelled',
@@ -279,7 +285,9 @@ class AuthNotifier extends _$AuthNotifier {
 
     if (error != null && error.isNotEmpty) {
       final message =
-          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+          uri.queryParameters['error_description'] ??
+          uri.queryParameters['message'] ??
+          'OAuth login failed';
       _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
       return false;
     }
@@ -328,7 +336,9 @@ class AuthNotifier extends _$AuthNotifier {
 
     if (error != null && error.trim().isNotEmpty) {
       final message =
-          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
+          uri.queryParameters['error_description'] ??
+          uri.queryParameters['message'] ??
+          'OAuth login failed';
       _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
       state = AsyncValue.error(
         AuthUserFailure.oauthCallbackInvalid(message: message),
@@ -428,12 +438,14 @@ class AuthNotifier extends _$AuthNotifier {
         state = AsyncValue.error(failure, StackTrace.current);
       },
       (callbackResult) async {
-        if (callbackResult.isAuthenticated && callbackResult.authResponse != null) {
+        if (callbackResult.isAuthenticated &&
+            callbackResult.authResponse != null) {
           await _applyAuthenticated(callbackResult.authResponse!);
           return;
         }
 
-        if (callbackResult.isEmailRequired && callbackResult.pendingEmail != null) {
+        if (callbackResult.isEmailRequired &&
+            callbackResult.pendingEmail != null) {
           final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
           oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
             oauthInProgress: false,

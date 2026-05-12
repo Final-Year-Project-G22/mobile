@@ -87,7 +87,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
     ref.listen(aiChatNotifierProvider, (prev, next) {
       if (prev?.messages.length != next.messages.length ||
-          (next.messages.isNotEmpty && next.messages.last.isStreaming != prev?.messages.last.isStreaming)) {
+          (next.messages.isNotEmpty &&
+              next.messages.last.isStreaming !=
+                  prev?.messages.last.isStreaming)) {
         _onNewContent();
       }
     });
@@ -111,11 +113,14 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           ),
           IconButton(
             icon: const Icon(Icons.add_rounded),
-            onPressed: () => ref.read(aiChatNotifierProvider.notifier).startNewChat(),
+            onPressed: () =>
+                ref.read(aiChatNotifierProvider.notifier).startNewChat(),
           ),
         ],
       ),
-      body: hasMessages ? _buildMessageList(messages, streamError) : const EmptyChatView(),
+      body: hasMessages
+          ? _buildMessageList(messages, streamError)
+          : const EmptyChatView(),
       bottomNavigationBar: ChatInputBar(
         onSend: (text) => unawaited(
           ref.read(aiChatNotifierProvider.notifier).sendMessage(text),
@@ -126,7 +131,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       drawer: ConversationHistoryDrawer(
         onConversationSelected: (sessionId) {
           unawaited(
-            ref.read(aiChatNotifierProvider.notifier).loadConversation(sessionId),
+            ref
+                .read(aiChatNotifierProvider.notifier)
+                .loadConversation(sessionId),
           );
         },
       ),

@@ -41,7 +41,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       unawaited(ref.read(templateListProvider.notifier).loadMore());
     }
   }
@@ -77,7 +78,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                           _searchController.clear();
                           setState(() => _showClear = false);
                           unawaited(
-                            ref.read(templateListProvider.notifier).setSearch(null),
+                            ref
+                                .read(templateListProvider.notifier)
+                                .setSearch(null),
                           );
                         },
                       )
@@ -94,7 +97,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               ),
               onChanged: (value) {
                 unawaited(
-                  ref.read(templateListProvider.notifier).setSearch(value.isEmpty ? null : value),
+                  ref
+                      .read(templateListProvider.notifier)
+                      .setSearch(value.isEmpty ? null : value),
                 );
               },
             ),
@@ -132,7 +137,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       child: FilterChip(
                         label: Text(category.name),
                         onSelected: (_) async {
-                          await ref.read(templateListProvider.notifier).setCategory(category.id);
+                          await ref
+                              .read(templateListProvider.notifier)
+                              .setCategory(category.id);
                         },
                       ),
                     );
@@ -171,13 +178,15 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   return GridView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.all(8),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                    ),
-                    itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                    itemCount:
+                        state.items.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index >= state.items.length) {
                         return const Center(

@@ -62,7 +62,9 @@ class LoginFormNotifier extends _$LoginFormNotifier {
 
     state = state.copyWith(isSubmitting: true);
 
-    await ref.read(authProvider.notifier).login(identifier: state.identifier, password: state.password);
+    await ref
+        .read(authProvider.notifier)
+        .login(identifier: state.identifier, password: state.password);
 
     state = state.copyWith(isSubmitting: false);
   }

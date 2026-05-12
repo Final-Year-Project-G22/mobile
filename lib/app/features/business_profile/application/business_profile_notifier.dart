@@ -16,7 +16,8 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
     return result.fold(
       (failure) => failure.maybeWhen(
         notFound: () => null,
-        orElse: () => throw Exception('Failed to load business profile: $failure'),
+        orElse: () =>
+            throw Exception('Failed to load business profile: $failure'),
       ),
       (profile) => profile,
     );
@@ -32,7 +33,8 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
       return result.fold(
         (failure) => failure.maybeWhen(
           notFound: () => null,
-          orElse: () => throw Exception('Failed to refresh business profile: $failure'),
+          orElse: () =>
+              throw Exception('Failed to refresh business profile: $failure'),
         ),
         (profile) => profile,
       );
@@ -60,7 +62,8 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
       );
 
       return result.fold(
-        (failure) => throw Exception('Failed to create business profile: $failure'),
+        (failure) =>
+            throw Exception('Failed to create business profile: $failure'),
         (profile) => profile,
       );
     });
@@ -104,7 +107,8 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
       );
 
       return result.fold(
-        (failure) => throw Exception('Failed to update business profile: $failure'),
+        (failure) =>
+            throw Exception('Failed to update business profile: $failure'),
         (profile) => profile,
       );
     });

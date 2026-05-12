@@ -8,7 +8,8 @@ part 'archive_conversation_input_body.freezed.dart';
 part 'archive_conversation_input_body.g.dart';
 
 @Freezed()
-abstract class ArchiveConversationInputBody with _$ArchiveConversationInputBody {
+abstract class ArchiveConversationInputBody
+    with _$ArchiveConversationInputBody {
   const factory ArchiveConversationInputBody({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

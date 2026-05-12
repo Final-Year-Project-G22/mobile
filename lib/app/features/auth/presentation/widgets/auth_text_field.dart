@@ -54,7 +54,9 @@ class AuthTextField extends StatelessWidget {
           textInputAction: textInputAction,
           style: TextStyle(
             fontSize: 16,
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+            color: isDark
+                ? AppColors.textPrimaryDark
+                : AppColors.textPrimaryLight,
           ),
           decoration: InputDecoration(
             hintText: hint,
@@ -64,7 +66,9 @@ class AuthTextField extends StatelessWidget {
             ),
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: isDark ? AppColors.inputFillDark : AppColors.inputFillLight,
+            fillColor: isDark
+                ? AppColors.inputFillDark
+                : AppColors.inputFillLight,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,

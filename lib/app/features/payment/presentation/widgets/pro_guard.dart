@@ -12,7 +12,10 @@ class ProGuard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final subAsync = ref.watch(subscriptionProvider);
     return subAsync.when(
-      data: (sub) => (sub != null && sub.planName == 'Pro' && sub.status == 'active') ? child : fallback,
+      data: (sub) =>
+          (sub != null && sub.planName == 'Pro' && sub.status == 'active')
+          ? child
+          : fallback,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, _) => fallback,
     );

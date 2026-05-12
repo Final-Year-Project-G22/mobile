@@ -16,7 +16,8 @@ class OtpVerificationPage extends ConsumerStatefulWidget {
   const OtpVerificationPage({super.key});
 
   @override
-  ConsumerState<OtpVerificationPage> createState() => _OtpVerificationPageState();
+  ConsumerState<OtpVerificationPage> createState() =>
+      _OtpVerificationPageState();
 }
 
 class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
@@ -151,7 +152,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     });
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -164,7 +167,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                 ),
               ),
               AppSpacing.gapVerticalXs,
@@ -172,7 +177,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                 'Enter the 6-digit code sent to your email',
                 style: TextStyle(
                   fontSize: 16,
-                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                  color: isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
                 ),
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -192,7 +199,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                        color: isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                       ),
                       decoration: InputDecoration(
                         counterText: '',
@@ -202,7 +211,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -247,16 +258,22 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                   Text(
                     "Didn't receive the code? ",
                     style: TextStyle(
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
                     ),
                   ),
                   GestureDetector(
                     onTap: _resendCooldown > 0 ? null : _resendOtp,
                     child: Text(
-                      _resendCooldown > 0 ? 'Resend in ${_resendCooldown}s' : 'Resend',
+                      _resendCooldown > 0
+                          ? 'Resend in ${_resendCooldown}s'
+                          : 'Resend',
                       style: TextStyle(
                         color: _resendCooldown > 0
-                            ? (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight)
+                            ? (isDark
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondaryLight)
                             : AppColors.accent,
                         fontWeight: FontWeight.w600,
                       ),
