@@ -7,7 +7,7 @@ import '../domain/failures/business_profile_failure.dart';
 
 part 'business_profile_notifier.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class BusinessProfileNotifier extends _$BusinessProfileNotifier {
   @override
   Future<BusinessProfile?> build() async {
