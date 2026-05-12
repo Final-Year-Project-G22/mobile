@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../router/routes.dart';
+import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_state_providers.dart';
 
@@ -12,6 +13,8 @@ class CommunityHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchText = ref.watch(searchTextProvider);
+    final authState = ref.watch(authProvider);
+    final currentAccountId = authState.asData?.value.account?.id;
 
     return DefaultTabController(
       length: 2,
@@ -57,10 +60,12 @@ class CommunityHomePage extends ConsumerWidget {
             _ThreadListView(
               useAllThreads: false,
               searchText: searchText,
+              currentAccountId: currentAccountId,
             ),
             _ThreadListView(
               useAllThreads: true,
               searchText: searchText,
+              currentAccountId: currentAccountId,
             ),
           ],
         ),
@@ -88,10 +93,12 @@ class _ThreadListView extends ConsumerWidget {
   const _ThreadListView({
     required this.useAllThreads,
     required this.searchText,
+    this.currentAccountId,
   });
 
   final bool useAllThreads;
   final String? searchText;
+  final String? currentAccountId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -203,14 +210,99 @@ class _ThreadListView extends ConsumerWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (thread.isFollowed)
-                        Icon(
-                          Icons.chat_bubble,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 20,
+                      if (thread.authorId == currentAccountId)
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                'Owned',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            if (thread.unreadCount > 0)
+                              Positioned(
+                                right: -6,
+                                top: -6,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  child: Text(
+                                    '${thread.unreadCount}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        )
+                      else if (thread.isFollowed)
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Icon(
+                              Icons.chat_bubble,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 20,
+                            ),
+                            if (thread.unreadCount > 0)
+                              Positioned(
+                                right: -6,
+                                top: -6,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  child: Text(
+                                    '${thread.unreadCount}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       if (thread.isPinned) ...[
-                        if (thread.isFollowed) const SizedBox(width: 8),
+                        if (thread.authorId == currentAccountId ||
+                            thread.isFollowed)
+                          const SizedBox(width: 8),
                         Icon(
                           Icons.push_pin,
                           color: Theme.of(context).colorScheme.primary,
