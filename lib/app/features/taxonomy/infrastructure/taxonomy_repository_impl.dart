@@ -26,8 +26,8 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
       );
 
       final sectors = (response.data.data ?? [])
-          .cast<SectorResponse>()
-          .map(_mapSectorResponseToDomain)
+          .cast<Map<String, dynamic>>()
+          .map((json) => _mapSectorResponseToDomain(SectorResponse.fromJson(json)))
           .toList();
 
       return Right(sectors);
@@ -52,8 +52,8 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
       );
 
       final tags = (response.data.data ?? [])
-          .cast<TagResponse>()
-          .map(_mapTagResponseToDomain)
+          .cast<Map<String, dynamic>>()
+          .map((json) => _mapTagResponseToDomain(TagResponse.fromJson(json)))
           .toList();
 
       return Right(tags);
@@ -65,21 +65,23 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
   }
 
   Sector _mapSectorResponseToDomain(SectorResponse dto) {
+    final name = dto.nameEn.trim().isNotEmpty ? dto.nameEn : dto.slug;
     return Sector(
       id: dto.id,
       slug: dto.slug,
-      name: dto.nameEn,
+      name: name,
       description: dto.descEn,
       parentId: dto.parentId,
     );
   }
 
   Tag _mapTagResponseToDomain(TagResponse dto) {
+    final name = dto.nameEn.trim().isNotEmpty ? dto.nameEn : dto.slug;
     return Tag(
       id: dto.id,
       slug: dto.slug,
       group: dto.group,
-      name: dto.nameEn,
+      name: name,
       description: dto.descEn,
       isMultiSelect: dto.isMultiSelect,
     );
