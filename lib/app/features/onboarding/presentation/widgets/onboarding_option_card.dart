@@ -25,7 +25,9 @@ class OnboardingOptionCard extends StatelessWidget {
     final background = selected
         ? (isDark ? AppColors.slate700 : AppColors.slate100)
         : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight);
-    final borderColor = selected ? AppColors.accent : (isDark ? AppColors.borderDark : AppColors.borderLight);
+    final borderColor = selected
+        ? AppColors.accent
+        : (isDark ? AppColors.borderDark : AppColors.borderLight);
 
     return InkWell(
       onTap: onTap,
@@ -53,7 +55,9 @@ class OnboardingOptionCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                     ),
                   ),
                   if (subtitle != null) ...[
@@ -62,7 +66,9 @@ class OnboardingOptionCard extends StatelessWidget {
                       subtitle!,
                       style: TextStyle(
                         fontSize: 13,
-                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        color: isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                       ),
                     ),
                   ],
@@ -78,7 +84,9 @@ class OnboardingOptionCard extends StatelessWidget {
             else
               Icon(
                 Icons.circle_outlined,
-                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                color: isDark
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
                 size: 20,
               ),
           ],

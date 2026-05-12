@@ -58,7 +58,9 @@ class GuideCardWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                        color: isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -69,7 +71,9 @@ class GuideCardWidget extends StatelessWidget {
                         guide.description!,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

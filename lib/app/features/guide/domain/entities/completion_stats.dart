@@ -13,5 +13,6 @@ class CompletionStats {
   final int totalStepsAll;
   final String? period;
 
-  double get percent => totalStepsAll > 0 ? totalStepsCompleted / totalStepsAll : 0.0;
+  double get percent =>
+      totalStepsAll > 0 ? totalStepsCompleted / totalStepsAll : 0.0;
 }

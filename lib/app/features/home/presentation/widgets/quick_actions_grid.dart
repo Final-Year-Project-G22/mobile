@@ -37,7 +37,9 @@ class QuickActionsGrid extends StatelessWidget {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              color: isDark
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
             ),
           ),
           AppSpacing.gapVerticalSm,
@@ -48,7 +50,9 @@ class QuickActionsGrid extends StatelessWidget {
             mainAxisSpacing: AppSpacing.sm,
             crossAxisSpacing: AppSpacing.sm,
             childAspectRatio: 1.4,
-            children: actions.map((action) => _QuickActionCard(action: action)).toList(),
+            children: actions
+                .map((action) => _QuickActionCard(action: action))
+                .toList(),
           ),
         ],
       ),
@@ -97,7 +101,9 @@ class _QuickActionCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

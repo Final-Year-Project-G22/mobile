@@ -315,10 +315,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onboardingRegionTitle => 'Where is your business primarily located?';
+  String get onboardingRegionTitle =>
+      'Where is your business primarily located?';
 
   @override
-  String get onboardingRegionSubtitle => 'We use your region to surface relevant local guidance.';
+  String get onboardingRegionSubtitle =>
+      'We use your region to surface relevant local guidance.';
 
   @override
   String get onboardingRegionAddis => 'Addis Ababa';
@@ -360,10 +362,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingRegionDireDawa => 'Dire Dawa';
 
   @override
-  String get onboardingLifecycleTitle => 'What stage is your business currently in?';
+  String get onboardingLifecycleTitle =>
+      'What stage is your business currently in?';
 
   @override
-  String get onboardingLifecycleSubtitle => 'This helps us tailor advice for your current needs.';
+  String get onboardingLifecycleSubtitle =>
+      'This helps us tailor advice for your current needs.';
 
   @override
   String get onboardingLifecycleIdea => 'Just an Idea';
@@ -381,7 +385,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingIndustryTitle => 'What is your main industry?';
 
   @override
-  String get onboardingIndustrySubtitle => 'Pick the sector that best matches your business.';
+  String get onboardingIndustrySubtitle =>
+      'Pick the sector that best matches your business.';
 
   @override
   String get onboardingIndustryTrade => 'Trade';
@@ -402,7 +407,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingLegalTitle => 'How is your business legally structured?';
 
   @override
-  String get onboardingLegalSubtitle => 'If you are planning, choose the structure you expect.';
+  String get onboardingLegalSubtitle =>
+      'If you are planning, choose the structure you expect.';
 
   @override
   String get onboardingLegalSoleProprietor => 'Sole Proprietor';
@@ -471,7 +477,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingDemoTitle => 'Tell us a bit more about the founders';
 
   @override
-  String get onboardingDemoSubtitle => 'Unlock specific grants and guides. Optional.';
+  String get onboardingDemoSubtitle =>
+      'Unlock specific grants and guides. Optional.';
 
   @override
   String get onboardingDemoWomenOwned => 'Women-Owned';

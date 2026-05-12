@@ -7,9 +7,11 @@ class OAuthCallbackResult {
     this.pendingEmail,
   });
 
-  const OAuthCallbackResult.authenticated(AuthResponse response) : this._(authResponse: response);
+  const OAuthCallbackResult.authenticated(AuthResponse response)
+    : this._(authResponse: response);
 
-  const OAuthCallbackResult.emailRequired(OAuthPendingEmail email) : this._(pendingEmail: email);
+  const OAuthCallbackResult.emailRequired(OAuthPendingEmail email)
+    : this._(pendingEmail: email);
 
   final AuthResponse? authResponse;
   final OAuthPendingEmail? pendingEmail;

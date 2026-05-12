@@ -40,7 +40,9 @@ class TokenStorage {
     if (accessToken == null || accessToken.isEmpty) return null;
     final refreshToken = await _storage.read(key: _refreshTokenKey);
     final expiresAtRaw = await _storage.read(key: _expiresAtKey);
-    final expiresAt = expiresAtRaw != null ? DateTime.tryParse(expiresAtRaw) : null;
+    final expiresAt = expiresAtRaw != null
+        ? DateTime.tryParse(expiresAtRaw)
+        : null;
     return StoredTokens(
       accessToken: accessToken,
       refreshToken: refreshToken,

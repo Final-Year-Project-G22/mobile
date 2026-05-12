@@ -14,5 +14,6 @@ abstract class ListDeadEventsInputBody with _$ListDeadEventsInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListDeadEventsInputBody;
 
-  factory ListDeadEventsInputBody.fromJson(Map<String, Object?> json) => _$ListDeadEventsInputBodyFromJson(json);
+  factory ListDeadEventsInputBody.fromJson(Map<String, Object?> json) =>
+      _$ListDeadEventsInputBodyFromJson(json);
 }

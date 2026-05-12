@@ -96,7 +96,10 @@ class GuideRepositoryImpl implements IGuideRepository {
       steps.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
       final hasAnyProgress = steps.any(
-        (s) => s.status == StepStatus.completed || s.status == StepStatus.inProgress || s.status == StepStatus.skipped,
+        (s) =>
+            s.status == StepStatus.completed ||
+            s.status == StepStatus.inProgress ||
+            s.status == StepStatus.skipped,
       );
       if (!hasAnyProgress && steps.isNotEmpty) {
         final first = steps[0];
@@ -116,7 +119,9 @@ class GuideRepositoryImpl implements IGuideRepository {
         for (var i = 0; i < steps.length; i++) {
           if (steps[i].status == StepStatus.locked) {
             final prev = i > 0 ? steps[i - 1] : null;
-            if (prev == null || prev.status == StepStatus.completed || prev.status == StepStatus.skipped) {
+            if (prev == null ||
+                prev.status == StepStatus.completed ||
+                prev.status == StepStatus.skipped) {
               final s = steps[i];
               steps[i] = GuideStep(
                 id: s.id,
@@ -136,9 +141,13 @@ class GuideRepositoryImpl implements IGuideRepository {
         }
       }
 
-      final completed = steps.where((s) => s.status == StepStatus.completed).length;
+      final completed = steps
+          .where((s) => s.status == StepStatus.completed)
+          .length;
       final skipped = steps.where((s) => s.status == StepStatus.skipped).length;
-      final inProgress = steps.where((s) => s.status == StepStatus.inProgress).length;
+      final inProgress = steps
+          .where((s) => s.status == StepStatus.inProgress)
+          .length;
 
       return Right(
         GuideDetail(
@@ -161,7 +170,8 @@ class GuideRepositoryImpl implements IGuideRepository {
   }
 
   @override
-  Future<Either<GuideFailure, List<GuideWithProgress>>> getInProgressGuides() async {
+  Future<Either<GuideFailure, List<GuideWithProgress>>>
+  getInProgressGuides() async {
     try {
       final response = await _client.getInProgressGuides();
       final raw = response.data.guides;
@@ -368,7 +378,9 @@ class GuideRepositoryImpl implements IGuideRepository {
         if (statusCode == 404) return const GuideFailure.notFound();
         if (statusCode == 409) {
           final data = e.response?.data;
-          final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+          final detail = data is Map<String, dynamic>
+              ? data['detail'] as String?
+              : null;
           return GuideFailure.conflict(message: detail);
         }
         return const GuideFailure.serverError();

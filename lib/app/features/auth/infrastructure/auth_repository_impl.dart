@@ -109,7 +109,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<AuthUserFailure, List<OAuthProvider>>> getOAuthProviders() async {
+  Future<Either<AuthUserFailure, List<OAuthProvider>>>
+  getOAuthProviders() async {
     try {
       final response = await _oAuthClient.getOAuthProviders();
       final rawProviders = response.data.providers;
@@ -148,7 +149,10 @@ class AuthRepositoryImpl implements IAuthRepository {
     if (provider.trim().isEmpty) {
       return const Left(AuthUserFailure.unsupportedOAuthProvider());
     }
-    if (code == null || code.trim().isEmpty || state == null || state.trim().isEmpty) {
+    if (code == null ||
+        code.trim().isEmpty ||
+        state == null ||
+        state.trim().isEmpty) {
       return const Left(
         AuthUserFailure.oauthCallbackInvalid(
           message: 'Missing callback code or state',
@@ -275,7 +279,8 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
-  Future<Either<AuthUserFailure, OAuthCallbackResult>> _handleOAuthCallbackResponse(
+  Future<Either<AuthUserFailure, OAuthCallbackResult>>
+  _handleOAuthCallbackResponse(
     HttpResponse<OAuthCallbackResponse> response,
   ) async {
     final emailRequired = response.data.emailRequired;
@@ -290,13 +295,18 @@ class AuthRepositoryImpl implements IAuthRepository {
     final account = response.data.account;
     final expiresAt = response.data.expiresAt;
 
-    if (accessToken == null || user == null || account == null || expiresAt == null) {
+    if (accessToken == null ||
+        user == null ||
+        account == null ||
+        expiresAt == null) {
       return const Left(
         AuthUserFailure.serverError(message: 'Invalid OAuth success payload'),
       );
     }
 
-    final refreshToken = response.data.refreshToken ?? _extractRefreshToken(response.response.headers);
+    final refreshToken =
+        response.data.refreshToken ??
+        _extractRefreshToken(response.response.headers);
     await _apiClient.setTokens(
       accessToken,
       refreshToken,
@@ -356,7 +366,9 @@ class AuthRepositoryImpl implements IAuthRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 401) {
           return AuthUserFailure.invalidOtp(message: detail);
@@ -380,7 +392,9 @@ class AuthRepositoryImpl implements IAuthRepository {
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
         final code = data is Map<String, dynamic> ? data['code'] : null;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 409 || code == 'conflict') {
           return AuthUserFailure.emailAlreadyInUse(message: detail);
@@ -408,8 +422,12 @@ class AuthRepositoryImpl implements IAuthRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final code = data is Map<String, dynamic> ? data['code'] as String? : null;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final code = data is Map<String, dynamic>
+            ? data['code'] as String?
+            : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (code == 'oauth_cancelled') {
           return AuthUserFailure.oauthCancelled(message: detail);
@@ -419,11 +437,15 @@ class AuthRepositoryImpl implements IAuthRepository {
           return AuthUserFailure.unsupportedOAuthProvider(message: detail);
         }
 
-        if (statusCode == 401 || code == 'oauth_state_invalid' || code == 'oauth_state_expired') {
+        if (statusCode == 401 ||
+            code == 'oauth_state_invalid' ||
+            code == 'oauth_state_expired') {
           return AuthUserFailure.oauthStateInvalidOrExpired(message: detail);
         }
 
-        if (statusCode == 422 || code == 'oauth_callback_invalid' || code == 'validation_error') {
+        if (statusCode == 422 ||
+            code == 'oauth_callback_invalid' ||
+            code == 'validation_error') {
           return AuthUserFailure.oauthCallbackInvalid(message: detail);
         }
 

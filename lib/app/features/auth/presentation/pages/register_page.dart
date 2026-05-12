@@ -85,7 +85,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   content: Text(
                     error.maybeWhen(
                       networkError: (_) => 'No internet connection',
-                      emailAlreadyInUse: (message) => message ?? 'Email already in use',
+                      emailAlreadyInUse: (message) =>
+                          message ?? 'Email already in use',
                       invalidEmailAndPasswordCombination: (message) =>
                           message ?? 'Invalid email and password combination',
                       serverError: (message) => message ?? 'Server error',
@@ -100,16 +101,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         );
       })
       ..listen(authOAuthStateProvider, (previous, next) {
-        if (next.oauthProvidersFailure == null || previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
+        if (next.oauthProvidersFailure == null ||
+            previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
           return;
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
           networkError: (_) => 'No internet connection',
-          oauthProviderUnavailable: (value) => value ?? 'OAuth provider is unavailable',
+          oauthProviderUnavailable: (value) =>
+              value ?? 'OAuth provider is unavailable',
           oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
-          oauthStateInvalidOrExpired: (value) => value ?? 'OAuth session expired, try again',
-          unsupportedOAuthProvider: (value) => value ?? 'Unsupported OAuth provider',
+          oauthStateInvalidOrExpired: (value) =>
+              value ?? 'OAuth session expired, try again',
+          unsupportedOAuthProvider: (value) =>
+              value ?? 'Unsupported OAuth provider',
           oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
           serverError: (value) => value ?? 'Server error',
           orElse: () => 'OAuth sign in failed',
@@ -121,7 +126,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       });
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: Stack(
         children: [
           SafeArea(
@@ -137,7 +144,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                        color: isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                       ),
                     ),
                     AppSpacing.gapVerticalXs,
@@ -145,7 +154,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       'Sign up to get started',
                       style: TextStyle(
                         fontSize: 16,
-                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        color: isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
@@ -154,9 +165,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       hint: 'Enter your first name',
                       controller: _firstNameController,
                       onChanged: (value) {
-                        ref.read(registerFormProvider.notifier).firstNameChanged(value);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .firstNameChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.firstNameFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.firstNameFailure?.toMessage()
+                          : null,
                       textCapitalization: TextCapitalization.words,
                     ),
                     AppSpacing.gapLg,
@@ -165,9 +180,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       hint: 'Enter your last name',
                       controller: _lastNameController,
                       onChanged: (value) {
-                        ref.read(registerFormProvider.notifier).lastNameChanged(value);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .lastNameChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.lastNameFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.lastNameFailure?.toMessage()
+                          : null,
                       textCapitalization: TextCapitalization.words,
                     ),
                     AppSpacing.gapLg,
@@ -176,9 +195,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       hint: 'Enter your email',
                       controller: _emailController,
                       onChanged: (value) {
-                        ref.read(registerFormProvider.notifier).emailChanged(value);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .emailChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.emailFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.emailFailure?.toMessage()
+                          : null,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                     ),
@@ -188,9 +211,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       hint: 'Choose a username',
                       controller: _usernameController,
                       onChanged: (value) {
-                        ref.read(registerFormProvider.notifier).usernameChanged(value);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .usernameChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.usernameFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.usernameFailure?.toMessage()
+                          : null,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                     ),
@@ -200,16 +227,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       hint: 'Enter your password',
                       controller: _passwordController,
                       onChanged: (value) {
-                        ref.read(registerFormProvider.notifier).passwordChanged(value);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .passwordChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.passwordFailure?.toMessage()
+                          : null,
                       obscureText: _obscurePassword,
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
                         ),
                         onPressed: () {
                           setState(() {
@@ -235,7 +270,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       isDisabled: oauthState.oauthInProgress,
                       onProviderTap: (provider) {
                         unawaited(
-                          ref.read(authProvider.notifier).startOAuthLogin(provider.name),
+                          ref
+                              .read(authProvider.notifier)
+                              .startOAuthLogin(provider.name),
                         );
                       },
                     ),
@@ -246,7 +283,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         Text(
                           'Already have an account? ',
                           style: TextStyle(
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                         GestureDetector(

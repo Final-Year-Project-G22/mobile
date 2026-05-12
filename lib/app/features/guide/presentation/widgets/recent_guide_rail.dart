@@ -27,7 +27,9 @@ class RecentGuideRail extends StatelessWidget {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              color: isDark
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
             ),
           ),
         ),
@@ -45,11 +47,15 @@ class RecentGuideRail extends StatelessWidget {
                 width: 180,
                 child: Card(
                   elevation: 0,
-                  color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                  color: isDark
+                      ? AppColors.surfaceDark
+                      : AppColors.surfaceLight,
                   shape: RoundedRectangleBorder(
                     borderRadius: AppSpacing.borderRadiusMd,
                     side: BorderSide(
-                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                      color: isDark
+                          ? AppColors.borderDark
+                          : AppColors.borderLight,
                     ),
                   ),
                   child: Padding(
@@ -62,14 +68,18 @@ class RecentGuideRail extends StatelessWidget {
                             Icon(
                               Icons.history,
                               size: 14,
-                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                              color: isDark
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondaryLight,
                             ),
                             AppSpacing.gapHorizontalXxs,
                             Text(
                               'Recent',
                               style: TextStyle(
                                 fontSize: 11,
-                                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                color: isDark
+                                    ? AppColors.textSecondaryDark
+                                    : AppColors.textSecondaryLight,
                               ),
                             ),
                           ],
@@ -80,7 +90,9 @@ class RecentGuideRail extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                            color: isDark
+                                ? AppColors.textPrimaryDark
+                                : AppColors.textPrimaryLight,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

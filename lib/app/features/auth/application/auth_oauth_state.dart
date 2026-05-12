@@ -4,9 +4,10 @@ import '../domain/entities/oauth_pending_email.dart';
 import '../domain/entities/oauth_provider.dart';
 import '../domain/failures/auth_user_failure.dart';
 
-final authOAuthStateProvider = NotifierProvider<AuthOAuthStateNotifier, AuthOAuthState>(
-  AuthOAuthStateNotifier.new,
-);
+final authOAuthStateProvider =
+    NotifierProvider<AuthOAuthStateNotifier, AuthOAuthState>(
+      AuthOAuthStateNotifier.new,
+    );
 
 class AuthOAuthStateNotifier extends Notifier<AuthOAuthState> {
   @override
@@ -51,7 +52,8 @@ class AuthOAuthState {
   }) {
     return AuthOAuthState(
       oauthProviders: oauthProviders ?? this.oauthProviders,
-      isLoadingOAuthProviders: isLoadingOAuthProviders ?? this.isLoadingOAuthProviders,
+      isLoadingOAuthProviders:
+          isLoadingOAuthProviders ?? this.isLoadingOAuthProviders,
       oauthProvidersFailure: oauthProvidersFailure == _noChange
           ? this.oauthProvidersFailure
           : oauthProvidersFailure as AuthUserFailure?,

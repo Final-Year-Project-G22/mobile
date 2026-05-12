@@ -27,7 +27,9 @@ class PlanComparisonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final borderColor = highlight ? AppColors.accent : theme.colorScheme.outline.withAlpha(128);
+    final borderColor = highlight
+        ? AppColors.accent
+        : theme.colorScheme.outline.withAlpha(128);
 
     return Container(
       decoration: BoxDecoration(
@@ -94,7 +96,9 @@ class PlanComparisonCard extends StatelessWidget {
           if (onSubscribe != null)
             FilledButton(
               style: FilledButton.styleFrom(
-                backgroundColor: highlight ? AppColors.accent : AppColors.primary,
+                backgroundColor: highlight
+                    ? AppColors.accent
+                    : AppColors.primary,
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: onSubscribe,
@@ -110,7 +114,9 @@ class PlanComparisonCard extends StatelessWidget {
               ),
               child: Text(
                 'Current Plan',
-                style: theme.textTheme.labelLarge?.copyWith(color: AppColors.slate500),
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: AppColors.slate500,
+                ),
               ),
             ),
         ],

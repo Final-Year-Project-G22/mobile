@@ -77,7 +77,8 @@ class AiRepositoryImpl implements IAiRepository {
   }
 
   @override
-  Future<Either<AiFailure, List<ConversationSummary>>> listConversations() async {
+  Future<Either<AiFailure, List<ConversationSummary>>>
+  listConversations() async {
     try {
       final response = await _conversationsClient.listConversations();
       final data = response.data;
@@ -114,7 +115,10 @@ class AiRepositoryImpl implements IAiRepository {
       ) {
         final dto = MessageDto.fromJson(json);
 
-        final citations = (dto.citations ?? []).cast<Map<String, dynamic>>().map(CitationDto.fromJson).toList();
+        final citations = (dto.citations ?? [])
+            .cast<Map<String, dynamic>>()
+            .map(CitationDto.fromJson)
+            .toList();
 
         return ChatMessage(
           id: dto.id,

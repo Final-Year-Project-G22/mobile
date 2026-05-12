@@ -51,12 +51,18 @@ class PaymentRepositoryImpl implements IPaymentRepository {
           phone: phone,
         ),
       );
-      debugPrint('[PAYMENT] initiatePayment response: status=${response.response.statusCode}, data=${response.data}');
+      debugPrint(
+        '[PAYMENT] initiatePayment response: status=${response.response.statusCode}, data=${response.data}',
+      );
       final checkout = _mapCheckoutToDomain(response.data);
-      debugPrint('[PAYMENT] mapped checkout: txRef=${checkout.txRef}, url=${checkout.checkoutUrl}');
+      debugPrint(
+        '[PAYMENT] mapped checkout: txRef=${checkout.txRef}, url=${checkout.checkoutUrl}',
+      );
       return Right(checkout);
     } on DioException catch (e) {
-      debugPrint('[PAYMENT] initiatePayment DioException: status=${e.response?.statusCode}, data=${e.response?.data}');
+      debugPrint(
+        '[PAYMENT] initiatePayment DioException: status=${e.response?.statusCode}, data=${e.response?.data}',
+      );
       return Left(_mapDioError(e));
     } on Exception catch (e) {
       debugPrint('[PAYMENT] initiatePayment Exception: $e');
@@ -104,7 +110,9 @@ class PaymentRepositoryImpl implements IPaymentRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 409) {
           return const PaymentFailure.alreadyPaid();
@@ -155,7 +163,9 @@ class PaymentRepositoryImpl implements IPaymentRepository {
       planName: dto.planName,
       planPeriod: dto.planPeriod,
       paymentMethod: dto.paymentMethod ?? '',
-      verifiedAt: dto.verifiedAt != null ? DateTime.tryParse(dto.verifiedAt!) : null,
+      verifiedAt: dto.verifiedAt != null
+          ? DateTime.tryParse(dto.verifiedAt!)
+          : null,
     );
   }
 

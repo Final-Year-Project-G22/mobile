@@ -79,7 +79,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
     setState(() => _isUploading = true);
     try {
       debugPrint('Uploading ${files.length} files...');
-      final result = await ref.read(communityMutationsProvider.notifier).uploadAttachments(files);
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .uploadAttachments(files);
 
       result.fold(
         (failure) {
@@ -118,7 +120,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
       final description = _descriptionController.text.trim();
       final initialPost = _initialPostController.text.trim();
 
-      final attachmentIds = _attachments.isNotEmpty ? _attachments.map((a) => a.id).join(',') : null;
+      final attachmentIds = _attachments.isNotEmpty
+          ? _attachments.map((a) => a.id).join(',')
+          : null;
 
       debugPrint('Submitting thread with attachmentIds: $attachmentIds');
 
@@ -214,7 +218,8 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   labelText: 'Thread Summary',
                   border: OutlineInputBorder(),
                 ),
-                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
+                validator: (v) =>
+                    (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
               ),
 
               const SizedBox(height: 12),
@@ -229,7 +234,8 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   labelText: 'Initial Post',
                   border: OutlineInputBorder(),
                 ),
-                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Post required' : null,
+                validator: (v) =>
+                    (v?.trim().isEmpty ?? true) ? 'Post required' : null,
               ),
 
               const SizedBox(height: 12),
@@ -239,7 +245,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: (_isSubmitting || _isUploading) ? null : _pickImage,
+                      onPressed: (_isSubmitting || _isUploading)
+                          ? null
+                          : _pickImage,
                       icon: _isUploading
                           ? const SizedBox(
                               width: 16,
@@ -253,7 +261,9 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: (_isSubmitting || _isUploading) ? null : _pickFile,
+                      onPressed: (_isSubmitting || _isUploading)
+                          ? null
+                          : _pickFile,
                       icon: const Icon(Icons.attach_file),
                       label: const Text('Add Files'),
                     ),
@@ -279,7 +289,10 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest
+                          .withValues(alpha: 0.5),
                     ),
                     child: Row(
                       children: [

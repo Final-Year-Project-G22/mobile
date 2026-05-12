@@ -63,7 +63,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     );
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,7 +78,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: state.currentStep == 0 ? null : notifier.previousStep,
+                        onPressed: state.currentStep == 0
+                            ? null
+                            : notifier.previousStep,
                         icon: const Icon(Icons.arrow_back),
                       ),
                       Text(
@@ -84,7 +88,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                          color: isDark
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
                         ),
                       ),
                       const Spacer(),
@@ -94,14 +100,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.slate800 : AppColors.slate100,
+                          color: isDark
+                              ? AppColors.slate800
+                              : AppColors.slate100,
                           borderRadius: AppSpacing.borderRadiusFull,
                         ),
                         child: Text(
                           l10n.onboardingLanguageLabel,
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                       ),
@@ -118,7 +128,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           decoration: BoxDecoration(
                             color: isActive
                                 ? AppColors.accent
-                                : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                                : (isDark
+                                      ? AppColors.borderDark
+                                      : AppColors.borderLight),
                             borderRadius: AppSpacing.borderRadiusFull,
                           ),
                         ),
@@ -131,14 +143,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       Text(
                         l10n.onboardingStepLabel(state.currentStep + 1, 6),
                         style: TextStyle(
-                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
                         ),
                       ),
                       const Spacer(),
                       Text(
                         progressLabel,
                         style: TextStyle(
-                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
                         ),
                       ),
                     ],
@@ -195,7 +211,11 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                             }
                           : null,
                       child: Text(
-                        _isSubmitting ? 'Saving...' : (state.currentStep == 5 ? l10n.finish : l10n.next),
+                        _isSubmitting
+                            ? 'Saving...'
+                            : (state.currentStep == 5
+                                  ? l10n.finish
+                                  : l10n.next),
                       ),
                     ),
                   ),
@@ -217,7 +237,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       case 2:
         return state.answers.industry != null;
       case 3:
-        return state.answers.legalStructure != null && state.answers.taxStatus != null;
+        return state.answers.legalStructure != null &&
+            state.answers.taxStatus != null;
       case 4:
         return state.answers.operations.isNotEmpty;
       case 5:
@@ -246,7 +267,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         _isSubmitting = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save business profile. Please try again.')),
+        const SnackBar(
+          content: Text('Failed to save business profile. Please try again.'),
+        ),
       );
       return;
     }
@@ -276,7 +299,9 @@ class _OnboardingQuestionHeader extends StatelessWidget {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+            color: isDark
+                ? AppColors.textPrimaryDark
+                : AppColors.textPrimaryLight,
           ),
         ),
         AppSpacing.gapVerticalXs,
@@ -284,7 +309,9 @@ class _OnboardingQuestionHeader extends StatelessWidget {
           subtitle,
           style: TextStyle(
             fontSize: 14,
-            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+            color: isDark
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
           ),
         ),
       ],

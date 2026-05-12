@@ -88,9 +88,7 @@ abstract class AdminCommunityClient {
   /// [id] - Category ID.
   @DELETE('/api/v1/admin/community/categories/{id}')
   Future<HttpResponse<DeleteCommunityCategoryResponseBody>>
-  adminDeleteCommunityCategory({
-    @Path('id') required String id,
-  });
+  adminDeleteCommunityCategory({@Path('id') required String id});
 
   /// Update community category.
   ///
@@ -132,9 +130,7 @@ abstract class AdminCommunityClient {
   /// [id] - Report ID.
   @DELETE('/api/v1/admin/community/reports/posts/{id}')
   Future<HttpResponse<DeleteReportedContentResponseBody>>
-  adminDeleteReportedPost({
-    @Path('id') required String id,
-  });
+  adminDeleteReportedPost({@Path('id') required String id});
 
   /// Get post report (admin).
   ///
@@ -186,9 +182,7 @@ abstract class AdminCommunityClient {
   /// [id] - Report ID.
   @DELETE('/api/v1/admin/community/reports/threads/{id}')
   Future<HttpResponse<DeleteReportedContentResponseBody>>
-  adminDeleteReportedThread({
-    @Path('id') required String id,
-  });
+  adminDeleteReportedThread({@Path('id') required String id});
 
   /// Get thread report (admin).
   ///

@@ -32,5 +32,6 @@ class GuideProgressSummary {
   final int inProgressSteps;
 
   double get percent => totalSteps > 0 ? completedSteps / totalSteps : 0;
-  int get lockedSteps => totalSteps - completedSteps - skippedSteps - inProgressSteps;
+  int get lockedSteps =>
+      totalSteps - completedSteps - skippedSteps - inProgressSteps;
 }

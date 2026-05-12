@@ -1,0 +1,19 @@
+#!/bin/sh
+# Pre-commit hook: format staged Dart files with dart format.
+# Excludes generated files (*.g.dart, *.freezed.dart, */generated/*).
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep '\.dart$' || true)
+[ -z "$staged" ] && exit 0
+
+files=""
+for f in $staged; do
+  case "$f" in
+    *.g.dart|*.freezed.dart|*/generated/*) ;;
+    *) files="$files $f" ;;
+  esac
+done
+
+[ -z "$files" ] && exit 0
+
+dart format $files
+git add $files

@@ -8,13 +8,18 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../app/router/routes.dart';
 
 class CheckoutLauncherPage extends ConsumerStatefulWidget {
-  const CheckoutLauncherPage({required this.checkoutUrl, required this.txRef, super.key});
+  const CheckoutLauncherPage({
+    required this.checkoutUrl,
+    required this.txRef,
+    super.key,
+  });
 
   final String checkoutUrl;
   final String txRef;
 
   @override
-  ConsumerState<CheckoutLauncherPage> createState() => _CheckoutLauncherPageState();
+  ConsumerState<CheckoutLauncherPage> createState() =>
+      _CheckoutLauncherPageState();
 }
 
 class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
@@ -27,15 +32,21 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
   Future<void> _launchCheckout() async {
     if (!mounted) return;
 
-    debugPrint('[PAYMENT] CheckoutLauncherPage launching: url=${widget.checkoutUrl}');
+    debugPrint(
+      '[PAYMENT] CheckoutLauncherPage launching: url=${widget.checkoutUrl}',
+    );
 
     if (kIsWeb) {
-      debugPrint('[PAYMENT] CheckoutLauncherPage: web platform, using url_launcher');
+      debugPrint(
+        '[PAYMENT] CheckoutLauncherPage: web platform, using url_launcher',
+      );
       await _launchOnWeb();
       return;
     }
 
-    debugPrint('[PAYMENT] CheckoutLauncherPage: mobile platform, using flutter_web_auth_2');
+    debugPrint(
+      '[PAYMENT] CheckoutLauncherPage: mobile platform, using flutter_web_auth_2',
+    );
     try {
       await FlutterWebAuth2.authenticate(
         url: widget.checkoutUrl,

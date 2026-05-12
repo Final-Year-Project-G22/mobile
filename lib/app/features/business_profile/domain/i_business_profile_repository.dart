@@ -6,7 +6,8 @@ import 'failures/business_profile_failure.dart';
 abstract class IBusinessProfileRepository {
   Future<Either<BusinessProfileFailure, BusinessProfile>> getBusinessProfile();
 
-  Future<Either<BusinessProfileFailure, BusinessProfile>> createBusinessProfile({
+  Future<Either<BusinessProfileFailure, BusinessProfile>>
+  createBusinessProfile({
     String? companyName,
     String? companyEmail,
     String? companyPhoneNumber,
@@ -18,7 +19,8 @@ abstract class IBusinessProfileRepository {
     List<String> tagSlugs,
   });
 
-  Future<Either<BusinessProfileFailure, BusinessProfile>> updateBusinessProfile({
+  Future<Either<BusinessProfileFailure, BusinessProfile>>
+  updateBusinessProfile({
     String? companyName,
     String? companyEmail,
     String? companyPhoneNumber,

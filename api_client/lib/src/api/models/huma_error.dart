@@ -26,5 +26,6 @@ abstract class HumaError with _$HumaError {
     List<dynamic>? errors,
   }) = _HumaError;
 
-  factory HumaError.fromJson(Map<String, Object?> json) => _$HumaErrorFromJson(json);
+  factory HumaError.fromJson(Map<String, Object?> json) =>
+      _$HumaErrorFromJson(json);
 }

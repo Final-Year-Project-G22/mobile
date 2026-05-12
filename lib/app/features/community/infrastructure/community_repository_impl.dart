@@ -32,7 +32,8 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) =>
+                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -78,7 +79,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final response = await _client.getCommunityThread(id: threadId);
       final threadDto = response.data.thread;
       final responseMap = response.response.data;
-      final threadMap = responseMap is Map<String, dynamic> ? responseMap['thread'] as Map<String, dynamic>? : null;
+      final threadMap = responseMap is Map<String, dynamic>
+          ? responseMap['thread'] as Map<String, dynamic>?
+          : null;
       return Right(_mapThreadDtoToDomain(threadDto, json: threadMap));
     } on DioException catch (e) {
       return Left(_handleDioError(e));
@@ -130,7 +133,8 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) =>
+                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -464,7 +468,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
 
         if (statusCode == 404) {
           return const CommunityFailure.notFound();
@@ -531,7 +537,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     final authorDisplayName = json?['authorDisplayName'] as String?;
     final authorAvatarUrl = json?['authorAvatarUrl'] as String?;
 
-    final attachments = dto.attachments?.map((e) => Attachment.fromJson(e as Map<String, dynamic>)).toList();
+    final attachments = dto.attachments
+        ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+        .toList();
 
     return DiscussionPost(
       id: dto.id,

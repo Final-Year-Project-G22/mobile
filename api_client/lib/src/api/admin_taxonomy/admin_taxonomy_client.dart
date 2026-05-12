@@ -109,9 +109,7 @@ abstract class AdminTaxonomyClient {
   ///
   /// [id] - Tag ID.
   @GET('/api/v1/admin/tags/{id}')
-  Future<HttpResponse<TagResponse>> getTag({
-    @Path('id') required String id,
-  });
+  Future<HttpResponse<TagResponse>> getTag({@Path('id') required String id});
 
   /// Update tag.
   ///

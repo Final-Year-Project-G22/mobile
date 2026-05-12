@@ -85,7 +85,9 @@ class _EmptyWelcome extends StatelessWidget {
             'Welcome! Start your first guide to see your progress here.',
             style: TextStyle(
               fontSize: 14,
-              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+              color: isDark
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
             ),
             textAlign: TextAlign.center,
           ),

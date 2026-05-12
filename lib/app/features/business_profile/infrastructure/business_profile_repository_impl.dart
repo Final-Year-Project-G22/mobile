@@ -12,7 +12,8 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
   final api.BusinessProfileClient _client;
 
   @override
-  Future<Either<BusinessProfileFailure, BusinessProfile>> getBusinessProfile() async {
+  Future<Either<BusinessProfileFailure, BusinessProfile>>
+  getBusinessProfile() async {
     try {
       final response = await _client.getBusinessProfile();
       return Right(_toDomain(response.data));
@@ -24,7 +25,8 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
   }
 
   @override
-  Future<Either<BusinessProfileFailure, BusinessProfile>> createBusinessProfile({
+  Future<Either<BusinessProfileFailure, BusinessProfile>>
+  createBusinessProfile({
     String? companyName,
     String? companyEmail,
     String? companyPhoneNumber,
@@ -58,7 +60,8 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
   }
 
   @override
-  Future<Either<BusinessProfileFailure, BusinessProfile>> updateBusinessProfile({
+  Future<Either<BusinessProfileFailure, BusinessProfile>>
+  updateBusinessProfile({
     String? companyName,
     String? companyEmail,
     String? companyPhoneNumber,

@@ -83,10 +83,14 @@ class CommunityHomePage extends ConsumerWidget {
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: thread.authorAvatarUrl != null && thread.authorAvatarUrl!.isNotEmpty
+                          backgroundImage:
+                              thread.authorAvatarUrl != null &&
+                                  thread.authorAvatarUrl!.isNotEmpty
                               ? NetworkImage(thread.authorAvatarUrl!)
                               : null,
-                          child: (thread.authorAvatarUrl == null || thread.authorAvatarUrl!.isEmpty)
+                          child:
+                              (thread.authorAvatarUrl == null ||
+                                  thread.authorAvatarUrl!.isEmpty)
                               ? const Icon(Icons.person)
                               : null,
                         ),

@@ -23,8 +23,11 @@ class CircularProgressRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final progressColor = color ?? (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
-    final trackColor = backgroundColor ?? (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0));
+    final progressColor =
+        color ?? (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
+    final trackColor =
+        backgroundColor ??
+        (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0));
 
     return SizedBox(
       width: size,
@@ -47,7 +50,9 @@ class CircularProgressRing extends StatelessWidget {
               style: TextStyle(
                 fontSize: size * 0.28,
                 fontWeight: FontWeight.w700,
-                color: isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A),
+                color: isDark
+                    ? const Color(0xFFF8FAFC)
+                    : const Color(0xFF0F172A),
               ),
             ),
         ],

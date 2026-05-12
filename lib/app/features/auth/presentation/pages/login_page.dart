@@ -63,8 +63,10 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                   content: Text(
                     error.maybeWhen(
                       networkError: (_) => 'No internet connection',
-                      emailAlreadyInUse: (message) => message ?? 'Email already in use',
-                      invalidEmailAndPasswordCombination: (message) => message ?? 'Invalid email or password',
+                      emailAlreadyInUse: (message) =>
+                          message ?? 'Email already in use',
+                      invalidEmailAndPasswordCombination: (message) =>
+                          message ?? 'Invalid email or password',
                       serverError: (message) => message ?? 'Server error',
                       orElse: () => 'An error occurred',
                     ),
@@ -77,16 +79,20 @@ class _LogInPageState extends ConsumerState<LogInPage> {
         );
       })
       ..listen(authOAuthStateProvider, (previous, next) {
-        if (next.oauthProvidersFailure == null || previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
+        if (next.oauthProvidersFailure == null ||
+            previous?.oauthProvidersFailure == next.oauthProvidersFailure) {
           return;
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
           networkError: (_) => 'No internet connection',
-          oauthProviderUnavailable: (value) => value ?? 'OAuth provider is unavailable',
+          oauthProviderUnavailable: (value) =>
+              value ?? 'OAuth provider is unavailable',
           oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
-          oauthStateInvalidOrExpired: (value) => value ?? 'OAuth session expired, try again',
-          unsupportedOAuthProvider: (value) => value ?? 'Unsupported OAuth provider',
+          oauthStateInvalidOrExpired: (value) =>
+              value ?? 'OAuth session expired, try again',
+          unsupportedOAuthProvider: (value) =>
+              value ?? 'Unsupported OAuth provider',
           oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
           serverError: (value) => value ?? 'Server error',
           orElse: () => 'OAuth sign in failed',
@@ -98,7 +104,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
       });
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: Stack(
         children: [
           SafeArea(
@@ -114,7 +122,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                        color: isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                       ),
                     ),
                     AppSpacing.gapVerticalXs,
@@ -122,7 +132,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       'LogIn to get started',
                       style: TextStyle(
                         fontSize: 16,
-                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        color: isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
@@ -132,9 +144,13 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       hint: 'Enter your email or username',
                       controller: _identifierController,
                       onChanged: (value) {
-                        ref.read(loginFormProvider.notifier).identifierChanged(value);
+                        ref
+                            .read(loginFormProvider.notifier)
+                            .identifierChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.identifierFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.identifierFailure?.toMessage()
+                          : null,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                     ),
@@ -144,16 +160,24 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       hint: 'Enter your password',
                       controller: _passwordController,
                       onChanged: (value) {
-                        ref.read(loginFormProvider.notifier).passwordChanged(value);
+                        ref
+                            .read(loginFormProvider.notifier)
+                            .passwordChanged(value);
                       },
-                      errorText: formState.showErrorMessages ? formState.passwordFailure?.toMessage() : null,
+                      errorText: formState.showErrorMessages
+                          ? formState.passwordFailure?.toMessage()
+                          : null,
                       obscureText: _obscurePassword,
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
                         ),
                         onPressed: () {
                           setState(() {
@@ -179,7 +203,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       isDisabled: oauthState.oauthInProgress,
                       onProviderTap: (provider) {
                         unawaited(
-                          ref.read(authProvider.notifier).startOAuthLogin(provider.name),
+                          ref
+                              .read(authProvider.notifier)
+                              .startOAuthLogin(provider.name),
                         );
                       },
                     ),
@@ -190,7 +216,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                         Text(
                           "Don't have an account? ",
                           style: TextStyle(
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                         GestureDetector(

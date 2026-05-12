@@ -2,7 +2,8 @@ import 'package:api_client/api_client.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class AppNetworkInfo implements NetworkInfo {
-  AppNetworkInfo({Connectivity? connectivity}) : _connectivity = connectivity ?? Connectivity();
+  AppNetworkInfo({Connectivity? connectivity})
+    : _connectivity = connectivity ?? Connectivity();
   final Connectivity _connectivity;
 
   @override

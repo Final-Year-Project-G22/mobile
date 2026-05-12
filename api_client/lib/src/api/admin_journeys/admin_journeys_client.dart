@@ -24,9 +24,7 @@ abstract class AdminJourneysClient {
   /// [guideId] - Guide ID.
   @DELETE('/api/v1/admin/guides/journeys')
   Future<HttpResponse<InvalidateAllJourneysResponseBody>>
-  invalidateAllJourneys({
-    @Path('guideId') required String guideId,
-  });
+  invalidateAllJourneys({@Path('guideId') required String guideId});
 
   /// Invalidate user journey.
   ///

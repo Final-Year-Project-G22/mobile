@@ -8,7 +8,8 @@ part 'mark_category_as_read_response_body.freezed.dart';
 part 'mark_category_as_read_response_body.g.dart';
 
 @Freezed()
-abstract class MarkCategoryAsReadResponseBody with _$MarkCategoryAsReadResponseBody {
+abstract class MarkCategoryAsReadResponseBody
+    with _$MarkCategoryAsReadResponseBody {
   const factory MarkCategoryAsReadResponseBody({
     /// Success message
     required String message,

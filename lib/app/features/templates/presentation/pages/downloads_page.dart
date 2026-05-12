@@ -28,7 +28,8 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       unawaited(ref.read(myDownloadsProvider.notifier).loadMore());
     }
   }
@@ -89,9 +90,10 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                Icons.insert_drive_file,
-                              ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                    Icons.insert_drive_file,
+                                  ),
                             ),
                           )
                         : const Icon(Icons.insert_drive_file),

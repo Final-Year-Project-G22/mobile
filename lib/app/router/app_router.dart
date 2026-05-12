@@ -29,15 +29,18 @@ final routerProvider = Provider<GoRouter>((ref) {
           location == oauthCallbackLocation ||
           location == oauthCompleteEmailLocation;
 
-      final isPublicPage = location == plansLocation || location == paymentSuccessLocation;
+      final isPublicPage =
+          location == plansLocation || location == paymentSuccessLocation;
 
       if (authState.isLoading) return null;
 
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
-      final isPendingVerification = authState.value?.isPendingVerification ?? false;
+      final isPendingVerification =
+          authState.value?.isPendingVerification ?? false;
 
       if (isPendingVerification) {
-        if (location == oauthCallbackLocation || location == oauthCompleteEmailLocation) {
+        if (location == oauthCallbackLocation ||
+            location == oauthCompleteEmailLocation) {
           return null;
         }
         return location == otpLocation ? null : otpLocation;

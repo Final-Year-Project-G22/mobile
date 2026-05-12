@@ -57,7 +57,9 @@ class _CitationCardState extends State<CitationCard> {
                   ),
                   const SizedBox(width: 4),
                   Icon(
-                    _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     size: 16,
                     color: theme.colorScheme.primary,
                   ),
@@ -77,7 +79,9 @@ class _CitationCardState extends State<CitationCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
-                      c.sourceType == 'guide' ? Icons.menu_book_outlined : Icons.description_outlined,
+                      c.sourceType == 'guide'
+                          ? Icons.menu_book_outlined
+                          : Icons.description_outlined,
                       size: 14,
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),

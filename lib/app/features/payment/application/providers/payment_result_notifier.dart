@@ -27,7 +27,9 @@ class PaymentResultNotifier extends _$PaymentResultNotifier {
 
     state = await AsyncValue.guard(() async {
       final result = await repo.verifyPayment(txRef);
-      final verification = result.getOrElse(() => throw Exception('Failed to verify payment'));
+      final verification = result.getOrElse(
+        () => throw Exception('Failed to verify payment'),
+      );
 
       if (verification.status == 'success' || verification.status == 'failed') {
         await ref.read(pendingPaymentProvider.notifier).clear();
@@ -53,7 +55,8 @@ class PaymentResultNotifier extends _$PaymentResultNotifier {
       _attempts++;
       unawaited(verify(txRef));
       final current = state.value;
-      if (current != null && (current.status == 'success' || current.status == 'failed')) {
+      if (current != null &&
+          (current.status == 'success' || current.status == 'failed')) {
         _timer?.cancel();
         return;
       }

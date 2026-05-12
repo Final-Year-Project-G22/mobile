@@ -32,7 +32,8 @@ class TemplateCard extends StatelessWidget {
                       template.thumbnailUrl!,
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      errorBuilder: (context, error, stackTrace) => _placeholder(theme),
+                      errorBuilder: (context, error, stackTrace) =>
+                          _placeholder(theme),
                     )
                   : _placeholder(theme),
             ),

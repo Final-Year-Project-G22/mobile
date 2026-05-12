@@ -35,7 +35,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     const categories = <String>[];
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -64,7 +66,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                         )
                       : null,
                   filled: true,
-                  fillColor: isDark ? AppColors.inputFillDark : AppColors.inputFillLight,
+                  fillColor: isDark
+                      ? AppColors.inputFillDark
+                      : AppColors.inputFillLight,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.md,
                   ),
@@ -75,7 +79,8 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 ),
               ),
             ),
-            if (state.recentGuides.isNotEmpty) RecentGuideRail(guides: state.recentGuides),
+            if (state.recentGuides.isNotEmpty)
+              RecentGuideRail(guides: state.recentGuides),
             if (state.recentGuides.isNotEmpty) AppSpacing.gapVerticalSm,
             Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
@@ -87,7 +92,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                       categories: categories,
                       selectedCategorySlug: state.selectedCategorySlug,
                       onCategorySelected: (slug) {
-                        ref.read(guideListProvider.notifier).selectCategory(slug);
+                        ref
+                            .read(guideListProvider.notifier)
+                            .selectCategory(slug);
                       },
                     ),
                   ),
@@ -105,28 +112,38 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                         decoration: BoxDecoration(
                           color: state.showBookmarked
                               ? AppColors.accent
-                              : (isDark ? AppColors.slate700 : AppColors.slate100),
+                              : (isDark
+                                    ? AppColors.slate700
+                                    : AppColors.slate100),
                           borderRadius: AppSpacing.borderRadiusFull,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              state.showBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                              state.showBookmarked
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
                               size: 16,
                               color: state.showBookmarked
                                   ? Colors.white
-                                  : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                                  : (isDark
+                                        ? AppColors.textSecondaryDark
+                                        : AppColors.textSecondaryLight),
                             ),
                             AppSpacing.gapHorizontalXxs,
                             Text(
                               'Bookmarked',
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: state.showBookmarked ? FontWeight.w600 : FontWeight.w500,
+                                fontWeight: state.showBookmarked
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
                                 color: state.showBookmarked
                                     ? Colors.white
-                                    : (isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                                    : (isDark
+                                          ? AppColors.textSecondaryDark
+                                          : AppColors.textSecondaryLight),
                               ),
                             ),
                           ],
@@ -138,7 +155,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               ),
             ),
             Expanded(
-              child: state.showBookmarked ? _buildBookmarksList(isDark) : _buildGuidesList(isDark),
+              child: state.showBookmarked
+                  ? _buildBookmarksList(isDark)
+                  : _buildGuidesList(isDark),
             ),
           ],
         ),
@@ -163,7 +182,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               'No guides found',
               style: TextStyle(
                 fontSize: 15,
-                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                color: isDark
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
               ),
             ),
           ],
@@ -204,7 +225,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               'No bookmarks yet',
               style: TextStyle(
                 fontSize: 15,
-                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                color: isDark
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
               ),
             ),
           ],
@@ -246,7 +269,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                          color: isDark
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
                         ),
                       ),
                     ),
@@ -257,7 +282,9 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                   bkmk.guideName,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                    color: isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                   ),
                 ),
               ],

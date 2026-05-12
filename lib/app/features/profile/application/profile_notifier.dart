@@ -23,7 +23,8 @@ class ProfileNotifier extends _$ProfileNotifier {
     final result = await repository.getCurrentUser();
 
     state = result.fold(
-      (failure) => state.copyWith(isLoading: false, errorMessage: _mapFailure(failure)),
+      (failure) =>
+          state.copyWith(isLoading: false, errorMessage: _mapFailure(failure)),
       (user) => state.copyWith(isLoading: false, user: user),
     );
   }
@@ -47,7 +48,8 @@ class ProfileNotifier extends _$ProfileNotifier {
     );
 
     state = result.fold(
-      (failure) => state.copyWith(isSaving: false, errorMessage: _mapFailure(failure)),
+      (failure) =>
+          state.copyWith(isSaving: false, errorMessage: _mapFailure(failure)),
       (user) => state.copyWith(
         isSaving: false,
         user: user,

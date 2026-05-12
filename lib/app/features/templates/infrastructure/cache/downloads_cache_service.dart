@@ -31,7 +31,8 @@ class DownloadsCacheService {
 
   List<DownloadCacheEntry> getDownloads() {
     final entries = _getRawEntries();
-    return entries.map(DownloadCacheEntry.fromJson).toList()..sort((a, b) => b.downloadedAt.compareTo(a.downloadedAt));
+    return entries.map(DownloadCacheEntry.fromJson).toList()
+      ..sort((a, b) => b.downloadedAt.compareTo(a.downloadedAt));
   }
 
   DownloadCacheEntry? findByGroupId(String groupId) {

@@ -66,12 +66,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final colorScheme = theme.colorScheme;
 
     ref.listen<ProfileState>(profileProvider, (previous, next) {
-      if (next.errorMessage != null && next.errorMessage != previous?.errorMessage) {
+      if (next.errorMessage != null &&
+          next.errorMessage != previous?.errorMessage) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
       }
-      if (next.successMessage != null && next.successMessage != previous?.successMessage) {
+      if (next.successMessage != null &&
+          next.successMessage != previous?.successMessage) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
@@ -160,7 +162,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: colorScheme.surfaceContainerHighest,
-                      backgroundImage: (user.imageUrl?.isNotEmpty ?? false) ? NetworkImage(user.imageUrl!) : null,
+                      backgroundImage: (user.imageUrl?.isNotEmpty ?? false)
+                          ? NetworkImage(user.imageUrl!)
+                          : null,
                       child: (user.imageUrl == null || user.imageUrl!.isEmpty)
                           ? Icon(
                               Icons.person,
@@ -178,7 +182,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             ? null
                             : () {
                                 unawaited(
-                                  ref.read(profileProvider.notifier).uploadAvatarFromGallery(),
+                                  ref
+                                      .read(profileProvider.notifier)
+                                      .uploadAvatarFromGallery(),
                                 );
                               },
                         icon: state.isUploadingAvatar
@@ -208,7 +214,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     if (subAsync.value?.planName == 'Pro') ...[
                       const SizedBox(width: 8),
                       Chip(
-                        label: const Text('PRO', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                        label: const Text(
+                          'PRO',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         backgroundColor: Colors.amber.shade100,
                         side: BorderSide.none,
                         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -263,7 +275,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     : _ProfileDetailsView(
                         key: const ValueKey('profile-details'),
                         user: user,
-                        onEditTap: () => setState(() => _isEditingProfile = true),
+                        onEditTap: () =>
+                            setState(() => _isEditingProfile = true),
                       ),
               ),
             ),

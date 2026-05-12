@@ -159,9 +159,7 @@ abstract class AdminLibraryClient {
   /// [id] - Form ID.
   @DELETE('/api/v1/admin/library/interactive-forms/{id}')
   Future<HttpResponse<DeleteInteractiveFormOutputBody>>
-  libraryDeleteInteractiveForm({
-    @Path('id') required String id,
-  });
+  libraryDeleteInteractiveForm({@Path('id') required String id});
 
   /// Update interactive form.
   ///
@@ -211,9 +209,7 @@ abstract class AdminLibraryClient {
   /// [groupId] - Group ID.
   @DELETE('/api/v1/admin/library/template-groups/{groupId}')
   Future<HttpResponse<DeleteTemplateGroupOutputBody>>
-  libraryDeleteTemplateGroup({
-    @Path('groupId') required String groupId,
-  });
+  libraryDeleteTemplateGroup({@Path('groupId') required String groupId});
 
   /// Get template group.
   ///
@@ -222,9 +218,7 @@ abstract class AdminLibraryClient {
   /// [groupId] - Group ID.
   @GET('/api/v1/admin/library/template-groups/{groupId}')
   Future<HttpResponse<TemplateGroupDetailResponse>>
-  libraryAdminGetTemplateGroup({
-    @Path('groupId') required String groupId,
-  });
+  libraryAdminGetTemplateGroup({@Path('groupId') required String groupId});
 
   /// Update template group.
   ///
@@ -330,9 +324,7 @@ abstract class AdminLibraryClient {
   /// [templateId] - Template ID.
   @GET('/api/v1/admin/library/templates/{templateId}/interactive-form')
   Future<HttpResponse<InteractiveFormDetailResponse>>
-  libraryGetInteractiveForm({
-    @Path('templateId') required String templateId,
-  });
+  libraryGetInteractiveForm({@Path('templateId') required String templateId});
 
   /// Create interactive form.
   ///
