@@ -33,6 +33,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   DiscussionPost? _replyTarget;
   DiscussionPost? _editTarget;
   bool _initialScrollDone = false;
+  int? _previousPostCount;
 
   @override
   void dispose() {
@@ -413,6 +414,12 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                 initialPostId,
               );
 
+              final currentPostCount = sortedPosts.length;
+              if (_previousPostCount != null && currentPostCount > _previousPostCount!) {
+                _scrollToBottom();
+              }
+              _previousPostCount = currentPostCount;
+
               if (!_initialScrollDone) {
                 _initialScrollDone = true;
                 if (orderedReplies.isNotEmpty) {
@@ -439,13 +446,6 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Text(
-                                thread.title,
-                                style: Theme.of(context).textTheme.headlineSmall,
-                              ),
-                            ),
                             const SizedBox(height: 8),
                             if (initialPost != null)
                               PostCard(

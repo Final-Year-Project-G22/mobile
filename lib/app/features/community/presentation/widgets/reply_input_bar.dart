@@ -273,6 +273,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           (_) {
             _controller.clear();
             setState(_attachments.clear);
+            widget.onClearMode();
           },
         );
       }
