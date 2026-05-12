@@ -8,7 +8,8 @@ part 'update_campaign_template_translation_request.freezed.dart';
 part 'update_campaign_template_translation_request.g.dart';
 
 @Freezed()
-abstract class UpdateCampaignTemplateTranslationRequest with _$UpdateCampaignTemplateTranslationRequest {
+abstract class UpdateCampaignTemplateTranslationRequest
+    with _$UpdateCampaignTemplateTranslationRequest {
   const factory UpdateCampaignTemplateTranslationRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
@@ -17,6 +18,7 @@ abstract class UpdateCampaignTemplateTranslationRequest with _$UpdateCampaignTem
     Map<String, dynamic>? content,
   }) = _UpdateCampaignTemplateTranslationRequest;
 
-  factory UpdateCampaignTemplateTranslationRequest.fromJson(Map<String, Object?> json) =>
-      _$UpdateCampaignTemplateTranslationRequestFromJson(json);
+  factory UpdateCampaignTemplateTranslationRequest.fromJson(
+    Map<String, Object?> json,
+  ) => _$UpdateCampaignTemplateTranslationRequestFromJson(json);
 }

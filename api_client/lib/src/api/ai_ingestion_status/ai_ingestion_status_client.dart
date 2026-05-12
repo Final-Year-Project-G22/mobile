@@ -14,7 +14,8 @@ part 'ai_ingestion_status_client.g.dart';
 
 @RestApi()
 abstract class AiIngestionStatusClient {
-  factory AiIngestionStatusClient(Dio dio, {String? baseUrl}) = _AiIngestionStatusClient;
+  factory AiIngestionStatusClient(Dio dio, {String? baseUrl}) =
+      _AiIngestionStatusClient;
 
   /// List ingestion status by account ID.
   ///
@@ -22,7 +23,8 @@ abstract class AiIngestionStatusClient {
   ///
   /// [accountId] - Account ID.
   @GET('/api/v1/ai/ingestion/status/accounts/{accountId}')
-  Future<HttpResponse<ListStatusByAccountOutputBody>> listIngestionStatusByAccountId({
+  Future<HttpResponse<ListStatusByAccountOutputBody>>
+  listIngestionStatusByAccountId({
     @Path('accountId') required String accountId,
   });
 
@@ -32,7 +34,9 @@ abstract class AiIngestionStatusClient {
   ///
   /// [documentId] - Document ID.
   @GET('/api/v1/ai/ingestion/status/document/{documentId}/stream')
-  Future<HttpResponse<void>> streamIngestionStatusByDocument({@Path('documentId') required String documentId});
+  Future<HttpResponse<void>> streamIngestionStatusByDocument({
+    @Path('documentId') required String documentId,
+  });
 
   /// Get ingestion status by document ID.
   ///
@@ -40,7 +44,8 @@ abstract class AiIngestionStatusClient {
   ///
   /// [documentId] - Document ID.
   @GET('/api/v1/ai/ingestion/status/documents/{documentId}')
-  Future<HttpResponse<IngestionStatusProjectionResponse>> getIngestionStatusByDocumentId({
+  Future<HttpResponse<IngestionStatusProjectionResponse>>
+  getIngestionStatusByDocumentId({
     @Path('documentId') required String documentId,
   });
 

@@ -8,7 +8,8 @@ part 'delete_category_translation_output_body.freezed.dart';
 part 'delete_category_translation_output_body.g.dart';
 
 @Freezed()
-abstract class DeleteCategoryTranslationOutputBody with _$DeleteCategoryTranslationOutputBody {
+abstract class DeleteCategoryTranslationOutputBody
+    with _$DeleteCategoryTranslationOutputBody {
   const factory DeleteCategoryTranslationOutputBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class DeleteCategoryTranslationOutputBody with _$DeleteCategoryTranslat
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteCategoryTranslationOutputBody;
 
-  factory DeleteCategoryTranslationOutputBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteCategoryTranslationOutputBodyFromJson(json);
+  factory DeleteCategoryTranslationOutputBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$DeleteCategoryTranslationOutputBodyFromJson(json);
 }

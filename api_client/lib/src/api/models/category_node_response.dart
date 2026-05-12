@@ -29,5 +29,6 @@ abstract class CategoryNodeResponse with _$CategoryNodeResponse {
     String? icon,
   }) = _CategoryNodeResponse;
 
-  factory CategoryNodeResponse.fromJson(Map<String, Object?> json) => _$CategoryNodeResponseFromJson(json);
+  factory CategoryNodeResponse.fromJson(Map<String, Object?> json) =>
+      _$CategoryNodeResponseFromJson(json);
 }

@@ -53,5 +53,6 @@ abstract class CreateStepRequest with _$CreateStepRequest {
     List<dynamic>? translations,
   }) = _CreateStepRequest;
 
-  factory CreateStepRequest.fromJson(Map<String, Object?> json) => _$CreateStepRequestFromJson(json);
+  factory CreateStepRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateStepRequestFromJson(json);
 }

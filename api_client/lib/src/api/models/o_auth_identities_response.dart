@@ -16,5 +16,6 @@ abstract class OAuthIdentitiesResponse with _$OAuthIdentitiesResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _OAuthIdentitiesResponse;
 
-  factory OAuthIdentitiesResponse.fromJson(Map<String, Object?> json) => _$OAuthIdentitiesResponseFromJson(json);
+  factory OAuthIdentitiesResponse.fromJson(Map<String, Object?> json) =>
+      _$OAuthIdentitiesResponseFromJson(json);
 }

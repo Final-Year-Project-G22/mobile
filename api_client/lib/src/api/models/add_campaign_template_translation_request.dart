@@ -8,7 +8,8 @@ part 'add_campaign_template_translation_request.freezed.dart';
 part 'add_campaign_template_translation_request.g.dart';
 
 @Freezed()
-abstract class AddCampaignTemplateTranslationRequest with _$AddCampaignTemplateTranslationRequest {
+abstract class AddCampaignTemplateTranslationRequest
+    with _$AddCampaignTemplateTranslationRequest {
   const factory AddCampaignTemplateTranslationRequest({
     /// Multi-channel localized content
     required Map<String, dynamic> content,
@@ -20,6 +21,7 @@ abstract class AddCampaignTemplateTranslationRequest with _$AddCampaignTemplateT
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddCampaignTemplateTranslationRequest;
 
-  factory AddCampaignTemplateTranslationRequest.fromJson(Map<String, Object?> json) =>
-      _$AddCampaignTemplateTranslationRequestFromJson(json);
+  factory AddCampaignTemplateTranslationRequest.fromJson(
+    Map<String, Object?> json,
+  ) => _$AddCampaignTemplateTranslationRequestFromJson(json);
 }

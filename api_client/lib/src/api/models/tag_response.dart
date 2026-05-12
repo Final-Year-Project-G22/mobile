@@ -53,5 +53,6 @@ abstract class TagResponse with _$TagResponse {
     DateTime? updatedAt,
   }) = _TagResponse;
 
-  factory TagResponse.fromJson(Map<String, Object?> json) => _$TagResponseFromJson(json);
+  factory TagResponse.fromJson(Map<String, Object?> json) =>
+      _$TagResponseFromJson(json);
 }

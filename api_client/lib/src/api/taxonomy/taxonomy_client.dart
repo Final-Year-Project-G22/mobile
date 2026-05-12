@@ -39,7 +39,9 @@ abstract class TaxonomyClient {
   ///
   /// [id] - Sector ID.
   @GET('/api/v1/taxonomy/sectors/{id}')
-  Future<HttpResponse<SectorResponse>> getTaxonomySector({@Path('id') required String id});
+  Future<HttpResponse<SectorResponse>> getTaxonomySector({
+    @Path('id') required String id,
+  });
 
   /// List tags.
   ///
@@ -63,5 +65,7 @@ abstract class TaxonomyClient {
   ///
   /// [id] - Tag ID.
   @GET('/api/v1/taxonomy/tags/{id}')
-  Future<HttpResponse<TagResponse>> getTaxonomyTag({@Path('id') required String id});
+  Future<HttpResponse<TagResponse>> getTaxonomyTag({
+    @Path('id') required String id,
+  });
 }

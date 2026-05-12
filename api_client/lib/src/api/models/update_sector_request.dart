@@ -41,5 +41,6 @@ abstract class UpdateSectorRequest with _$UpdateSectorRequest {
     int? sortOrder,
   }) = _UpdateSectorRequest;
 
-  factory UpdateSectorRequest.fromJson(Map<String, Object?> json) => _$UpdateSectorRequestFromJson(json);
+  factory UpdateSectorRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateSectorRequestFromJson(json);
 }

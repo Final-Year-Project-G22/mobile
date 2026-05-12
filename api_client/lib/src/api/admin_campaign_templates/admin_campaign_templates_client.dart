@@ -23,7 +23,8 @@ part 'admin_campaign_templates_client.g.dart';
 
 @RestApi()
 abstract class AdminCampaignTemplatesClient {
-  factory AdminCampaignTemplatesClient(Dio dio, {String? baseUrl}) = _AdminCampaignTemplatesClient;
+  factory AdminCampaignTemplatesClient(Dio dio, {String? baseUrl}) =
+      _AdminCampaignTemplatesClient;
 
   /// List campaign templates.
   ///
@@ -33,7 +34,8 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/admin/notifications/campaign-templates')
-  Future<HttpResponse<ListCampaignTemplatesResponseBody>> listCampaignTemplates({
+  Future<HttpResponse<ListCampaignTemplatesResponseBody>>
+  listCampaignTemplates({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
   });
@@ -44,7 +46,8 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/notifications/campaign-templates')
-  Future<HttpResponse<CreateCampaignTemplateResponseBody>> createCampaignTemplate({
+  Future<HttpResponse<CreateCampaignTemplateResponseBody>>
+  createCampaignTemplate({
     @Body() required CreateCampaignTemplateRequest body,
   });
 
@@ -54,7 +57,10 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [id] - Campaign template ID.
   @DELETE('/api/v1/admin/notifications/campaign-templates/{id}')
-  Future<HttpResponse<DeleteCampaignTemplateResponseBody>> deleteCampaignTemplate({@Path('id') required String id});
+  Future<HttpResponse<DeleteCampaignTemplateResponseBody>>
+  deleteCampaignTemplate({
+    @Path('id') required String id,
+  });
 
   /// Get campaign template.
   ///
@@ -62,7 +68,9 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [id] - Campaign template ID.
   @GET('/api/v1/admin/notifications/campaign-templates/{id}')
-  Future<HttpResponse<CampaignTemplateDetailResponse>> getCampaignTemplate({@Path('id') required String id});
+  Future<HttpResponse<CampaignTemplateDetailResponse>> getCampaignTemplate({
+    @Path('id') required String id,
+  });
 
   /// Update campaign template.
   ///
@@ -72,7 +80,8 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @PATCH('/api/v1/admin/notifications/campaign-templates/{id}')
-  Future<HttpResponse<UpdateCampaignTemplateResponseBody>> updateCampaignTemplate({
+  Future<HttpResponse<UpdateCampaignTemplateResponseBody>>
+  updateCampaignTemplate({
     @Path('id') required String id,
     @Body() required UpdateCampaignTemplateRequest body,
   });
@@ -85,7 +94,8 @@ abstract class AdminCampaignTemplatesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/notifications/campaign-templates/{id}/translations')
-  Future<HttpResponse<AddCampaignTemplateTranslationResponseBody>> addCampaignTemplateTranslation({
+  Future<HttpResponse<AddCampaignTemplateTranslationResponseBody>>
+  addCampaignTemplateTranslation({
     @Path('id') required String id,
     @Body() required AddCampaignTemplateTranslationRequest body,
   });
@@ -97,8 +107,11 @@ abstract class AdminCampaignTemplatesClient {
   /// [id] - Campaign template ID.
   ///
   /// [lang] - Language code.
-  @DELETE('/api/v1/admin/notifications/campaign-templates/{id}/translations/{lang}')
-  Future<HttpResponse<DeleteCampaignTemplateTranslationResponseBody>> deleteCampaignTemplateTranslation({
+  @DELETE(
+    '/api/v1/admin/notifications/campaign-templates/{id}/translations/{lang}',
+  )
+  Future<HttpResponse<DeleteCampaignTemplateTranslationResponseBody>>
+  deleteCampaignTemplateTranslation({
     @Path('id') required String id,
     @Path('lang') required String lang,
   });
@@ -112,8 +125,11 @@ abstract class AdminCampaignTemplatesClient {
   /// [lang] - Language code.
   ///
   /// [body] - Name not received - field will be skipped.
-  @PATCH('/api/v1/admin/notifications/campaign-templates/{id}/translations/{lang}')
-  Future<HttpResponse<UpdateCampaignTemplateTranslationResponseBody>> updateCampaignTemplateTranslation({
+  @PATCH(
+    '/api/v1/admin/notifications/campaign-templates/{id}/translations/{lang}',
+  )
+  Future<HttpResponse<UpdateCampaignTemplateTranslationResponseBody>>
+  updateCampaignTemplateTranslation({
     @Path('id') required String id,
     @Path('lang') required String lang,
     @Body() required UpdateCampaignTemplateTranslationRequest body,

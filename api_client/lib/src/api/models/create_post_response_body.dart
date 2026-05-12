@@ -17,5 +17,6 @@ abstract class CreatePostResponseBody with _$CreatePostResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreatePostResponseBody;
 
-  factory CreatePostResponseBody.fromJson(Map<String, Object?> json) => _$CreatePostResponseBodyFromJson(json);
+  factory CreatePostResponseBody.fromJson(Map<String, Object?> json) =>
+      _$CreatePostResponseBodyFromJson(json);
 }

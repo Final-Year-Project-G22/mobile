@@ -17,5 +17,6 @@ abstract class UnreadCountResponseBody with _$UnreadCountResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UnreadCountResponseBody;
 
-  factory UnreadCountResponseBody.fromJson(Map<String, Object?> json) => _$UnreadCountResponseBodyFromJson(json);
+  factory UnreadCountResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UnreadCountResponseBodyFromJson(json);
 }

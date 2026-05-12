@@ -17,5 +17,6 @@ abstract class BlockUserResponseBody with _$BlockUserResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _BlockUserResponseBody;
 
-  factory BlockUserResponseBody.fromJson(Map<String, Object?> json) => _$BlockUserResponseBodyFromJson(json);
+  factory BlockUserResponseBody.fromJson(Map<String, Object?> json) =>
+      _$BlockUserResponseBodyFromJson(json);
 }

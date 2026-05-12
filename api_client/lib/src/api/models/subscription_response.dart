@@ -38,5 +38,6 @@ abstract class SubscriptionResponse with _$SubscriptionResponse {
     required String status,
   }) = _SubscriptionResponse;
 
-  factory SubscriptionResponse.fromJson(Map<String, Object?> json) => _$SubscriptionResponseFromJson(json);
+  factory SubscriptionResponse.fromJson(Map<String, Object?> json) =>
+      _$SubscriptionResponseFromJson(json);
 }

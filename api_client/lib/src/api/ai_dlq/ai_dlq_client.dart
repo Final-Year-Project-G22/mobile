@@ -31,7 +31,9 @@ abstract class AiDlqClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/ai/ingestion/dlq/events/batch/redrive')
-  Future<HttpResponse<RedriveBatchOutputBody>> redriveBatch({@Body() required RedriveBatchInputBody body});
+  Future<HttpResponse<RedriveBatchOutputBody>> redriveBatch({
+    @Body() required RedriveBatchInputBody body,
+  });
 
   /// Get dead event.
   ///
@@ -39,7 +41,9 @@ abstract class AiDlqClient {
   ///
   /// [eventId] - Event ID.
   @GET('/api/v1/ai/ingestion/dlq/events/{eventId}')
-  Future<HttpResponse<DeadEventDto>> getDeadEvent({@Path('eventId') required String eventId});
+  Future<HttpResponse<DeadEventDto>> getDeadEvent({
+    @Path('eventId') required String eventId,
+  });
 
   /// Redrive single event.
   ///

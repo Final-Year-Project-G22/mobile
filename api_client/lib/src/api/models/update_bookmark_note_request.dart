@@ -17,5 +17,6 @@ abstract class UpdateBookmarkNoteRequest with _$UpdateBookmarkNoteRequest {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateBookmarkNoteRequest;
 
-  factory UpdateBookmarkNoteRequest.fromJson(Map<String, Object?> json) => _$UpdateBookmarkNoteRequestFromJson(json);
+  factory UpdateBookmarkNoteRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateBookmarkNoteRequestFromJson(json);
 }

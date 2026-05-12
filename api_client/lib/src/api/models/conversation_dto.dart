@@ -18,5 +18,6 @@ abstract class ConversationDto with _$ConversationDto {
     required DateTime updatedAt,
   }) = _ConversationDto;
 
-  factory ConversationDto.fromJson(Map<String, Object?> json) => _$ConversationDtoFromJson(json);
+  factory ConversationDto.fromJson(Map<String, Object?> json) =>
+      _$ConversationDtoFromJson(json);
 }

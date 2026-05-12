@@ -19,5 +19,6 @@ abstract class UpdateRoleResponseBody with _$UpdateRoleResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateRoleResponseBody;
 
-  factory UpdateRoleResponseBody.fromJson(Map<String, Object?> json) => _$UpdateRoleResponseBodyFromJson(json);
+  factory UpdateRoleResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateRoleResponseBodyFromJson(json);
 }

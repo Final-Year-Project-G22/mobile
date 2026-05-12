@@ -20,5 +20,6 @@ abstract class UpdateGuideTranslation with _$UpdateGuideTranslation {
     String? description,
   }) = _UpdateGuideTranslation;
 
-  factory UpdateGuideTranslation.fromJson(Map<String, Object?> json) => _$UpdateGuideTranslationFromJson(json);
+  factory UpdateGuideTranslation.fromJson(Map<String, Object?> json) =>
+      _$UpdateGuideTranslationFromJson(json);
 }

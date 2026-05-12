@@ -44,5 +44,6 @@ abstract class UpdateTagRequest with _$UpdateTagRequest {
     int? sortOrder,
   }) = _UpdateTagRequest;
 
-  factory UpdateTagRequest.fromJson(Map<String, Object?> json) => _$UpdateTagRequestFromJson(json);
+  factory UpdateTagRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateTagRequestFromJson(json);
 }

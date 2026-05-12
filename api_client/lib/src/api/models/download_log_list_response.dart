@@ -29,5 +29,6 @@ abstract class DownloadLogListResponse with _$DownloadLogListResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DownloadLogListResponse;
 
-  factory DownloadLogListResponse.fromJson(Map<String, Object?> json) => _$DownloadLogListResponseFromJson(json);
+  factory DownloadLogListResponse.fromJson(Map<String, Object?> json) =>
+      _$DownloadLogListResponseFromJson(json);
 }

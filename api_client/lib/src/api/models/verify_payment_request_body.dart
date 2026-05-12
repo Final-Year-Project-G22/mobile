@@ -17,5 +17,6 @@ abstract class VerifyPaymentRequestBody with _$VerifyPaymentRequestBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _VerifyPaymentRequestBody;
 
-  factory VerifyPaymentRequestBody.fromJson(Map<String, Object?> json) => _$VerifyPaymentRequestBodyFromJson(json);
+  factory VerifyPaymentRequestBody.fromJson(Map<String, Object?> json) =>
+      _$VerifyPaymentRequestBodyFromJson(json);
 }

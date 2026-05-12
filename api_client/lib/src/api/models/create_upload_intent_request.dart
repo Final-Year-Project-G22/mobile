@@ -29,5 +29,6 @@ abstract class CreateUploadIntentRequest with _$CreateUploadIntentRequest {
     String? storageKey,
   }) = _CreateUploadIntentRequest;
 
-  factory CreateUploadIntentRequest.fromJson(Map<String, Object?> json) => _$CreateUploadIntentRequestFromJson(json);
+  factory CreateUploadIntentRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateUploadIntentRequestFromJson(json);
 }

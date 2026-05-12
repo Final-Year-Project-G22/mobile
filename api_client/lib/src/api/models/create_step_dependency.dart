@@ -17,5 +17,6 @@ abstract class CreateStepDependency with _$CreateStepDependency {
     required String requiredStepId,
   }) = _CreateStepDependency;
 
-  factory CreateStepDependency.fromJson(Map<String, Object?> json) => _$CreateStepDependencyFromJson(json);
+  factory CreateStepDependency.fromJson(Map<String, Object?> json) =>
+      _$CreateStepDependencyFromJson(json);
 }

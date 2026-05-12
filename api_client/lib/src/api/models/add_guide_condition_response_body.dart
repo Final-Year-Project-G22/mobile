@@ -8,7 +8,8 @@ part 'add_guide_condition_response_body.freezed.dart';
 part 'add_guide_condition_response_body.g.dart';
 
 @Freezed()
-abstract class AddGuideConditionResponseBody with _$AddGuideConditionResponseBody {
+abstract class AddGuideConditionResponseBody
+    with _$AddGuideConditionResponseBody {
   const factory AddGuideConditionResponseBody({
     /// Success message
     required String message,

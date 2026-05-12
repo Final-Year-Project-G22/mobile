@@ -17,5 +17,6 @@ abstract class CreateSectorResponseBody with _$CreateSectorResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateSectorResponseBody;
 
-  factory CreateSectorResponseBody.fromJson(Map<String, Object?> json) => _$CreateSectorResponseBodyFromJson(json);
+  factory CreateSectorResponseBody.fromJson(Map<String, Object?> json) =>
+      _$CreateSectorResponseBodyFromJson(json);
 }

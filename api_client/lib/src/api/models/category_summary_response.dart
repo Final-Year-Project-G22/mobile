@@ -29,5 +29,6 @@ abstract class CategorySummaryResponse with _$CategorySummaryResponse {
     String? icon,
   }) = _CategorySummaryResponse;
 
-  factory CategorySummaryResponse.fromJson(Map<String, Object?> json) => _$CategorySummaryResponseFromJson(json);
+  factory CategorySummaryResponse.fromJson(Map<String, Object?> json) =>
+      _$CategorySummaryResponseFromJson(json);
 }

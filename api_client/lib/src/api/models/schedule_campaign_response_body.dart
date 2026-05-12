@@ -8,7 +8,8 @@ part 'schedule_campaign_response_body.freezed.dart';
 part 'schedule_campaign_response_body.g.dart';
 
 @Freezed()
-abstract class ScheduleCampaignResponseBody with _$ScheduleCampaignResponseBody {
+abstract class ScheduleCampaignResponseBody
+    with _$ScheduleCampaignResponseBody {
   const factory ScheduleCampaignResponseBody({
     /// Success message
     required String message,

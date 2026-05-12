@@ -9,8 +9,12 @@ part 'usage_dto.g.dart';
 
 @Freezed()
 abstract class UsageDto with _$UsageDto {
-  const factory UsageDto({required int completionTokens, required int promptTokens, required int totalTokens}) =
-      _UsageDto;
+  const factory UsageDto({
+    required int completionTokens,
+    required int promptTokens,
+    required int totalTokens,
+  }) = _UsageDto;
 
-  factory UsageDto.fromJson(Map<String, Object?> json) => _$UsageDtoFromJson(json);
+  factory UsageDto.fromJson(Map<String, Object?> json) =>
+      _$UsageDtoFromJson(json);
 }

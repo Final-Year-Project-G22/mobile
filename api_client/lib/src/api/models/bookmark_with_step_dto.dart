@@ -29,5 +29,6 @@ abstract class BookmarkWithStepDto with _$BookmarkWithStepDto {
     String? note,
   }) = _BookmarkWithStepDto;
 
-  factory BookmarkWithStepDto.fromJson(Map<String, Object?> json) => _$BookmarkWithStepDtoFromJson(json);
+  factory BookmarkWithStepDto.fromJson(Map<String, Object?> json) =>
+      _$BookmarkWithStepDtoFromJson(json);
 }

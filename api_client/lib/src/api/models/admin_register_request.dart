@@ -29,5 +29,6 @@ abstract class AdminRegisterRequest with _$AdminRegisterRequest {
     String? username,
   }) = _AdminRegisterRequest;
 
-  factory AdminRegisterRequest.fromJson(Map<String, Object?> json) => _$AdminRegisterRequestFromJson(json);
+  factory AdminRegisterRequest.fromJson(Map<String, Object?> json) =>
+      _$AdminRegisterRequestFromJson(json);
 }

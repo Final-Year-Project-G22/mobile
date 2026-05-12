@@ -17,5 +17,6 @@ abstract class CompleteStepResponseBody with _$CompleteStepResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CompleteStepResponseBody;
 
-  factory CompleteStepResponseBody.fromJson(Map<String, Object?> json) => _$CompleteStepResponseBodyFromJson(json);
+  factory CompleteStepResponseBody.fromJson(Map<String, Object?> json) =>
+      _$CompleteStepResponseBodyFromJson(json);
 }
