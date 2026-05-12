@@ -17,5 +17,6 @@ abstract class UpdateThreadResponseBody with _$UpdateThreadResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateThreadResponseBody;
 
-  factory UpdateThreadResponseBody.fromJson(Map<String, Object?> json) => _$UpdateThreadResponseBodyFromJson(json);
+  factory UpdateThreadResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateThreadResponseBodyFromJson(json);
 }

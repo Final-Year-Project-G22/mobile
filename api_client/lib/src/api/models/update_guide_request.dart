@@ -35,5 +35,6 @@ abstract class UpdateGuideRequest with _$UpdateGuideRequest {
     List<dynamic>? translations,
   }) = _UpdateGuideRequest;
 
-  factory UpdateGuideRequest.fromJson(Map<String, Object?> json) => _$UpdateGuideRequestFromJson(json);
+  factory UpdateGuideRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateGuideRequestFromJson(json);
 }

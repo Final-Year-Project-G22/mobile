@@ -8,7 +8,8 @@ part 'create_business_profile_request.freezed.dart';
 part 'create_business_profile_request.g.dart';
 
 @Freezed()
-abstract class CreateBusinessProfileRequest with _$CreateBusinessProfileRequest {
+abstract class CreateBusinessProfileRequest
+    with _$CreateBusinessProfileRequest {
   const factory CreateBusinessProfileRequest({
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,

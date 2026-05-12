@@ -8,7 +8,8 @@ part 'list_guide_steps_admin_response_body.freezed.dart';
 part 'list_guide_steps_admin_response_body.g.dart';
 
 @Freezed()
-abstract class ListGuideStepsAdminResponseBody with _$ListGuideStepsAdminResponseBody {
+abstract class ListGuideStepsAdminResponseBody
+    with _$ListGuideStepsAdminResponseBody {
   const factory ListGuideStepsAdminResponseBody({
     required int page,
     required int pageSize,

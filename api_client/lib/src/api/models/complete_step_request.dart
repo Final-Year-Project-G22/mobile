@@ -23,5 +23,6 @@ abstract class CompleteStepRequest with _$CompleteStepRequest {
     List<dynamic>? uploadedDocuments,
   }) = _CompleteStepRequest;
 
-  factory CompleteStepRequest.fromJson(Map<String, Object?> json) => _$CompleteStepRequestFromJson(json);
+  factory CompleteStepRequest.fromJson(Map<String, Object?> json) =>
+      _$CompleteStepRequestFromJson(json);
 }

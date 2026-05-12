@@ -17,5 +17,6 @@ abstract class CreateTemplateResponseBody with _$CreateTemplateResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _CreateTemplateResponseBody;
 
-  factory CreateTemplateResponseBody.fromJson(Map<String, Object?> json) => _$CreateTemplateResponseBodyFromJson(json);
+  factory CreateTemplateResponseBody.fromJson(Map<String, Object?> json) =>
+      _$CreateTemplateResponseBodyFromJson(json);
 }

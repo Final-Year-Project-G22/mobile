@@ -32,5 +32,6 @@ abstract class InitiatePaymentRequestBody with _$InitiatePaymentRequestBody {
     String? phone,
   }) = _InitiatePaymentRequestBody;
 
-  factory InitiatePaymentRequestBody.fromJson(Map<String, Object?> json) => _$InitiatePaymentRequestBodyFromJson(json);
+  factory InitiatePaymentRequestBody.fromJson(Map<String, Object?> json) =>
+      _$InitiatePaymentRequestBodyFromJson(json);
 }

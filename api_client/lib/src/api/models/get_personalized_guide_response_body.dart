@@ -10,7 +10,8 @@ part 'get_personalized_guide_response_body.freezed.dart';
 part 'get_personalized_guide_response_body.g.dart';
 
 @Freezed()
-abstract class GetPersonalizedGuideResponseBody with _$GetPersonalizedGuideResponseBody {
+abstract class GetPersonalizedGuideResponseBody
+    with _$GetPersonalizedGuideResponseBody {
   const factory GetPersonalizedGuideResponseBody({
     /// Guide ID
     required String id,
@@ -34,6 +35,7 @@ abstract class GetPersonalizedGuideResponseBody with _$GetPersonalizedGuideRespo
     GuideProgressSummaryDto? progress,
   }) = _GetPersonalizedGuideResponseBody;
 
-  factory GetPersonalizedGuideResponseBody.fromJson(Map<String, Object?> json) =>
-      _$GetPersonalizedGuideResponseBodyFromJson(json);
+  factory GetPersonalizedGuideResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$GetPersonalizedGuideResponseBodyFromJson(json);
 }

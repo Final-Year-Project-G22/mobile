@@ -8,7 +8,8 @@ part 'set_guide_translations_response_body.freezed.dart';
 part 'set_guide_translations_response_body.g.dart';
 
 @Freezed()
-abstract class SetGuideTranslationsResponseBody with _$SetGuideTranslationsResponseBody {
+abstract class SetGuideTranslationsResponseBody
+    with _$SetGuideTranslationsResponseBody {
   const factory SetGuideTranslationsResponseBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class SetGuideTranslationsResponseBody with _$SetGuideTranslationsRespo
     @JsonKey(name: '\$schema') String? schema,
   }) = _SetGuideTranslationsResponseBody;
 
-  factory SetGuideTranslationsResponseBody.fromJson(Map<String, Object?> json) =>
-      _$SetGuideTranslationsResponseBodyFromJson(json);
+  factory SetGuideTranslationsResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$SetGuideTranslationsResponseBodyFromJson(json);
 }

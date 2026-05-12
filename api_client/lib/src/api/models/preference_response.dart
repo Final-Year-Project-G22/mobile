@@ -26,5 +26,6 @@ abstract class PreferenceResponse with _$PreferenceResponse {
     DateTime? quietHoursStart,
   }) = _PreferenceResponse;
 
-  factory PreferenceResponse.fromJson(Map<String, Object?> json) => _$PreferenceResponseFromJson(json);
+  factory PreferenceResponse.fromJson(Map<String, Object?> json) =>
+      _$PreferenceResponseFromJson(json);
 }

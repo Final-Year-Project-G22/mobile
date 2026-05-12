@@ -9,7 +9,9 @@ import 'package:retrofit/error_logger.dart';
 import '../models/add_bookmark_response_body.dart';
 import '../models/complete_step_request.dart';
 import '../models/complete_step_response_body.dart';
+import '../models/completion_stats_dto.dart';
 import '../models/get_current_step_response_body.dart';
+import '../models/get_in_progress_guides_response_body.dart';
 import '../models/get_personalized_guide_response_body.dart';
 import '../models/get_recently_viewed_response_body.dart';
 import '../models/list_bookmarks_response_body.dart';
@@ -59,6 +61,22 @@ abstract class GuidesClient {
     @Query('pageSize') int? pageSize,
   });
 
+  /// Get completion statistics.
+  ///
+  /// Returns aggregate completion statistics for dashboard.
+  @GET('/api/v1/guides/completion-stats')
+  Future<HttpResponse<CompletionStatsDto>> getCompletionStats();
+
+  /// Get in-progress guides.
+  ///
+  /// Retrieves guides the user has started but not completed, with progress data.
+  ///
+  /// [locale] - Language locale (en, am).
+  @GET('/api/v1/guides/in-progress')
+  Future<HttpResponse<GetInProgressGuidesResponseBody>> getInProgressGuides({
+    @Query('locale') String? locale,
+  });
+
   /// Get recently viewed guides.
   ///
   /// Retrieves the user's recently viewed guides with localized names.
@@ -100,7 +118,9 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @DELETE('/api/v1/guides/steps/{stepId}/bookmark')
-  Future<HttpResponse<RemoveBookmarkResponseBody>> removeBookmark({@Path('stepId') required String stepId});
+  Future<HttpResponse<RemoveBookmarkResponseBody>> removeBookmark({
+    @Path('stepId') required String stepId,
+  });
 
   /// Update bookmark note.
   ///
@@ -121,7 +141,9 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/bookmark')
-  Future<HttpResponse<AddBookmarkResponseBody>> addBookmark({@Path('stepId') required String stepId});
+  Future<HttpResponse<AddBookmarkResponseBody>> addBookmark({
+    @Path('stepId') required String stepId,
+  });
 
   /// Complete a step.
   ///
@@ -142,7 +164,9 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/mark-incomplete')
-  Future<HttpResponse<MarkStepIncompleteResponseBody>> markStepIncomplete({@Path('stepId') required String stepId});
+  Future<HttpResponse<MarkStepIncompleteResponseBody>> markStepIncomplete({
+    @Path('stepId') required String stepId,
+  });
 
   /// Update step progress.
   ///
@@ -163,7 +187,9 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/skip')
-  Future<HttpResponse<SkipOptionalStepResponseBody>> skipOptionalStep({@Path('stepId') required String stepId});
+  Future<HttpResponse<SkipOptionalStepResponseBody>> skipOptionalStep({
+    @Path('stepId') required String stepId,
+  });
 
   /// Start a step.
   ///
@@ -171,7 +197,9 @@ abstract class GuidesClient {
   ///
   /// [stepId] - Step ID.
   @POST('/api/v1/guides/steps/{stepId}/start')
-  Future<HttpResponse<StartStepResponseBody>> startStep({@Path('stepId') required String stepId});
+  Future<HttpResponse<StartStepResponseBody>> startStep({
+    @Path('stepId') required String stepId,
+  });
 
   /// Get personalized guide.
   ///

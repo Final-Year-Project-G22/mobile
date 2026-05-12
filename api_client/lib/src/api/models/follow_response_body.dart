@@ -17,5 +17,6 @@ abstract class FollowResponseBody with _$FollowResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _FollowResponseBody;
 
-  factory FollowResponseBody.fromJson(Map<String, Object?> json) => _$FollowResponseBodyFromJson(json);
+  factory FollowResponseBody.fromJson(Map<String, Object?> json) =>
+      _$FollowResponseBodyFromJson(json);
 }

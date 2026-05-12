@@ -14,7 +14,8 @@ part 'admin_journeys_client.g.dart';
 
 @RestApi()
 abstract class AdminJourneysClient {
-  factory AdminJourneysClient(Dio dio, {String? baseUrl}) = _AdminJourneysClient;
+  factory AdminJourneysClient(Dio dio, {String? baseUrl}) =
+      _AdminJourneysClient;
 
   /// Invalidate all journeys.
   ///
@@ -22,7 +23,8 @@ abstract class AdminJourneysClient {
   ///
   /// [guideId] - Guide ID.
   @DELETE('/api/v1/admin/guides/journeys')
-  Future<HttpResponse<InvalidateAllJourneysResponseBody>> invalidateAllJourneys({
+  Future<HttpResponse<InvalidateAllJourneysResponseBody>>
+  invalidateAllJourneys({
     @Path('guideId') required String guideId,
   });
 
@@ -34,7 +36,8 @@ abstract class AdminJourneysClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @DELETE('/api/v1/admin/guides/journeys/users/{userId}')
-  Future<HttpResponse<InvalidateUserJourneyResponseBody>> invalidateUserJourney({
+  Future<HttpResponse<InvalidateUserJourneyResponseBody>>
+  invalidateUserJourney({
     @Path('userId') required String userId,
     @Body() required InvalidateUserJourneyRequest body,
   });

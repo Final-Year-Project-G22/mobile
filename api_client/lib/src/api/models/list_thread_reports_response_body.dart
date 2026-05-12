@@ -8,7 +8,8 @@ part 'list_thread_reports_response_body.freezed.dart';
 part 'list_thread_reports_response_body.g.dart';
 
 @Freezed()
-abstract class ListThreadReportsResponseBody with _$ListThreadReportsResponseBody {
+abstract class ListThreadReportsResponseBody
+    with _$ListThreadReportsResponseBody {
   const factory ListThreadReportsResponseBody({
     /// Current page
     required int page,

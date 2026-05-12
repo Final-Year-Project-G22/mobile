@@ -9,8 +9,12 @@ part 'admin_translation_dto.g.dart';
 
 @Freezed()
 abstract class AdminTranslationDto with _$AdminTranslationDto {
-  const factory AdminTranslationDto({required String language, required String name, String? description}) =
-      _AdminTranslationDto;
+  const factory AdminTranslationDto({
+    required String language,
+    required String name,
+    String? description,
+  }) = _AdminTranslationDto;
 
-  factory AdminTranslationDto.fromJson(Map<String, Object?> json) => _$AdminTranslationDtoFromJson(json);
+  factory AdminTranslationDto.fromJson(Map<String, Object?> json) =>
+      _$AdminTranslationDtoFromJson(json);
 }

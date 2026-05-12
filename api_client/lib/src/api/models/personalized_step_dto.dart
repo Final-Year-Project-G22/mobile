@@ -38,5 +38,6 @@ abstract class PersonalizedStepDto with _$PersonalizedStepDto {
     int? estimatedTime,
   }) = _PersonalizedStepDto;
 
-  factory PersonalizedStepDto.fromJson(Map<String, Object?> json) => _$PersonalizedStepDtoFromJson(json);
+  factory PersonalizedStepDto.fromJson(Map<String, Object?> json) =>
+      _$PersonalizedStepDtoFromJson(json);
 }

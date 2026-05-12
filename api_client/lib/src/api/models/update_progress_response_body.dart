@@ -17,5 +17,6 @@ abstract class UpdateProgressResponseBody with _$UpdateProgressResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateProgressResponseBody;
 
-  factory UpdateProgressResponseBody.fromJson(Map<String, Object?> json) => _$UpdateProgressResponseBodyFromJson(json);
+  factory UpdateProgressResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdateProgressResponseBodyFromJson(json);
 }

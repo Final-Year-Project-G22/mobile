@@ -20,5 +20,6 @@ abstract class BlockUserRequest with _$BlockUserRequest {
     String? reason,
   }) = _BlockUserRequest;
 
-  factory BlockUserRequest.fromJson(Map<String, Object?> json) => _$BlockUserRequestFromJson(json);
+  factory BlockUserRequest.fromJson(Map<String, Object?> json) =>
+      _$BlockUserRequestFromJson(json);
 }

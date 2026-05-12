@@ -16,5 +16,6 @@ abstract class ListBookmarksResponseBody with _$ListBookmarksResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListBookmarksResponseBody;
 
-  factory ListBookmarksResponseBody.fromJson(Map<String, Object?> json) => _$ListBookmarksResponseBodyFromJson(json);
+  factory ListBookmarksResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ListBookmarksResponseBodyFromJson(json);
 }

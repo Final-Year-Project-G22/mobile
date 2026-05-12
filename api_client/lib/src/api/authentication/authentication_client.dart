@@ -28,7 +28,8 @@ part 'authentication_client.g.dart';
 
 @RestApi()
 abstract class AuthenticationClient {
-  factory AuthenticationClient(Dio dio, {String? baseUrl}) = _AuthenticationClient;
+  factory AuthenticationClient(Dio dio, {String? baseUrl}) =
+      _AuthenticationClient;
 
   /// Register a new admin.
   ///
@@ -36,7 +37,9 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/admin/register')
-  Future<HttpResponse<AdminRegisterResponseBody>> registerAdmin({@Body() required AdminRegisterRequest body});
+  Future<HttpResponse<AdminRegisterResponseBody>> registerAdmin({
+    @Body() required AdminRegisterRequest body,
+  });
 
   /// Complete admin password reset.
   ///
@@ -44,7 +47,8 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/admin/reset-password')
-  Future<HttpResponse<CompleteAdminPasswordResetOutputBody>> completeAdminPasswordReset({
+  Future<HttpResponse<CompleteAdminPasswordResetOutputBody>>
+  completeAdminPasswordReset({
     @Body() required CompleteAdminPasswordResetRequest body,
   });
 
@@ -67,7 +71,9 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/login')
-  Future<HttpResponse<LoginResponseBody>> login({@Body() required LoginRequest body});
+  Future<HttpResponse<LoginResponseBody>> login({
+    @Body() required LoginRequest body,
+  });
 
   /// Log out current session.
   ///
@@ -99,7 +105,9 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/register')
-  Future<HttpResponse<RegisterResponseBody>> register({@Body() required RegisterRequest body});
+  Future<HttpResponse<RegisterResponseBody>> register({
+    @Body() required RegisterRequest body,
+  });
 
   /// Resend account email OTP.
   ///
@@ -123,5 +131,7 @@ abstract class AuthenticationClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/auth/verify-email-otp')
-  Future<HttpResponse<VerifyEmailOtpResponseBody>> verifyEmailOtp({@Body() required VerifyEmailOtpRequest body});
+  Future<HttpResponse<VerifyEmailOtpResponseBody>> verifyEmailOtp({
+    @Body() required VerifyEmailOtpRequest body,
+  });
 }

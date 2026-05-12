@@ -16,5 +16,6 @@ abstract class ListGuidesResponseBody with _$ListGuidesResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListGuidesResponseBody;
 
-  factory ListGuidesResponseBody.fromJson(Map<String, Object?> json) => _$ListGuidesResponseBodyFromJson(json);
+  factory ListGuidesResponseBody.fromJson(Map<String, Object?> json) =>
+      _$ListGuidesResponseBodyFromJson(json);
 }

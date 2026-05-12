@@ -41,5 +41,6 @@ abstract class CreateTemplateGroupRequest with _$CreateTemplateGroupRequest {
     String? description,
   }) = _CreateTemplateGroupRequest;
 
-  factory CreateTemplateGroupRequest.fromJson(Map<String, Object?> json) => _$CreateTemplateGroupRequestFromJson(json);
+  factory CreateTemplateGroupRequest.fromJson(Map<String, Object?> json) =>
+      _$CreateTemplateGroupRequestFromJson(json);
 }

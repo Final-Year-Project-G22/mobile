@@ -8,7 +8,8 @@ part 'update_campaign_template_translation_response_body.freezed.dart';
 part 'update_campaign_template_translation_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateCampaignTemplateTranslationResponseBody with _$UpdateCampaignTemplateTranslationResponseBody {
+abstract class UpdateCampaignTemplateTranslationResponseBody
+    with _$UpdateCampaignTemplateTranslationResponseBody {
   const factory UpdateCampaignTemplateTranslationResponseBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class UpdateCampaignTemplateTranslationResponseBody with _$UpdateCampai
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCampaignTemplateTranslationResponseBody;
 
-  factory UpdateCampaignTemplateTranslationResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateCampaignTemplateTranslationResponseBodyFromJson(json);
+  factory UpdateCampaignTemplateTranslationResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$UpdateCampaignTemplateTranslationResponseBodyFromJson(json);
 }

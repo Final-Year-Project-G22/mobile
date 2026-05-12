@@ -14,5 +14,6 @@ abstract class RedriveEventInputBody with _$RedriveEventInputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RedriveEventInputBody;
 
-  factory RedriveEventInputBody.fromJson(Map<String, Object?> json) => _$RedriveEventInputBodyFromJson(json);
+  factory RedriveEventInputBody.fromJson(Map<String, Object?> json) =>
+      _$RedriveEventInputBodyFromJson(json);
 }

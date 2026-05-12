@@ -56,7 +56,9 @@ abstract class AdminGuidesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/guides')
-  Future<HttpResponse<CreateGuideResponseBody>> createGuide({@Body() required CreateGuideRequest body});
+  Future<HttpResponse<CreateGuideResponseBody>> createGuide({
+    @Body() required CreateGuideRequest body,
+  });
 
   /// Remove guide condition.
   ///
@@ -64,7 +66,9 @@ abstract class AdminGuidesClient {
   ///
   /// [condId] - Condition ID.
   @DELETE('/api/v1/admin/guides/conditions/{condId}')
-  Future<HttpResponse<RemoveGuideConditionResponseBody>> removeGuideCondition({@Path('condId') required String condId});
+  Future<HttpResponse<RemoveGuideConditionResponseBody>> removeGuideCondition({
+    @Path('condId') required String condId,
+  });
 
   /// Delete guide.
   ///
@@ -72,7 +76,9 @@ abstract class AdminGuidesClient {
   ///
   /// [id] - Guide ID.
   @DELETE('/api/v1/admin/guides/{id}')
-  Future<HttpResponse<DeleteGuideResponseBody>> deleteGuide({@Path('id') required String id});
+  Future<HttpResponse<DeleteGuideResponseBody>> deleteGuide({
+    @Path('id') required String id,
+  });
 
   /// Get guide detail.
   ///

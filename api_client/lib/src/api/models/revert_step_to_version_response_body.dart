@@ -8,7 +8,8 @@ part 'revert_step_to_version_response_body.freezed.dart';
 part 'revert_step_to_version_response_body.g.dart';
 
 @Freezed()
-abstract class RevertStepToVersionResponseBody with _$RevertStepToVersionResponseBody {
+abstract class RevertStepToVersionResponseBody
+    with _$RevertStepToVersionResponseBody {
   const factory RevertStepToVersionResponseBody({
     /// Success message
     required String message,

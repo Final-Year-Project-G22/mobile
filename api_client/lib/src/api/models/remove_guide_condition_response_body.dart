@@ -8,7 +8,8 @@ part 'remove_guide_condition_response_body.freezed.dart';
 part 'remove_guide_condition_response_body.g.dart';
 
 @Freezed()
-abstract class RemoveGuideConditionResponseBody with _$RemoveGuideConditionResponseBody {
+abstract class RemoveGuideConditionResponseBody
+    with _$RemoveGuideConditionResponseBody {
   const factory RemoveGuideConditionResponseBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class RemoveGuideConditionResponseBody with _$RemoveGuideConditionRespo
     @JsonKey(name: '\$schema') String? schema,
   }) = _RemoveGuideConditionResponseBody;
 
-  factory RemoveGuideConditionResponseBody.fromJson(Map<String, Object?> json) =>
-      _$RemoveGuideConditionResponseBodyFromJson(json);
+  factory RemoveGuideConditionResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$RemoveGuideConditionResponseBodyFromJson(json);
 }

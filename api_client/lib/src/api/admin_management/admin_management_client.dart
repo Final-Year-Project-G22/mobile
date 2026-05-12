@@ -15,7 +15,8 @@ part 'admin_management_client.g.dart';
 
 @RestApi()
 abstract class AdminManagementClient {
-  factory AdminManagementClient(Dio dio, {String? baseUrl}) = _AdminManagementClient;
+  factory AdminManagementClient(Dio dio, {String? baseUrl}) =
+      _AdminManagementClient;
 
   /// List admin accounts.
   ///
@@ -45,7 +46,9 @@ abstract class AdminManagementClient {
   ///
   /// [accountId] - Account identifier.
   @POST('/api/v1/admin/accounts/{accountId}/reset-password')
-  Future<HttpResponse<ResetAdminPasswordOutputBody>> resetAdminPassword({@Path('accountId') required String accountId});
+  Future<HttpResponse<ResetAdminPasswordOutputBody>> resetAdminPassword({
+    @Path('accountId') required String accountId,
+  });
 
   /// Update admin account status.
   ///

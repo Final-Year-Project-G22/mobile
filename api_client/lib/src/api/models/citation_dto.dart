@@ -17,5 +17,6 @@ abstract class CitationDto with _$CitationDto {
     String? title,
   }) = _CitationDto;
 
-  factory CitationDto.fromJson(Map<String, Object?> json) => _$CitationDtoFromJson(json);
+  factory CitationDto.fromJson(Map<String, Object?> json) =>
+      _$CitationDtoFromJson(json);
 }

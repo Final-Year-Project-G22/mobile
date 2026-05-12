@@ -8,7 +8,8 @@ part 'campaign_template_translation_response.freezed.dart';
 part 'campaign_template_translation_response.g.dart';
 
 @Freezed()
-abstract class CampaignTemplateTranslationResponse with _$CampaignTemplateTranslationResponse {
+abstract class CampaignTemplateTranslationResponse
+    with _$CampaignTemplateTranslationResponse {
   const factory CampaignTemplateTranslationResponse({
     /// Multi-channel localized content
     required Map<String, dynamic> content,
@@ -20,6 +21,7 @@ abstract class CampaignTemplateTranslationResponse with _$CampaignTemplateTransl
     required String language,
   }) = _CampaignTemplateTranslationResponse;
 
-  factory CampaignTemplateTranslationResponse.fromJson(Map<String, Object?> json) =>
-      _$CampaignTemplateTranslationResponseFromJson(json);
+  factory CampaignTemplateTranslationResponse.fromJson(
+    Map<String, Object?> json,
+  ) => _$CampaignTemplateTranslationResponseFromJson(json);
 }

@@ -17,5 +17,6 @@ abstract class SectorRef with _$SectorRef {
     required String slug,
   }) = _SectorRef;
 
-  factory SectorRef.fromJson(Map<String, Object?> json) => _$SectorRefFromJson(json);
+  factory SectorRef.fromJson(Map<String, Object?> json) =>
+      _$SectorRefFromJson(json);
 }
