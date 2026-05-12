@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../app/constants/app_colors.dart';
+import '../../../../../app/router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/checkout_notifier.dart';
 import '../../application/providers/plans_provider.dart';
@@ -37,9 +38,7 @@ class PlansPage extends ConsumerWidget {
       next.whenOrNull(
         data: (checkout) {
           if (checkout != null) {
-            unawaited(
-              context.push('/checkout?url=${Uri.encodeComponent(checkout.checkoutUrl)}&txRef=${checkout.txRef}'),
-            );
+            unawaited(context.push(CheckoutLauncherRoute(url: checkout.checkoutUrl, txRef: checkout.txRef).location));
           }
         },
         error: (error, _) {
@@ -76,7 +75,7 @@ class PlansPage extends ConsumerWidget {
       final authState = ref.read(authProvider);
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
       if (!isAuthenticated) {
-        unawaited(context.push('/login'));
+        unawaited(context.push(const LoginRoute().location));
         return;
       }
       unawaited(ref.read(checkoutProvider.notifier).initiate(planName, period));

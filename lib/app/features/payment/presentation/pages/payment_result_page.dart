@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../app/constants/app_colors.dart';
+import '../../../../../app/router/routes.dart';
 import '../../application/providers/payment_result_notifier.dart';
 import '../../domain/entities/payment_verification.dart';
 
@@ -149,7 +150,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
             const SizedBox(height: 32),
             OutlinedButton(
               style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
-              onPressed: () => context.replace('/plans'),
+              onPressed: () => context.replace(const PlansRoute().location),
               child: const Text('Try Again'),
             ),
           ],
@@ -170,7 +171,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),
             OutlinedButton(
-              onPressed: () => context.go('/home'),
+              onPressed: () => context.go(const HomeRoute().location),
               child: const Text('Back to Home'),
             ),
           ],

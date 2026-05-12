@@ -15,6 +15,9 @@ import '../features/guide/presentation/pages/step_detail_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/notifications/presentation/pages/inbox_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../features/payment/presentation/pages/checkout_launcher_page.dart';
+import '../features/payment/presentation/pages/payment_result_page.dart';
+import '../features/payment/presentation/pages/plans_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
@@ -194,4 +197,46 @@ class InboxRoute extends GoRouteData with $InboxRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const InboxPage();
+}
+
+@TypedGoRoute<PlansRoute>(path: '/plans')
+class PlansRoute extends GoRouteData with $PlansRoute {
+  const PlansRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const PlansPage();
+}
+
+@TypedGoRoute<CheckoutLauncherRoute>(path: '/checkout')
+class CheckoutLauncherRoute extends GoRouteData with $CheckoutLauncherRoute {
+  const CheckoutLauncherRoute({required this.url, required this.txRef});
+
+  final String url;
+  final String txRef;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => CheckoutLauncherPage(checkoutUrl: url, txRef: txRef);
+}
+
+@TypedGoRoute<PaymentResultRoute>(path: '/payment-result')
+class PaymentResultRoute extends GoRouteData with $PaymentResultRoute {
+  const PaymentResultRoute({required this.txRef});
+
+  final String txRef;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => PaymentResultPage(txRef: txRef);
+}
+
+@TypedGoRoute<PaymentSuccessRoute>(path: '/payment/success')
+class PaymentSuccessRoute extends GoRouteData with $PaymentSuccessRoute {
+  const PaymentSuccessRoute({this.txRef});
+
+  final String? txRef;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final ref = txRef ?? state.uri.queryParameters['tx_ref'];
+    return PaymentResultPage(txRef: ref ?? '');
+  }
 }
