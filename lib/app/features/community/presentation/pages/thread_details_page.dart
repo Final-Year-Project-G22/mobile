@@ -333,6 +333,49 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           Consumer(
             builder: (context, ref, _) {
               final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+
+              return threadAsync.when(
+                data: (thread) {
+                  return IconButton(
+                    icon: Icon(
+                      thread.isFollowed ? Icons.bookmark : Icons.bookmark_border,
+                    ),
+                    tooltip: thread.isFollowed ? 'Unfollow thread' : 'Follow thread',
+                    onPressed: () async {
+                      final notifier = ref.read(communityMutationsProvider.notifier);
+                      final result = await (thread.isFollowed
+                          ? notifier.unfollowThread(thread.id)
+                          : notifier.followThread(thread.id));
+                      if (!context.mounted) return;
+                      result.fold(
+                        (failure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed: $failure')),
+                          );
+                        },
+                        (_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                thread.isFollowed
+                                    ? 'Unfollowed thread'
+                                    : 'Following thread',
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+                loading: () => const SizedBox.shrink(),
+                error: (e, s) => const SizedBox.shrink(),
+              );
+            },
+          ),
+          Consumer(
+            builder: (context, ref, _) {
+              final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
               final authState = ref.watch(authProvider);
               final currentAccountId = authState.asData?.value.account?.id;
 
