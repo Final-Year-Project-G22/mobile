@@ -5,6 +5,7 @@ import 'package:api_client/src/api/guides/guides_client.dart';
 import 'package:api_client/src/api/models/bookmark_with_step_dto.dart';
 import 'package:api_client/src/api/models/complete_step_request.dart';
 import 'package:api_client/src/api/models/guide_card_dto.dart';
+import 'package:api_client/src/api/models/guide_with_progress_dto.dart';
 import 'package:api_client/src/api/models/personalized_step_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -161,19 +162,49 @@ class GuideRepositoryImpl implements IGuideRepository {
 
   @override
   Future<Either<GuideFailure, List<GuideWithProgress>>> getInProgressGuides() async {
-    return const Right([]);
+    try {
+      final response = await _client.getInProgressGuides();
+      final raw = response.data.guides;
+      if (raw == null) return const Right([]);
+      final guides = <GuideWithProgress>[];
+      for (final item in raw) {
+        if (item is Map<String, dynamic>) {
+          final dto = GuideWithProgressDto.fromJson(item);
+          guides.add(
+            GuideWithProgress(
+              id: dto.id,
+              slug: dto.slug,
+              name: dto.name,
+              icon: dto.icon,
+              completedSteps: dto.completedSteps,
+              totalSteps: dto.totalSteps,
+            ),
+          );
+        }
+      }
+      return Right(guides);
+    } on DioException catch (e) {
+      return Left(_handleError(e));
+    }
   }
 
   @override
   Future<Either<GuideFailure, CompletionStats>> getCompletionStats() async {
-    return const Right(
-      CompletionStats(
-        completedGuides: 0,
-        inProgressGuides: 0,
-        totalStepsCompleted: 0,
-        totalStepsAll: 0,
-      ),
-    );
+    try {
+      final response = await _client.getCompletionStats();
+      final dto = response.data;
+      return Right(
+        CompletionStats(
+          completedGuides: dto.completedGuides,
+          inProgressGuides: dto.inProgressGuides,
+          totalStepsCompleted: dto.totalStepsCompleted,
+          totalStepsAll: dto.totalStepsAll,
+          period: dto.period,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(_handleError(e));
+    }
   }
 
   @override
