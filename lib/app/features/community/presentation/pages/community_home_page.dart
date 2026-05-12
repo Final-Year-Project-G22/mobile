@@ -207,8 +207,9 @@ class _ThreadListView extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  trailing: Row(
+                  trailing: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       if (thread.authorId == currentAccountId)
                         Stack(
@@ -299,10 +300,9 @@ class _ThreadListView extends ConsumerWidget {
                               ),
                           ],
                         ),
-                      if (thread.hasSolution) ...[
-                        if (thread.authorId == currentAccountId ||
-                            thread.isFollowed)
-                          const SizedBox(width: 8),
+                      if (thread.hasSolution)
+                        const SizedBox(height: 4),
+                      if (thread.hasSolution)
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 6,
@@ -333,17 +333,12 @@ class _ThreadListView extends ConsumerWidget {
                             ],
                           ),
                         ),
-                      ],
-                      if (thread.isPinned) ...[
-                        if (thread.authorId == currentAccountId ||
-                            thread.isFollowed ||
-                            thread.hasSolution)
-                          const SizedBox(width: 8),
+                      if (thread.isPinned) const SizedBox(height: 4),
+                      if (thread.isPinned)
                         Icon(
                           Icons.push_pin,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                      ],
                     ],
                   ),
                   onTap: () async {
