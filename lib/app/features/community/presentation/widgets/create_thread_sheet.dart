@@ -134,7 +134,14 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    debugPrint('Submit tapped. Validating form...');
+    if (_formKey.currentState == null) {
+      debugPrint('Form key currentState is null!');
+      return;
+    }
+    final isValid = _formKey.currentState!.validate();
+    debugPrint('Form validation result: $isValid');
+    if (!isValid) return;
 
     setState(() => _isSubmitting = true);
 
@@ -142,6 +149,7 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
       final title = _titleController.text.trim();
       final description = _descriptionController.text.trim();
       final initialPost = _initialPostController.text.trim();
+      debugPrint('Title: $title, Description: $description, Post: $initialPost');
 
       final attachmentIds = _attachments.isNotEmpty ? _attachments.map((a) => a.id).join(',') : null;
       final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
@@ -272,7 +280,13 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Center(child: CircularProgressIndicator()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    'Failed to load sectors: $e',
+                    style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 12),
@@ -284,7 +298,13 @@ class _CreateThreadSheetState extends ConsumerState<CreateThreadSheet> {
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Center(child: CircularProgressIndicator()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    'Failed to load tags: $e',
+                    style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 12),
