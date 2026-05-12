@@ -180,11 +180,11 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   }
 
   Future<void> _submit() async {
-    final content = _controller.text.trim();
+    final rawContent = _controller.text;
     final editTarget = widget.editTarget;
     final replyTarget = widget.replyTarget;
 
-    final canSubmit = content.isNotEmpty || _attachments.isNotEmpty;
+    final canSubmit = rawContent.trim().isNotEmpty || _attachments.isNotEmpty;
     if (!canSubmit) return;
 
     setState(() => _isSubmitting = true);
@@ -200,7 +200,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             .updatePost(
               editTarget.id,
               widget.threadId,
-              content: content,
+              content: rawContent,
               attachmentIds: attachmentIds,
               removeAllAttachments: _removeExistingAttachments,
               removeAttachmentIds: _removeAttachmentIds.isNotEmpty
@@ -235,7 +235,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             .replyToPost(
               threadId: widget.threadId,
               postId: replyTarget.id,
-              content: content,
+              content: rawContent,
               attachmentIds: attachmentIds,
             );
 
@@ -258,7 +258,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             .read(communityMutationsProvider.notifier)
             .createPost(
               threadId: widget.threadId,
-              content: content,
+              content: rawContent,
               attachmentIds: attachmentIds,
             );
 

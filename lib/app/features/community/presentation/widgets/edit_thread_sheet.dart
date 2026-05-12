@@ -21,7 +21,6 @@ class EditThreadSheet extends ConsumerStatefulWidget {
 
 class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
   late final TextEditingController _titleController;
-  late final TextEditingController _descriptionController;
   late final Set<String> _selectedSectorIds;
   late final Set<String> _selectedTagIds;
   bool _isSubmitting = false;
@@ -30,7 +29,6 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.thread.title);
-    _descriptionController = TextEditingController(text: widget.thread.description ?? '');
     _selectedSectorIds = {...?widget.thread.sectorIds};
     _selectedTagIds = {...?widget.thread.tagIds};
   }
@@ -38,7 +36,6 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
   @override
   void dispose() {
     _titleController.dispose();
-    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -69,14 +66,13 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
 
     try {
       final title = _titleController.text.trim();
-      final description = _descriptionController.text.trim();
       final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
       final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
 
       final result = await ref.read(communityMutationsProvider.notifier).updateThread(
             threadId: widget.thread.id,
             title: title,
-            description: description,
+            description: '',
             sectorIds: sectorIds,
             tagIds: tagIds,
           );
@@ -140,20 +136,6 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                   if (t.length < 5) return 'Min 5 chars';
                   return null;
                 },
-              ),
-
-              const SizedBox(height: 12),
-
-              TextFormField(
-                controller: _descriptionController,
-                enabled: !_isSubmitting,
-                minLines: 2,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Thread Summary',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (v) => (v?.trim().isEmpty ?? true) ? 'Summary required' : null,
               ),
 
               const SizedBox(height: 16),

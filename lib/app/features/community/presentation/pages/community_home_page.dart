@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_state_providers.dart';
-import '../widgets/create_thread_sheet.dart';
+
 
 class CommunityHomePage extends ConsumerWidget {
   const CommunityHomePage({super.key});
@@ -66,11 +66,7 @@ class CommunityHomePage extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final threadId = await showModalBottomSheet<String>(
-              context: context,
-              isScrollControlled: true,
-              builder: (_) => const CreateThreadSheet(),
-            );
+            final threadId = await context.push<String>('/community/create');
 
             if (threadId != null && context.mounted) {
               await context.push<void>('/community/thread/$threadId');
