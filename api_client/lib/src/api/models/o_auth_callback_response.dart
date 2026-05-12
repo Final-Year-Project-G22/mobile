@@ -25,5 +25,6 @@ abstract class OAuthCallbackResponse with _$OAuthCallbackResponse {
     UserDto? user,
   }) = _OAuthCallbackResponse;
 
-  factory OAuthCallbackResponse.fromJson(Map<String, Object?> json) => _$OAuthCallbackResponseFromJson(json);
+  factory OAuthCallbackResponse.fromJson(Map<String, Object?> json) =>
+      _$OAuthCallbackResponseFromJson(json);
 }

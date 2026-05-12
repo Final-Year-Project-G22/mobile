@@ -47,5 +47,6 @@ abstract class TemplateDetailResponse with _$TemplateDetailResponse {
     Map<String, dynamic>? variablesSchema,
   }) = _TemplateDetailResponse;
 
-  factory TemplateDetailResponse.fromJson(Map<String, Object?> json) => _$TemplateDetailResponseFromJson(json);
+  factory TemplateDetailResponse.fromJson(Map<String, Object?> json) =>
+      _$TemplateDetailResponseFromJson(json);
 }

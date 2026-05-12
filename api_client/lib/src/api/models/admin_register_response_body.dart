@@ -20,5 +20,6 @@ abstract class AdminRegisterResponseBody with _$AdminRegisterResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AdminRegisterResponseBody;
 
-  factory AdminRegisterResponseBody.fromJson(Map<String, Object?> json) => _$AdminRegisterResponseBodyFromJson(json);
+  factory AdminRegisterResponseBody.fromJson(Map<String, Object?> json) =>
+      _$AdminRegisterResponseBodyFromJson(json);
 }

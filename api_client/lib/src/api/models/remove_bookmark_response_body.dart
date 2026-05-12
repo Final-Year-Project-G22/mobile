@@ -17,5 +17,6 @@ abstract class RemoveBookmarkResponseBody with _$RemoveBookmarkResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _RemoveBookmarkResponseBody;
 
-  factory RemoveBookmarkResponseBody.fromJson(Map<String, Object?> json) => _$RemoveBookmarkResponseBodyFromJson(json);
+  factory RemoveBookmarkResponseBody.fromJson(Map<String, Object?> json) =>
+      _$RemoveBookmarkResponseBodyFromJson(json);
 }

@@ -17,5 +17,6 @@ abstract class UpdatePostResponseBody with _$UpdatePostResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdatePostResponseBody;
 
-  factory UpdatePostResponseBody.fromJson(Map<String, Object?> json) => _$UpdatePostResponseBodyFromJson(json);
+  factory UpdatePostResponseBody.fromJson(Map<String, Object?> json) =>
+      _$UpdatePostResponseBodyFromJson(json);
 }

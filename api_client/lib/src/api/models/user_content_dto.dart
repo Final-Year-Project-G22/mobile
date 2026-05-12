@@ -29,5 +29,6 @@ abstract class UserContentDto with _$UserContentDto {
     String? threadTitle,
   }) = _UserContentDto;
 
-  factory UserContentDto.fromJson(Map<String, Object?> json) => _$UserContentDtoFromJson(json);
+  factory UserContentDto.fromJson(Map<String, Object?> json) =>
+      _$UserContentDtoFromJson(json);
 }

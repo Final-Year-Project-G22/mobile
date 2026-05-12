@@ -17,5 +17,6 @@ abstract class AdminUpdateRolesOutputBody with _$AdminUpdateRolesOutputBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AdminUpdateRolesOutputBody;
 
-  factory AdminUpdateRolesOutputBody.fromJson(Map<String, Object?> json) => _$AdminUpdateRolesOutputBodyFromJson(json);
+  factory AdminUpdateRolesOutputBody.fromJson(Map<String, Object?> json) =>
+      _$AdminUpdateRolesOutputBodyFromJson(json);
 }

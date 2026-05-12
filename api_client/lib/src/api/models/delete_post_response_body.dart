@@ -17,5 +17,6 @@ abstract class DeletePostResponseBody with _$DeletePostResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeletePostResponseBody;
 
-  factory DeletePostResponseBody.fromJson(Map<String, Object?> json) => _$DeletePostResponseBodyFromJson(json);
+  factory DeletePostResponseBody.fromJson(Map<String, Object?> json) =>
+      _$DeletePostResponseBodyFromJson(json);
 }

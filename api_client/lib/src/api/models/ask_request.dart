@@ -29,5 +29,6 @@ abstract class AskRequest with _$AskRequest {
     String? title,
   }) = _AskRequest;
 
-  factory AskRequest.fromJson(Map<String, Object?> json) => _$AskRequestFromJson(json);
+  factory AskRequest.fromJson(Map<String, Object?> json) =>
+      _$AskRequestFromJson(json);
 }

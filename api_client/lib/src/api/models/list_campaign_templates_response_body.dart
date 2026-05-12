@@ -8,7 +8,8 @@ part 'list_campaign_templates_response_body.freezed.dart';
 part 'list_campaign_templates_response_body.g.dart';
 
 @Freezed()
-abstract class ListCampaignTemplatesResponseBody with _$ListCampaignTemplatesResponseBody {
+abstract class ListCampaignTemplatesResponseBody
+    with _$ListCampaignTemplatesResponseBody {
   const factory ListCampaignTemplatesResponseBody({
     /// Template list
     required List<dynamic>? data,
@@ -29,6 +30,7 @@ abstract class ListCampaignTemplatesResponseBody with _$ListCampaignTemplatesRes
     @JsonKey(name: '\$schema') String? schema,
   }) = _ListCampaignTemplatesResponseBody;
 
-  factory ListCampaignTemplatesResponseBody.fromJson(Map<String, Object?> json) =>
-      _$ListCampaignTemplatesResponseBodyFromJson(json);
+  factory ListCampaignTemplatesResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$ListCampaignTemplatesResponseBodyFromJson(json);
 }

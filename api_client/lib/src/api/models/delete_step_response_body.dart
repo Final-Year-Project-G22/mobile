@@ -17,5 +17,6 @@ abstract class DeleteStepResponseBody with _$DeleteStepResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteStepResponseBody;
 
-  factory DeleteStepResponseBody.fromJson(Map<String, Object?> json) => _$DeleteStepResponseBodyFromJson(json);
+  factory DeleteStepResponseBody.fromJson(Map<String, Object?> json) =>
+      _$DeleteStepResponseBodyFromJson(json);
 }

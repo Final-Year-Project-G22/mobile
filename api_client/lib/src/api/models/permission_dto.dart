@@ -26,5 +26,6 @@ abstract class PermissionDto with _$PermissionDto {
     String? description,
   }) = _PermissionDto;
 
-  factory PermissionDto.fromJson(Map<String, Object?> json) => _$PermissionDtoFromJson(json);
+  factory PermissionDto.fromJson(Map<String, Object?> json) =>
+      _$PermissionDtoFromJson(json);
 }

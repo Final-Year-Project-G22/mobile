@@ -17,5 +17,6 @@ abstract class MarkSolutionResponseBody with _$MarkSolutionResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _MarkSolutionResponseBody;
 
-  factory MarkSolutionResponseBody.fromJson(Map<String, Object?> json) => _$MarkSolutionResponseBodyFromJson(json);
+  factory MarkSolutionResponseBody.fromJson(Map<String, Object?> json) =>
+      _$MarkSolutionResponseBodyFromJson(json);
 }

@@ -17,5 +17,6 @@ abstract class BlockReportedUserRequest with _$BlockReportedUserRequest {
     String? reason,
   }) = _BlockReportedUserRequest;
 
-  factory BlockReportedUserRequest.fromJson(Map<String, Object?> json) => _$BlockReportedUserRequestFromJson(json);
+  factory BlockReportedUserRequest.fromJson(Map<String, Object?> json) =>
+      _$BlockReportedUserRequestFromJson(json);
 }

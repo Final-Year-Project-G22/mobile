@@ -29,5 +29,6 @@ abstract class UpdateDeviceRequest with _$UpdateDeviceRequest {
     String? pushToken,
   }) = _UpdateDeviceRequest;
 
-  factory UpdateDeviceRequest.fromJson(Map<String, Object?> json) => _$UpdateDeviceRequestFromJson(json);
+  factory UpdateDeviceRequest.fromJson(Map<String, Object?> json) =>
+      _$UpdateDeviceRequestFromJson(json);
 }

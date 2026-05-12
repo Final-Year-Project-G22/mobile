@@ -8,7 +8,8 @@ part 'delete_reported_content_response_body.freezed.dart';
 part 'delete_reported_content_response_body.g.dart';
 
 @Freezed()
-abstract class DeleteReportedContentResponseBody with _$DeleteReportedContentResponseBody {
+abstract class DeleteReportedContentResponseBody
+    with _$DeleteReportedContentResponseBody {
   const factory DeleteReportedContentResponseBody({
     /// Message
     required String message,
@@ -20,6 +21,7 @@ abstract class DeleteReportedContentResponseBody with _$DeleteReportedContentRes
     @JsonKey(name: '\$schema') String? schema,
   }) = _DeleteReportedContentResponseBody;
 
-  factory DeleteReportedContentResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DeleteReportedContentResponseBodyFromJson(json);
+  factory DeleteReportedContentResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$DeleteReportedContentResponseBodyFromJson(json);
 }

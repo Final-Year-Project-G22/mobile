@@ -8,7 +8,8 @@ part 'update_community_category_response_body.freezed.dart';
 part 'update_community_category_response_body.g.dart';
 
 @Freezed()
-abstract class UpdateCommunityCategoryResponseBody with _$UpdateCommunityCategoryResponseBody {
+abstract class UpdateCommunityCategoryResponseBody
+    with _$UpdateCommunityCategoryResponseBody {
   const factory UpdateCommunityCategoryResponseBody({
     /// Success message
     required String message,
@@ -17,6 +18,7 @@ abstract class UpdateCommunityCategoryResponseBody with _$UpdateCommunityCategor
     @JsonKey(name: '\$schema') String? schema,
   }) = _UpdateCommunityCategoryResponseBody;
 
-  factory UpdateCommunityCategoryResponseBody.fromJson(Map<String, Object?> json) =>
-      _$UpdateCommunityCategoryResponseBodyFromJson(json);
+  factory UpdateCommunityCategoryResponseBody.fromJson(
+    Map<String, Object?> json,
+  ) => _$UpdateCommunityCategoryResponseBodyFromJson(json);
 }

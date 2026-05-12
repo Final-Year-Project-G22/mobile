@@ -50,5 +50,6 @@ abstract class HistoryEntryResponse with _$HistoryEntryResponse {
     DateTime? readAt,
   }) = _HistoryEntryResponse;
 
-  factory HistoryEntryResponse.fromJson(Map<String, Object?> json) => _$HistoryEntryResponseFromJson(json);
+  factory HistoryEntryResponse.fromJson(Map<String, Object?> json) =>
+      _$HistoryEntryResponseFromJson(json);
 }

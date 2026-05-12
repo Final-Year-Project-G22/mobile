@@ -23,5 +23,6 @@ abstract class CreateStepTranslation with _$CreateStepTranslation {
     dynamic detailedContent,
   }) = _CreateStepTranslation;
 
-  factory CreateStepTranslation.fromJson(Map<String, Object?> json) => _$CreateStepTranslationFromJson(json);
+  factory CreateStepTranslation.fromJson(Map<String, Object?> json) =>
+      _$CreateStepTranslationFromJson(json);
 }

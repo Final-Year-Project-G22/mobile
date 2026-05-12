@@ -8,7 +8,8 @@ part 'delete_preference_response_body.freezed.dart';
 part 'delete_preference_response_body.g.dart';
 
 @Freezed()
-abstract class DeletePreferenceResponseBody with _$DeletePreferenceResponseBody {
+abstract class DeletePreferenceResponseBody
+    with _$DeletePreferenceResponseBody {
   const factory DeletePreferenceResponseBody({
     /// Success message
     required String message,

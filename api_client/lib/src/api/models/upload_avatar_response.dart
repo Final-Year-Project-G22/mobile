@@ -16,5 +16,6 @@ abstract class UploadAvatarResponse with _$UploadAvatarResponse {
     @JsonKey(name: '\$schema') String? schema,
   }) = _UploadAvatarResponse;
 
-  factory UploadAvatarResponse.fromJson(Map<String, Object?> json) => _$UploadAvatarResponseFromJson(json);
+  factory UploadAvatarResponse.fromJson(Map<String, Object?> json) =>
+      _$UploadAvatarResponseFromJson(json);
 }

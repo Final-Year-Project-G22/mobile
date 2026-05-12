@@ -17,5 +17,6 @@ abstract class AddBookmarkResponseBody with _$AddBookmarkResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _AddBookmarkResponseBody;
 
-  factory AddBookmarkResponseBody.fromJson(Map<String, Object?> json) => _$AddBookmarkResponseBodyFromJson(json);
+  factory AddBookmarkResponseBody.fromJson(Map<String, Object?> json) =>
+      _$AddBookmarkResponseBodyFromJson(json);
 }

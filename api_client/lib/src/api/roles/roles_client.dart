@@ -32,7 +32,9 @@ abstract class RolesClient {
   ///
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/roles')
-  Future<HttpResponse<CreateRoleResponseBody>> createRole({@Body() required CreateRoleRequest body});
+  Future<HttpResponse<CreateRoleResponseBody>> createRole({
+    @Body() required CreateRoleRequest body,
+  });
 
   /// Delete role.
   ///
@@ -40,7 +42,9 @@ abstract class RolesClient {
   ///
   /// [roleId] - Role identifier.
   @DELETE('/api/v1/roles/{roleId}')
-  Future<HttpResponse<DeleteRoleOutputBody>> deleteRole({@Path('roleId') required String roleId});
+  Future<HttpResponse<DeleteRoleOutputBody>> deleteRole({
+    @Path('roleId') required String roleId,
+  });
 
   /// Get role.
   ///
@@ -48,7 +52,9 @@ abstract class RolesClient {
   ///
   /// [roleId] - Role identifier.
   @GET('/api/v1/roles/{roleId}')
-  Future<HttpResponse<GetRoleResponseBody>> getRole({@Path('roleId') required String roleId});
+  Future<HttpResponse<GetRoleResponseBody>> getRole({
+    @Path('roleId') required String roleId,
+  });
 
   /// Update role.
   ///

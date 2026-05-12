@@ -24,5 +24,6 @@ abstract class AdminGuideStepDto with _$AdminGuideStepDto {
     int? feeEstimate,
   }) = _AdminGuideStepDto;
 
-  factory AdminGuideStepDto.fromJson(Map<String, Object?> json) => _$AdminGuideStepDtoFromJson(json);
+  factory AdminGuideStepDto.fromJson(Map<String, Object?> json) =>
+      _$AdminGuideStepDtoFromJson(json);
 }

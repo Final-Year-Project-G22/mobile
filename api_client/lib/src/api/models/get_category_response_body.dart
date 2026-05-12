@@ -19,5 +19,6 @@ abstract class GetCategoryResponseBody with _$GetCategoryResponseBody {
     @JsonKey(name: '\$schema') String? schema,
   }) = _GetCategoryResponseBody;
 
-  factory GetCategoryResponseBody.fromJson(Map<String, Object?> json) => _$GetCategoryResponseBodyFromJson(json);
+  factory GetCategoryResponseBody.fromJson(Map<String, Object?> json) =>
+      _$GetCategoryResponseBodyFromJson(json);
 }

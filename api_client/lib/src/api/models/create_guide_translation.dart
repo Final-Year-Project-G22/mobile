@@ -20,5 +20,6 @@ abstract class CreateGuideTranslation with _$CreateGuideTranslation {
     String? description,
   }) = _CreateGuideTranslation;
 
-  factory CreateGuideTranslation.fromJson(Map<String, Object?> json) => _$CreateGuideTranslationFromJson(json);
+  factory CreateGuideTranslation.fromJson(Map<String, Object?> json) =>
+      _$CreateGuideTranslationFromJson(json);
 }

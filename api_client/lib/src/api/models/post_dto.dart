@@ -59,5 +59,6 @@ abstract class PostDto with _$PostDto {
     DateTime? updatedAt,
   }) = _PostDto;
 
-  factory PostDto.fromJson(Map<String, Object?> json) => _$PostDtoFromJson(json);
+  factory PostDto.fromJson(Map<String, Object?> json) =>
+      _$PostDtoFromJson(json);
 }

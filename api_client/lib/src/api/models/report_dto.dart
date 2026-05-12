@@ -50,5 +50,6 @@ abstract class ReportDto with _$ReportDto {
     String? threadId,
   }) = _ReportDto;
 
-  factory ReportDto.fromJson(Map<String, Object?> json) => _$ReportDtoFromJson(json);
+  factory ReportDto.fromJson(Map<String, Object?> json) =>
+      _$ReportDtoFromJson(json);
 }
