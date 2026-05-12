@@ -102,7 +102,9 @@ void communityWsListener(Ref ref) {
     if (type == 'post.created') {
       ref
         ..invalidate(threadPostsProvider(threadId))
-        ..invalidate(threadDetailsProvider(threadId));
+        ..invalidate(threadDetailsProvider(threadId))
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider);
     }
     if (type == 'thread.updated') {
       ref
