@@ -26,14 +26,10 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
   @override
   void initState() {
     super.initState();
-    // Auto-refresh business profile on error (e.g. stale state from backend outage)
+    // Refresh business profile on mount so UI reflects current server state
     unawaited(
-      Future.microtask(() {
-        ref.listenManual(businessProfileProvider, (prev, next) {
-          if (next.hasError && !next.isLoading) {
-            unawaited(ref.read(businessProfileProvider.notifier).refreshProfile());
-          }
-        });
+      Future.microtask(() async {
+        await ref.read(businessProfileProvider.notifier).refreshProfile();
       }),
     );
   }
