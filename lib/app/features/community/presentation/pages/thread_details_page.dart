@@ -10,10 +10,10 @@ import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_post.dart';
 import '../../domain/entities/discussion_thread.dart';
-import '../widgets/edit_thread_sheet.dart';
 import '../widgets/post_card.dart';
 import '../widgets/reply_input_bar.dart';
 import '../widgets/report_sheet.dart';
+import 'edit_thread_page.dart';
 
 class ThreadDetailsPage extends ConsumerStatefulWidget {
   const ThreadDetailsPage({
@@ -268,10 +268,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   }
 
   Future<void> _editThread(DiscussionThread thread) async {
-    final didUpdate = await showModalBottomSheet<bool>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => EditThreadSheet(thread: thread),
+    final didUpdate = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => EditThreadPage(thread: thread),
+      ),
     );
 
     if (didUpdate == true && mounted) {
@@ -483,13 +483,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             ),
                           ),
                       ],
-                      const PopupMenuItem(
-                        value: 'report',
-                        child: Text(
-                          'Report Thread',
-                          style: TextStyle(color: Colors.red),
+                      if (!isAuthor)
+                        const PopupMenuItem(
+                          value: 'report',
+                          child: Text(
+                            'Report Thread',
+                            style: TextStyle(color: Colors.red),
+                          ),
                         ),
-                      ),
                     ],
                   );
                 },
