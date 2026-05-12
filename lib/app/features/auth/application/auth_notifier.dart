@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/di/auth_providers.dart';
@@ -19,6 +20,10 @@ part 'auth_notifier.g.dart';
 
 @riverpod
 class AuthNotifier extends _$AuthNotifier {
+  static const _prefsAccessToken = 'access_token';
+  static const _prefsRefreshToken = 'refresh_token';
+  static const _prefsExpiresAt = 'expires_at';
+
   @override
   Future<AuthStatus> build() async {
     final apiClient = ref.read(apiClientProvider)
@@ -26,32 +31,82 @@ class AuthNotifier extends _$AuthNotifier {
         await forceLogout();
       });
 
-    // Load persisted tokens from secure storage
-    await apiClient.loadTokensFromStorage();
+    try {
+      // Load persisted tokens from secure storage
+      await apiClient.loadTokensFromStorage();
+    } on Exception catch (_) {
+      // Storage failure — fall through to shared_preferences below
+    }
 
+    // Fallback: try shared_preferences if flutter_secure_storage has no tokens
     if (!apiClient.isAuthenticated) {
+      final restored = await _restoreTokensFromPrefs();
+      if (restored) {
+        return const AuthStatus.authenticated(user: null, account: null);
+      }
       return const AuthStatus.unauthenticated();
     }
 
-    // Fetch current user to populate auth state on app launch
-    final repository = ref.read(authRepositoryProvider);
-    final userResult = await repository.getCurrentUser();
-    return userResult.fold(
-      (failure) {
-        // Token is invalid or expired — force logout
-        unawaited(apiClient.clearTokens());
-        return const AuthStatus.unauthenticated();
-      },
-      (authResponse) => AuthStatus.authenticated(
-        user: authResponse.user,
-        account: authResponse.account,
-      ),
-    );
+    // Return authenticated immediately. The auth interceptor handles
+    // token refresh transparently on the first real API call.
+    return const AuthStatus.authenticated(user: null, account: null);
+  }
+
+  Future<bool> _restoreTokensFromPrefs() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString(_prefsAccessToken);
+      final refreshToken = prefs.getString(_prefsRefreshToken);
+      final expiresAtStr = prefs.getString(_prefsExpiresAt);
+      if (accessToken == null) return false;
+
+      final apiClient = ref.read(apiClientProvider);
+      await apiClient.setTokens(
+        accessToken,
+        refreshToken,
+        expiresAt: expiresAtStr != null ? DateTime.tryParse(expiresAtStr) : null,
+      );
+      return true;
+    } on Exception catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _saveTokensToPrefs() async {
+    try {
+      final apiClient = ref.read(apiClientProvider);
+      if (apiClient.accessToken == null) return;
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefsAccessToken, apiClient.accessToken!);
+      if (apiClient.refreshToken != null) {
+        await prefs.setString(_prefsRefreshToken, apiClient.refreshToken!);
+      } else {
+        await prefs.remove(_prefsRefreshToken);
+      }
+      if (apiClient.expiresAt != null) {
+        await prefs.setString(_prefsExpiresAt, apiClient.expiresAt!.toIso8601String());
+      } else {
+        await prefs.remove(_prefsExpiresAt);
+      }
+    } on Exception catch (_) {
+      // Non-critical — tokens are already stored in flutter_secure_storage
+    }
+  }
+
+  Future<void> _clearPrefs() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_prefsAccessToken);
+      await prefs.remove(_prefsRefreshToken);
+      await prefs.remove(_prefsExpiresAt);
+    } on Exception catch (_) {}
   }
 
   Future<void> forceLogout() async {
     final apiClient = ref.read(apiClientProvider);
     await apiClient.clearTokens();
+    await _clearPrefs();
     _clearOAuthTransientState();
     state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
@@ -92,7 +147,7 @@ class AuthNotifier extends _$AuthNotifier {
     );
     result.fold(
       (failure) => state = AsyncValue.error(failure, StackTrace.current),
-      (authResponse) {
+      (authResponse) async {
         final accountStatus = authResponse.account.status.trim().toLowerCase();
         final isPendingVerification =
             accountStatus == 'pending_verification' ||
@@ -105,7 +160,7 @@ class AuthNotifier extends _$AuthNotifier {
           return;
         }
 
-        _applyAuthenticated(authResponse);
+        await _applyAuthenticated(authResponse);
       },
     );
   }
@@ -115,7 +170,7 @@ class AuthNotifier extends _$AuthNotifier {
     await apiClient.loadTokensFromStorage();
     final repository = ref.read(authRepositoryProvider);
     final userResult = await repository.getCurrentUser();
-    userResult.fold(
+    await userResult.fold(
       (failure) {
         state = AsyncValue.error(failure, StackTrace.current);
       },
@@ -137,6 +192,7 @@ class AuthNotifier extends _$AuthNotifier {
 
     // Always clear local tokens and state
     await apiClient.clearTokens();
+    await _clearPrefs();
     _clearOAuthTransientState();
     state = const AsyncValue.data(AuthStatus.unauthenticated());
   }
@@ -294,7 +350,7 @@ class AuthNotifier extends _$AuthNotifier {
       state: stateParam,
     );
 
-    _handleOAuthCallbackResult(result);
+    await _handleOAuthCallbackResult(result);
   }
 
   Future<void> completeOAuthFromDeepLink({
@@ -322,7 +378,7 @@ class AuthNotifier extends _$AuthNotifier {
 
     final repository = ref.read(authRepositoryProvider);
     final userResult = await repository.getCurrentUser();
-    userResult.fold(
+    await userResult.fold(
       (_) {
         _setOAuthFailure(
           const AuthUserFailure.serverError(
@@ -360,20 +416,20 @@ class AuthNotifier extends _$AuthNotifier {
       state: state,
     );
 
-    _handleOAuthCallbackResult(result);
+    await _handleOAuthCallbackResult(result);
   }
 
-  void _handleOAuthCallbackResult(
+  Future<void> _handleOAuthCallbackResult(
     Either<AuthUserFailure, OAuthCallbackResult> result,
-  ) {
-    result.fold(
+  ) async {
+    await result.fold(
       (failure) {
         _setOAuthFailure(failure);
         state = AsyncValue.error(failure, StackTrace.current);
       },
-      (callbackResult) {
+      (callbackResult) async {
         if (callbackResult.isAuthenticated && callbackResult.authResponse != null) {
-          _applyAuthenticated(callbackResult.authResponse!);
+          await _applyAuthenticated(callbackResult.authResponse!);
           return;
         }
 
@@ -418,7 +474,7 @@ class AuthNotifier extends _$AuthNotifier {
     return '';
   }
 
-  void _applyAuthenticated(AuthResponse authResponse) {
+  Future<void> _applyAuthenticated(AuthResponse authResponse) async {
     _clearOAuthTransientState();
     state = AsyncValue.data(
       AuthStatus.authenticated(
@@ -426,6 +482,7 @@ class AuthNotifier extends _$AuthNotifier {
         account: authResponse.account,
       ),
     );
+    await _saveTokensToPrefs();
   }
 
   void _setOAuthFailure(AuthUserFailure failure) {

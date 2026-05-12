@@ -7,7 +7,7 @@ import '../domain/failures/business_profile_failure.dart';
 
 part 'business_profile_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class BusinessProfileNotifier extends _$BusinessProfileNotifier {
   @override
   Future<BusinessProfile?> build() async {
@@ -26,7 +26,7 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
 
   Future<void> refreshProfile() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final nextState = await AsyncValue.guard(() async {
       final repository = ref.read(businessProfileRepositoryProvider);
       final result = await repository.getBusinessProfile();
       return result.fold(
@@ -37,11 +37,13 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
         (profile) => profile,
       );
     });
+    if (!ref.mounted) return;
+    state = nextState;
   }
 
   Future<void> createFromOnboarding(OnboardingAnswers answers) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final nextState = await AsyncValue.guard(() async {
       final repository = ref.read(businessProfileRepositoryProvider);
       final tagSlugs = <String>[
         if (answers.legalStructure != null) answers.legalStructure!,
@@ -62,6 +64,8 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
         (profile) => profile,
       );
     });
+    if (!ref.mounted) return;
+    state = nextState;
   }
 
   Future<void> updateProfile({
@@ -85,7 +89,7 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
     }
 
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final nextState = await AsyncValue.guard(() async {
       final repository = ref.read(businessProfileRepositoryProvider);
       final result = await repository.updateBusinessProfile(
         companyName: companyName,
@@ -104,5 +108,7 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
         (profile) => profile,
       );
     });
+    if (!ref.mounted) return;
+    state = nextState;
   }
 }

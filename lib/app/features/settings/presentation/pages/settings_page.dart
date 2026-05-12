@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/di/app_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
+import '../../../business_profile/application/business_profile_notifier.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -15,6 +17,7 @@ class SettingsPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final businessProfileAsync = ref.watch(businessProfileProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
@@ -60,6 +63,15 @@ class SettingsPage extends ConsumerWidget {
               ],
             ),
           ),
+          const SizedBox(height: 24),
+          if (businessProfileAsync.hasValue && businessProfileAsync.value == null)
+            ListTile(
+              leading: const Icon(Icons.business_center_outlined),
+              title: const Text('Complete business profile'),
+              subtitle: const Text('Continue onboarding anytime'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => const OnboardingRoute().go(context),
+            ),
           const SizedBox(height: 48),
           ElevatedButton(
             onPressed: () => _handleLogout(context, ref),

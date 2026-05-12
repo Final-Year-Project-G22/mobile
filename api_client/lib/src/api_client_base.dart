@@ -9,7 +9,7 @@ import 'interceptors/logging_interceptor.dart';
 class ApiClient {
   late final Dio dio;
   late final AuthInterceptor _authInterceptor;
-  String? Function()? _getLocaleCode;
+  final String? Function()? _getLocaleCode;
 
   ApiClient({
     required FlutterSecureStorage secureStorage,

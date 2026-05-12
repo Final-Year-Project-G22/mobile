@@ -13,17 +13,38 @@ import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
 
-class HomeShellPage extends ConsumerWidget {
+class HomeShellPage extends ConsumerStatefulWidget {
   const HomeShellPage({required this.navigator, super.key});
 
   final Widget navigator;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeShellPage> createState() => _HomeShellPageState();
+}
+
+class _HomeShellPageState extends ConsumerState<HomeShellPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Auto-refresh business profile on error (e.g. stale state from backend outage)
+    unawaited(
+      Future.microtask(() {
+        ref.listenManual(businessProfileProvider, (prev, next) {
+          if (next.hasError && !next.isLoading) {
+            unawaited(ref.read(businessProfileProvider.notifier).refreshProfile());
+          }
+        });
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentIndex = ref.watch(homeTabIndexProvider);
     final unreadCountAsync = ref.watch(unreadCountProvider);
     final businessProfileAsync = ref.watch(businessProfileProvider);
     final theme = Theme.of(context);
+    final navigator = widget.navigator;
 
     return Scaffold(
       appBar: AppBar(
