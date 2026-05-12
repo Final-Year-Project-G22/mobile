@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../router/routes.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_state_providers.dart';
-
 
 class CommunityHomePage extends ConsumerWidget {
   const CommunityHomePage({super.key});
@@ -69,7 +69,7 @@ class CommunityHomePage extends ConsumerWidget {
             final threadId = await context.push<String>('/community/create');
 
             if (threadId != null && context.mounted) {
-              await context.push<void>('/community/thread/$threadId');
+              await ThreadDetailsRoute(threadId: threadId).push<void>(context);
               if (context.mounted) {
                 ref
                   ..invalidate(filteredThreadsProvider)
@@ -207,7 +207,10 @@ class _ThreadListView extends ConsumerWidget {
                         )
                       : null,
                   onTap: () async {
-                    await GoRouter.of(context).push<void>('/community/thread/${thread.id}');
+                    await ThreadDetailsRoute(
+                      threadId: thread.id,
+                      threadTitle: thread.title,
+                    ).push<void>(context);
 
                     if (!context.mounted) {
                       return;

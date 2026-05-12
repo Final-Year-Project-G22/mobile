@@ -107,6 +107,19 @@ class CreateThreadRoute extends GoRouteData with $CreateThreadRoute {
   Widget build(BuildContext context, GoRouterState state) => const CreateThreadPage();
 }
 
+@TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId')
+class ThreadDetailsRoute extends GoRouteData with $ThreadDetailsRoute {
+  const ThreadDetailsRoute({required this.threadId, this.threadTitle});
+  final String threadId;
+  final String? threadTitle;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ThreadDetailsPage(
+    threadId: threadId,
+    threadTitle: threadTitle ?? 'Thread',
+  );
+}
+
 @TypedShellRoute<MainAppShellRoute>(
   routes: [
     TypedGoRoute<HomeRoute>(path: '/home'),
@@ -114,7 +127,6 @@ class CreateThreadRoute extends GoRouteData with $CreateThreadRoute {
     TypedGoRoute<GuideDetailRoute>(path: '/guides/:guideSlug'),
     TypedGoRoute<StepDetailRoute>(path: '/guides/:guideSlug/step/:stepSlug'),
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
-    TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId'),
     TypedGoRoute<TemplatesRoute>(path: '/templates'),
   ],
 )
@@ -194,18 +206,6 @@ class CommunityHomeRoute extends GoRouteData with $CommunityHomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CommunityHomePage();
-}
-
-class ThreadDetailsRoute extends GoRouteData with $ThreadDetailsRoute {
-  const ThreadDetailsRoute({required this.threadId, this.threadTitle});
-  final String threadId;
-  final String? threadTitle;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => ThreadDetailsPage(
-    threadId: threadId,
-    threadTitle: threadTitle ?? 'Thread',
-  );
 }
 
 @TypedGoRoute<ProfileRoute>(path: '/profile')
