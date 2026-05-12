@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_tab_notifier.g.dart';
 
-enum HomeTab { guide, community, aiGuide, templates }
+enum HomeTab { home, guide, community, aiGuide, templates }
 
 class HomeTabSpec {
   const HomeTabSpec({
@@ -17,6 +17,11 @@ class HomeTabSpec {
 }
 
 const List<HomeTabSpec> homeTabSpecs = [
+  HomeTabSpec(
+    label: 'Home',
+    icon: Icons.home_outlined,
+    selectedIcon: Icons.home,
+  ),
   HomeTabSpec(
     label: 'Guide',
     icon: Icons.menu_book_outlined,

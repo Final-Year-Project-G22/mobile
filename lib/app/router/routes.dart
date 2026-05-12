@@ -12,6 +12,7 @@ import '../features/community/presentation/pages/thread_details_page.dart';
 import '../features/guide/presentation/pages/guide_detail_page.dart';
 import '../features/guide/presentation/pages/guide_list_page.dart';
 import '../features/guide/presentation/pages/step_detail_page.dart';
+import '../features/home/presentation/pages/home_dashboard_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/notifications/presentation/pages/inbox_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -94,6 +95,7 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
 @TypedShellRoute<MainAppShellRoute>(
   routes: [
     TypedGoRoute<HomeRoute>(path: '/home'),
+    TypedGoRoute<GuidesRoute>(path: '/guides'),
     TypedGoRoute<GuideDetailRoute>(path: '/guides/:guideSlug'),
     TypedGoRoute<StepDetailRoute>(path: '/guides/:guideSlug/step/:stepSlug'),
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
@@ -110,6 +112,13 @@ class MainAppShellRoute extends ShellRouteData {
 
 class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const HomeDashboardPage();
+}
+
+class GuidesRoute extends GoRouteData with $GuidesRoute {
+  const GuidesRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const GuideListPage();
