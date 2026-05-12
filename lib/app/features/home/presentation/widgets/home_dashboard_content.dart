@@ -18,6 +18,7 @@ class HomeDashboardContent extends StatelessWidget {
     required this.recentlyViewed,
     required this.quickActions,
     required this.onGuideTap,
+    this.onRefresh,
     super.key,
   });
 
@@ -26,6 +27,7 @@ class HomeDashboardContent extends StatelessWidget {
   final List<GuideCard> recentlyViewed;
   final List<QuickAction> quickActions;
   final void Function(String guideSlug) onGuideTap;
+  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class HomeDashboardContent extends StatelessWidget {
         recentlyViewed.isEmpty;
 
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: onRefresh ?? () async {},
       child: ListView(
         children: [
           HeroCompletionGraph(stats: completionStats),

@@ -26,7 +26,6 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
   @override
   void initState() {
     super.initState();
-    // Refresh business profile on mount so UI reflects current server state
     unawaited(
       Future.microtask(() async {
         await ref.read(businessProfileProvider.notifier).refreshProfile();
@@ -77,11 +76,14 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
               context.go('/home');
             case 1:
               ref.read(homeTabIndexProvider.notifier).setIndex(1);
-              context.go('/community');
+              context.go('/guides');
             case 2:
-              unawaited(context.push('/ai-guide'));
+              ref.read(homeTabIndexProvider.notifier).setIndex(2);
+              context.go('/community');
             case 3:
-              ref.read(homeTabIndexProvider.notifier).setIndex(3);
+              unawaited(context.push('/ai-guide'));
+            case 4:
+              ref.read(homeTabIndexProvider.notifier).setIndex(4);
               context.go('/templates');
           }
         },
