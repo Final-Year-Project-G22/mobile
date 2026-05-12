@@ -518,6 +518,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       authorDisplayName: authorDisplayName,
       authorAvatarUrl: authorAvatarUrl,
       isPinned: dto.isPinned,
+      isFollowed: dto.isFollowed,
       status: status,
       viewCount: dto.viewCount,
       shareCount: dto.shareCount,

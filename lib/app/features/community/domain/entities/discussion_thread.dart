@@ -12,6 +12,7 @@ abstract class DiscussionThread with _$DiscussionThread {
     required String slug,
     required String authorId,
     required bool isPinned,
+    required bool isFollowed,
     required int viewCount,
     required int shareCount,
     required int replyCount,

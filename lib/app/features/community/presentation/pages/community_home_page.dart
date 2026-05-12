@@ -200,12 +200,24 @@ class _ThreadListView extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  trailing: thread.isPinned
-                      ? Icon(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (thread.isFollowed)
+                        Icon(
+                          Icons.chat_bubble,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 20,
+                        ),
+                      if (thread.isPinned) ...[
+                        if (thread.isFollowed) const SizedBox(width: 8),
+                        Icon(
                           Icons.push_pin,
                           color: Theme.of(context).colorScheme.primary,
-                        )
-                      : null,
+                        ),
+                      ],
+                    ],
+                  ),
                   onTap: () async {
                     await ThreadDetailsRoute(
                       threadId: thread.id,
