@@ -5115,11 +5115,27 @@
             "readOnly": true,
             "type": "string"
           },
+          "email": {
+            "description": "Customer email",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "Customer first name",
+            "type": "string"
+          },
+          "lastName": {
+            "description": "Customer last name",
+            "type": "string"
+          },
           "period": {
             "description": "Billing period (monthly or yearly)",
             "examples": [
               "monthly"
             ],
+            "type": "string"
+          },
+          "phone": {
+            "description": "Customer phone number (optional)",
             "type": "string"
           },
           "planName": {
@@ -5132,7 +5148,10 @@
         },
         "required": [
           "planName",
-          "period"
+          "period",
+          "email",
+          "firstName",
+          "lastName"
         ],
         "type": "object"
       },

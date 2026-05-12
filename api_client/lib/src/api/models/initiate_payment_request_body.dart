@@ -10,6 +10,15 @@ part 'initiate_payment_request_body.g.dart';
 @Freezed()
 abstract class InitiatePaymentRequestBody with _$InitiatePaymentRequestBody {
   const factory InitiatePaymentRequestBody({
+    /// Customer email
+    required String email,
+
+    /// Customer first name
+    required String firstName,
+
+    /// Customer last name
+    required String lastName,
+
     /// Billing period (monthly or yearly)
     required String period,
 
@@ -18,6 +27,9 @@ abstract class InitiatePaymentRequestBody with _$InitiatePaymentRequestBody {
 
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
+
+    /// Customer phone number (optional)
+    String? phone,
   }) = _InitiatePaymentRequestBody;
 
   factory InitiatePaymentRequestBody.fromJson(Map<String, Object?> json) =>

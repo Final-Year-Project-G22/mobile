@@ -11,6 +11,7 @@ class PlanComparisonCard extends StatelessWidget {
     this.isPro = false,
     this.highlight = false,
     this.onSubscribe,
+    this.currentPlan = false,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class PlanComparisonCard extends StatelessWidget {
   final bool isPro;
   final bool highlight;
   final VoidCallback? onSubscribe;
+  final bool currentPlan;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class PlanComparisonCard extends StatelessWidget {
               onPressed: onSubscribe,
               child: const Text('Subscribe'),
             )
-          else
+          else if (currentPlan)
             Container(
               height: 48,
               alignment: Alignment.center,
@@ -108,9 +110,7 @@ class PlanComparisonCard extends StatelessWidget {
               ),
               child: Text(
                 'Current Plan',
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: AppColors.slate500,
-                ),
+                style: theme.textTheme.labelLarge?.copyWith(color: AppColors.slate500),
               ),
             ),
         ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../payment/application/providers/subscription_provider.dart';
 import '../../application/profile_notifier.dart';
 import '../../application/profile_state.dart';
 import '../../domain/entities/user_profile.dart';
@@ -60,6 +61,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileProvider);
+    final subAsync = ref.watch(subscriptionProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -193,10 +195,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ],
                 ),
                 AppSpacing.gapVerticalMd,
-                Text(
-                  user.fullName,
-                  style: theme.textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        user.fullName,
+                        style: theme.textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    if (subAsync.value?.planName == 'Pro') ...[
+                      const SizedBox(width: 8),
+                      Chip(
+                        label: const Text('PRO', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                        backgroundColor: Colors.amber.shade100,
+                        side: BorderSide.none,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
+                  ],
                 ),
                 AppSpacing.gapVerticalXs,
                 Text(
