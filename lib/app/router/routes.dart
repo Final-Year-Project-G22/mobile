@@ -8,6 +8,7 @@ import '../features/auth/presentation/pages/oauth_complete_email_page.dart';
 import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/community/presentation/pages/community_home_page.dart';
+import '../features/community/presentation/pages/create_thread_page.dart';
 import '../features/community/presentation/pages/thread_details_page.dart';
 import '../features/guide/presentation/pages/guide_detail_page.dart';
 import '../features/guide/presentation/pages/guide_list_page.dart';
@@ -96,6 +97,14 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const OnboardingPage();
+}
+
+@TypedGoRoute<CreateThreadRoute>(path: '/community/create')
+class CreateThreadRoute extends GoRouteData with $CreateThreadRoute {
+  const CreateThreadRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const CreateThreadPage();
 }
 
 @TypedShellRoute<MainAppShellRoute>(
