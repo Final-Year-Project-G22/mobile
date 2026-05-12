@@ -27,19 +27,14 @@ abstract class BusinessProfileResponse with _$BusinessProfileResponse {
     DateTime? updatedAt,
   }) = _BusinessProfileResponse;
 
-  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) =>
-      _$BusinessProfileResponseFromJson(json);
+  factory BusinessProfileResponse.fromJson(Map<String, Object?> json) => _$BusinessProfileResponseFromJson(json);
 }
 
 @freezed
 abstract class BusinessProfileSector with _$BusinessProfileSector {
-  const factory BusinessProfileSector({
-    required String id,
-    required String slug,
-  }) = _BusinessProfileSector;
+  const factory BusinessProfileSector({required String id, required String slug}) = _BusinessProfileSector;
 
-  factory BusinessProfileSector.fromJson(Map<String, Object?> json) =>
-      _$BusinessProfileSectorFromJson(json);
+  factory BusinessProfileSector.fromJson(Map<String, Object?> json) => _$BusinessProfileSectorFromJson(json);
 }
 
 @freezed
@@ -51,6 +46,5 @@ abstract class BusinessProfileTag with _$BusinessProfileTag {
     required bool isMultiSelect,
   }) = _BusinessProfileTag;
 
-  factory BusinessProfileTag.fromJson(Map<String, Object?> json) =>
-      _$BusinessProfileTagFromJson(json);
+  factory BusinessProfileTag.fromJson(Map<String, Object?> json) => _$BusinessProfileTagFromJson(json);
 }
