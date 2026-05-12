@@ -102,3 +102,9 @@ export 'src/api/models/plan_response.dart';
 export 'src/api/models/subscription_response.dart';
 export 'src/api/models/verify_payment_request_body.dart';
 export 'src/api/models/verify_payment_response_body.dart';
+
+export 'src/api/taxonomy/taxonomy_client.dart';
+export 'src/api/models/sector_response.dart';
+export 'src/api/models/tag_response.dart';
+export 'src/api/models/list_sectors_response_body.dart';
+export 'src/api/models/list_tags_response_body.dart';

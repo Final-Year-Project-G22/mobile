@@ -14,6 +14,12 @@ abstract class ICommunityRepository {
     int? pageSize,
   });
 
+  Future<Either<CommunityFailure, List<DiscussionThread>>> listAllThreads({
+    String? search,
+    int? page,
+    int? pageSize,
+  });
+
   Future<Either<CommunityFailure, List<CommunityCategory>>> getCategories({
     int? page,
     int? pageSize,
@@ -50,6 +56,16 @@ abstract class ICommunityRepository {
     String? parentThreadId,
     String? attachmentIds,
   });
+
+  Future<Either<CommunityFailure, Unit>> updateThread(
+    String threadId, {
+    String? title,
+    String? description,
+    List<String>? sectorIds,
+    List<String>? tagIds,
+  });
+
+  Future<Either<CommunityFailure, Unit>> deleteThread(String threadId);
 
   Future<Either<CommunityFailure, String>> createPost({
     required String threadId,

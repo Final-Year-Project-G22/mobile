@@ -46,6 +46,34 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   }
 
   @override
+  Future<Either<CommunityFailure, List<DiscussionThread>>> listAllThreads({
+    String? search,
+    int? page,
+    int? pageSize,
+  }) async {
+    try {
+      final response = await _client.listAllCommunityThreads(
+        search: search,
+        page: page,
+        pageSize: pageSize,
+      );
+
+      final threads = (response.data.threads ?? [])
+          .cast<Map<String, dynamic>>()
+          .map(
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+          )
+          .toList();
+
+      return Right(threads);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
   Future<Either<CommunityFailure, List<CommunityCategory>>> getCategories({
     int? page,
     int? pageSize,
@@ -243,6 +271,43 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       );
 
       return Right(response.data.threadId);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> updateThread(
+    String threadId, {
+    String? title,
+    String? description,
+    List<String>? sectorIds,
+    List<String>? tagIds,
+  }) async {
+    try {
+      await _client.updateCommunityThread(
+        id: threadId,
+        title: title,
+        description: description,
+        sectorIds: sectorIds?.join(','),
+        tagIds: tagIds?.join(','),
+      );
+
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> deleteThread(String threadId) async {
+    try {
+      await _client.deleteCommunityThread(id: threadId);
+      return const Right(unit);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
     } on Exception {
