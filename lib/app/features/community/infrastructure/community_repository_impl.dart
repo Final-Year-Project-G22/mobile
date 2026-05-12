@@ -532,6 +532,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       isPinned: dto.isPinned,
       isFollowed: dto.isFollowed,
       unreadCount: dto.unreadCount,
+      hasSolution: dto.hasSolution,
       status: status,
       viewCount: dto.viewCount,
       shareCount: dto.shareCount,

@@ -156,6 +156,47 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     );
   }
 
+  Future<void> _markSolution(DiscussionPost post) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Mark as Solution'),
+        content: const Text('Mark this post as the accepted solution?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Mark', style: TextStyle(color: Colors.green)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) return;
+
+    final result = await ref.read(communityMutationsProvider.notifier).markSolution(
+      widget.threadId,
+      post.id,
+    );
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to mark solution: $failure')),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Marked as solution')),
+        );
+      },
+    );
+  }
+
   void _reportPost(DiscussionPost post) {
     unawaited(
       showModalBottomSheet<void>(
@@ -516,6 +557,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                 upvoteCount: initialPost.upvoteCount,
                                 createdAt: initialPost.createdAt ?? thread.createdAt,
                                 isEdited: initialPost.editCount > 0 || initialPost.editedAt != null,
+                                isSolution: initialPost.isSolution,
                                 onReply: () => _startReply(initialPost!),
                                 onEdit:
                                     _isAuthor(
@@ -545,6 +587,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                     )
                                     ? null
                                     : () => _reportUser(initialPost!),
+                                onMarkSolution: _isAuthor(thread.authorId, currentAccountId) && !initialPost.isSolution
+                                    ? () => _markSolution(initialPost!)
+                                    : null,
                               )
                             else if (thread.description != null && thread.description!.isNotEmpty)
                               PostCard(
@@ -596,14 +641,18 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               nestingLevel: _nestingLevel(post, postsById),
                               parentPreview: parentPreview,
                               onParentPreviewTap: parentPostId != null ? () => _scrollToParent(parentPostId) : null,
-                              createdAt: post.createdAt ?? thread.createdAt,
-                              isEdited: post.editCount > 0 || post.editedAt != null,
-                              onReply: () => _startReply(post),
-                              onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
-                              onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
-                              onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),
-                              onReportUser: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportUser(post),
-                            );
+                               createdAt: post.createdAt ?? thread.createdAt,
+                               isEdited: post.editCount > 0 || post.editedAt != null,
+                               isSolution: post.isSolution,
+                               onReply: () => _startReply(post),
+                               onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
+                               onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
+                               onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),
+                               onReportUser: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportUser(post),
+                               onMarkSolution: _isAuthor(thread.authorId, currentAccountId) && !post.isSolution
+                                   ? () => _markSolution(post)
+                                   : null,
+                             );
                           },
                           childCount: orderedReplies.length,
                         ),

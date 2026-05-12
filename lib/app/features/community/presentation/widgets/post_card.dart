@@ -19,12 +19,14 @@ class PostCard extends StatelessWidget {
     this.parentPreview,
     this.nestingLevel = 0,
     this.isEdited = false,
+    this.isSolution = false,
     this.onReply,
     this.onEdit,
     this.onDelete,
     this.onReport,
     this.onReportUser,
     this.onParentPreviewTap,
+    this.onMarkSolution,
     this.createdAt,
     super.key,
   });
@@ -38,12 +40,14 @@ class PostCard extends StatelessWidget {
   final String? parentPreview;
   final int nestingLevel;
   final bool isEdited;
+  final bool isSolution;
   final VoidCallback? onReply;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final VoidCallback? onReport;
   final VoidCallback? onReportUser;
   final VoidCallback? onParentPreviewTap;
+  final VoidCallback? onMarkSolution;
   final DateTime? createdAt;
 
   Future<void> _launchUrl(String urlString) async {
@@ -218,12 +222,37 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
 
+                    if (isSolution)
+                      Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.green),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green, size: 14),
+                            SizedBox(width: 4),
+                            Text(
+                              'Solution',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     if (isEdited)
                       Text(
                         'edited',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                    if (onEdit != null || onDelete != null || onReport != null)
+                    if (onEdit != null || onDelete != null || onReport != null || onMarkSolution != null)
                       PopupMenuButton<String>(
                         onSelected: (value) {
                           if (value == 'edit') {
@@ -234,6 +263,8 @@ class PostCard extends StatelessWidget {
                             onReply?.call();
                           } else if (value == 'report') {
                             onReport?.call();
+                          } else if (value == 'markSolution') {
+                            onMarkSolution?.call();
                           }
                         },
                         itemBuilder: (context) => [
@@ -241,6 +272,14 @@ class PostCard extends StatelessWidget {
                             const PopupMenuItem(
                               value: 'reply',
                               child: Text('Reply'),
+                            ),
+                          if (onMarkSolution != null)
+                            const PopupMenuItem(
+                              value: 'markSolution',
+                              child: Text(
+                                'Mark as Solution',
+                                style: TextStyle(color: Colors.green),
+                              ),
                             ),
                           if (onEdit != null)
                             const PopupMenuItem(
