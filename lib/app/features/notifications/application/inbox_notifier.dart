@@ -1,18 +1,71 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/di/inbox_providers.dart';
 import '../domain/failures/inbox_failure.dart';
 import 'inbox_state.dart';
+import 'sse_inbox_listener.dart';
 import 'unread_count_provider.dart';
 
 part 'inbox_notifier.g.dart';
 
 const _pageSize = 20;
+const _silentRefreshDebounce = Duration(milliseconds: 300);
 
 @riverpod
 class InboxNotifier extends _$InboxNotifier {
+  Timer? _silentRefreshTimer;
+  bool _silentRefreshInProgress = false;
+
   @override
-  InboxState build() => InboxState.initial();
+  InboxState build() {
+    _silentRefreshTimer?.cancel();
+    return InboxState.initial();
+  }
+
+  void scheduleSilentRefresh() {
+    _silentRefreshTimer?.cancel();
+    _silentRefreshTimer = Timer(_silentRefreshDebounce, () {
+      if (ref.mounted) {
+        unawaited(_performSilentRefresh());
+      }
+    });
+  }
+
+  Future<void> _performSilentRefresh() async {
+    if (!ref.mounted) return;
+    if (_silentRefreshInProgress) return;
+    _silentRefreshInProgress = true;
+
+    try {
+      if (!ref.mounted) return;
+      final repository = ref.read(inboxRepositoryProvider);
+      final result = await repository.listInbox(page: 1, pageSize: _pageSize);
+
+      if (!ref.mounted) return;
+      result.fold(
+        (_) => null,
+        (data) {
+          final freshEntries = data.entries;
+          final existingNotInFresh =
+              state.entries.where((e) {
+                return !freshEntries.any((f) => f.id == e.id);
+              }).toList();
+
+          state = state.copyWith(
+            entries: [...freshEntries, ...existingNotInFresh],
+            currentPage: data.page,
+            total: data.total,
+            hasMore: data.page < data.totalPages,
+            // Keep isLoading false — no spinner
+          );
+        },
+      );
+    } finally {
+      _silentRefreshInProgress = false;
+    }
+  }
 
   Future<void> loadInbox() async {
     state = state.copyWith(
@@ -83,7 +136,9 @@ class InboxNotifier extends _$InboxNotifier {
           return e;
         }).toList();
         state = state.copyWith(entries: updated);
-        ref.invalidate(unreadCountProvider);
+        ref
+          ..invalidate(unreadCountProvider)
+          ..invalidate(liveUnreadCountProvider);
       },
     );
   }
@@ -99,7 +154,9 @@ class InboxNotifier extends _$InboxNotifier {
             .map((e) => e.copyWith(isRead: true))
             .toList();
         state = state.copyWith(entries: updated);
-        ref.invalidate(unreadCountProvider);
+        ref
+          ..invalidate(unreadCountProvider)
+          ..invalidate(liveUnreadCountProvider);
       },
     );
   }

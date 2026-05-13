@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_spacing.dart';
-import '../../../../features/notifications/application/unread_count_provider.dart';
+import '../../../../features/notifications/application/sse_inbox_listener.dart';
 import '../../../../router/routes.dart';
 import '../../../business_profile/application/business_profile_notifier.dart';
 import '../../../business_profile/presentation/widgets/complete_profile_banner.dart';
@@ -36,7 +36,7 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
   @override
   Widget build(BuildContext context) {
     final currentIndex = ref.watch(homeTabIndexProvider);
-    final unreadCountAsync = ref.watch(unreadCountProvider);
+    final unreadCountAsync = ref.watch(notificationBadgeCountProvider);
     final businessProfileAsync = ref.watch(businessProfileProvider);
     final theme = Theme.of(context);
     final navigator = widget.navigator;
