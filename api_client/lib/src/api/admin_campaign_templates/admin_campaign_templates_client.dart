@@ -47,7 +47,9 @@ abstract class AdminCampaignTemplatesClient {
   /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/notifications/campaign-templates')
   Future<HttpResponse<CreateCampaignTemplateResponseBody>>
-  createCampaignTemplate({@Body() required CreateCampaignTemplateRequest body});
+  createCampaignTemplate({
+    @Body() required CreateCampaignTemplateRequest body,
+  });
 
   /// Delete campaign template.
   ///
@@ -56,7 +58,9 @@ abstract class AdminCampaignTemplatesClient {
   /// [id] - Campaign template ID.
   @DELETE('/api/v1/admin/notifications/campaign-templates/{id}')
   Future<HttpResponse<DeleteCampaignTemplateResponseBody>>
-  deleteCampaignTemplate({@Path('id') required String id});
+  deleteCampaignTemplate({
+    @Path('id') required String id,
+  });
 
   /// Get campaign template.
   ///
