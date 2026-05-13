@@ -7053,6 +7053,28 @@
         ],
         "type": "object"
       },
+      "MarkThreadReadResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/MarkThreadReadResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
+            "description": "Success message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
       "MessageDTO": {
         "additionalProperties": false,
         "properties": {
@@ -9737,9 +9759,17 @@
             "description": "Thread description",
             "type": "string"
           },
+          "hasSolution": {
+            "description": "Whether thread has an accepted solution",
+            "type": "boolean"
+          },
           "id": {
             "description": "Thread ID",
             "type": "string"
+          },
+          "isFollowed": {
+            "description": "Whether current user follows this thread",
+            "type": "boolean"
           },
           "isPinned": {
             "description": "Pinned flag",
@@ -9796,6 +9826,11 @@
             "description": "Thread title",
             "type": "string"
           },
+          "unreadCount": {
+            "description": "Number of unread posts/replies",
+            "format": "int64",
+            "type": "integer"
+          },
           "updatedAt": {
             "description": "Updated timestamp",
             "format": "date-time",
@@ -9816,6 +9851,9 @@
           "authorId",
           "authorDisplayName",
           "isPinned",
+          "isFollowed",
+          "unreadCount",
+          "hasSolution",
           "status",
           "viewCount",
           "shareCount",
@@ -20418,7 +20456,6 @@
                 "required": [
                   "title",
                   "slug",
-                  "description",
                   "initialPostContent"
                 ],
                 "type": "object"
@@ -21314,6 +21351,55 @@
           }
         ],
         "summary": "Report post",
+        "tags": [
+          "Community"
+        ]
+      }
+    },
+    "/api/v1/community/threads/{id}/read": {
+      "post": {
+        "description": "Marks a thread as read for the current user.",
+        "operationId": "markThreadRead",
+        "parameters": [
+          {
+            "description": "Thread ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Thread ID",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkThreadReadResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Mark thread as read",
         "tags": [
           "Community"
         ]
