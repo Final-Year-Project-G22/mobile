@@ -16,8 +16,14 @@ abstract class ThreadDto with _$ThreadDto {
     /// Author account ID
     required String authorId,
 
+    /// Whether thread has an accepted solution
+    required bool hasSolution,
+
     /// Thread ID
     required String id,
+
+    /// Whether current user follows this thread
+    required bool isFollowed,
 
     /// Pinned flag
     required bool isPinned,
@@ -42,6 +48,9 @@ abstract class ThreadDto with _$ThreadDto {
 
     /// Thread title
     required String title,
+
+    /// Number of unread posts/replies
+    required int unreadCount,
 
     /// View count
     required int viewCount,

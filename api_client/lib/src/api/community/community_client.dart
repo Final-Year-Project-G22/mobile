@@ -22,6 +22,7 @@ import '../models/list_followed_threads_response_body.dart';
 import '../models/list_posts_response_body.dart';
 import '../models/list_threads_response_body.dart';
 import '../models/mark_solution_response_body.dart';
+import '../models/mark_thread_read_response_body.dart';
 import '../models/report_post_request.dart';
 import '../models/report_post_response_body.dart';
 import '../models/report_thread_request.dart';
@@ -221,11 +222,11 @@ abstract class CommunityClient {
   @MultiPart()
   @POST('/api/v1/community/threads')
   Future<HttpResponse<CreateThreadResponseBody>> createCommunityThread({
-    @Part(name: 'description') required String description,
     @Part(name: 'initialPostContent') required String initialPostContent,
     @Part(name: 'slug') required String slug,
     @Part(name: 'title') required String title,
     @Part(name: 'attachmentIds') String? attachmentIds,
+    @Part(name: 'description') String? description,
     @Part(name: 'parentThreadId') String? parentThreadId,
     @Part(name: 'sectorIds') String? sectorIds,
     @Part(name: 'tagIds') String? tagIds,
@@ -435,6 +436,16 @@ abstract class CommunityClient {
     @Path('id') required String id,
     @Path('postId') required String postId,
     @Body() required ReportPostRequest body,
+  });
+
+  /// Mark thread as read.
+  ///
+  /// Marks a thread as read for the current user.
+  ///
+  /// [id] - Thread ID.
+  @POST('/api/v1/community/threads/{id}/read')
+  Future<HttpResponse<MarkThreadReadResponseBody>> markThreadRead({
+    @Path('id') required String id,
   });
 
   /// Report thread.
