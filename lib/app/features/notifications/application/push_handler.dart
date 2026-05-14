@@ -1,3 +1,7 @@
+// Riverpod uses code generation to create provider wrappers.
+// The analyzer falsely flags the source functions as unreachable.
+// ignore_for_file: unreachable_from_main
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
