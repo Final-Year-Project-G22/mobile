@@ -6,22 +6,8 @@ import 'unread_count_provider.dart';
 
 part 'sse_inbox_listener.g.dart';
 
-@Riverpod(keepAlive: true)
-class LiveUnreadCount extends _$LiveUnreadCount {
-  @override
-  int? build() => null;
-
-  void update(int count) {
-    state = count;
-  }
-}
-
 @riverpod
 AsyncValue<int> notificationBadgeCount(Ref ref) {
-  final live = ref.watch(liveUnreadCountProvider);
-  if (live != null) {
-    return AsyncData(live);
-  }
   return ref.watch(unreadCountProvider);
 }
 
@@ -35,10 +21,7 @@ void sseInboxListener(Ref ref) {
 
     if (event != 'notification_new') return;
 
-    final unreadCount = msg['unreadCount'];
-    if (unreadCount is int) {
-      ref.read(liveUnreadCountProvider.notifier).update(unreadCount);
-    }
+    ref.invalidate(unreadCountProvider);
 
     ref.read(inboxProvider.notifier).scheduleSilentRefresh();
   });
