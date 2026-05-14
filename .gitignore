@@ -126,3 +126,10 @@ assets/.env.*
 # Generated code (run build_runner after clone/pull)
 **/*.g.dart
 **/*.freezed.dart
+
+# Firebase config (Android)
+android/app/google-services.json
+android/**/google-services.json
+
+# Firebase iOS
+GoogleService-Info.plist
