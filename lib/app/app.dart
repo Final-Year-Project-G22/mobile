@@ -7,7 +7,9 @@ import '../core/deep_link_listener.dart';
 import '../core/di/app_providers.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/lifecycle/app_lifecycle_observer.dart';
+import '../core/services/push_service.dart';
 import 'features/community/application/providers/community_data_providers.dart';
+import 'features/notifications/application/push_handler.dart';
 import 'features/notifications/application/sse_inbox_listener.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
@@ -22,7 +24,9 @@ class App extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     ref
       ..watch(communityWsListenerProvider)
-      ..watch(sseInboxListenerProvider);
+      ..watch(sseInboxListenerProvider)
+      ..watch(pushRegistrationProvider)
+      ..watch(pushTapHandlerProvider);
 
     return AppLifecycleObserver(
       child: DeepLinkListener(
