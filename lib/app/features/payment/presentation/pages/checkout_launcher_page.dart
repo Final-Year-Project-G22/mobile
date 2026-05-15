@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
+import '../../../../../core/l10n/generated/app_localizations.dart';
 
 class CheckoutLauncherPage extends ConsumerStatefulWidget {
   const CheckoutLauncherPage({
@@ -61,7 +62,9 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
       if (message.contains('cancelled') || message.contains('canceled')) {
         context.replace(const PlansRoute().location);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Payment cancelled')),
+          SnackBar(
+            content: Text(AppLocalizations.of(context).paymentCancelled),
+          ),
         );
       } else {
         context.replace(PaymentResultRoute(txRef: widget.txRef).location);
@@ -83,13 +86,13 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Opening secure payment...'),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text(AppLocalizations.of(context).openingSecurePayment),
           ],
         ),
       ),

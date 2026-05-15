@@ -827,4 +827,107 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get download => 'አውርድ';
+
+  @override
+  String get chooseYourPlan => 'እቅድዎን ይምረጡ';
+
+  @override
+  String get freeForever => 'ለዘላለም ነጻ';
+
+  @override
+  String get perMonth => '/ወር';
+
+  @override
+  String get perYear => '/ዓመት';
+
+  @override
+  String get proMonthly => 'ፕሮ ወርሃዊ';
+
+  @override
+  String get proYearly => 'ፕሮ ዓመታዊ';
+
+  @override
+  String get subscribe => 'ይመዝገቡ';
+
+  @override
+  String get currentPlan => 'አሁን ያለው እቅድ';
+
+  @override
+  String get mostPopular => 'በጣም ታዋቂ';
+
+  @override
+  String get youAreOnPro => 'በፕሮ ላይ ነዎት';
+
+  @override
+  String savePercentYearly(int percent) {
+    return 'በዓመታዊ ክፍያ $percent% ይቆጥቡ';
+  }
+
+  @override
+  String get billingDisclaimer => 'ክፍያዎች በ ETB ይከፈላሉ። በማንኛውም ጊዜ መሰረዝ ይችላሉ።';
+
+  @override
+  String get planFeatureAllGuides => 'ሁሉንም መመሪያዎች ማግኘት';
+
+  @override
+  String get planFeatureCommunity => 'የማህበረሰብ ማንበብ-ብቻ መዳረሻ';
+
+  @override
+  String get planFeatureAiQuestions => 'በወር 3 AI ጥያቄዎች';
+
+  @override
+  String get planFeatureEverythingBasic => 'ሁሉም በመሰረታዊ ውስጥ';
+
+  @override
+  String get planFeatureUnlimitedAi => 'ያልተገደበ AI ጥያቄዎች';
+
+  @override
+  String get planFeatureTemplates => 'የአብነት ውርዶች';
+
+  @override
+  String get planFeatureSupport => 'ቅድሚያ የማህበረሰብ ድጋፍ';
+
+  @override
+  String get planFeatureAdvancedProfile => 'የላቀ የንግድ መገለጫ';
+
+  @override
+  String get openingSecurePayment => 'ደህንነቱ የተጠበቀ ክፍያ በመክፈት ላይ...';
+
+  @override
+  String get paymentCancelled => 'ክፍያ ተሰርዟል';
+
+  @override
+  String get verifyingPayment => 'ክፍያዎን በማረጋገጥ ላይ...';
+
+  @override
+  String get noVerificationResult => 'ምንም የማረጋገጫ ውጤት የለም';
+
+  @override
+  String get paymentSuccessful => 'ክፍያ ተሳክቷል';
+
+  @override
+  String get proPlanActive => 'የፕሮ እቅድዎ አሁን ንቁ ነው።';
+
+  @override
+  String get paymentProcessing => 'ክፍያ በሂደት ላይ';
+
+  @override
+  String get paymentBeingProcessed => 'ክፍያዎ በባንክዎ እየተሰራ ነው። ትንሽ ጊዜ ሊወስድ ይችላል።';
+
+  @override
+  String get paymentFailed => 'ክፍያ አልተሳካም';
+
+  @override
+  String get couldNotCompletePayment => 'ክፍያዎ ሊጠናቀቅ አልቻለም።';
+
+  @override
+  String get tryAgain => 'እንደገና ሞክር';
+
+  @override
+  String get backToHome => 'ወደ መነሻ ተመለስ';
+
+  @override
+  String failedToLoadPlans(String error) {
+    return 'እቅዶችን መጫን አልተቻለም: $error';
+  }
 }

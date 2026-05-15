@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../app/constants/app_colors.dart';
 import '../../../../../app/router/routes.dart';
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/checkout_notifier.dart';
 import '../../application/providers/plans_provider.dart';
@@ -18,18 +19,18 @@ import '../widgets/plan_comparison_card.dart';
 class PlansPage extends ConsumerWidget {
   const PlansPage({super.key});
 
-  static const _basicFeatures = [
-    'Access to all guides',
-    'Community read-only access',
-    '3 AI questions per month',
+  static List<String> basicFeatures(AppLocalizations l10n) => [
+    l10n.planFeatureAllGuides,
+    l10n.planFeatureCommunity,
+    l10n.planFeatureAiQuestions,
   ];
 
-  static const _proFeatures = [
-    'Everything in Basic',
-    'Unlimited AI questions',
-    'Template downloads',
-    'Priority community support',
-    'Advanced business profile',
+  static List<String> proFeatures(AppLocalizations l10n) => [
+    l10n.planFeatureEverythingBasic,
+    l10n.planFeatureUnlimitedAi,
+    l10n.planFeatureTemplates,
+    l10n.planFeatureSupport,
+    l10n.planFeatureAdvancedProfile,
   ];
 
   @override
@@ -38,6 +39,7 @@ class PlansPage extends ConsumerWidget {
     final checkoutAsync = ref.watch(checkoutProvider);
     final authState = ref.watch(authProvider);
     final subAsync = ref.watch(subscriptionProvider);
+    final l10n = AppLocalizations.of(context);
 
     ref.listen<AsyncValue<PaymentCheckout?>>(checkoutProvider, (prev, next) {
       next.whenOrNull(
@@ -64,7 +66,7 @@ class PlansPage extends ConsumerWidget {
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 8),
               action: SnackBarAction(
-                label: 'OK',
+                label: l10n.ok,
                 textColor: Colors.white,
                 onPressed: () {},
               ),
@@ -75,7 +77,7 @@ class PlansPage extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Choose Your Plan')),
+      appBar: AppBar(title: Text(l10n.chooseYourPlan)),
       body: Stack(
         children: [
           if (authState.isLoading ||
@@ -85,10 +87,10 @@ class PlansPage extends ConsumerWidget {
           else
             plansAsync.when(
               data: (plans) =>
-                  _buildContent(context, ref, plans, subAsync.value),
+                  _buildContent(context, ref, plans, subAsync.value, l10n),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) =>
-                  Center(child: Text('Failed to load plans: $error')),
+                  Center(child: Text(l10n.failedToLoadPlans('$error'))),
             ),
           if (checkoutAsync.isLoading)
             const ColoredBox(
@@ -105,6 +107,7 @@ class PlansPage extends ConsumerWidget {
     WidgetRef ref,
     List<SubscriptionPlan> plans,
     Subscription? sub,
+    AppLocalizations l10n,
   ) {
     final hasPro =
         sub != null && sub.planName == 'Pro' && sub.status == 'active';
@@ -172,12 +175,16 @@ class PlansPage extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'You are on Pro',
+                        Text(
+                          l10n.youAreOnPro,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}',
+                          l10n.activeUntil(
+                            sub.currentPeriodEnd.toLocal().toString().split(
+                              ' ',
+                            )[0],
+                          ),
                           style: const TextStyle(
                             color: AppColors.slate500,
                             fontSize: 12,
@@ -192,19 +199,21 @@ class PlansPage extends ConsumerWidget {
           const SizedBox(height: 16),
           if (basicMonthly != null)
             PlanComparisonCard(
-              title: 'Basic',
+              title: l10n.basic,
               price: _formatAmount(basicMonthly.amount),
-              period: basicMonthly.amount == 0 ? 'free forever' : '/month',
-              features: _basicFeatures,
+              period: basicMonthly.amount == 0
+                  ? l10n.freeForever
+                  : l10n.perMonth,
+              features: basicFeatures(l10n),
               currentPlan: !hasPro,
             ),
           const SizedBox(height: 16),
           if (proMonthly != null)
             PlanComparisonCard(
-              title: 'Pro Monthly',
+              title: l10n.proMonthly,
               price: _formatAmount(proMonthly.amount),
-              period: '/month',
-              features: _proFeatures,
+              period: l10n.perMonth,
+              features: proFeatures(l10n),
               isPro: true,
               highlight: !hasPro,
               onSubscribe: hasPro
@@ -215,10 +224,10 @@ class PlansPage extends ConsumerWidget {
           if (proYearly != null) ...[
             const SizedBox(height: 16),
             PlanComparisonCard(
-              title: 'Pro Yearly',
+              title: l10n.proYearly,
               price: _formatAmount(proYearly.amount),
-              period: '/year',
-              features: _proFeatures,
+              period: l10n.perYear,
+              features: proFeatures(l10n),
               isPro: true,
               onSubscribe: hasPro
                   ? null
@@ -231,7 +240,9 @@ class PlansPage extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  'Save ${_yearlySavings(proMonthly?.amount, proYearly.amount)}% with yearly billing',
+                  l10n.savePercentYearly(
+                    _yearlySavings(proMonthly?.amount, proYearly.amount),
+                  ),
                   style: Theme.of(
                     context,
                   ).textTheme.bodySmall?.copyWith(color: AppColors.success),
@@ -241,7 +252,7 @@ class PlansPage extends ConsumerWidget {
           ],
           const SizedBox(height: 24),
           Text(
-            'Subscriptions are billed in ETB. You can cancel anytime.',
+            l10n.billingDisclaimer,
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: AppColors.slate400),

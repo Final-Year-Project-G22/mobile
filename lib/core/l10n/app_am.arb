@@ -317,5 +317,48 @@
     }
   },
   "templateDetails": "የአብነት ዝርዝሮች",
-  "download": "አውርድ"
+  "download": "አውርድ",
+  "chooseYourPlan": "እቅድዎን ይምረጡ",
+  "freeForever": "ለዘላለም ነጻ",
+  "perMonth": "/ወር",
+  "perYear": "/ዓመት",
+  "proMonthly": "ፕሮ ወርሃዊ",
+  "proYearly": "ፕሮ ዓመታዊ",
+  "subscribe": "ይመዝገቡ",
+  "currentPlan": "አሁን ያለው እቅድ",
+  "mostPopular": "በጣም ታዋቂ",
+  "youAreOnPro": "በፕሮ ላይ ነዎት",
+  "savePercentYearly": "በዓመታዊ ክፍያ {percent}% ይቆጥቡ",
+  "@savePercentYearly": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "billingDisclaimer": "ክፍያዎች በ ETB ይከፈላሉ። በማንኛውም ጊዜ መሰረዝ ይችላሉ።",
+  "planFeatureAllGuides": "ሁሉንም መመሪያዎች ማግኘት",
+  "planFeatureCommunity": "የማህበረሰብ ማንበብ-ብቻ መዳረሻ",
+  "planFeatureAiQuestions": "በወር 3 AI ጥያቄዎች",
+  "planFeatureEverythingBasic": "ሁሉም በመሰረታዊ ውስጥ",
+  "planFeatureUnlimitedAi": "ያልተገደበ AI ጥያቄዎች",
+  "planFeatureTemplates": "የአብነት ውርዶች",
+  "planFeatureSupport": "ቅድሚያ የማህበረሰብ ድጋፍ",
+  "planFeatureAdvancedProfile": "የላቀ የንግድ መገለጫ",
+  "openingSecurePayment": "ደህንነቱ የተጠበቀ ክፍያ በመክፈት ላይ...",
+  "paymentCancelled": "ክፍያ ተሰርዟል",
+  "verifyingPayment": "ክፍያዎን በማረጋገጥ ላይ...",
+  "noVerificationResult": "ምንም የማረጋገጫ ውጤት የለም",
+  "paymentSuccessful": "ክፍያ ተሳክቷል",
+  "proPlanActive": "የፕሮ እቅድዎ አሁን ንቁ ነው።",
+  "paymentProcessing": "ክፍያ በሂደት ላይ",
+  "paymentBeingProcessed": "ክፍያዎ በባንክዎ እየተሰራ ነው። ትንሽ ጊዜ ሊወስድ ይችላል።",
+  "paymentFailed": "ክፍያ አልተሳካም",
+  "couldNotCompletePayment": "ክፍያዎ ሊጠናቀቅ አልቻለም።",
+  "tryAgain": "እንደገና ሞክር",
+  "backToHome": "ወደ መነሻ ተመለስ",
+  "failedToLoadPlans": "እቅዶችን መጫን አልተቻለም: {error}",
+  "@failedToLoadPlans": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  }
 }
