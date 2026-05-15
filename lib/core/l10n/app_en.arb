@@ -931,5 +931,61 @@
   "languageLabelAm": "አማ",
   "@languageLabelAm": {
     "description": "Amharic language badge"
+  },
+  "guide": "Guide",
+  "@guide": {
+    "description": "Guide tab/placeholder label"
+  },
+  "community": "Community",
+  "@community": {
+    "description": "Community tab label"
+  },
+  "templates": "Templates",
+  "@templates": {
+    "description": "Templates tab/placeholder label"
+  },
+  "continueLastGuide": "Continue Last Guide",
+  "@continueLastGuide": {
+    "description": "Quick action to continue last guide"
+  },
+  "continueChat": "Continue Chat",
+  "@continueChat": {
+    "description": "Quick action to continue AI chat"
+  },
+  "guidePlaceholderSubtitle": "Browse guided learning paths and tips.",
+  "@guidePlaceholderSubtitle": {
+    "description": "Guide tab placeholder subtitle"
+  },
+  "templatesPlaceholderSubtitle": "Use ready-made templates to move faster.",
+  "@templatesPlaceholderSubtitle": {
+    "description": "Templates tab placeholder subtitle"
+  },
+  "continueWhereYouLeftOff": "Continue Where You Left Off",
+  "@continueWhereYouLeftOff": {
+    "description": "Continue section header"
+  },
+  "dashboardEmptyMessage": "Welcome! Start your first guide to see your progress here.",
+  "@dashboardEmptyMessage": {
+    "description": "Empty dashboard welcome message"
+  },
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Quick actions section header"
+  },
+  "monthlyCompletion": "Monthly Completion",
+  "@monthlyCompletion": {
+    "description": "Monthly completion section header"
+  },
+  "progressSummary": "{completed} completed · {inProgress} in progress",
+  "@progressSummary": {
+    "description": "Progress summary text",
+    "placeholders": {
+      "completed": { "type": "int" },
+      "inProgress": { "type": "int" }
+    }
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications tooltip/label"
   }
 }

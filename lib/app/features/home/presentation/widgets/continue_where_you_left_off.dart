@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../guide/domain/entities/guide_with_progress.dart';
@@ -27,7 +28,7 @@ class ContinueWhereYouLeftOffRail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Text(
-            'Continue Where You Left Off',
+            AppLocalizations.of(context).continueWhereYouLeftOff,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,

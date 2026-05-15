@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../widgets/section_placeholder.dart';
 
 class TemplatesPage extends StatelessWidget {
@@ -7,9 +8,10 @@ class TemplatesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SectionPlaceholder(
-      title: 'Templates',
-      subtitle: 'Use ready-made templates to move faster.',
+    final l10n = AppLocalizations.of(context);
+    return SectionPlaceholder(
+      title: l10n.templates,
+      subtitle: l10n.templatesPlaceholderSubtitle,
       icon: Icons.grid_view,
     );
   }
