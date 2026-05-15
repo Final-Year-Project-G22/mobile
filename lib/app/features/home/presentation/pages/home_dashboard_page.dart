@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../router/routes.dart';
 import '../../application/home_dashboard_notifier.dart';
 import '../widgets/home_dashboard_content.dart';
@@ -13,6 +14,7 @@ class HomeDashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeDashboardProvider);
+    final l10n = AppLocalizations.of(context);
 
     if (state.isLoading && state.completionStats == null) {
       return const Center(child: CircularProgressIndicator());
@@ -22,24 +24,24 @@ class HomeDashboardPage extends ConsumerWidget {
       if (state.recentlyViewed.isNotEmpty)
         QuickAction(
           icon: Icons.play_circle_outline,
-          label: 'Continue Last Guide',
+          label: l10n.continueLastGuide,
           onTap: () => GuideDetailRoute(
             guideSlug: state.recentlyViewed.first.slug,
           ).go(context),
         ),
       QuickAction(
         icon: Icons.history,
-        label: 'Continue Chat',
+        label: l10n.continueChat,
         onTap: () => context.push('/ai-guide'),
       ),
       QuickAction(
         icon: Icons.inbox_outlined,
-        label: 'Inbox',
+        label: l10n.inbox,
         onTap: () => context.push('/inbox'),
       ),
       QuickAction(
         icon: Icons.person_outline,
-        label: 'Profile',
+        label: l10n.profile,
         onTap: () => context.push('/profile'),
       ),
     ];

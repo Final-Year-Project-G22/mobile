@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/circular_progress_ring.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
@@ -67,6 +68,7 @@ class _EmptyWelcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -82,7 +84,7 @@ class _EmptyWelcome extends StatelessWidget {
           ),
           AppSpacing.gapVerticalSm,
           Text(
-            'Welcome! Start your first guide to see your progress here.',
+            l10n.dashboardEmptyMessage,
             style: TextStyle(
               fontSize: 14,
               color: isDark

@@ -257,5 +257,24 @@
   "archiveConversationContent": "ይህ ውይይቱን ከታሪክዎ ያስወግዳል። ይህን መቀልበስ አይቻልም።",
   "archiveConversationAction": "አርክብ",
   "languageLabelEn": "EN",
-  "languageLabelAm": "አማ"
+  "languageLabelAm": "አማ",
+  "guide": "መመሪያ",
+  "community": "ማህበረሰብ",
+  "templates": "አብነቶች",
+  "continueLastGuide": "የመጨረሻውን መመሪያ ቀጥል",
+  "continueChat": "ውይይት ቀጥል",
+  "guidePlaceholderSubtitle": "የተመራ የመማሪያ መንገዶችን እና ምክሮችን ያስሱ።",
+  "templatesPlaceholderSubtitle": "በፍጥነት ለመንቀሳቀስ ዝግጁ የሆኑ አብነቶችን ይጠቀሙ።",
+  "continueWhereYouLeftOff": "በቆሙበት ቀጥል",
+  "dashboardEmptyMessage": "እንኳን ደህና መጡ! ሂደትዎን ለማየት የመጀመሪያ መመሪያዎን ይጀምሩ።",
+  "quickActions": "ፈጣን እርምጃዎች",
+  "monthlyCompletion": "ወርሃዊ ማጠናቀቅ",
+  "progressSummary": "{completed} የተጠናቀቁ · {inProgress} በሂደት ላይ",
+  "@progressSummary": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "inProgress": { "type": "int" }
+    }
+  },
+  "notifications": "ማሳወቂያዎች"
 }

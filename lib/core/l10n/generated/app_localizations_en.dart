@@ -720,4 +720,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageLabelAm => 'አማ';
+
+  @override
+  String get guide => 'Guide';
+
+  @override
+  String get community => 'Community';
+
+  @override
+  String get templates => 'Templates';
+
+  @override
+  String get continueLastGuide => 'Continue Last Guide';
+
+  @override
+  String get continueChat => 'Continue Chat';
+
+  @override
+  String get guidePlaceholderSubtitle =>
+      'Browse guided learning paths and tips.';
+
+  @override
+  String get templatesPlaceholderSubtitle =>
+      'Use ready-made templates to move faster.';
+
+  @override
+  String get continueWhereYouLeftOff => 'Continue Where You Left Off';
+
+  @override
+  String get dashboardEmptyMessage =>
+      'Welcome! Start your first guide to see your progress here.';
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get monthlyCompletion => 'Monthly Completion';
+
+  @override
+  String progressSummary(int completed, int inProgress) {
+    return '$completed completed · $inProgress in progress';
+  }
+
+  @override
+  String get notifications => 'Notifications';
 }

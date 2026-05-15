@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/circular_progress_ring.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
@@ -16,6 +17,7 @@ class HeroCompletionGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final percent = stats?.percent ?? 0.0;
     final label = stats != null ? '${(percent * 100).round()}%' : null;
     final completed = stats?.completedGuides ?? 0;
@@ -32,7 +34,7 @@ class HeroCompletionGraph extends StatelessWidget {
           ),
           AppSpacing.gapVerticalSm,
           Text(
-            'Monthly Completion',
+            l10n.monthlyCompletion,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -44,7 +46,7 @@ class HeroCompletionGraph extends StatelessWidget {
           if (hasData) ...[
             AppSpacing.gapVerticalXxs,
             Text(
-              '$completed completed · $inProgress in progress',
+              l10n.progressSummary(completed, inProgress),
               style: TextStyle(
                 fontSize: 13,
                 color: isDark

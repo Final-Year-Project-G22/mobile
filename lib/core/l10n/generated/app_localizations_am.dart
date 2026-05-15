@@ -712,4 +712,47 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get languageLabelAm => 'አማ';
+
+  @override
+  String get guide => 'መመሪያ';
+
+  @override
+  String get community => 'ማህበረሰብ';
+
+  @override
+  String get templates => 'አብነቶች';
+
+  @override
+  String get continueLastGuide => 'የመጨረሻውን መመሪያ ቀጥል';
+
+  @override
+  String get continueChat => 'ውይይት ቀጥል';
+
+  @override
+  String get guidePlaceholderSubtitle => 'የተመራ የመማሪያ መንገዶችን እና ምክሮችን ያስሱ።';
+
+  @override
+  String get templatesPlaceholderSubtitle =>
+      'በፍጥነት ለመንቀሳቀስ ዝግጁ የሆኑ አብነቶችን ይጠቀሙ።';
+
+  @override
+  String get continueWhereYouLeftOff => 'በቆሙበት ቀጥል';
+
+  @override
+  String get dashboardEmptyMessage =>
+      'እንኳን ደህና መጡ! ሂደትዎን ለማየት የመጀመሪያ መመሪያዎን ይጀምሩ።';
+
+  @override
+  String get quickActions => 'ፈጣን እርምጃዎች';
+
+  @override
+  String get monthlyCompletion => 'ወርሃዊ ማጠናቀቅ';
+
+  @override
+  String progressSummary(int completed, int inProgress) {
+    return '$completed የተጠናቀቁ · $inProgress በሂደት ላይ';
+  }
+
+  @override
+  String get notifications => 'ማሳወቂያዎች';
 }

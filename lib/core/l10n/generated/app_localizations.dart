@@ -1399,6 +1399,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'አማ'**
   String get languageLabelAm;
+
+  /// Guide tab/placeholder label
+  ///
+  /// In en, this message translates to:
+  /// **'Guide'**
+  String get guide;
+
+  /// Community tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get community;
+
+  /// Templates tab/placeholder label
+  ///
+  /// In en, this message translates to:
+  /// **'Templates'**
+  String get templates;
+
+  /// Quick action to continue last guide
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Last Guide'**
+  String get continueLastGuide;
+
+  /// Quick action to continue AI chat
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Chat'**
+  String get continueChat;
+
+  /// Guide tab placeholder subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Browse guided learning paths and tips.'**
+  String get guidePlaceholderSubtitle;
+
+  /// Templates tab placeholder subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Use ready-made templates to move faster.'**
+  String get templatesPlaceholderSubtitle;
+
+  /// Continue section header
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Where You Left Off'**
+  String get continueWhereYouLeftOff;
+
+  /// Empty dashboard welcome message
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome! Start your first guide to see your progress here.'**
+  String get dashboardEmptyMessage;
+
+  /// Quick actions section header
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// Monthly completion section header
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Completion'**
+  String get monthlyCompletion;
+
+  /// Progress summary text
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} completed · {inProgress} in progress'**
+  String progressSummary(int completed, int inProgress);
+
+  /// Notifications tooltip/label
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
 }
 
 class _AppLocalizationsDelegate

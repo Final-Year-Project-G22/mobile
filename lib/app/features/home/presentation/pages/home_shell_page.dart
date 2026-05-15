@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../features/notifications/application/sse_inbox_listener.dart';
 import '../../../../router/routes.dart';
@@ -40,11 +41,20 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
     final businessProfileAsync = ref.watch(businessProfileProvider);
     final theme = Theme.of(context);
     final navigator = widget.navigator;
+    final l10n = AppLocalizations.of(context);
+
+    final tabLabels = [
+      l10n.home,
+      l10n.guide,
+      l10n.community,
+      l10n.aiGuideTitle,
+      l10n.templates,
+    ];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          homeTabSpecs[currentIndex].label,
+          tabLabels[currentIndex],
           style: theme.textTheme.titleLarge,
         ),
         actions: [
@@ -88,15 +98,16 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
               context.go('/templates');
           }
         },
-        destinations: homeTabSpecs
-            .map(
-              (tab) => NavigationDestination(
-                icon: Icon(tab.icon),
-                selectedIcon: Icon(tab.selectedIcon),
-                label: tab.label,
-              ),
-            )
-            .toList(),
+        destinations: homeTabSpecs.asMap().entries.map(
+          (entry) {
+            final tab = entry.value;
+            return NavigationDestination(
+              icon: Icon(tab.icon),
+              selectedIcon: Icon(tab.selectedIcon),
+              label: tabLabels[entry.key],
+            );
+          },
+        ).toList(),
       ),
     );
   }
