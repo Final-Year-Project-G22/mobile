@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/di/auth_providers.dart';
+import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../core/widgets/locale_toggle_button.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
@@ -70,7 +72,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   Future<void> _verifyOtp() async {
     if (_otpCode.length != 6) {
       setState(() {
-        _errorMessage = 'Please enter the 6-digit code';
+        _errorMessage = AppLocalizations.of(context).otpCodeHint;
       });
       return;
     }
@@ -88,10 +90,13 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
         setState(() {
           _isLoading = false;
           _errorMessage = failure.maybeWhen(
-            invalidOtp: (message) => message ?? 'Invalid OTP code',
-            networkError: (message) => message ?? 'No internet connection',
-            serverError: (message) => message ?? 'Server error',
-            orElse: () => 'An error occurred',
+            invalidOtp: (message) =>
+                message ?? AppLocalizations.of(context).errorInvalidOtp,
+            networkError: (message) =>
+                message ?? AppLocalizations.of(context).errorNetwork,
+            serverError: (message) =>
+                message ?? AppLocalizations.of(context).errorServer,
+            orElse: () => AppLocalizations.of(context).errorGeneric,
           );
         });
       },
@@ -132,6 +137,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     ref.listen(authProvider, (previous, next) {
       next.whenOrNull(
@@ -139,10 +145,10 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
           if (error is AuthUserFailure) {
             setState(() {
               _errorMessage = error.maybeWhen(
-                invalidOtp: (message) => message ?? 'Invalid OTP code',
-                networkError: (message) => message ?? 'No internet connection',
-                serverError: (message) => message ?? 'Server error',
-                orElse: () => 'An error occurred',
+                invalidOtp: (message) => message ?? l10n.errorInvalidOtp,
+                networkError: (message) => message ?? l10n.errorNetwork,
+                serverError: (message) => message ?? l10n.errorServer,
+                orElse: () => l10n.errorGeneric,
               );
               _isLoading = false;
             });
@@ -155,135 +161,146 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       backgroundColor: isDark
           ? AppColors.backgroundDark
           : AppColors.backgroundLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: AppSpacing.xxl),
-              Text(
-                'Verify Your Email',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
-                ),
-              ),
-              AppSpacing.gapVerticalXs,
-              Text(
-                'Enter the 6-digit code sent to your email',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isDark
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(6, (index) {
-                  return Container(
-                    width: 45,
-                    height: 55,
-                    margin: const EdgeInsets.symmetric(horizontal: 3),
-                    child: TextField(
-                      controller: _controllers[index],
-                      focusNode: _focusNodes[index],
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      maxLength: 1,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
-                      ),
-                      decoration: InputDecoration(
-                        counterText: '',
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: AppColors.accent,
-                            width: 2,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: AppColors.error),
-                        ),
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(1),
-                      ],
-                      onChanged: (value) => _onDigitChanged(index, value),
-                    ),
-                  );
-                }),
-              ),
-              if (_errorMessage != null) ...[
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  _errorMessage!,
-                  style: const TextStyle(color: AppColors.error),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-              const SizedBox(height: AppSpacing.xl),
-              AuthButton(
-                text: 'Verify',
-                isLoading: _isLoading,
-                onPressed: _verifyOtp,
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          const Positioned(
+            top: 8,
+            right: 8,
+            child: LocaleToggleButton(),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const SizedBox(height: AppSpacing.xxl),
                   Text(
-                    "Didn't receive the code? ",
+                    l10n.verifyEmail,
                     style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
+                    ),
+                  ),
+                  AppSpacing.gapVerticalXs,
+                  Text(
+                    l10n.otpSubtitle,
+                    style: TextStyle(
+                      fontSize: 16,
                       color: isDark
                           ? AppColors.textSecondaryDark
                           : AppColors.textSecondaryLight,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: _resendCooldown > 0 ? null : _resendOtp,
-                    child: Text(
-                      _resendCooldown > 0
-                          ? 'Resend in ${_resendCooldown}s'
-                          : 'Resend',
-                      style: TextStyle(
-                        color: _resendCooldown > 0
-                            ? (isDark
-                                  ? AppColors.textSecondaryDark
-                                  : AppColors.textSecondaryLight)
-                            : AppColors.accent,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  const SizedBox(height: AppSpacing.xxl),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(6, (index) {
+                      return Container(
+                        width: 45,
+                        height: 55,
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        child: TextField(
+                          controller: _controllers[index],
+                          focusNode: _focusNodes[index],
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          maxLength: 1,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? AppColors.textPrimaryDark
+                                : AppColors.textPrimaryLight,
+                          ),
+                          decoration: InputDecoration(
+                            counterText: '',
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                color: isDark
+                                    ? AppColors.textSecondaryDark
+                                    : AppColors.textSecondaryLight,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: AppColors.accent,
+                                width: 2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: AppColors.error,
+                              ),
+                            ),
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(1),
+                          ],
+                          onChanged: (value) => _onDigitChanged(index, value),
+                        ),
+                      );
+                    }),
+                  ),
+                  if (_errorMessage != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      _errorMessage!,
+                      style: const TextStyle(color: AppColors.error),
+                      textAlign: TextAlign.center,
                     ),
+                  ],
+                  const SizedBox(height: AppSpacing.xl),
+                  AuthButton(
+                    text: l10n.verify,
+                    isLoading: _isLoading,
+                    onPressed: _verifyOtp,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        l10n.didNotReceiveCode,
+                        style: TextStyle(
+                          color: isDark
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _resendCooldown > 0 ? null : _resendOtp,
+                        child: Text(
+                          _resendCooldown > 0
+                              ? l10n.resendIn(_resendCooldown)
+                              : l10n.resend,
+                          style: TextStyle(
+                            color: _resendCooldown > 0
+                                ? (isDark
+                                      ? AppColors.textSecondaryDark
+                                      : AppColors.textSecondaryLight)
+                                : AppColors.accent,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
