@@ -23,6 +23,9 @@ class AiChatNotifier extends Notifier<AiChatState> {
   final List<SseEvent> _eventQueue = [];
   bool _frameScheduled = false;
 
+  // Reserved for passing conversation language to follow-up messages
+  // ignore: unused_field
+  String? _conversationLanguage;
   String get _nextId =>
       '${DateTime.now().millisecondsSinceEpoch}-${_idCounter++}';
 
@@ -153,9 +156,10 @@ class AiChatNotifier extends Notifier<AiChatState> {
           streamError: 'Failed to load conversation',
         );
       },
-      (messages) {
+      (conversationResult) {
+        _conversationLanguage = conversationResult.session.language;
         state = AiChatState(
-          messages: messages,
+          messages: conversationResult.messages,
           sessionId: sessionId,
         );
       },
@@ -169,6 +173,7 @@ class AiChatNotifier extends Notifier<AiChatState> {
     _streamSubscription = null;
     _eventQueue.clear();
     _frameScheduled = false;
+    _conversationLanguage = null;
     state = const AiChatState();
   }
 
@@ -213,11 +218,12 @@ class AiChatNotifier extends Notifier<AiChatState> {
     _cancelToken = null;
     _eventQueue.clear();
     _frameScheduled = false;
+
     final messages = List<ChatMessage>.from(state.messages);
     if (messages.isNotEmpty && messages.last.role == ChatRole.assistant) {
-      final last = messages.last;
-      messages[messages.length - 1] = last.copyWith(isStreaming: false);
+      messages.removeLast();
     }
+
     state = state.copyWith(
       messages: messages,
       isStreaming: false,
