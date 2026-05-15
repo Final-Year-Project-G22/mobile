@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
@@ -96,13 +97,14 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     final state = ref.watch(stepDetailProvider);
     final step = state.step;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: isDark
           ? AppColors.backgroundDark
           : AppColors.backgroundLight,
       appBar: AppBar(
-        title: Text(step?.title ?? 'Step'),
+        title: Text(step?.title ?? l10n.stepStatusLocked),
         backgroundColor: isDark
             ? AppColors.surfaceDark
             : AppColors.surfaceLight,
@@ -131,7 +133,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                     children: [
                       Row(
                         children: [
-                          _statusBadge(step.status),
+                          _statusBadge(step.status, l10n),
                           if (step.estimatedTime != null) ...[
                             AppSpacing.gapHorizontalSm,
                             Container(
@@ -157,7 +159,9 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                                   ),
                                   AppSpacing.gapHorizontalXxs,
                                   Text(
-                                    '~${step.estimatedTime} min',
+                                    l10n.stepEstimatedTime(
+                                      '${step.estimatedTime}',
+                                    ),
                                     style: TextStyle(
                                       fontSize: 11,
                                       color: isDark
@@ -189,7 +193,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(AppSpacing.md),
-                    child: _buildMarkdown(step.detailedContent, isDark),
+                    child: _buildMarkdown(step.detailedContent, isDark, l10n),
                   ),
                 ),
                 StepActionBar(
@@ -214,7 +218,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     );
   }
 
-  Widget _statusBadge(StepStatus status) {
+  Widget _statusBadge(StepStatus status, AppLocalizations l10n) {
     final color = switch (status) {
       StepStatus.completed => AppColors.success,
       StepStatus.inProgress => AppColors.accent,
@@ -222,10 +226,10 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       StepStatus.locked => AppColors.slate500,
     };
     final label = switch (status) {
-      StepStatus.completed => 'Completed',
-      StepStatus.inProgress => 'In Progress',
-      StepStatus.skipped => 'Skipped',
-      StepStatus.locked => 'Locked',
+      StepStatus.completed => l10n.stepStatusCompleted,
+      StepStatus.inProgress => l10n.stepStatusInProgress,
+      StepStatus.skipped => l10n.stepStatusSkipped,
+      StepStatus.locked => l10n.stepStatusLocked,
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -244,7 +248,11 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     );
   }
 
-  Widget _buildMarkdown(Map<String, dynamic>? content, bool isDark) {
+  Widget _buildMarkdown(
+    Map<String, dynamic>? content,
+    bool isDark,
+    AppLocalizations l10n,
+  ) {
     final markdown = content?['markdown'] as String?;
     if (markdown == null || markdown.isEmpty) {
       final step = ref.read(stepDetailProvider).step;
@@ -257,7 +265,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
         );
       }
       return Text(
-        'No content available for this step.',
+        l10n.stepNoContent,
         style: TextStyle(
           color: isDark
               ? AppColors.textSecondaryDark

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_card.dart';
@@ -128,19 +129,20 @@ class _TaxonomyBadges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Wrap(
       spacing: 6,
       runSpacing: 4,
       children: [
         if (sectorCount > 0)
           _Badge(
-            label: sectorCount == 1 ? '1 sector' : '$sectorCount sectors',
+            label: l10n.guideSectorCount(sectorCount),
             color: theme.colorScheme.primary,
             background: theme.colorScheme.primaryContainer,
           ),
         if (tagCount > 0)
           _Badge(
-            label: tagCount == 1 ? '1 tag' : '$tagCount tags',
+            label: l10n.guideTagCount(tagCount),
             color: theme.colorScheme.tertiary,
             background: theme.colorScheme.tertiaryContainer,
           ),

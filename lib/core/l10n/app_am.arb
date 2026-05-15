@@ -360,5 +360,55 @@
     "placeholders": {
       "error": { "type": "String" }
     }
-  }
+  },
+  "guideSearchHint": "መመሪያዎችን ይፈልጉ...",
+  "guideFiltered": "ተጣርቷል",
+  "guideClearAll": "ሁሉንም አጽዳ",
+  "guideBookmarked": "ዕልባት ተሰጥቶታል",
+  "guideNoGuidesFound": "ምንም መመሪያዎች አልተገኙም",
+  "guideNoBookmarks": "እስካሁን ምንም ዕልባቶች የሉም",
+  "guideRecentlyViewed": "በቅርብ የታዩ",
+  "guideRecent": "የቅርብ",
+  "guideProgressOf": "{completed} ከ {total} የተጠናቀቁ",
+  "@guideProgressOf": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "guideProgressPercent": "{percent}%",
+  "@guideProgressPercent": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "guideSectorCount": "{count, plural, =1{1 ዘርፍ} other{{count} ዘርፎች}}",
+  "@guideSectorCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "guideTagCount": "{count, plural, =1{1 መለያ} other{{count} መለያዎች}}",
+  "@guideTagCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "stepEstimatedTime": "~{minutes} ደቂቃ",
+  "@stepEstimatedTime": {
+    "placeholders": {
+      "minutes": { "type": "String" }
+    }
+  },
+  "stepNoContent": "ለዚህ ደረጃ ምንም ይዘት የለም",
+  "stepStatusCompleted": "ተጠናቋል",
+  "stepStatusInProgress": "በሂደት ላይ",
+  "stepStatusSkipped": "ተዝሏል",
+  "stepStatusLocked": "ተቆልፏል",
+  "stepStart": "ደረጃ ጀምር",
+  "stepComplete": "ደረጃ አጠናቅቅ",
+  "stepSkip": "ዝለል",
+  "stepMarkIncomplete": "ያልተጠናቀቀ ምልክት አድርግ",
+  "stepAddBookmark": "ዕልባት አክል",
+  "stepRemoveBookmark": "ዕልባት አስወግድ"
 }

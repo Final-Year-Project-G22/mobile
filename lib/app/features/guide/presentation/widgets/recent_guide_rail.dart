@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_card.dart';
@@ -16,6 +17,7 @@ class RecentGuideRail extends StatelessWidget {
   Widget build(BuildContext context) {
     if (guides.isEmpty) return const SizedBox.shrink();
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +25,7 @@ class RecentGuideRail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Text(
-            'Recently Viewed',
+            l10n.guideRecentlyViewed,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -74,7 +76,7 @@ class RecentGuideRail extends StatelessWidget {
                             ),
                             AppSpacing.gapHorizontalXxs,
                             Text(
-                              'Recent',
+                              l10n.guideRecent,
                               style: TextStyle(
                                 fontSize: 11,
                                 color: isDark

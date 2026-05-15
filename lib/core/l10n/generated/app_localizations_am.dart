@@ -930,4 +930,98 @@ class AppLocalizationsAm extends AppLocalizations {
   String failedToLoadPlans(String error) {
     return 'እቅዶችን መጫን አልተቻለም: $error';
   }
+
+  @override
+  String get guideSearchHint => 'መመሪያዎችን ይፈልጉ...';
+
+  @override
+  String get guideFiltered => 'ተጣርቷል';
+
+  @override
+  String get guideClearAll => 'ሁሉንም አጽዳ';
+
+  @override
+  String get guideBookmarked => 'ዕልባት ተሰጥቶታል';
+
+  @override
+  String get guideNoGuidesFound => 'ምንም መመሪያዎች አልተገኙም';
+
+  @override
+  String get guideNoBookmarks => 'እስካሁን ምንም ዕልባቶች የሉም';
+
+  @override
+  String get guideRecentlyViewed => 'በቅርብ የታዩ';
+
+  @override
+  String get guideRecent => 'የቅርብ';
+
+  @override
+  String guideProgressOf(int completed, int total) {
+    return '$completed ከ $total የተጠናቀቁ';
+  }
+
+  @override
+  String guideProgressPercent(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String guideSectorCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ዘርፎች',
+      one: '1 ዘርፍ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guideTagCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count መለያዎች',
+      one: '1 መለያ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepEstimatedTime(String minutes) {
+    return '~$minutes ደቂቃ';
+  }
+
+  @override
+  String get stepNoContent => 'ለዚህ ደረጃ ምንም ይዘት የለም';
+
+  @override
+  String get stepStatusCompleted => 'ተጠናቋል';
+
+  @override
+  String get stepStatusInProgress => 'በሂደት ላይ';
+
+  @override
+  String get stepStatusSkipped => 'ተዝሏል';
+
+  @override
+  String get stepStatusLocked => 'ተቆልፏል';
+
+  @override
+  String get stepStart => 'ደረጃ ጀምር';
+
+  @override
+  String get stepComplete => 'ደረጃ አጠናቅቅ';
+
+  @override
+  String get stepSkip => 'ዝለል';
+
+  @override
+  String get stepMarkIncomplete => 'ያልተጠናቀቀ ምልክት አድርግ';
+
+  @override
+  String get stepAddBookmark => 'ዕልባት አክል';
+
+  @override
+  String get stepRemoveBookmark => 'ዕልባት አስወግድ';
 }

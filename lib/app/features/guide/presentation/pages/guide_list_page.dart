@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
@@ -31,6 +32,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(guideListProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: isDark
@@ -52,7 +54,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                   ref.read(guideListProvider.notifier).search(value);
                 },
                 decoration: InputDecoration(
-                  hintText: 'Search guides...',
+                  hintText: l10n.guideSearchHint,
                   prefixIcon: const Icon(Icons.search, size: 20),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
@@ -103,7 +105,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 child: Row(
                   children: [
                     Text(
-                      'Filtered',
+                      l10n.guideFiltered,
                       style: TextStyle(
                         fontSize: 12,
                         color: isDark
@@ -116,8 +118,8 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                       onTap: () {
                         ref.read(guideListProvider.notifier).clearFilters();
                       },
-                      child: const Text(
-                        'Clear all',
+                      child: Text(
+                        l10n.guideClearAll,
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.accent,
@@ -169,7 +171,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                           ),
                           AppSpacing.gapHorizontalXxs,
                           Text(
-                            'Bookmarked',
+                            l10n.guideBookmarked,
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: state.showBookmarked
@@ -191,8 +193,8 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
             ),
             Expanded(
               child: state.showBookmarked
-                  ? _buildBookmarksList(isDark)
-                  : _buildGuidesList(isDark),
+                  ? _buildBookmarksList(isDark, l10n)
+                  : _buildGuidesList(isDark, l10n),
             ),
           ],
         ),
@@ -200,7 +202,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     );
   }
 
-  Widget _buildGuidesList(bool isDark) {
+  Widget _buildGuidesList(bool isDark, AppLocalizations l10n) {
     final state = ref.watch(guideListProvider);
     if (state.guides.isEmpty) {
       return Center(
@@ -214,7 +216,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
             ),
             AppSpacing.gapVerticalSm,
             Text(
-              'No guides found',
+              l10n.guideNoGuidesFound,
               style: TextStyle(
                 fontSize: 15,
                 color: isDark
@@ -243,7 +245,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     );
   }
 
-  Widget _buildBookmarksList(bool isDark) {
+  Widget _buildBookmarksList(bool isDark, AppLocalizations l10n) {
     final state = ref.watch(guideListProvider);
     if (state.bookmarks.isEmpty) {
       return Center(
@@ -257,7 +259,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
             ),
             AppSpacing.gapVerticalSm,
             Text(
-              'No bookmarks yet',
+              l10n.guideNoBookmarks,
               style: TextStyle(
                 fontSize: 15,
                 color: isDark

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/step_enums.dart';
@@ -29,6 +30,7 @@ class StepActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -41,12 +43,16 @@ class StepActionBar extends StatelessWidget {
         ),
       ),
       child: SafeArea(
-        child: _buildActions(context, isDark),
+        child: _buildActions(context, isDark, l10n),
       ),
     );
   }
 
-  Widget _buildActions(BuildContext context, bool isDark) {
+  Widget _buildActions(
+    BuildContext context,
+    bool isDark,
+    AppLocalizations l10n,
+  ) {
     switch (status) {
       case StepStatus.locked:
         return SizedBox(
@@ -54,7 +60,7 @@ class StepActionBar extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: onStart,
             icon: const Icon(Icons.play_arrow, size: 18),
-            label: const Text('Start Step'),
+            label: Text(l10n.stepStart),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.accent,
               foregroundColor: Colors.white,
@@ -80,7 +86,7 @@ class StepActionBar extends StatelessWidget {
                       borderRadius: AppSpacing.borderRadiusMd,
                     ),
                   ),
-                  child: const Text('Skip'),
+                  child: Text(l10n.stepSkip),
                 ),
               ),
             if (isOptional) AppSpacing.gapHorizontalSm,
@@ -96,7 +102,7 @@ class StepActionBar extends StatelessWidget {
                     borderRadius: AppSpacing.borderRadiusMd,
                   ),
                 ),
-                child: const Text('Complete Step'),
+                child: Text(l10n.stepComplete),
               ),
             ),
             AppSpacing.gapHorizontalSm,
@@ -110,7 +116,9 @@ class StepActionBar extends StatelessWidget {
                           ? AppColors.textSecondaryDark
                           : AppColors.textSecondaryLight),
               ),
-              tooltip: isBookmarked ? 'Remove bookmark' : 'Add bookmark',
+              tooltip: isBookmarked
+                  ? l10n.stepRemoveBookmark
+                  : l10n.stepAddBookmark,
             ),
           ],
         );
@@ -121,7 +129,7 @@ class StepActionBar extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: onMarkIncomplete,
                 icon: const Icon(Icons.undo, size: 18),
-                label: const Text('Mark Incomplete'),
+                label: Text(l10n.stepMarkIncomplete),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.warning,
                   side: const BorderSide(color: AppColors.warning),
@@ -143,7 +151,9 @@ class StepActionBar extends StatelessWidget {
                           ? AppColors.textSecondaryDark
                           : AppColors.textSecondaryLight),
               ),
-              tooltip: isBookmarked ? 'Remove bookmark' : 'Add bookmark',
+              tooltip: isBookmarked
+                  ? l10n.stepRemoveBookmark
+                  : l10n.stepAddBookmark,
             ),
           ],
         );
@@ -160,7 +170,7 @@ class StepActionBar extends StatelessWidget {
                 borderRadius: AppSpacing.borderRadiusMd,
               ),
             ),
-            child: const Text('Start Step'),
+            child: Text(l10n.stepStart),
           ),
         );
     }

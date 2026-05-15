@@ -1221,5 +1221,117 @@
     "placeholders": {
       "error": { "type": "String" }
     }
+  },
+  "guideSearchHint": "Search guides...",
+  "@guideSearchHint": {
+    "description": "Guide search hint"
+  },
+  "guideFiltered": "Filtered",
+  "@guideFiltered": {
+    "description": "Active filter indicator"
+  },
+  "guideClearAll": "Clear all",
+  "@guideClearAll": {
+    "description": "Clear filters link"
+  },
+  "guideBookmarked": "Bookmarked",
+  "@guideBookmarked": {
+    "description": "Bookmark toggle label"
+  },
+  "guideNoGuidesFound": "No guides found",
+  "@guideNoGuidesFound": {
+    "description": "Empty guide list"
+  },
+  "guideNoBookmarks": "No bookmarks yet",
+  "@guideNoBookmarks": {
+    "description": "Empty bookmarks list"
+  },
+  "guideRecentlyViewed": "Recently Viewed",
+  "@guideRecentlyViewed": {
+    "description": "Recent guides section header"
+  },
+  "guideRecent": "Recent",
+  "@guideRecent": {
+    "description": "Recent badge label"
+  },
+  "guideProgressOf": "{completed} of {total} completed",
+  "@guideProgressOf": {
+    "description": "Guide progress text",
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "guideProgressPercent": "{percent}%",
+  "@guideProgressPercent": {
+    "description": "Progress percentage",
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "guideSectorCount": "{count, plural, =1{1 sector} other{{count} sectors}}",
+  "@guideSectorCount": {
+    "description": "Sector count badge",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "guideTagCount": "{count, plural, =1{1 tag} other{{count} tags}}",
+  "@guideTagCount": {
+    "description": "Tag count badge",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "stepEstimatedTime": "~{minutes} min",
+  "@stepEstimatedTime": {
+    "description": "Step estimated time",
+    "placeholders": {
+      "minutes": { "type": "String" }
+    }
+  },
+  "stepNoContent": "No content available for this step.",
+  "@stepNoContent": {
+    "description": "Empty step content"
+  },
+  "stepStatusCompleted": "Completed",
+  "@stepStatusCompleted": {
+    "description": "Completed status badge"
+  },
+  "stepStatusInProgress": "In Progress",
+  "@stepStatusInProgress": {
+    "description": "In progress status badge"
+  },
+  "stepStatusSkipped": "Skipped",
+  "@stepStatusSkipped": {
+    "description": "Skipped status badge"
+  },
+  "stepStatusLocked": "Locked",
+  "@stepStatusLocked": {
+    "description": "Locked status badge"
+  },
+  "stepStart": "Start Step",
+  "@stepStart": {
+    "description": "Start step button"
+  },
+  "stepComplete": "Complete Step",
+  "@stepComplete": {
+    "description": "Complete step button"
+  },
+  "stepSkip": "Skip",
+  "@stepSkip": {
+    "description": "Skip step button"
+  },
+  "stepMarkIncomplete": "Mark Incomplete",
+  "@stepMarkIncomplete": {
+    "description": "Mark step incomplete button"
+  },
+  "stepAddBookmark": "Add bookmark",
+  "@stepAddBookmark": {
+    "description": "Add bookmark tooltip"
+  },
+  "stepRemoveBookmark": "Remove bookmark",
+  "@stepRemoveBookmark": {
+    "description": "Remove bookmark tooltip"
   }
 }

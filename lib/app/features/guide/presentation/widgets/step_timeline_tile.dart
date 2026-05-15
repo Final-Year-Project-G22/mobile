@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_step.dart';
@@ -22,6 +23,7 @@ class StepTimelineTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final isLocked = step.status == StepStatus.locked;
     final isCompleted = step.status == StepStatus.completed;
     final isCurrent = step.status == StepStatus.inProgress;
@@ -99,7 +101,7 @@ class StepTimelineTile extends StatelessWidget {
                                 borderRadius: AppSpacing.borderRadiusFull,
                               ),
                               child: Text(
-                                '~${step.estimatedTime}m',
+                                l10n.stepEstimatedTime('${step.estimatedTime}'),
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: isDark
@@ -134,7 +136,7 @@ class StepTimelineTile extends StatelessWidget {
                         ),
                       ],
                       AppSpacing.gapVerticalXs,
-                      _buildStatusBadge(context, step.status),
+                      _buildStatusBadge(context, step.status, l10n),
                     ],
                   ),
                 ),
@@ -214,7 +216,11 @@ class StepTimelineTile extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusBadge(BuildContext context, StepStatus status) {
+  Widget _buildStatusBadge(
+    BuildContext context,
+    StepStatus status,
+    AppLocalizations l10n,
+  ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     Color bgColor;
@@ -225,19 +231,19 @@ class StepTimelineTile extends StatelessWidget {
       case StepStatus.completed:
         bgColor = AppColors.success.withValues(alpha: 0.15);
         textColor = AppColors.success;
-        label = 'Completed';
+        label = l10n.stepStatusCompleted;
       case StepStatus.inProgress:
         bgColor = AppColors.accent.withValues(alpha: 0.15);
         textColor = AppColors.accent;
-        label = 'In Progress';
+        label = l10n.stepStatusInProgress;
       case StepStatus.skipped:
         bgColor = AppColors.warning.withValues(alpha: 0.15);
         textColor = AppColors.warning;
-        label = 'Skipped';
+        label = l10n.stepStatusSkipped;
       case StepStatus.locked:
         bgColor = isDark ? AppColors.slate700 : AppColors.slate200;
         textColor = isDark ? AppColors.slate500 : AppColors.slate500;
-        label = 'Locked';
+        label = l10n.stepStatusLocked;
     }
 
     return Container(
