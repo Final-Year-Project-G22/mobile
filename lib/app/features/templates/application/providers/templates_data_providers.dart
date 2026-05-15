@@ -46,3 +46,21 @@ Future<DownloadResult> downloadTemplate(
     (download) => download,
   );
 }
+
+@riverpod
+Future<DownloadResult> previewTemplate(
+  Ref ref, {
+  required String groupId,
+  required String language,
+}) async {
+  final repository = ref.watch(templatesRepositoryProvider);
+  final result = await repository.previewTemplate(
+    groupId,
+    language: language,
+  );
+
+  return result.fold(
+    (failure) => throw failure,
+    (preview) => preview,
+  );
+}

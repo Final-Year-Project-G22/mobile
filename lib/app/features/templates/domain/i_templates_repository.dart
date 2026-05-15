@@ -29,6 +29,11 @@ abstract class ITemplatesRepository {
     String? language,
   });
 
+  Future<Either<TemplateFailure, DownloadResult>> previewTemplate(
+    String groupId, {
+    String? language,
+  });
+
   Future<Either<TemplateFailure, List<DownloadItem>>> listMyDownloads({
     int page,
     int pageSize,

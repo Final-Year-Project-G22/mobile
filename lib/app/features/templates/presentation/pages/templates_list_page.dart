@@ -41,8 +41,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       unawaited(ref.read(templateListProvider.notifier).loadMore());
     }
   }
@@ -54,7 +53,47 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Templates'),
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search templates...',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: _showClear
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() => _showClear = false);
+                        unawaited(
+                          ref.read(templateListProvider.notifier).setSearch(null),
+                        );
+                      },
+                    )
+                  : null,
+              filled: true,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: EdgeInsets.zero,
+            ),
+            onChanged: (value) {
+              unawaited(
+                ref
+                    .read(templateListProvider.notifier)
+                    .setSearch(
+                      value.isEmpty ? null : value,
+                    ),
+              );
+            },
+          ),
+        ),
+
         actions: [
           IconButton(
             icon: const Icon(Icons.download_done),
@@ -62,49 +101,6 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
             tooltip: 'My Downloads',
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search templates...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _showClear
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() => _showClear = false);
-                          unawaited(
-                            ref
-                                .read(templateListProvider.notifier)
-                                .setSearch(null),
-                          );
-                        },
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Theme.of(
-                  context,
-                ).colorScheme.surfaceContainerHighest,
-                contentPadding: EdgeInsets.zero,
-              ),
-              onChanged: (value) {
-                unawaited(
-                  ref
-                      .read(templateListProvider.notifier)
-                      .setSearch(value.isEmpty ? null : value),
-                );
-              },
-            ),
-          ),
-        ),
       ),
       body: Column(
         children: [
@@ -137,9 +133,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       child: FilterChip(
                         label: Text(category.name),
                         onSelected: (_) async {
-                          await ref
-                              .read(templateListProvider.notifier)
-                              .setCategory(category.id);
+                          await ref.read(templateListProvider.notifier).setCategory(category.id);
                         },
                       ),
                     );
@@ -178,15 +172,13 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   return GridView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.all(8),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.75,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                    itemCount:
-                        state.items.length + (state.isLoadingMore ? 1 : 0),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index >= state.items.length) {
                         return const Center(

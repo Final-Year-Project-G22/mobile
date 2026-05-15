@@ -8,5 +8,6 @@ abstract class DownloadResult with _$DownloadResult {
     required String presignedUrl,
     required DateTime expiresAt,
     required String filename,
+    required String contentType,
   }) = _DownloadResult;
 }

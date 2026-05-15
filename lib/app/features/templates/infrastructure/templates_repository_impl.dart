@@ -1,8 +1,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
 import '../domain/entities/category_node.dart';
 import '../domain/entities/download_item.dart';
 import '../domain/entities/download_result.dart';
@@ -59,8 +57,7 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
       final items = (response.data.data ?? [])
           .map(
-            (e) =>
-                TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>),
+            (e) => TemplateGroupCardResponse.fromJson(e as Map<String, dynamic>),
           )
           .map(_mapTemplateGroupCard)
           .toList();
@@ -113,9 +110,37 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       final dto = response.data;
       return Right(
         DownloadResult(
-          presignedUrl: _fixPresignedUrlForEmulator(dto.presignedUrl),
+          presignedUrl: dto.presignedUrl,
           expiresAt: _parseExpiresAt(dto.expiresAt),
           filename: dto.filename,
+          contentType: dto.contentType,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(TemplateFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<TemplateFailure, DownloadResult>> previewTemplate(
+    String groupId, {
+    String? language,
+  }) async {
+    try {
+      final response = await _client.libraryPreviewTemplate(
+        groupId: groupId,
+        language: language,
+      );
+
+      final dto = response.data;
+      return Right(
+        DownloadResult(
+          presignedUrl: dto.presignedUrl,
+          expiresAt: _parseExpiresAt(dto.expiresAt),
+          filename: dto.filename,
+          contentType: dto.contentType,
         ),
       );
     } on DioException catch (e) {
@@ -238,9 +263,7 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic>
-            ? data['detail'] as String?
-            : null;
+        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
 
         if (statusCode == 404) {
           return const TemplateFailure.notFound();
@@ -280,12 +303,5 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
     // 3. Fallback: 5 minutes from now
     return DateTime.now().add(const Duration(minutes: 5));
-  }
-
-  String _fixPresignedUrlForEmulator(String url) {
-    if (kDebugMode && url.contains('localhost:8888')) {
-      return url.replaceFirst('localhost:8888', '10.0.2.2:8888');
-    }
-    return url;
   }
 }
