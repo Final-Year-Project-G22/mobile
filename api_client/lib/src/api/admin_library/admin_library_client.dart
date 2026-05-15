@@ -22,9 +22,13 @@ import '../models/delete_template_group_output_body.dart';
 import '../models/download_log_list_response.dart';
 import '../models/interactive_form_detail_response.dart';
 import '../models/library_create_template_output_body.dart';
+import '../models/library_create_template_request.dart';
+import '../models/library_create_upload_intent_output_body.dart';
+import '../models/library_create_upload_intent_request.dart';
 import '../models/library_delete_category_output_body.dart';
 import '../models/library_delete_template_output_body.dart';
 import '../models/library_template_detail_response.dart';
+import '../models/list_all_template_groups_response_body.dart';
 import '../models/template_group_detail_response.dart';
 import '../models/update_category_translation_output_body.dart';
 import '../models/update_category_translation_request.dart';
@@ -187,7 +191,8 @@ abstract class AdminLibraryClient {
   ///
   /// [pageSize] - Items per page.
   @GET('/api/v1/admin/library/template-groups')
-  Future<HttpResponse<dynamic>> libraryListAllTemplateGroups({
+  Future<HttpResponse<ListAllTemplateGroupsResponseBody>>
+  libraryListAllTemplateGroups({
     @Query('page') int? page = 1,
     @Query('pageSize') int? pageSize = 20,
     @Query('categoryId') String? categoryId,
@@ -251,29 +256,31 @@ abstract class AdminLibraryClient {
 
   /// Create template.
   ///
-  /// Uploads a file and creates a template language variant.
+  /// Creates a template language variant from a previously uploaded file.
   ///
   /// [groupId] - Group ID.
   ///
-  /// [description] - Template description.
-  /// Name not received - field will be skipped.
-  ///
-  /// [file] - Template file.
-  /// Name not received - field will be skipped.
-  ///
-  /// [language] - Language code.
-  /// Name not received - field will be skipped.
-  ///
-  /// [title] - Template title.
-  /// Name not received - field will be skipped.
-  @MultiPart()
+  /// [body] - Name not received - field will be skipped.
   @POST('/api/v1/admin/library/template-groups/{groupId}/templates')
   Future<HttpResponse<LibraryCreateTemplateOutputBody>> libraryCreateTemplate({
     @Path('groupId') required String groupId,
-    @Part(name: 'description') required String description,
-    @Part(name: 'file') required MultipartFile file,
-    @Part(name: 'language') required String language,
-    @Part(name: 'title') required String title,
+    @Body() required LibraryCreateTemplateRequest body,
+  });
+
+  /// Create template upload intent.
+  ///
+  /// Generates a direct upload URL for a template file.
+  ///
+  /// [groupId] - Group ID.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @POST(
+    '/api/v1/admin/library/template-groups/{groupId}/templates/upload-intent',
+  )
+  Future<HttpResponse<LibraryCreateUploadIntentOutputBody>>
+  libraryCreateTemplateUploadIntent({
+    @Path('groupId') required String groupId,
+    @Body() required LibraryCreateUploadIntentRequest body,
   });
 
   /// Delete template.

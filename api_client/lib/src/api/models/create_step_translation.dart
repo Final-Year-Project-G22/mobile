@@ -21,6 +21,9 @@ abstract class CreateStepTranslation with _$CreateStepTranslation {
 
     /// Rich content as JSON
     dynamic detailedContent,
+
+    /// Required documents as JSON array
+    dynamic requiredDocuments,
   }) = _CreateStepTranslation;
 
   factory CreateStepTranslation.fromJson(Map<String, Object?> json) =>

@@ -21,6 +21,9 @@ abstract class UpdateStepTranslation with _$UpdateStepTranslation {
 
     /// Rich content as JSON
     dynamic detailedContent,
+
+    /// Required documents as JSON array
+    dynamic requiredDocuments,
   }) = _UpdateStepTranslation;
 
   factory UpdateStepTranslation.fromJson(Map<String, Object?> json) =>

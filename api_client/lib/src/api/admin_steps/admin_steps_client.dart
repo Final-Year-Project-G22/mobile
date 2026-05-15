@@ -22,6 +22,7 @@ import '../models/reorder_steps_response_body.dart';
 import '../models/revert_step_to_version_response_body.dart';
 import '../models/set_step_translations_request.dart';
 import '../models/set_step_translations_response_body.dart';
+import '../models/translation_mode.dart';
 import '../models/update_step_request.dart';
 import '../models/update_step_response_body.dart';
 
@@ -126,11 +127,14 @@ abstract class AdminStepsClient {
   ///
   /// [id] - Step ID.
   ///
+  /// [translationMode] - Translation mode: 'merge' to upsert without deleting, absent for full replacement.
+  ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/guides/steps/{id}/translations')
   Future<HttpResponse<SetStepTranslationsResponseBody>> setStepTranslations({
     @Path('id') required String id,
     @Body() required SetStepTranslationsRequest body,
+    @Query('translationMode') TranslationMode? translationMode,
   });
 
   /// Get step versions.

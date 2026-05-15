@@ -2,6 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, unused_import, invalid_annotation_target, unnecessary_import
 
+import 'dart:convert';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
@@ -16,8 +17,10 @@ import '../models/list_guides_admin_response_body.dart';
 import '../models/remove_guide_condition_response_body.dart';
 import '../models/set_guide_translations_request.dart';
 import '../models/set_guide_translations_response_body.dart';
+import '../models/translation_mode.dart';
 import '../models/update_guide_request.dart';
 import '../models/update_guide_response_body.dart';
+import '../models/upload_guide_image_response_body.dart';
 
 part 'admin_guides_client.g.dart';
 
@@ -119,16 +122,33 @@ abstract class AdminGuidesClient {
     @Body() required AddGuideConditionRequest body,
   });
 
+  /// Upload guide image.
+  ///
+  /// Uploads and sets the cover image for a guide.
+  ///
+  /// [id] - Guide ID.
+  ///
+  /// [file] - Name not received - field will be skipped.
+  @MultiPart()
+  @POST('/api/v1/admin/guides/{id}/image')
+  Future<HttpResponse<UploadGuideImageResponseBody>> uploadGuideImage({
+    @Path('id') required String id,
+    @Part(name: 'file') required MultipartFile file,
+  });
+
   /// Set guide translations.
   ///
   /// Replaces all translations for a guide.
   ///
   /// [id] - Guide ID.
   ///
+  /// [translationMode] - Translation mode: 'merge' to upsert without deleting, absent for full replacement.
+  ///
   /// [body] - Name not received - field will be skipped.
   @PUT('/api/v1/admin/guides/{id}/translations')
   Future<HttpResponse<SetGuideTranslationsResponseBody>> setGuideTranslations({
     @Path('id') required String id,
     @Body() required SetGuideTranslationsRequest body,
+    @Query('translationMode') TranslationMode? translationMode,
   });
 }

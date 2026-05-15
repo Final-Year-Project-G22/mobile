@@ -4,6 +4,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'update_guide_request_translation_mode_translation_mode.dart';
+
 part 'update_guide_request.freezed.dart';
 part 'update_guide_request.g.dart';
 
@@ -19,6 +21,9 @@ abstract class UpdateGuideRequest with _$UpdateGuideRequest {
     /// Icon identifier
     String? icon,
 
+    /// Guide cover image URL
+    String? imageUrl,
+
     /// Target sector IDs
     List<dynamic>? sectorIds,
 
@@ -30,6 +35,9 @@ abstract class UpdateGuideRequest with _$UpdateGuideRequest {
 
     /// Target tag IDs
     List<dynamic>? tagIds,
+
+    /// Translation mode: 'merge' to upsert without deleting, anything else or absent for full replacement
+    UpdateGuideRequestTranslationModeTranslationMode? translationMode,
 
     /// Localized translations
     List<dynamic>? translations,
