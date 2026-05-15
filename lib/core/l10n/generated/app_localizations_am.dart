@@ -755,4 +755,76 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get notifications => 'ማሳወቂያዎች';
+
+  @override
+  String get myDownloads => 'የእኔ ውርዶች';
+
+  @override
+  String get searchTemplates => 'አብነቶችን ይፈልጉ...';
+
+  @override
+  String get noTemplatesFound => 'ምንም አብነቶች አልተገኙም';
+
+  @override
+  String get noDownloadsYet => 'እስካሁን ምንም ውርዶች የሉም';
+
+  @override
+  String downloadCount(int count) {
+    return '$count ውርዶች';
+  }
+
+  @override
+  String get categories => 'ምድቦች';
+
+  @override
+  String get showAll => 'ሁሉንም አሳይ';
+
+  @override
+  String get preview => 'ቅድመ እይታ';
+
+  @override
+  String get upgrade => 'አሻሽል';
+
+  @override
+  String get openInBrowser => 'በአሳሽ ውስጥ ክፈት';
+
+  @override
+  String get previewFailed => 'ቅድመ እይታ መክፈት አልተቻለም';
+
+  @override
+  String downloadedFile(String filename) {
+    return '$filename ተወርዷል';
+  }
+
+  @override
+  String downloadFailed(String message) {
+    return 'ውርድ አልተሳካም: $message';
+  }
+
+  @override
+  String get proTemplateTitle => 'ፕሮ አብነት';
+
+  @override
+  String get proTemplateDescription =>
+      'ይህ አብነት በፕሮ ደንበኝነት ይገኛል። ለማውረድ እና ለመመልከት ያሻሽሉ።';
+
+  @override
+  String get upgradeToPro => 'ወደ ፕሮ አሻሽል';
+
+  @override
+  String get maybeLater => 'ምናልባት በኋላ';
+
+  @override
+  String get open => 'ክፈት';
+
+  @override
+  String failedToLoadPDF(String error) {
+    return 'PDF መጫን አልተቻለም: $error';
+  }
+
+  @override
+  String get templateDetails => 'የአብነት ዝርዝሮች';
+
+  @override
+  String get download => 'አውርድ';
 }

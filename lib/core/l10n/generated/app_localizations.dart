@@ -1477,6 +1477,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
+
+  /// My downloads page title
+  ///
+  /// In en, this message translates to:
+  /// **'My Downloads'**
+  String get myDownloads;
+
+  /// Templates search hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search templates...'**
+  String get searchTemplates;
+
+  /// Empty templates list
+  ///
+  /// In en, this message translates to:
+  /// **'No templates found'**
+  String get noTemplatesFound;
+
+  /// Empty downloads list
+  ///
+  /// In en, this message translates to:
+  /// **'No downloads yet'**
+  String get noDownloadsYet;
+
+  /// Download count badge
+  ///
+  /// In en, this message translates to:
+  /// **'{count} downloads'**
+  String downloadCount(int count);
+
+  /// Categories section title
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories;
+
+  /// Show all categories button
+  ///
+  /// In en, this message translates to:
+  /// **'Show All'**
+  String get showAll;
+
+  /// Preview button
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get preview;
+
+  /// Upgrade button
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// Open in browser button
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Browser'**
+  String get openInBrowser;
+
+  /// Preview error message
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open preview'**
+  String get previewFailed;
+
+  /// Download success snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded {filename}'**
+  String downloadedFile(String filename);
+
+  /// Download error snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed: {message}'**
+  String downloadFailed(String message);
+
+  /// Pro upgrade dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Template'**
+  String get proTemplateTitle;
+
+  /// Pro upgrade dialog body
+  ///
+  /// In en, this message translates to:
+  /// **'This template is available with a Pro subscription. Upgrade to download and preview.'**
+  String get proTemplateDescription;
+
+  /// Upgrade to Pro button
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get upgradeToPro;
+
+  /// Dismiss upgrade button
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe Later'**
+  String get maybeLater;
+
+  /// Open file action
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// PDF load error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load PDF: {error}'**
+  String failedToLoadPDF(String error);
+
+  /// Template detail page title
+  ///
+  /// In en, this message translates to:
+  /// **'Template Details'**
+  String get templateDetails;
+
+  /// Download button
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+
 class TierBadge extends StatelessWidget {
   const TierBadge({required this.tierAccess, super.key});
 
@@ -17,7 +19,7 @@ class TierBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
-        'PRO',
+        AppLocalizations.of(context).pro,
         style: theme.textTheme.labelSmall?.copyWith(
           color: theme.colorScheme.onPrimaryContainer,
           fontWeight: FontWeight.bold,

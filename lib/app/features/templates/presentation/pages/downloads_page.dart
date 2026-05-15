@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/downloads_notifier.dart';
 
 class DownloadsPage extends ConsumerStatefulWidget {
@@ -37,10 +38,11 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   @override
   Widget build(BuildContext context) {
     final downloadsAsync = ref.watch(myDownloadsProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Downloads'),
+        title: Text(l10n.myDownloads),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -49,13 +51,17 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
         child: downloadsAsync.when(
           data: (state) {
             if (state.items.isEmpty) {
-              return const Center(
+              return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.download_done, size: 64, color: Colors.grey),
-                    SizedBox(height: 16),
-                    Text('No downloads yet'),
+                    const Icon(
+                      Icons.download_done,
+                      size: 64,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(l10n.noDownloadsYet),
                   ],
                 ),
               );
@@ -97,7 +103,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                             ),
                           )
                         : const Icon(Icons.insert_drive_file),
-                    title: Text(item.title ?? 'Template'),
+                    title: Text(item.title ?? l10n.templates),
                     subtitle: Text(
                       _formatDate(item.downloadedAt),
                     ),
@@ -111,7 +117,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('Error: $error')),
+          error: (error, _) => Center(child: Text('${l10n.error}: $error')),
         ),
       ),
     );

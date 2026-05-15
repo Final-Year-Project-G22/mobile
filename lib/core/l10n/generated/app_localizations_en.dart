@@ -764,4 +764,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifications => 'Notifications';
+
+  @override
+  String get myDownloads => 'My Downloads';
+
+  @override
+  String get searchTemplates => 'Search templates...';
+
+  @override
+  String get noTemplatesFound => 'No templates found';
+
+  @override
+  String get noDownloadsYet => 'No downloads yet';
+
+  @override
+  String downloadCount(int count) {
+    return '$count downloads';
+  }
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get showAll => 'Show All';
+
+  @override
+  String get preview => 'Preview';
+
+  @override
+  String get upgrade => 'Upgrade';
+
+  @override
+  String get openInBrowser => 'Open in Browser';
+
+  @override
+  String get previewFailed => 'Could not open preview';
+
+  @override
+  String downloadedFile(String filename) {
+    return 'Downloaded $filename';
+  }
+
+  @override
+  String downloadFailed(String message) {
+    return 'Download failed: $message';
+  }
+
+  @override
+  String get proTemplateTitle => 'Pro Template';
+
+  @override
+  String get proTemplateDescription =>
+      'This template is available with a Pro subscription. Upgrade to download and preview.';
+
+  @override
+  String get upgradeToPro => 'Upgrade to Pro';
+
+  @override
+  String get maybeLater => 'Maybe Later';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String failedToLoadPDF(String error) {
+    return 'Failed to load PDF: $error';
+  }
+
+  @override
+  String get templateDetails => 'Template Details';
+
+  @override
+  String get download => 'Download';
 }

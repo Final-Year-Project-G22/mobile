@@ -987,5 +987,101 @@
   "notifications": "Notifications",
   "@notifications": {
     "description": "Notifications tooltip/label"
+  },
+  "myDownloads": "My Downloads",
+  "@myDownloads": {
+    "description": "My downloads page title"
+  },
+  "searchTemplates": "Search templates...",
+  "@searchTemplates": {
+    "description": "Templates search hint"
+  },
+  "noTemplatesFound": "No templates found",
+  "@noTemplatesFound": {
+    "description": "Empty templates list"
+  },
+  "noDownloadsYet": "No downloads yet",
+  "@noDownloadsYet": {
+    "description": "Empty downloads list"
+  },
+  "downloadCount": "{count} downloads",
+  "@downloadCount": {
+    "description": "Download count badge",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories section title"
+  },
+  "showAll": "Show All",
+  "@showAll": {
+    "description": "Show all categories button"
+  },
+  "preview": "Preview",
+  "@preview": {
+    "description": "Preview button"
+  },
+  "upgrade": "Upgrade",
+  "@upgrade": {
+    "description": "Upgrade button"
+  },
+  "openInBrowser": "Open in Browser",
+  "@openInBrowser": {
+    "description": "Open in browser button"
+  },
+  "previewFailed": "Could not open preview",
+  "@previewFailed": {
+    "description": "Preview error message"
+  },
+  "downloadedFile": "Downloaded {filename}",
+  "@downloadedFile": {
+    "description": "Download success snackbar",
+    "placeholders": {
+      "filename": { "type": "String" }
+    }
+  },
+  "downloadFailed": "Download failed: {message}",
+  "@downloadFailed": {
+    "description": "Download error snackbar",
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "proTemplateTitle": "Pro Template",
+  "@proTemplateTitle": {
+    "description": "Pro upgrade dialog title"
+  },
+  "proTemplateDescription": "This template is available with a Pro subscription. Upgrade to download and preview.",
+  "@proTemplateDescription": {
+    "description": "Pro upgrade dialog body"
+  },
+  "upgradeToPro": "Upgrade to Pro",
+  "@upgradeToPro": {
+    "description": "Upgrade to Pro button"
+  },
+  "maybeLater": "Maybe Later",
+  "@maybeLater": {
+    "description": "Dismiss upgrade button"
+  },
+  "open": "Open",
+  "@open": {
+    "description": "Open file action"
+  },
+  "failedToLoadPDF": "Failed to load PDF: {error}",
+  "@failedToLoadPDF": {
+    "description": "PDF load error",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "templateDetails": "Template Details",
+  "@templateDetails": {
+    "description": "Template detail page title"
+  },
+  "download": "Download",
+  "@download": {
+    "description": "Download button"
   }
 }
