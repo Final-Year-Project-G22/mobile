@@ -196,7 +196,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         : () {
                             const HomeRoute().go(context);
                           },
-                    child: const Text('Skip for now'),
+                    child: Text(l10n.skipForNow),
                   ),
                   AppSpacing.gapHorizontalSm,
                   Expanded(
@@ -212,7 +212,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           : null,
                       child: Text(
                         _isSubmitting
-                            ? 'Saving...'
+                            ? l10n.saving
                             : (state.currentStep == 5
                                   ? l10n.finish
                                   : l10n.next),
@@ -267,8 +267,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         _isSubmitting = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to save business profile. Please try again.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).errorSaveFailed),
         ),
       );
       return;
