@@ -41,15 +41,34 @@ class AuthNotifier extends _$AuthNotifier {
     // Fallback: try shared_preferences if flutter_secure_storage has no tokens
     if (!apiClient.isAuthenticated) {
       final restored = await _restoreTokensFromPrefs();
-      if (restored) {
-        return const AuthStatus.authenticated(user: null, account: null);
+      if (!restored) {
+        return const AuthStatus.unauthenticated();
       }
+    }
+
+    // No token after restore/fallback.
+    if (!apiClient.isAuthenticated) {
       return const AuthStatus.unauthenticated();
     }
 
-    // Return authenticated immediately. The auth interceptor handles
-    // token refresh transparently on the first real API call.
+    // If token is already expired (or nearly expired), attempt a silent refresh
+    // before reporting an authenticated session.
+    if (_isTokenExpiredOrNearExpiry(apiClient.expiresAt)) {
+      final refreshed = await apiClient.refreshTokens();
+      if (!refreshed) {
+        await apiClient.clearTokens();
+        await _clearPrefs();
+        return const AuthStatus.unauthenticated();
+      }
+    }
+
     return const AuthStatus.authenticated(user: null, account: null);
+  }
+
+  bool _isTokenExpiredOrNearExpiry(DateTime? expiresAt) {
+    if (expiresAt == null) return true;
+    final threshold = DateTime.now().add(const Duration(seconds: 30));
+    return !expiresAt.isAfter(threshold);
   }
 
   Future<bool> _restoreTokensFromPrefs() async {
