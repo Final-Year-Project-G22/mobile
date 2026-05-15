@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
@@ -16,6 +17,7 @@ class GuideProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final percent = total > 0 ? (completed / total * 100).round() : 0;
     final fraction = total > 0 ? completed / total : 0.0;
 
@@ -36,7 +38,7 @@ class GuideProgressBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '$completed of $total completed',
+                l10n.guideProgressOf(completed, total),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -46,7 +48,7 @@ class GuideProgressBar extends StatelessWidget {
                 ),
               ),
               Text(
-                '$percent%',
+                l10n.guideProgressPercent(percent),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

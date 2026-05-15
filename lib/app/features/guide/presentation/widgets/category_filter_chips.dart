@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
@@ -26,7 +27,7 @@ class CategoryFilterChips extends StatelessWidget {
         children: [
           _buildChip(
             context,
-            label: 'All',
+            label: AppLocalizations.of(context).all,
             isSelected: selectedCategorySlug.isEmpty,
             isDark: isDark,
             onTap: () => onCategorySelected(''),

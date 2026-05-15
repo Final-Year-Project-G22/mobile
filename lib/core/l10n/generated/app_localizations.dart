@@ -1801,6 +1801,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load plans: {error}'**
   String failedToLoadPlans(String error);
+
+  /// Guide search hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search guides...'**
+  String get guideSearchHint;
+
+  /// Active filter indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered'**
+  String get guideFiltered;
+
+  /// Clear filters link
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get guideClearAll;
+
+  /// Bookmark toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarked'**
+  String get guideBookmarked;
+
+  /// Empty guide list
+  ///
+  /// In en, this message translates to:
+  /// **'No guides found'**
+  String get guideNoGuidesFound;
+
+  /// Empty bookmarks list
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarks yet'**
+  String get guideNoBookmarks;
+
+  /// Recent guides section header
+  ///
+  /// In en, this message translates to:
+  /// **'Recently Viewed'**
+  String get guideRecentlyViewed;
+
+  /// Recent badge label
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get guideRecent;
+
+  /// Guide progress text
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} of {total} completed'**
+  String guideProgressOf(int completed, int total);
+
+  /// Progress percentage
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}%'**
+  String guideProgressPercent(int percent);
+
+  /// Sector count badge
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 sector} other{{count} sectors}}'**
+  String guideSectorCount(int count);
+
+  /// Tag count badge
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 tag} other{{count} tags}}'**
+  String guideTagCount(int count);
+
+  /// Step estimated time
+  ///
+  /// In en, this message translates to:
+  /// **'~{minutes} min'**
+  String stepEstimatedTime(String minutes);
+
+  /// Empty step content
+  ///
+  /// In en, this message translates to:
+  /// **'No content available for this step.'**
+  String get stepNoContent;
+
+  /// Completed status badge
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get stepStatusCompleted;
+
+  /// In progress status badge
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get stepStatusInProgress;
+
+  /// Skipped status badge
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get stepStatusSkipped;
+
+  /// Locked status badge
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get stepStatusLocked;
+
+  /// Start step button
+  ///
+  /// In en, this message translates to:
+  /// **'Start Step'**
+  String get stepStart;
+
+  /// Complete step button
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Step'**
+  String get stepComplete;
+
+  /// Skip step button
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get stepSkip;
+
+  /// Mark step incomplete button
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Incomplete'**
+  String get stepMarkIncomplete;
+
+  /// Add bookmark tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Add bookmark'**
+  String get stepAddBookmark;
+
+  /// Remove bookmark tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Remove bookmark'**
+  String get stepRemoveBookmark;
 }
 
 class _AppLocalizationsDelegate

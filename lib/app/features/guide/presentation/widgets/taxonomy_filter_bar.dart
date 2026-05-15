@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
@@ -48,7 +49,7 @@ class TaxonomyFilterBar extends ConsumerWidget {
                   children: [
                     _buildChip(
                       context,
-                      label: 'All',
+                      label: AppLocalizations.of(context).all,
                       isSelected: selectedSectorId == null,
                       isDark: isDark,
                       onTap: () => onSectorSelected(null),

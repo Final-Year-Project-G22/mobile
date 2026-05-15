@@ -941,4 +941,98 @@ class AppLocalizationsEn extends AppLocalizations {
   String failedToLoadPlans(String error) {
     return 'Failed to load plans: $error';
   }
+
+  @override
+  String get guideSearchHint => 'Search guides...';
+
+  @override
+  String get guideFiltered => 'Filtered';
+
+  @override
+  String get guideClearAll => 'Clear all';
+
+  @override
+  String get guideBookmarked => 'Bookmarked';
+
+  @override
+  String get guideNoGuidesFound => 'No guides found';
+
+  @override
+  String get guideNoBookmarks => 'No bookmarks yet';
+
+  @override
+  String get guideRecentlyViewed => 'Recently Viewed';
+
+  @override
+  String get guideRecent => 'Recent';
+
+  @override
+  String guideProgressOf(int completed, int total) {
+    return '$completed of $total completed';
+  }
+
+  @override
+  String guideProgressPercent(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String guideSectorCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sectors',
+      one: '1 sector',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guideTagCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tags',
+      one: '1 tag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepEstimatedTime(String minutes) {
+    return '~$minutes min';
+  }
+
+  @override
+  String get stepNoContent => 'No content available for this step.';
+
+  @override
+  String get stepStatusCompleted => 'Completed';
+
+  @override
+  String get stepStatusInProgress => 'In Progress';
+
+  @override
+  String get stepStatusSkipped => 'Skipped';
+
+  @override
+  String get stepStatusLocked => 'Locked';
+
+  @override
+  String get stepStart => 'Start Step';
+
+  @override
+  String get stepComplete => 'Complete Step';
+
+  @override
+  String get stepSkip => 'Skip';
+
+  @override
+  String get stepMarkIncomplete => 'Mark Incomplete';
+
+  @override
+  String get stepAddBookmark => 'Add bookmark';
+
+  @override
+  String get stepRemoveBookmark => 'Remove bookmark';
 }
