@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/ai_chat_notifier.dart';
 import '../../domain/entities/chat_message.dart';
 import '../widgets/chat_input_bar.dart';
@@ -84,6 +85,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     final isStreaming = chatState.isStreaming;
     final streamError = chatState.streamError;
     final hasMessages = messages.isNotEmpty;
+    final l10n = AppLocalizations.of(context);
 
     ref.listen(aiChatNotifierProvider, (prev, next) {
       if (prev?.messages.length != next.messages.length ||
@@ -105,7 +107,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             }
           },
         ),
-        title: const Text('AI Guide'),
+        title: Text(l10n.aiGuideTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.menu_rounded),
@@ -165,6 +167,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   Widget _buildStreamError(String message) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -214,7 +217,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      'Retry',
+                      l10n.retry,
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: theme.colorScheme.onErrorContainer,
                         fontWeight: FontWeight.w600,

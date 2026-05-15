@@ -1351,6 +1351,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days}d'**
   String timeDaysShort(int days);
+
+  /// Citations expandable label
+  ///
+  /// In en, this message translates to:
+  /// **'Sources ({count})'**
+  String citationSources(int count);
+
+  /// Fallback citation title
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled source'**
+  String get citationUntitled;
+
+  /// Citation source metadata
+  ///
+  /// In en, this message translates to:
+  /// **'{sourceType} · {score}% match'**
+  String citationMatch(String sourceType, int score);
+
+  /// Archive dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Archive conversation'**
+  String get archiveConversationTitle;
+
+  /// Archive dialog body
+  ///
+  /// In en, this message translates to:
+  /// **'This will remove the conversation from your history. This cannot be undone.'**
+  String get archiveConversationContent;
+
+  /// Archive confirm button
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archiveConversationAction;
+
+  /// English language badge
+  ///
+  /// In en, this message translates to:
+  /// **'EN'**
+  String get languageLabelEn;
+
+  /// Amharic language badge
+  ///
+  /// In en, this message translates to:
+  /// **'አማ'**
+  String get languageLabelAm;
 }
 
 class _AppLocalizationsDelegate

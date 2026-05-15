@@ -1,6 +1,8 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+
 class CitationCard extends StatefulWidget {
   const CitationCard({
     required this.citations,
@@ -19,6 +21,7 @@ class _CitationCardState extends State<CitationCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final count = widget.citations.length;
 
     if (count == 0) return const SizedBox.shrink();
@@ -49,7 +52,7 @@ class _CitationCardState extends State<CitationCard> {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    'Sources ($count)',
+                    l10n.citationSources(count),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: theme.colorScheme.primary,
                       fontWeight: FontWeight.w600,
@@ -91,7 +94,7 @@ class _CitationCardState extends State<CitationCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            c.title ?? 'Untitled source',
+                            c.title ?? l10n.citationUntitled,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withValues(
                                 alpha: 0.8,
@@ -99,7 +102,10 @@ class _CitationCardState extends State<CitationCard> {
                             ),
                           ),
                           Text(
-                            '${c.sourceType} · ${(c.score * 100).toStringAsFixed(0)}% match',
+                            l10n.citationMatch(
+                              c.sourceType,
+                              (c.score * 100).round(),
+                            ),
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: theme.colorScheme.onSurface.withValues(
                                 alpha: 0.4,

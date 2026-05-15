@@ -892,5 +892,44 @@
     "placeholders": {
       "days": { "type": "int" }
     }
+  },
+  "citationSources": "Sources ({count})",
+  "@citationSources": {
+    "description": "Citations expandable label",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "citationUntitled": "Untitled source",
+  "@citationUntitled": {
+    "description": "Fallback citation title"
+  },
+  "citationMatch": "{sourceType} · {score}% match",
+  "@citationMatch": {
+    "description": "Citation source metadata",
+    "placeholders": {
+      "sourceType": { "type": "String" },
+      "score": { "type": "int" }
+    }
+  },
+  "archiveConversationTitle": "Archive conversation",
+  "@archiveConversationTitle": {
+    "description": "Archive dialog title"
+  },
+  "archiveConversationContent": "This will remove the conversation from your history. This cannot be undone.",
+  "@archiveConversationContent": {
+    "description": "Archive dialog body"
+  },
+  "archiveConversationAction": "Archive",
+  "@archiveConversationAction": {
+    "description": "Archive confirm button"
+  },
+  "languageLabelEn": "EN",
+  "@languageLabelEn": {
+    "description": "English language badge"
+  },
+  "languageLabelAm": "አማ",
+  "@languageLabelAm": {
+    "description": "Amharic language badge"
   }
 }

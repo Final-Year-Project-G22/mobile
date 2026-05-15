@@ -683,4 +683,33 @@ class AppLocalizationsAm extends AppLocalizations {
   String timeDaysShort(int days) {
     return '$daysቀን';
   }
+
+  @override
+  String citationSources(int count) {
+    return 'ምንጮች ($count)';
+  }
+
+  @override
+  String get citationUntitled => 'ርዕስ የሌለው ምንጭ';
+
+  @override
+  String citationMatch(String sourceType, int score) {
+    return '$sourceType · $score% ተዛማጅ';
+  }
+
+  @override
+  String get archiveConversationTitle => 'ውይይት አርክብ';
+
+  @override
+  String get archiveConversationContent =>
+      'ይህ ውይይቱን ከታሪክዎ ያስወግዳል። ይህን መቀልበስ አይቻልም።';
+
+  @override
+  String get archiveConversationAction => 'አርክብ';
+
+  @override
+  String get languageLabelEn => 'EN';
+
+  @override
+  String get languageLabelAm => 'አማ';
 }

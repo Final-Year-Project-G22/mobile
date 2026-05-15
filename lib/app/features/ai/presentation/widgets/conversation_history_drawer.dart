@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/ai_conversation_list_provider.dart';
 import '../../domain/entities/conversation_summary.dart';
 
@@ -19,6 +20,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
     final conversationsAsync = ref.watch(conversationListProvider);
     final notifier = ref.read(conversationListProvider.notifier);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Drawer(
       child: SafeArea(
@@ -28,7 +30,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
               child: Text(
-                'Conversations',
+                l10n.aiGuideConversations,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -40,10 +42,10 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                 loading: () => _buildLoadingSkeleton(theme),
                 error: (error, _) => _buildError(theme, () {
                   ref.invalidate(conversationListProvider);
-                }),
+                }, l10n),
                 data: (result) {
                   if (result.sessions.isEmpty) {
-                    return _buildEmpty(theme);
+                    return _buildEmpty(theme, l10n);
                   }
                   return RefreshIndicator(
                     onRefresh: () async {
@@ -143,7 +145,11 @@ class ConversationHistoryDrawer extends ConsumerWidget {
     );
   }
 
-  Widget _buildError(ThemeData theme, VoidCallback onRetry) {
+  Widget _buildError(
+    ThemeData theme,
+    VoidCallback onRetry,
+    AppLocalizations l10n,
+  ) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -157,7 +163,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              "Couldn't load conversations",
+              l10n.aiGuideConversationsError,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
@@ -167,7 +173,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
             TextButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh_rounded, size: 18),
-              label: const Text('Retry'),
+              label: Text(l10n.retry),
             ),
           ],
         ),
@@ -175,7 +181,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmpty(ThemeData theme) {
+  Widget _buildEmpty(ThemeData theme, AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -189,7 +195,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'No conversations yet',
+              l10n.aiGuideNoConversations,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
               ),
@@ -212,30 +218,35 @@ class _ConversationTile extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onArchive;
 
-  String _formatTimestamp(DateTime dateTime) {
+  String _formatTimestamp(
+    DateTime dateTime,
+    AppLocalizations l10n,
+    BuildContext context,
+  ) {
     final now = DateTime.now();
     final diff = now.difference(dateTime);
 
-    if (diff.inMinutes < 1) return 'Just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays < 2) return 'Yesterday';
-    if (diff.inDays < 7) return '${diff.inDays}d ago';
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    if (diff.inMinutes < 1) return l10n.justNow;
+    if (diff.inMinutes < 60) return l10n.minutesAgo(diff.inMinutes);
+    if (diff.inHours < 24) return l10n.hoursAgo(diff.inHours);
+    if (diff.inDays < 2) return l10n.yesterday;
+    if (diff.inDays < 7) return l10n.daysAgo(diff.inDays);
+    return MaterialLocalizations.of(context).formatShortDate(dateTime);
   }
 
-  String _languageLabel(String language) {
+  String _languageLabel(String language, AppLocalizations l10n) {
     switch (language.toLowerCase()) {
       case 'am':
-        return 'አማ';
+        return l10n.languageLabelAm;
       default:
-        return 'EN';
+        return l10n.languageLabelEn;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Dismissible(
       key: ValueKey(conversation.id),
@@ -253,18 +264,16 @@ class _ConversationTile extends StatelessWidget {
         return showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('Archive conversation'),
-            content: const Text(
-              'This will remove the conversation from your history. This cannot be undone.',
-            ),
+            title: Text(l10n.archiveConversationTitle),
+            content: Text(l10n.archiveConversationContent),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(false),
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(true),
-                child: const Text('Archive'),
+                child: Text(l10n.archiveConversationAction),
               ),
             ],
           ),
@@ -297,7 +306,7 @@ class _ConversationTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    _languageLabel(conversation.language),
+                    _languageLabel(conversation.language, l10n),
                     style: TextStyle(
                       fontSize: 7,
                       fontWeight: FontWeight.bold,
@@ -318,7 +327,7 @@ class _ConversationTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          _formatTimestamp(conversation.updatedAt),
+          _formatTimestamp(conversation.updatedAt, l10n, context),
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
           ),

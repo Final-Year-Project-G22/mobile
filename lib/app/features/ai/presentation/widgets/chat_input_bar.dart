@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+
 class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     required this.onSend,
@@ -92,7 +94,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _handleSend(),
                 decoration: InputDecoration(
-                  hintText: 'Ask a question...',
+                  hintText: AppLocalizations.of(context).aiGuideInputHint,
                   hintStyle: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
