@@ -120,7 +120,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                       },
                       child: Text(
                         l10n.guideClearAll,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.accent,
                           fontWeight: FontWeight.w600,
