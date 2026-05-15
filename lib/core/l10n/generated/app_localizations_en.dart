@@ -1035,4 +1035,203 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stepRemoveBookmark => 'Remove bookmark';
+
+  @override
+  String get communityForYou => 'For You';
+
+  @override
+  String get communityAll => 'All';
+
+  @override
+  String get searchThreads => 'Search threads...';
+
+  @override
+  String noThreadsFound(String query) {
+    return 'No threads found for $query';
+  }
+
+  @override
+  String get noThreadsAvailable => 'No threads available yet';
+
+  @override
+  String get noPersonalizedThreads => 'No personalized threads available yet';
+
+  @override
+  String threadReplies(int count) {
+    return '$count replies';
+  }
+
+  @override
+  String threadViews(int count) {
+    return '$count views';
+  }
+
+  @override
+  String get owned => 'Owned';
+
+  @override
+  String get solved => 'Solved';
+
+  @override
+  String get followed => 'Followed';
+
+  @override
+  String get moreFilters => 'More filters';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get searchSectorsTags => 'Search sectors and tags...';
+
+  @override
+  String get sectors => 'Sectors';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get followedOnly => 'Followed only';
+
+  @override
+  String get showFollowedOnly => 'Show only threads you follow';
+
+  @override
+  String get noItemsMatchSearch => 'No items match your search';
+
+  @override
+  String errorLoadingThreads(String error) {
+    return 'Error loading threads: $error';
+  }
+
+  @override
+  String get createThread => 'Create Thread';
+
+  @override
+  String get post => 'Post';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get titleRequired => 'Title required';
+
+  @override
+  String minChars(int count) {
+    return 'Min $count chars';
+  }
+
+  @override
+  String get initialPost => 'Initial Post';
+
+  @override
+  String get postRequired => 'Post required';
+
+  @override
+  String get addImages => 'Add Images';
+
+  @override
+  String get addFiles => 'Add Files';
+
+  @override
+  String get sectorsOptional => 'Sectors (optional)';
+
+  @override
+  String get tagsOptional => 'Tags (optional)';
+
+  @override
+  String get deletePost => 'Delete Post';
+
+  @override
+  String get confirmDeletePost => 'Are you sure you want to delete this post?';
+
+  @override
+  String get postDeleted => 'Post deleted successfully';
+
+  @override
+  String get markAsSolution => 'Mark as Solution';
+
+  @override
+  String get confirmMarkSolution => 'Mark this post as the accepted solution?';
+
+  @override
+  String get mark => 'Mark';
+
+  @override
+  String get markedAsSolution => 'Marked as solution';
+
+  @override
+  String get deleteThread => 'Delete Thread';
+
+  @override
+  String get confirmDeleteThread =>
+      'Are you sure you want to delete this thread? This action cannot be undone.';
+
+  @override
+  String get threadDeleted => 'Thread deleted successfully';
+
+  @override
+  String get followThread => 'Follow thread';
+
+  @override
+  String get unfollowThread => 'Unfollow thread';
+
+  @override
+  String get followingThread => 'Following thread';
+
+  @override
+  String get unfollowedThread => 'Unfollowed thread';
+
+  @override
+  String get editThread => 'Edit Thread';
+
+  @override
+  String get reportThread => 'Report Thread';
+
+  @override
+  String get noRepliesYet => 'No replies yet. Be the first!';
+
+  @override
+  String get reply => 'Reply';
+
+  @override
+  String get saveToGallery => 'Save to Gallery';
+
+  @override
+  String get imageSaved => 'Image saved to gallery!';
+
+  @override
+  String get report => 'Report';
+
+  @override
+  String get selectReason => 'Select a reason:';
+
+  @override
+  String get reasonSpam => 'Spam';
+
+  @override
+  String get reasonHarassment => 'Harassment';
+
+  @override
+  String get reasonInappropriate => 'Inappropriate Content';
+
+  @override
+  String get reasonMisinformation => 'Misinformation';
+
+  @override
+  String get reasonOther => 'Other';
+
+  @override
+  String get submitReport => 'Submit Report';
+
+  @override
+  String reportedSuccessfully(String type) {
+    return '$type reported successfully';
+  }
+
+  @override
+  String get reasonHint => 'Describe why you are reporting this...';
 }

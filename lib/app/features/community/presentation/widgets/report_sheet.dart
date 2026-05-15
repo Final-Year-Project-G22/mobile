@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/failures/community_failure.dart';
 
@@ -54,7 +55,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     _reasonController.text = reason;
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(AppLocalizations l10n) async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSubmitting = true);
@@ -92,7 +93,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
       },
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$_reportType reported successfully')),
+          SnackBar(content: Text(l10n.reportedSuccessfully(_reportType))),
         );
         Navigator.of(context).pop();
       },
@@ -101,8 +102,26 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     if (mounted) setState(() => _isSubmitting = false);
   }
 
+  String _reasonLabel(String reason, AppLocalizations l10n) {
+    switch (reason) {
+      case 'Spam':
+        return l10n.reasonSpam;
+      case 'Harassment':
+        return l10n.reasonHarassment;
+      case 'Inappropriate Content':
+        return l10n.reasonInappropriate;
+      case 'Misinformation':
+        return l10n.reasonMisinformation;
+      case 'Other':
+        return l10n.reasonOther;
+      default:
+        return reason;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
@@ -115,7 +134,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Report $_reportType',
+                '${l10n.report} $_reportType',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               if (widget.targetUserId != null &&
@@ -129,7 +148,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
               const SizedBox(height: 16),
 
               Text(
-                'Select a reason:',
+                l10n.selectReason,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 8),
@@ -139,7 +158,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 children: _quickReasons.map((reason) {
                   final isSelected = _reasonController.text == reason;
                   return ChoiceChip(
-                    label: Text(reason),
+                    label: Text(_reasonLabel(reason, l10n)),
                     selected: isSelected,
                     onSelected: (_) => _selectReason(reason),
                   );
@@ -151,10 +170,10 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 controller: _reasonController,
                 minLines: 3,
                 maxLines: 5,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Reason',
-                  hintText: 'Describe why you are reporting this...',
-                  border: OutlineInputBorder(),
+                  hintText: l10n.reasonHint,
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) {
@@ -168,7 +187,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: _isSubmitting ? null : _submit,
+                  onPressed: _isSubmitting ? null : () => _submit(l10n),
                   child: _isSubmitting
                       ? const SizedBox(
                           width: 20,
@@ -178,7 +197,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Submit Report'),
+                      : Text(l10n.submitReport),
                 ),
               ),
             ],

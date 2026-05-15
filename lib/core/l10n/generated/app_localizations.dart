@@ -1945,6 +1945,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove bookmark'**
   String get stepRemoveBookmark;
+
+  /// For You tab
+  ///
+  /// In en, this message translates to:
+  /// **'For You'**
+  String get communityForYou;
+
+  /// All tab
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get communityAll;
+
+  /// Threads search hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search threads...'**
+  String get searchThreads;
+
+  /// Search empty state
+  ///
+  /// In en, this message translates to:
+  /// **'No threads found for {query}'**
+  String noThreadsFound(String query);
+
+  /// Empty all threads
+  ///
+  /// In en, this message translates to:
+  /// **'No threads available yet'**
+  String get noThreadsAvailable;
+
+  /// Empty filtered threads
+  ///
+  /// In en, this message translates to:
+  /// **'No personalized threads available yet'**
+  String get noPersonalizedThreads;
+
+  /// Reply count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} replies'**
+  String threadReplies(int count);
+
+  /// View count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} views'**
+  String threadViews(int count);
+
+  /// Owned badge
+  ///
+  /// In en, this message translates to:
+  /// **'Owned'**
+  String get owned;
+
+  /// Solved badge
+  ///
+  /// In en, this message translates to:
+  /// **'Solved'**
+  String get solved;
+
+  /// Followed chip
+  ///
+  /// In en, this message translates to:
+  /// **'Followed'**
+  String get followed;
+
+  /// Filter button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'More filters'**
+  String get moreFilters;
+
+  /// Filter sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
+
+  /// Reset filters button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// Filter search hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search sectors and tags...'**
+  String get searchSectorsTags;
+
+  /// Sectors section
+  ///
+  /// In en, this message translates to:
+  /// **'Sectors'**
+  String get sectors;
+
+  /// Tags section
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// Followed filter title
+  ///
+  /// In en, this message translates to:
+  /// **'Followed only'**
+  String get followedOnly;
+
+  /// Followed filter subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Show only threads you follow'**
+  String get showFollowedOnly;
+
+  /// Filter no results
+  ///
+  /// In en, this message translates to:
+  /// **'No items match your search'**
+  String get noItemsMatchSearch;
+
+  /// Threads load error
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading threads: {error}'**
+  String errorLoadingThreads(String error);
+
+  /// Create thread title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Thread'**
+  String get createThread;
+
+  /// Post button
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get post;
+
+  /// Title label
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// Title validation
+  ///
+  /// In en, this message translates to:
+  /// **'Title required'**
+  String get titleRequired;
+
+  /// Min chars validation
+  ///
+  /// In en, this message translates to:
+  /// **'Min {count} chars'**
+  String minChars(int count);
+
+  /// Initial post label
+  ///
+  /// In en, this message translates to:
+  /// **'Initial Post'**
+  String get initialPost;
+
+  /// Post validation
+  ///
+  /// In en, this message translates to:
+  /// **'Post required'**
+  String get postRequired;
+
+  /// Add images button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Images'**
+  String get addImages;
+
+  /// Add files button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Files'**
+  String get addFiles;
+
+  /// Sectors picker label
+  ///
+  /// In en, this message translates to:
+  /// **'Sectors (optional)'**
+  String get sectorsOptional;
+
+  /// Tags picker label
+  ///
+  /// In en, this message translates to:
+  /// **'Tags (optional)'**
+  String get tagsOptional;
+
+  /// Delete post dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Post'**
+  String get deletePost;
+
+  /// Delete post confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this post?'**
+  String get confirmDeletePost;
+
+  /// Post deleted snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Post deleted successfully'**
+  String get postDeleted;
+
+  /// Mark solution dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Solution'**
+  String get markAsSolution;
+
+  /// Mark solution confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this post as the accepted solution?'**
+  String get confirmMarkSolution;
+
+  /// Mark solution confirm
+  ///
+  /// In en, this message translates to:
+  /// **'Mark'**
+  String get mark;
+
+  /// Marked solution snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as solution'**
+  String get markedAsSolution;
+
+  /// Delete thread dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Thread'**
+  String get deleteThread;
+
+  /// Delete thread confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this thread? This action cannot be undone.'**
+  String get confirmDeleteThread;
+
+  /// Thread deleted snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Thread deleted successfully'**
+  String get threadDeleted;
+
+  /// Follow thread tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Follow thread'**
+  String get followThread;
+
+  /// Unfollow thread tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow thread'**
+  String get unfollowThread;
+
+  /// Follow success snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Following thread'**
+  String get followingThread;
+
+  /// Unfollow success snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollowed thread'**
+  String get unfollowedThread;
+
+  /// Edit thread menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Thread'**
+  String get editThread;
+
+  /// Report thread menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Report Thread'**
+  String get reportThread;
+
+  /// Empty replies state
+  ///
+  /// In en, this message translates to:
+  /// **'No replies yet. Be the first!'**
+  String get noRepliesYet;
+
+  /// Reply button
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get reply;
+
+  /// Save image option
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Gallery'**
+  String get saveToGallery;
+
+  /// Image save success
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved to gallery!'**
+  String get imageSaved;
+
+  /// Report menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get report;
+
+  /// Report reason prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Select a reason:'**
+  String get selectReason;
+
+  /// Report reason
+  ///
+  /// In en, this message translates to:
+  /// **'Spam'**
+  String get reasonSpam;
+
+  /// Report reason
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment'**
+  String get reasonHarassment;
+
+  /// Report reason
+  ///
+  /// In en, this message translates to:
+  /// **'Inappropriate Content'**
+  String get reasonInappropriate;
+
+  /// Report reason
+  ///
+  /// In en, this message translates to:
+  /// **'Misinformation'**
+  String get reasonMisinformation;
+
+  /// Report reason
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reasonOther;
+
+  /// Submit report button
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Report'**
+  String get submitReport;
+
+  /// Report success
+  ///
+  /// In en, this message translates to:
+  /// **'{type} reported successfully'**
+  String reportedSuccessfully(String type);
+
+  /// Report reason hint
+  ///
+  /// In en, this message translates to:
+  /// **'Describe why you are reporting this...'**
+  String get reasonHint;
 }
 
 class _AppLocalizationsDelegate

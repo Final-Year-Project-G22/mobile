@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -82,7 +83,9 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     setState(() => _isUploading = true);
     try {
       debugPrint('Uploading ${files.length} files...');
-      final result = await ref.read(communityMutationsProvider.notifier).uploadAttachments(files);
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .uploadAttachments(files);
 
       result.fold(
         (failure) {
@@ -148,11 +151,19 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
       final initialPost = _initialPostController.text;
       debugPrint('Title: $title, Post: $initialPost');
 
-      final attachmentIds = _attachments.isNotEmpty ? _attachments.map((a) => a.id).join(',') : null;
-      final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
-      final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
+      final attachmentIds = _attachments.isNotEmpty
+          ? _attachments.map((a) => a.id).join(',')
+          : null;
+      final sectorIds = _selectedSectorIds.isNotEmpty
+          ? _selectedSectorIds.toList()
+          : null;
+      final tagIds = _selectedTagIds.isNotEmpty
+          ? _selectedTagIds.toList()
+          : null;
 
-      debugPrint('Submitting thread with sectorIds: $sectorIds, tagIds: $tagIds, attachmentIds: $attachmentIds');
+      debugPrint(
+        'Submitting thread with sectorIds: $sectorIds, tagIds: $tagIds, attachmentIds: $attachmentIds',
+      );
 
       final result = await ref
           .read(communityMutationsProvider.notifier)
@@ -203,12 +214,13 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Thread'),
+        title: Text(l10n.createThread),
         actions: [
           TextButton(
             onPressed: (_isSubmitting || _isUploading) ? null : _submit,
@@ -221,7 +233,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                       color: Colors.white,
                     ),
                   )
-                : const Text('Post'),
+                : Text(l10n.post),
           ),
         ],
       ),
@@ -230,42 +242,40 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // Title
             TextFormField(
               controller: _titleController,
               enabled: !_isSubmitting,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.title,
+                border: const OutlineInputBorder(),
               ),
               validator: (v) {
                 final t = v?.trim() ?? '';
-                if (t.isEmpty) return 'Title required';
-                if (t.length < 5) return 'Min 5 chars';
+                if (t.isEmpty) return l10n.titleRequired;
+                if (t.length < 5) return l10n.minChars(5);
                 return null;
               },
             ),
 
             const SizedBox(height: 12),
 
-            // Initial post
             TextFormField(
               controller: _initialPostController,
               enabled: !_isSubmitting,
               minLines: 4,
               maxLines: 6,
-              decoration: const InputDecoration(
-                labelText: 'Initial Post',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.initialPost,
+                border: const OutlineInputBorder(),
               ),
-              validator: (v) => (v?.trim().isEmpty ?? true) ? 'Post required' : null,
+              validator: (v) =>
+                  (v?.trim().isEmpty ?? true) ? l10n.postRequired : null,
             ),
 
             const SizedBox(height: 16),
 
-            // Sector picker
             sectorsAsync.when(
-              data: _buildSectorChips,
+              data: (sectors) => _buildSectorChips(sectors, l10n),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Center(child: CircularProgressIndicator()),
@@ -281,9 +291,8 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
 
             const SizedBox(height: 12),
 
-            // Tag picker
             tagsAsync.when(
-              data: _buildTagChips,
+              data: (tags) => _buildTagChips(tags, l10n),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Center(child: CircularProgressIndicator()),
@@ -299,12 +308,13 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
 
             const SizedBox(height: 12),
 
-            // Attachment buttons
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: (_isSubmitting || _isUploading) ? null : _pickImage,
+                    onPressed: (_isSubmitting || _isUploading)
+                        ? null
+                        : _pickImage,
                     icon: _isUploading
                         ? const SizedBox(
                             width: 16,
@@ -312,21 +322,22 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.image),
-                    label: const Text('Add Images'),
+                    label: Text(l10n.addImages),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: (_isSubmitting || _isUploading) ? null : _pickFile,
+                    onPressed: (_isSubmitting || _isUploading)
+                        ? null
+                        : _pickFile,
                     icon: const Icon(Icons.attach_file),
-                    label: const Text('Add Files'),
+                    label: Text(l10n.addFiles),
                   ),
                 ),
               ],
             ),
 
-            // Uploaded attachments list
             if (_attachments.isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
@@ -344,7 +355,8 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest
+                        .withValues(alpha: 0.5),
                   ),
                   child: Row(
                     children: [
@@ -389,12 +401,12 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     );
   }
 
-  Widget _buildSectorChips(List<Sector> sectors) {
+  Widget _buildSectorChips(List<Sector> sectors, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Sectors (optional)',
+          l10n.sectorsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
@@ -414,7 +426,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     );
   }
 
-  Widget _buildTagChips(List<Tag> tags) {
+  Widget _buildTagChips(List<Tag> tags, AppLocalizations l10n) {
     final grouped = <String, List<Tag>>{};
     for (final tag in tags) {
       grouped.putIfAbsent(tag.group, () => []).add(tag);
@@ -424,7 +436,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tags (optional)',
+          l10n.tagsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 8),

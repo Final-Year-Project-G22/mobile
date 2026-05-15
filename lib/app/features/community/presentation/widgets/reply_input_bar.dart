@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
 import '../../domain/entities/discussion_post.dart';
@@ -83,7 +84,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     }
   }
 
-  Future<void> _showAttachmentPicker() async {
+  Future<void> _showAttachmentPicker(AppLocalizations l10n) async {
     await showModalBottomSheet<void>(
       context: context,
       builder: (ctx) => SafeArea(
@@ -91,7 +92,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           children: [
             ListTile(
               leading: const Icon(Icons.image),
-              title: const Text('Choose images'),
+              title: Text(l10n.addImages),
               onTap: () async {
                 Navigator.of(ctx).pop();
                 await _pickImages();
@@ -99,7 +100,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             ),
             ListTile(
               leading: const Icon(Icons.insert_drive_file),
-              title: const Text('Choose files'),
+              title: Text(l10n.addFiles),
               onTap: () async {
                 Navigator.of(ctx).pop();
                 await _pickFiles();
@@ -292,6 +293,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final isEditing = widget.editTarget != null;
     final isReplying = widget.replyTarget != null;
     final existingAttachments = widget.editTarget?.attachments;
@@ -313,10 +315,10 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         : 'Write a post...';
 
     final buttonLabel = isEditing
-        ? 'Update'
+        ? l10n.edit
         : isReplying
-        ? 'Reply'
-        : 'Post';
+        ? l10n.reply
+        : l10n.post;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -572,7 +574,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                       : const Icon(Icons.attach_file),
                   onPressed: (_isSubmitting || _isUploading)
                       ? null
-                      : _showAttachmentPicker,
+                      : () => _showAttachmentPicker(l10n),
                 ),
                 Expanded(
                   child: TextField(

@@ -1024,4 +1024,203 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get stepRemoveBookmark => 'ዕልባት አስወግድ';
+
+  @override
+  String get communityForYou => 'ለእርስዎ';
+
+  @override
+  String get communityAll => 'ሁሉም';
+
+  @override
+  String get searchThreads => 'ክሮችን ይፈልጉ...';
+
+  @override
+  String noThreadsFound(String query) {
+    return '\"$query\" የሚል ክሮች አልተገኙም';
+  }
+
+  @override
+  String get noThreadsAvailable => 'እስካሁን ምንም ክሮች የሉም';
+
+  @override
+  String get noPersonalizedThreads => 'እስካሁን ምንም የግል የተደረጉ ክሮች የሉም';
+
+  @override
+  String threadReplies(int count) {
+    return '$count ምላሾች';
+  }
+
+  @override
+  String threadViews(int count) {
+    return '$count እይታዎች';
+  }
+
+  @override
+  String get owned => 'የባለቤትነት';
+
+  @override
+  String get solved => 'ተፈቷል';
+
+  @override
+  String get followed => 'የተከተሉ';
+
+  @override
+  String get moreFilters => 'ተጨማሪ ማጣሪያዎች';
+
+  @override
+  String get filters => 'ማጣሪያዎች';
+
+  @override
+  String get reset => 'ዳግም አስጀምር';
+
+  @override
+  String get searchSectorsTags => 'ዘርፎችን እና መለያዎችን ይፈልጉ...';
+
+  @override
+  String get sectors => 'ዘርፎች';
+
+  @override
+  String get tags => 'መለያዎች';
+
+  @override
+  String get followedOnly => 'የተከተሉት ብቻ';
+
+  @override
+  String get showFollowedOnly => 'የሚከተሏቸውን ክሮች ብቻ አሳይ';
+
+  @override
+  String get noItemsMatchSearch => 'ከፍለጋዎ ጋር የሚዛመድ ምንም ነገር የለም';
+
+  @override
+  String errorLoadingThreads(String error) {
+    return 'ክሮችን በመጫን ላይ ስህተት: $error';
+  }
+
+  @override
+  String get createThread => 'ክር ይፍጠሩ';
+
+  @override
+  String get post => 'ለጥፍ';
+
+  @override
+  String get title => 'ርዕስ';
+
+  @override
+  String get titleRequired => 'ርዕስ ያስፈልጋል';
+
+  @override
+  String minChars(int count) {
+    return 'ቢያንስ $count ቁምፊዎች';
+  }
+
+  @override
+  String get initialPost => 'የመጀመሪያ ልጥፍ';
+
+  @override
+  String get postRequired => 'ልጥፍ ያስፈልጋል';
+
+  @override
+  String get addImages => 'ምስሎችን አክል';
+
+  @override
+  String get addFiles => 'ፋይሎችን አክል';
+
+  @override
+  String get sectorsOptional => 'ዘርፎች (አማራጭ)';
+
+  @override
+  String get tagsOptional => 'መለያዎች (አማራጭ)';
+
+  @override
+  String get deletePost => 'ልጥፍ ሰርዝ';
+
+  @override
+  String get confirmDeletePost => 'እርግጠኛ ነዎት ይህን ልጥፍ መሰረዝ ይፈልጋሉ?';
+
+  @override
+  String get postDeleted => 'ልጥፍ በተሳካ ሁኔታ ተሰርዟል';
+
+  @override
+  String get markAsSolution => 'እንደ መፍትሄ ምልክት አድርግ';
+
+  @override
+  String get confirmMarkSolution => 'ይህን ልጥፍ እንደ ተቀባይነት ያለው መፍትሄ ምልክት አድርግ?';
+
+  @override
+  String get mark => 'ምልክት አድርግ';
+
+  @override
+  String get markedAsSolution => 'እንደ መፍትሄ ምልክት ተደርጓል';
+
+  @override
+  String get deleteThread => 'ክር ሰርዝ';
+
+  @override
+  String get confirmDeleteThread =>
+      'እርግጠኛ ነዎት ይህን ክር መሰረዝ ይፈልጋሉ? ይህ ተግባር መቀልበስ አይቻልም።';
+
+  @override
+  String get threadDeleted => 'ክር በተሳካ ሁኔታ ተሰርዟል';
+
+  @override
+  String get followThread => 'ክር ተከተል';
+
+  @override
+  String get unfollowThread => 'ክር መከታተል አቁም';
+
+  @override
+  String get followingThread => 'ክር እየተከተሉ ነው';
+
+  @override
+  String get unfollowedThread => 'ክር መከታተል አቁመዋል';
+
+  @override
+  String get editThread => 'ክር አስተካክል';
+
+  @override
+  String get reportThread => 'ክር ሪፖርት አድርግ';
+
+  @override
+  String get noRepliesYet => 'እስካሁን ምላሽ የለም። የመጀመሪያ ይሁኑ!';
+
+  @override
+  String get reply => 'ምላሽ';
+
+  @override
+  String get saveToGallery => 'ወደ ማዕከለ-ስዕላት አስቀምጥ';
+
+  @override
+  String get imageSaved => 'ምስል ወደ ማዕከለ-ስዕላት ተቀምጧል!';
+
+  @override
+  String get report => 'ሪፖርት';
+
+  @override
+  String get selectReason => 'ምክንያት ይምረጡ:';
+
+  @override
+  String get reasonSpam => 'አይፈለጌ መልዕክት';
+
+  @override
+  String get reasonHarassment => 'ትንኮሳ';
+
+  @override
+  String get reasonInappropriate => 'አግባብ ያልሆነ ይዘት';
+
+  @override
+  String get reasonMisinformation => 'የተሳሳተ መረጃ';
+
+  @override
+  String get reasonOther => 'ሌላ';
+
+  @override
+  String get submitReport => 'ሪፖርት አስገባ';
+
+  @override
+  String reportedSuccessfully(String type) {
+    return '$type በተሳካ ሁኔታ ሪፖርት ተደርጓል';
+  }
+
+  @override
+  String get reasonHint => 'ለምን ይህን እንደሚያሪፖርቱ ይግለጹ...';
 }
