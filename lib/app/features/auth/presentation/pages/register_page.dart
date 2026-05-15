@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../core/widgets/locale_toggle_button.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
@@ -61,6 +63,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final formState = ref.watch(registerFormProvider);
     final oauthState = ref.watch(authOAuthStateProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     ref
       ..listen(authProvider, (previous, next) {
@@ -71,8 +74,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               const OtpVerificationRoute().go(context);
             } else if (status.isAuthenticated) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Registration successful'),
+                SnackBar(
+                  content: Text(l10n.registrationSuccessful),
                   backgroundColor: AppColors.success,
                 ),
               );
@@ -84,13 +87,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 SnackBar(
                   content: Text(
                     error.maybeWhen(
-                      networkError: (_) => 'No internet connection',
+                      networkError: (_) => l10n.errorNetwork,
                       emailAlreadyInUse: (message) =>
-                          message ?? 'Email already in use',
+                          message ?? l10n.errorEmailInUse,
                       invalidEmailAndPasswordCombination: (message) =>
-                          message ?? 'Invalid email and password combination',
-                      serverError: (message) => message ?? 'Server error',
-                      orElse: () => 'An error occurred',
+                          message ?? l10n.errorInvalidCredentials,
+                      serverError: (message) => message ?? l10n.errorServer,
+                      orElse: () => l10n.errorGeneric,
                     ),
                   ),
                   backgroundColor: AppColors.error,
@@ -107,17 +110,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
-          networkError: (_) => 'No internet connection',
+          networkError: (_) => l10n.errorNetwork,
           oauthProviderUnavailable: (value) =>
-              value ?? 'OAuth provider is unavailable',
-          oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
+              value ?? l10n.errorOAuthUnavailable,
+          oauthCallbackInvalid: (value) =>
+              value ?? l10n.errorOAuthCallbackInvalid,
           oauthStateInvalidOrExpired: (value) =>
-              value ?? 'OAuth session expired, try again',
+              value ?? l10n.errorOAuthExpired,
           unsupportedOAuthProvider: (value) =>
-              value ?? 'Unsupported OAuth provider',
-          oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
-          serverError: (value) => value ?? 'Server error',
-          orElse: () => 'OAuth sign in failed',
+              value ?? l10n.errorOAuthUnsupported,
+          oauthCancelled: (value) => value ?? l10n.errorOAuthCancelled,
+          serverError: (value) => value ?? l10n.errorServer,
+          orElse: () => l10n.errorOAuthFailed,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -131,6 +135,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           : AppColors.backgroundLight,
       body: Stack(
         children: [
+          const Positioned(
+            top: 8,
+            right: 8,
+            child: LocaleToggleButton(),
+          ),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.lg),
@@ -140,7 +149,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   children: [
                     const SizedBox(height: AppSpacing.xxl),
                     Text(
-                      'Create Account',
+                      l10n.createAccount,
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -151,7 +160,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     AppSpacing.gapVerticalXs,
                     Text(
-                      'Sign up to get started',
+                      l10n.registerSubtitle,
                       style: TextStyle(
                         fontSize: 16,
                         color: isDark
@@ -161,8 +170,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     const SizedBox(height: AppSpacing.xxl),
                     AuthTextField(
-                      label: 'First Name',
-                      hint: 'Enter your first name',
+                      label: l10n.firstName,
+                      hint: l10n.firstNameHint,
                       controller: _firstNameController,
                       onChanged: (value) {
                         ref
@@ -176,8 +185,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Last Name',
-                      hint: 'Enter your last name',
+                      label: l10n.lastName,
+                      hint: l10n.lastNameHint,
                       controller: _lastNameController,
                       onChanged: (value) {
                         ref
@@ -191,8 +200,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Email',
-                      hint: 'Enter your email',
+                      label: l10n.email,
+                      hint: l10n.emailHint,
                       controller: _emailController,
                       onChanged: (value) {
                         ref
@@ -207,8 +216,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Username (optional)',
-                      hint: 'Choose a username',
+                      label: l10n.username,
+                      hint: l10n.usernameHint,
                       controller: _usernameController,
                       onChanged: (value) {
                         ref
@@ -223,8 +232,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Password',
-                      hint: 'Enter your password',
+                      label: l10n.password,
+                      hint: l10n.passwordHint,
                       controller: _passwordController,
                       onChanged: (value) {
                         ref
@@ -255,7 +264,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                     const SizedBox(height: AppSpacing.xl),
                     AuthButton(
-                      text: 'Register',
+                      text: l10n.register,
                       isLoading: formState.isSubmitting,
                       onPressed: () {
                         unawaited(
@@ -281,7 +290,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Already have an account? ',
+                          l10n.alreadyHaveAccount,
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.textSecondaryDark
@@ -290,9 +299,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ),
                         GestureDetector(
                           onTap: () => const LoginRoute().go(context),
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(
+                          child: Text(
+                            l10n.signIn,
+                            style: const TextStyle(
                               color: AppColors.accent,
                               fontWeight: FontWeight.w600,
                             ),
