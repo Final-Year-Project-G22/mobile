@@ -8,5 +8,6 @@ abstract class ConversationSummary with _$ConversationSummary {
     required String id,
     required String title,
     required DateTime updatedAt,
+    @Default('en') String language,
   }) = _ConversationSummary;
 }
