@@ -315,6 +315,8 @@ class GuideRepositoryImpl implements IGuideRepository {
       name: dto.name,
       description: dto.description,
       icon: dto.icon,
+      sectorIds: (dto.sectorIds ?? []).map((e) => e.toString()).toList(),
+      tagIds: (dto.tagIds ?? []).map((e) => e.toString()).toList(),
     );
   }
 
