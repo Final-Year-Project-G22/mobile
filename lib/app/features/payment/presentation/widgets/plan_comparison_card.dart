@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_colors.dart';
 
 class PlanComparisonCard extends StatelessWidget {
@@ -49,7 +50,7 @@ class PlanComparisonCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                'Most Popular',
+                AppLocalizations.of(context).mostPopular,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: Colors.white,
                 ),
@@ -102,7 +103,7 @@ class PlanComparisonCard extends StatelessWidget {
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: onSubscribe,
-              child: const Text('Subscribe'),
+              child: Text(AppLocalizations.of(context).subscribe),
             )
           else if (currentPlan)
             Container(
@@ -113,7 +114,7 @@ class PlanComparisonCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                'Current Plan',
+                AppLocalizations.of(context).currentPlan,
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: AppColors.slate500,
                 ),

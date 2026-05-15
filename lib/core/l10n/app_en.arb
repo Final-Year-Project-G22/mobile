@@ -1083,5 +1083,143 @@
   "download": "Download",
   "@download": {
     "description": "Download button"
+  },
+  "chooseYourPlan": "Choose Your Plan",
+  "@chooseYourPlan": {
+    "description": "Plans page title"
+  },
+  "freeForever": "free forever",
+  "@freeForever": {
+    "description": "Free plan period label"
+  },
+  "perMonth": "/month",
+  "@perMonth": {
+    "description": "Monthly period label"
+  },
+  "perYear": "/year",
+  "@perYear": {
+    "description": "Yearly period label"
+  },
+  "proMonthly": "Pro Monthly",
+  "@proMonthly": {
+    "description": "Pro monthly plan name"
+  },
+  "proYearly": "Pro Yearly",
+  "@proYearly": {
+    "description": "Pro yearly plan name"
+  },
+  "subscribe": "Subscribe",
+  "@subscribe": {
+    "description": "Subscribe button"
+  },
+  "currentPlan": "Current Plan",
+  "@currentPlan": {
+    "description": "Current plan badge"
+  },
+  "mostPopular": "Most Popular",
+  "@mostPopular": {
+    "description": "Popular plan badge"
+  },
+  "youAreOnPro": "You are on Pro",
+  "@youAreOnPro": {
+    "description": "Active pro banner title"
+  },
+  "savePercentYearly": "Save {percent}% with yearly billing",
+  "@savePercentYearly": {
+    "description": "Yearly savings text",
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "billingDisclaimer": "Subscriptions are billed in ETB. You can cancel anytime.",
+  "@billingDisclaimer": {
+    "description": "Billing disclaimer"
+  },
+  "planFeatureAllGuides": "Access to all guides",
+  "@planFeatureAllGuides": {
+    "description": "Basic plan feature"
+  },
+  "planFeatureCommunity": "Community read-only access",
+  "@planFeatureCommunity": {
+    "description": "Basic plan feature"
+  },
+  "planFeatureAiQuestions": "3 AI questions per month",
+  "@planFeatureAiQuestions": {
+    "description": "Basic plan feature"
+  },
+  "planFeatureEverythingBasic": "Everything in Basic",
+  "@planFeatureEverythingBasic": {
+    "description": "Pro plan feature"
+  },
+  "planFeatureUnlimitedAi": "Unlimited AI questions",
+  "@planFeatureUnlimitedAi": {
+    "description": "Pro plan feature"
+  },
+  "planFeatureTemplates": "Template downloads",
+  "@planFeatureTemplates": {
+    "description": "Pro plan feature"
+  },
+  "planFeatureSupport": "Priority community support",
+  "@planFeatureSupport": {
+    "description": "Pro plan feature"
+  },
+  "planFeatureAdvancedProfile": "Advanced business profile",
+  "@planFeatureAdvancedProfile": {
+    "description": "Pro plan feature"
+  },
+  "openingSecurePayment": "Opening secure payment...",
+  "@openingSecurePayment": {
+    "description": "Checkout loading text"
+  },
+  "paymentCancelled": "Payment cancelled",
+  "@paymentCancelled": {
+    "description": "Cancelled payment snackbar"
+  },
+  "verifyingPayment": "Verifying your payment...",
+  "@verifyingPayment": {
+    "description": "Payment verification loading"
+  },
+  "noVerificationResult": "No verification result",
+  "@noVerificationResult": {
+    "description": "Null verification error"
+  },
+  "paymentSuccessful": "Payment Successful",
+  "@paymentSuccessful": {
+    "description": "Success result title"
+  },
+  "proPlanActive": "Your Pro plan is now active.",
+  "@proPlanActive": {
+    "description": "Success result subtitle"
+  },
+  "paymentProcessing": "Payment Processing",
+  "@paymentProcessing": {
+    "description": "Pending result title"
+  },
+  "paymentBeingProcessed": "Your payment is being processed by your bank. This may take a moment.",
+  "@paymentBeingProcessed": {
+    "description": "Pending result subtitle"
+  },
+  "paymentFailed": "Payment Failed",
+  "@paymentFailed": {
+    "description": "Failed result title"
+  },
+  "couldNotCompletePayment": "Your payment could not be completed.",
+  "@couldNotCompletePayment": {
+    "description": "Failed result subtitle"
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Retry payment button"
+  },
+  "backToHome": "Back to Home",
+  "@backToHome": {
+    "description": "Navigate home button"
+  },
+  "failedToLoadPlans": "Failed to load plans: {error}",
+  "@failedToLoadPlans": {
+    "description": "Plans load error",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
   }
 }

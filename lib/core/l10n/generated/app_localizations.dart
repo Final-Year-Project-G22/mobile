@@ -1603,6 +1603,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download'**
   String get download;
+
+  /// Plans page title
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Plan'**
+  String get chooseYourPlan;
+
+  /// Free plan period label
+  ///
+  /// In en, this message translates to:
+  /// **'free forever'**
+  String get freeForever;
+
+  /// Monthly period label
+  ///
+  /// In en, this message translates to:
+  /// **'/month'**
+  String get perMonth;
+
+  /// Yearly period label
+  ///
+  /// In en, this message translates to:
+  /// **'/year'**
+  String get perYear;
+
+  /// Pro monthly plan name
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Monthly'**
+  String get proMonthly;
+
+  /// Pro yearly plan name
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Yearly'**
+  String get proYearly;
+
+  /// Subscribe button
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// Current plan badge
+  ///
+  /// In en, this message translates to:
+  /// **'Current Plan'**
+  String get currentPlan;
+
+  /// Popular plan badge
+  ///
+  /// In en, this message translates to:
+  /// **'Most Popular'**
+  String get mostPopular;
+
+  /// Active pro banner title
+  ///
+  /// In en, this message translates to:
+  /// **'You are on Pro'**
+  String get youAreOnPro;
+
+  /// Yearly savings text
+  ///
+  /// In en, this message translates to:
+  /// **'Save {percent}% with yearly billing'**
+  String savePercentYearly(int percent);
+
+  /// Billing disclaimer
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions are billed in ETB. You can cancel anytime.'**
+  String get billingDisclaimer;
+
+  /// Basic plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Access to all guides'**
+  String get planFeatureAllGuides;
+
+  /// Basic plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Community read-only access'**
+  String get planFeatureCommunity;
+
+  /// Basic plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'3 AI questions per month'**
+  String get planFeatureAiQuestions;
+
+  /// Pro plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Everything in Basic'**
+  String get planFeatureEverythingBasic;
+
+  /// Pro plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited AI questions'**
+  String get planFeatureUnlimitedAi;
+
+  /// Pro plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Template downloads'**
+  String get planFeatureTemplates;
+
+  /// Pro plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Priority community support'**
+  String get planFeatureSupport;
+
+  /// Pro plan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced business profile'**
+  String get planFeatureAdvancedProfile;
+
+  /// Checkout loading text
+  ///
+  /// In en, this message translates to:
+  /// **'Opening secure payment...'**
+  String get openingSecurePayment;
+
+  /// Cancelled payment snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Payment cancelled'**
+  String get paymentCancelled;
+
+  /// Payment verification loading
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying your payment...'**
+  String get verifyingPayment;
+
+  /// Null verification error
+  ///
+  /// In en, this message translates to:
+  /// **'No verification result'**
+  String get noVerificationResult;
+
+  /// Success result title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful'**
+  String get paymentSuccessful;
+
+  /// Success result subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your Pro plan is now active.'**
+  String get proPlanActive;
+
+  /// Pending result title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Processing'**
+  String get paymentProcessing;
+
+  /// Pending result subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment is being processed by your bank. This may take a moment.'**
+  String get paymentBeingProcessed;
+
+  /// Failed result title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Failed'**
+  String get paymentFailed;
+
+  /// Failed result subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment could not be completed.'**
+  String get couldNotCompletePayment;
+
+  /// Retry payment button
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// Navigate home button
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get backToHome;
+
+  /// Plans load error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load plans: {error}'**
+  String failedToLoadPlans(String error);
 }
 
 class _AppLocalizationsDelegate

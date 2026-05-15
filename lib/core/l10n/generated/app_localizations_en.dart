@@ -836,4 +836,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get download => 'Download';
+
+  @override
+  String get chooseYourPlan => 'Choose Your Plan';
+
+  @override
+  String get freeForever => 'free forever';
+
+  @override
+  String get perMonth => '/month';
+
+  @override
+  String get perYear => '/year';
+
+  @override
+  String get proMonthly => 'Pro Monthly';
+
+  @override
+  String get proYearly => 'Pro Yearly';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get currentPlan => 'Current Plan';
+
+  @override
+  String get mostPopular => 'Most Popular';
+
+  @override
+  String get youAreOnPro => 'You are on Pro';
+
+  @override
+  String savePercentYearly(int percent) {
+    return 'Save $percent% with yearly billing';
+  }
+
+  @override
+  String get billingDisclaimer =>
+      'Subscriptions are billed in ETB. You can cancel anytime.';
+
+  @override
+  String get planFeatureAllGuides => 'Access to all guides';
+
+  @override
+  String get planFeatureCommunity => 'Community read-only access';
+
+  @override
+  String get planFeatureAiQuestions => '3 AI questions per month';
+
+  @override
+  String get planFeatureEverythingBasic => 'Everything in Basic';
+
+  @override
+  String get planFeatureUnlimitedAi => 'Unlimited AI questions';
+
+  @override
+  String get planFeatureTemplates => 'Template downloads';
+
+  @override
+  String get planFeatureSupport => 'Priority community support';
+
+  @override
+  String get planFeatureAdvancedProfile => 'Advanced business profile';
+
+  @override
+  String get openingSecurePayment => 'Opening secure payment...';
+
+  @override
+  String get paymentCancelled => 'Payment cancelled';
+
+  @override
+  String get verifyingPayment => 'Verifying your payment...';
+
+  @override
+  String get noVerificationResult => 'No verification result';
+
+  @override
+  String get paymentSuccessful => 'Payment Successful';
+
+  @override
+  String get proPlanActive => 'Your Pro plan is now active.';
+
+  @override
+  String get paymentProcessing => 'Payment Processing';
+
+  @override
+  String get paymentBeingProcessed =>
+      'Your payment is being processed by your bank. This may take a moment.';
+
+  @override
+  String get paymentFailed => 'Payment Failed';
+
+  @override
+  String get couldNotCompletePayment => 'Your payment could not be completed.';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get backToHome => 'Back to Home';
+
+  @override
+  String failedToLoadPlans(String error) {
+    return 'Failed to load plans: $error';
+  }
 }
