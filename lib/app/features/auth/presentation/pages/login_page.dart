@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../core/widgets/locale_toggle_button.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
@@ -52,6 +54,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
     final formState = ref.watch(loginFormProvider);
     final oauthState = ref.watch(authOAuthStateProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     ref
       ..listen(authProvider, (previous, next) {
@@ -62,13 +65,13 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                 SnackBar(
                   content: Text(
                     error.maybeWhen(
-                      networkError: (_) => 'No internet connection',
+                      networkError: (_) => l10n.errorNetwork,
                       emailAlreadyInUse: (message) =>
-                          message ?? 'Email already in use',
+                          message ?? l10n.errorEmailInUse,
                       invalidEmailAndPasswordCombination: (message) =>
-                          message ?? 'Invalid email or password',
-                      serverError: (message) => message ?? 'Server error',
-                      orElse: () => 'An error occurred',
+                          message ?? l10n.errorInvalidCredentials,
+                      serverError: (message) => message ?? l10n.errorServer,
+                      orElse: () => l10n.errorGeneric,
                     ),
                   ),
                   backgroundColor: AppColors.error,
@@ -85,17 +88,18 @@ class _LogInPageState extends ConsumerState<LogInPage> {
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
-          networkError: (_) => 'No internet connection',
+          networkError: (_) => l10n.errorNetwork,
           oauthProviderUnavailable: (value) =>
-              value ?? 'OAuth provider is unavailable',
-          oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
+              value ?? l10n.errorOAuthUnavailable,
+          oauthCallbackInvalid: (value) =>
+              value ?? l10n.errorOAuthCallbackInvalid,
           oauthStateInvalidOrExpired: (value) =>
-              value ?? 'OAuth session expired, try again',
+              value ?? l10n.errorOAuthExpired,
           unsupportedOAuthProvider: (value) =>
-              value ?? 'Unsupported OAuth provider',
-          oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
-          serverError: (value) => value ?? 'Server error',
-          orElse: () => 'OAuth sign in failed',
+              value ?? l10n.errorOAuthUnsupported,
+          oauthCancelled: (value) => value ?? l10n.errorOAuthCancelled,
+          serverError: (value) => value ?? l10n.errorServer,
+          orElse: () => l10n.errorOAuthFailed,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -109,6 +113,11 @@ class _LogInPageState extends ConsumerState<LogInPage> {
           : AppColors.backgroundLight,
       body: Stack(
         children: [
+          const Positioned(
+            top: 8,
+            right: 8,
+            child: LocaleToggleButton(),
+          ),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.lg),
@@ -118,7 +127,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                   children: [
                     const SizedBox(height: AppSpacing.xxl),
                     Text(
-                      'LogIn',
+                      l10n.login,
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -129,7 +138,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                     ),
                     AppSpacing.gapVerticalXs,
                     Text(
-                      'LogIn to get started',
+                      l10n.loginSubtitle,
                       style: TextStyle(
                         fontSize: 16,
                         color: isDark
@@ -140,8 +149,8 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                     const SizedBox(height: AppSpacing.xxl),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Email or Username',
-                      hint: 'Enter your email or username',
+                      label: l10n.emailOrUsername,
+                      hint: l10n.emailOrUsernameHint,
                       controller: _identifierController,
                       onChanged: (value) {
                         ref
@@ -156,8 +165,8 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                     ),
                     AppSpacing.gapLg,
                     AuthTextField(
-                      label: 'Password',
-                      hint: 'Enter your password',
+                      label: l10n.password,
+                      hint: l10n.passwordHint,
                       controller: _passwordController,
                       onChanged: (value) {
                         ref
@@ -188,7 +197,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                     ),
                     const SizedBox(height: AppSpacing.xl),
                     AuthButton(
-                      text: 'Login',
+                      text: l10n.login,
                       isLoading: formState.isSubmitting,
                       onPressed: () {
                         unawaited(
@@ -214,7 +223,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account? ",
+                          l10n.dontHaveAccount,
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.textSecondaryDark
@@ -223,9 +232,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                         ),
                         GestureDetector(
                           onTap: () => const RegisterRoute().go(context),
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
+                          child: Text(
+                            l10n.signUp,
+                            style: const TextStyle(
                               color: AppColors.accent,
                               fontWeight: FontWeight.w600,
                             ),
