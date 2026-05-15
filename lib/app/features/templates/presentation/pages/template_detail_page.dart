@@ -55,9 +55,9 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   String? _error;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    await _downloadPdf();
+    unawaited(_downloadPdf());
   }
 
   Future<void> _downloadPdf() async {
