@@ -177,7 +177,7 @@ class PlansPage extends ConsumerWidget {
                       children: [
                         Text(
                           l10n.youAreOnPro,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           l10n.activeUntil(

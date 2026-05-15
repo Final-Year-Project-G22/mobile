@@ -735,8 +735,9 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             return item.displayName.toLowerCase().contains(_searchText);
           }).toList();
 
-    if (filtered.isEmpty && _searchText.isNotEmpty)
+    if (filtered.isEmpty && _searchText.isNotEmpty) {
       return const SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
