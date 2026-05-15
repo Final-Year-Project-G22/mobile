@@ -1021,6 +1021,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Tap to retry.'**
   String get aiGuideStreamError;
+
+  /// Login page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to get started'**
+  String get loginSubtitle;
+
+  /// Email or username label
+  ///
+  /// In en, this message translates to:
+  /// **'Email or username'**
+  String get emailOrUsername;
+
+  /// Email or username hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email or username'**
+  String get emailOrUsernameHint;
+
+  /// Password hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// Login error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password'**
+  String get errorInvalidCredentials;
+
+  /// Registration error
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get errorEmailInUse;
+
+  /// Generic error
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred'**
+  String get errorGeneric;
+
+  /// OAuth error
+  ///
+  /// In en, this message translates to:
+  /// **'OAuth sign in failed'**
+  String get errorOAuthFailed;
+
+  /// OAuth unavailable error
+  ///
+  /// In en, this message translates to:
+  /// **'OAuth provider is unavailable'**
+  String get errorOAuthUnavailable;
+
+  /// OAuth callback error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid OAuth callback'**
+  String get errorOAuthCallbackInvalid;
+
+  /// OAuth expired error
+  ///
+  /// In en, this message translates to:
+  /// **'OAuth session expired, try again'**
+  String get errorOAuthExpired;
+
+  /// OAuth unsupported error
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported OAuth provider'**
+  String get errorOAuthUnsupported;
+
+  /// OAuth cancelled error
+  ///
+  /// In en, this message translates to:
+  /// **'OAuth login was cancelled'**
+  String get errorOAuthCancelled;
+
+  /// Register page title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// Register page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up to get started'**
+  String get registerSubtitle;
+
+  /// First name hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your first name'**
+  String get firstNameHint;
+
+  /// Last name hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your last name'**
+  String get lastNameHint;
+
+  /// Email hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// Username label
+  ///
+  /// In en, this message translates to:
+  /// **'Username (optional)'**
+  String get username;
+
+  /// Username hint
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a username'**
+  String get usernameHint;
+
+  /// Success message after registration
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful'**
+  String get registrationSuccessful;
+
+  /// OTP page title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Your Email'**
+  String get verifyEmail;
+
+  /// OTP page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code sent to your email'**
+  String get otpSubtitle;
+
+  /// OTP code hint
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 6-digit code'**
+  String get otpCodeHint;
+
+  /// Verify button
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// OTP resend prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive the code? '**
+  String get didNotReceiveCode;
+
+  /// Resend button
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
+
+  /// Resend cooldown text
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String resendIn(int seconds);
+
+  /// Invalid OTP error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid OTP code'**
+  String get errorInvalidOtp;
+
+  /// English language option
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Amharic language option
+  ///
+  /// In en, this message translates to:
+  /// **'አማርኛ'**
+  String get languageAmharic;
+
+  /// Business profile prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Complete business profile'**
+  String get completeBusinessProfile;
+
+  /// Onboarding continue prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Continue onboarding anytime'**
+  String get continueOnboardingAnytime;
+
+  /// Plan section header
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get plan;
+
+  /// Free plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan'**
+  String get freePlan;
+
+  /// Subscription active until date
+  ///
+  /// In en, this message translates to:
+  /// **'Active until {date}'**
+  String activeUntil(String date);
+
+  /// Pro plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get pro;
+
+  /// Basic plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get basic;
+
+  /// Skip onboarding button
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get skipForNow;
+
+  /// Saving state text
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
+
+  /// Onboarding save error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save business profile. Please try again.'**
+  String get errorSaveFailed;
 }
 
 class _AppLocalizationsDelegate

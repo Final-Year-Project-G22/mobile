@@ -515,4 +515,132 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiGuideStreamError => 'Something went wrong. Tap to retry.';
+
+  @override
+  String get loginSubtitle => 'Log in to get started';
+
+  @override
+  String get emailOrUsername => 'Email or username';
+
+  @override
+  String get emailOrUsernameHint => 'Enter your email or username';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get errorInvalidCredentials => 'Invalid email or password';
+
+  @override
+  String get errorEmailInUse => 'Email already in use';
+
+  @override
+  String get errorGeneric => 'An error occurred';
+
+  @override
+  String get errorOAuthFailed => 'OAuth sign in failed';
+
+  @override
+  String get errorOAuthUnavailable => 'OAuth provider is unavailable';
+
+  @override
+  String get errorOAuthCallbackInvalid => 'Invalid OAuth callback';
+
+  @override
+  String get errorOAuthExpired => 'OAuth session expired, try again';
+
+  @override
+  String get errorOAuthUnsupported => 'Unsupported OAuth provider';
+
+  @override
+  String get errorOAuthCancelled => 'OAuth login was cancelled';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get registerSubtitle => 'Sign up to get started';
+
+  @override
+  String get firstNameHint => 'Enter your first name';
+
+  @override
+  String get lastNameHint => 'Enter your last name';
+
+  @override
+  String get emailHint => 'Enter your email';
+
+  @override
+  String get username => 'Username (optional)';
+
+  @override
+  String get usernameHint => 'Choose a username';
+
+  @override
+  String get registrationSuccessful => 'Registration successful';
+
+  @override
+  String get verifyEmail => 'Verify Your Email';
+
+  @override
+  String get otpSubtitle => 'Enter the 6-digit code sent to your email';
+
+  @override
+  String get otpCodeHint => 'Please enter the 6-digit code';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get didNotReceiveCode => 'Didn\'t receive the code? ';
+
+  @override
+  String get resend => 'Resend';
+
+  @override
+  String resendIn(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get errorInvalidOtp => 'Invalid OTP code';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageAmharic => 'አማርኛ';
+
+  @override
+  String get completeBusinessProfile => 'Complete business profile';
+
+  @override
+  String get continueOnboardingAnytime => 'Continue onboarding anytime';
+
+  @override
+  String get plan => 'Plan';
+
+  @override
+  String get freePlan => 'Free plan';
+
+  @override
+  String activeUntil(String date) {
+    return 'Active until $date';
+  }
+
+  @override
+  String get pro => 'Pro';
+
+  @override
+  String get basic => 'Basic';
+
+  @override
+  String get skipForNow => 'Skip for now';
+
+  @override
+  String get saving => 'Saving...';
+
+  @override
+  String get errorSaveFailed =>
+      'Failed to save business profile. Please try again.';
 }

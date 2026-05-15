@@ -508,4 +508,131 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get aiGuideStreamError => 'የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።';
+
+  @override
+  String get loginSubtitle => 'ለመግባት ይመዝገቡ';
+
+  @override
+  String get emailOrUsername => 'ኢሜይል ወይም የተጠቃሚ ስም';
+
+  @override
+  String get emailOrUsernameHint => 'ኢሜይልዎን ወይም የተጠቃሚ ስምዎን ያስገቡ';
+
+  @override
+  String get passwordHint => 'ይለፍ ቃልዎን ያስገቡ';
+
+  @override
+  String get errorInvalidCredentials => 'የተሳሳተ ኢሜይል ወይም ይለፍ ቃል';
+
+  @override
+  String get errorEmailInUse => 'ኢሜይል ቀድሞ ጥቅም ላይ ውሏል';
+
+  @override
+  String get errorGeneric => 'ስህተት ተከስቷል';
+
+  @override
+  String get errorOAuthFailed => 'OAuth መግባት አልተሳካም';
+
+  @override
+  String get errorOAuthUnavailable => 'OAuth አገልግሎት አይገኝም';
+
+  @override
+  String get errorOAuthCallbackInvalid => 'ልክ ያልሆነ OAuth ጥሪ';
+
+  @override
+  String get errorOAuthExpired => 'OAuth ክፍለ ጊዜ ጊዜው አልፏል፣ እንደገና ይሞክሩ';
+
+  @override
+  String get errorOAuthUnsupported => 'የማይደገፍ OAuth አገልግሎት';
+
+  @override
+  String get errorOAuthCancelled => 'OAuth መግባት ተሰርዟል';
+
+  @override
+  String get createAccount => 'መለያ ይፍጠሩ';
+
+  @override
+  String get registerSubtitle => 'ለመጀመር ይመዝገቡ';
+
+  @override
+  String get firstNameHint => 'ስምዎን ያስገቡ';
+
+  @override
+  String get lastNameHint => 'የአባት ስምዎን ያስገቡ';
+
+  @override
+  String get emailHint => 'ኢሜይልዎን ያስገቡ';
+
+  @override
+  String get username => 'የተጠቃሚ ስም (አማራጭ)';
+
+  @override
+  String get usernameHint => 'የተጠቃሚ ስም ይምረጡ';
+
+  @override
+  String get registrationSuccessful => 'ምዝገባ ተሳክቷል';
+
+  @override
+  String get verifyEmail => 'ኢሜይልዎን ያረጋግጡ';
+
+  @override
+  String get otpSubtitle => 'ወደ ኢሜይልዎ የተላከውን ባለ 6-አሃዝ ኮድ ያስገቡ';
+
+  @override
+  String get otpCodeHint => 'እባክዎ ባለ 6-አሃዝ ኮዱን ያስገቡ';
+
+  @override
+  String get verify => 'አረጋግጥ';
+
+  @override
+  String get didNotReceiveCode => 'ኮዱ አልደረሰም?';
+
+  @override
+  String get resend => 'እንደገና ላክ';
+
+  @override
+  String resendIn(int seconds) {
+    return 'በ $seconds ሰከንድ ውስጥ እንደገና ይላኩ';
+  }
+
+  @override
+  String get errorInvalidOtp => 'ልክ ያልሆነ OTP ኮድ';
+
+  @override
+  String get languageEnglish => 'እንግሊዝኛ';
+
+  @override
+  String get languageAmharic => 'አማርኛ';
+
+  @override
+  String get completeBusinessProfile => 'የንግድ መገለጫ ያጠናቅቁ';
+
+  @override
+  String get continueOnboardingAnytime => 'ማስተዋወቂያውን በማንኛውም ጊዜ ይቀጥሉ';
+
+  @override
+  String get plan => 'እቅድ';
+
+  @override
+  String get freePlan => 'ነጻ እቅድ';
+
+  @override
+  String activeUntil(String date) {
+    return 'እስከ $date ድረስ ንቁ';
+  }
+
+  @override
+  String get pro => 'ፕሮ';
+
+  @override
+  String get basic => 'መሰረታዊ';
+
+  @override
+  String get skipForNow => 'ለአሁን ዝለል';
+
+  @override
+  String get saving => 'በማስቀመጥ ላይ...';
+
+  @override
+  String get errorSaveFailed => 'የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ';
 }
