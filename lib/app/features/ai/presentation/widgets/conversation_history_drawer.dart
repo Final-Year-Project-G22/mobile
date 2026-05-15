@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,7 +54,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                         if (notification is ScrollEndNotification &&
                             notification.metrics.pixels >=
                                 notification.metrics.maxScrollExtent - 200) {
-                          notifier.loadMore();
+                          unawaited(notifier.loadMore());
                         }
                         return false;
                       },
@@ -61,7 +63,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                         itemCount:
                             result.sessions.length +
                             (notifier.isLoadingMore ? 1 : 0),
-                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        separatorBuilder: (_, _) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           if (index < result.sessions.length) {
                             final conversation = result.sessions[index];
@@ -72,7 +74,9 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                                 onConversationSelected(conversation.id);
                               },
                               onArchive: () {
-                                notifier.archiveConversation(conversation.id);
+                                unawaited(
+                                  notifier.archiveConversation(conversation.id),
+                                );
                               },
                             );
                           }
@@ -246,7 +250,7 @@ class _ConversationTile extends StatelessWidget {
         ),
       ),
       confirmDismiss: (_) async {
-        return await showDialog<bool>(
+        return showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
             title: const Text('Archive conversation'),

@@ -74,9 +74,9 @@ class ConversationListNotifier extends _$ConversationListNotifier {
         offset: 0,
       ),
     );
-    if (state.value != null) {
-      _cachedResult = state.value!;
-      _hasMore = state.value!.sessions.length < state.value!.total;
+    if (state.value case final value?) {
+      _cachedResult = value;
+      _hasMore = value.sessions.length < value.total;
     }
   }
 
