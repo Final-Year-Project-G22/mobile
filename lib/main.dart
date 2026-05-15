@@ -24,9 +24,9 @@ void main() async {
       : 'assets/.env';
   await dotenv.load(fileName: envFile);
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
 
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(
     DevicePreview(

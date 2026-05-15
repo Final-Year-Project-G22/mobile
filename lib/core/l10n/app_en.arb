@@ -827,5 +827,33 @@
   "errorSaveFailed": "Failed to save business profile. Please try again.",
   "@errorSaveFailed": {
     "description": "Onboarding save error"
+  },
+  "unableToDisplayProfile": "Unable to display profile data.",
+  "@unableToDisplayProfile": {
+    "description": "Profile error state title"
+  },
+  "pleaseTryLoadingAgain": "Please try loading your profile again.",
+  "@pleaseTryLoadingAgain": {
+    "description": "Profile error state subtitle"
+  },
+  "editAvatar": "Edit avatar",
+  "@editAvatar": {
+    "description": "Edit avatar tooltip"
+  },
+  "profileDetails": "Profile Details",
+  "@profileDetails": {
+    "description": "Profile details section title"
+  },
+  "noBioYet": "No bio yet",
+  "@noBioYet": {
+    "description": "Empty bio placeholder"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile form title"
+  },
+  "bio": "Bio",
+  "@bio": {
+    "description": "Bio label"
   }
 }

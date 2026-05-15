@@ -635,4 +635,25 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get errorSaveFailed => 'የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ';
+
+  @override
+  String get unableToDisplayProfile => 'የመገለጫ ውሂብ ማሳየት አልተቻለም';
+
+  @override
+  String get pleaseTryLoadingAgain => 'እባክዎ መገለጫዎን እንደገና ለመጫን ይሞክሩ';
+
+  @override
+  String get editAvatar => 'አምሳል ያስተካክሉ';
+
+  @override
+  String get profileDetails => 'የመገለጫ ዝርዝሮች';
+
+  @override
+  String get noBioYet => 'ገና የህይወት ታሪክ የለም';
+
+  @override
+  String get editProfile => 'መገለጫ ያስተካክሉ';
+
+  @override
+  String get bio => 'የህይወት ታሪክ';
 }

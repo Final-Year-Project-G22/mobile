@@ -643,4 +643,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorSaveFailed =>
       'Failed to save business profile. Please try again.';
+
+  @override
+  String get unableToDisplayProfile => 'Unable to display profile data.';
+
+  @override
+  String get pleaseTryLoadingAgain => 'Please try loading your profile again.';
+
+  @override
+  String get editAvatar => 'Edit avatar';
+
+  @override
+  String get profileDetails => 'Profile Details';
+
+  @override
+  String get noBioYet => 'No bio yet';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get bio => 'Bio';
 }
