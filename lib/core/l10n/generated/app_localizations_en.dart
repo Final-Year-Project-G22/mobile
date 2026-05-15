@@ -691,4 +691,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String timeDaysShort(int days) {
     return '${days}d';
   }
+
+  @override
+  String citationSources(int count) {
+    return 'Sources ($count)';
+  }
+
+  @override
+  String get citationUntitled => 'Untitled source';
+
+  @override
+  String citationMatch(String sourceType, int score) {
+    return '$sourceType · $score% match';
+  }
+
+  @override
+  String get archiveConversationTitle => 'Archive conversation';
+
+  @override
+  String get archiveConversationContent =>
+      'This will remove the conversation from your history. This cannot be undone.';
+
+  @override
+  String get archiveConversationAction => 'Archive';
+
+  @override
+  String get languageLabelEn => 'EN';
+
+  @override
+  String get languageLabelAm => 'አማ';
 }

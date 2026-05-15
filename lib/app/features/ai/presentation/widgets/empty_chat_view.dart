@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
+
 class EmptyChatView extends StatelessWidget {
   const EmptyChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Center(
       child: Padding(
@@ -20,7 +23,7 @@ class EmptyChatView extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'AI Guide',
+              l10n.aiGuideTitle,
               style: theme.textTheme.headlineMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
@@ -28,7 +31,7 @@ class EmptyChatView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Ask me anything about your guides',
+              l10n.aiGuideGreeting,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),

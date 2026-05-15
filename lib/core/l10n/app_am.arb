@@ -238,5 +238,24 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  }
+  },
+  "citationSources": "ምንጮች ({count})",
+  "@citationSources": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "citationUntitled": "ርዕስ የሌለው ምንጭ",
+  "citationMatch": "{sourceType} · {score}% ተዛማጅ",
+  "@citationMatch": {
+    "placeholders": {
+      "sourceType": { "type": "String" },
+      "score": { "type": "int" }
+    }
+  },
+  "archiveConversationTitle": "ውይይት አርክብ",
+  "archiveConversationContent": "ይህ ውይይቱን ከታሪክዎ ያስወግዳል። ይህን መቀልበስ አይቻልም።",
+  "archiveConversationAction": "አርክብ",
+  "languageLabelEn": "EN",
+  "languageLabelAm": "አማ"
 }
