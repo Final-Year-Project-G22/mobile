@@ -17,6 +17,7 @@ class GuideCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Card(
       elevation: 0,
@@ -79,6 +80,15 @@ class GuideCardWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
+                    if (guide.sectorIds.isNotEmpty || guide.tagIds.isNotEmpty)
+                      AppSpacing.gapVerticalXxs,
+                    if (guide.sectorIds.isNotEmpty || guide.tagIds.isNotEmpty)
+                      _TaxonomyBadges(
+                        sectorCount: guide.sectorIds.length,
+                        tagCount: guide.tagIds.length,
+                        theme: theme,
+                        isDark: isDark,
+                      ),
                   ],
                 ),
               ),
@@ -100,5 +110,72 @@ class GuideCardWidget extends StatelessWidget {
       default:
         return Icons.menu_book;
     }
+  }
+}
+
+class _TaxonomyBadges extends StatelessWidget {
+  const _TaxonomyBadges({
+    required this.sectorCount,
+    required this.tagCount,
+    required this.theme,
+    required this.isDark,
+  });
+
+  final int sectorCount;
+  final int tagCount;
+  final ThemeData theme;
+  final bool isDark;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 6,
+      runSpacing: 4,
+      children: [
+        if (sectorCount > 0)
+          _Badge(
+            label: sectorCount == 1 ? '1 sector' : '$sectorCount sectors',
+            color: theme.colorScheme.primary,
+            background: theme.colorScheme.primaryContainer,
+          ),
+        if (tagCount > 0)
+          _Badge(
+            label: tagCount == 1 ? '1 tag' : '$tagCount tags',
+            color: theme.colorScheme.tertiary,
+            background: theme.colorScheme.tertiaryContainer,
+          ),
+      ],
+    );
+  }
+}
+
+class _Badge extends StatelessWidget {
+  const _Badge({
+    required this.label,
+    required this.color,
+    required this.background,
+  });
+
+  final String label;
+  final Color color;
+  final Color background;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          color: color,
+        ),
+      ),
+    );
   }
 }
