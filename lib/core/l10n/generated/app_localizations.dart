@@ -1267,6 +1267,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to save business profile. Please try again.'**
   String get errorSaveFailed;
+
+  /// Profile error state title
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to display profile data.'**
+  String get unableToDisplayProfile;
+
+  /// Profile error state subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Please try loading your profile again.'**
+  String get pleaseTryLoadingAgain;
+
+  /// Edit avatar tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Edit avatar'**
+  String get editAvatar;
+
+  /// Profile details section title
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Details'**
+  String get profileDetails;
+
+  /// Empty bio placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'No bio yet'**
+  String get noBioYet;
+
+  /// Edit profile form title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// Bio label
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get bio;
 }
 
 class _AppLocalizationsDelegate

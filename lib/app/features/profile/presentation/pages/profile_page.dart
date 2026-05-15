@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../payment/application/providers/subscription_provider.dart';
 import '../../application/profile_notifier.dart';
@@ -64,6 +65,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final subAsync = ref.watch(subscriptionProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     ref.listen<ProfileState>(profileProvider, (previous, next) {
       if (next.errorMessage != null &&
@@ -89,7 +91,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     if (user == null || hasInvalidProfileData) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Profile')),
+        appBar: AppBar(title: Text(l10n.profile)),
         body: Center(
           child: Padding(
             padding: AppSpacing.paddingLg,
@@ -99,13 +101,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 Icon(Icons.error_outline, size: 40, color: colorScheme.error),
                 AppSpacing.gapVerticalSm,
                 Text(
-                  'Unable to display profile data.',
+                  l10n.unableToDisplayProfile,
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
                 AppSpacing.gapVerticalXs,
                 Text(
-                  'Please try loading your profile again.',
+                  l10n.pleaseTryLoadingAgain,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -119,7 +121,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     );
                   },
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Retry'),
+                  label: Text(l10n.retry),
                 ),
               ],
             ),
@@ -132,7 +134,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(l10n.profile),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -177,7 +179,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       right: -6,
                       bottom: -6,
                       child: IconButton.filledTonal(
-                        tooltip: 'Edit avatar',
+                        tooltip: l10n.editAvatar,
                         onPressed: state.isUploadingAvatar
                             ? null
                             : () {
@@ -214,9 +216,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     if (subAsync.value?.planName == 'Pro') ...[
                       const SizedBox(width: 8),
                       Chip(
-                        label: const Text(
-                          'PRO',
-                          style: TextStyle(
+                        label: Text(
+                          l10n.pro,
+                          style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                           ),
@@ -231,7 +233,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 AppSpacing.gapVerticalXs,
                 Text(
-                  user.bio?.isNotEmpty == true ? user.bio! : 'No bio yet',
+                  user.bio?.isNotEmpty == true ? user.bio! : l10n.noBioYet,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -299,6 +301,7 @@ class _ProfileDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,22 +310,22 @@ class _ProfileDetailsView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Profile Details',
+                l10n.profileDetails,
                 style: theme.textTheme.titleMedium,
               ),
             ),
             IconButton(
-              tooltip: 'Edit profile',
+              tooltip: l10n.editProfile,
               onPressed: onEditTap,
               icon: const Icon(Icons.edit_outlined),
             ),
           ],
         ),
         AppSpacing.gapVerticalSm,
-        _InfoRow(label: 'First Name', value: user.firstName.getOrCrash()),
-        _InfoRow(label: 'Last Name', value: user.lastName.getOrCrash()),
+        _InfoRow(label: l10n.firstName, value: user.firstName.getOrCrash()),
+        _InfoRow(label: l10n.lastName, value: user.lastName.getOrCrash()),
         _InfoRow(
-          label: 'Bio',
+          label: l10n.bio,
           value: user.bio?.isNotEmpty == true ? user.bio! : '-',
         ),
       ],
@@ -350,28 +353,29 @@ class _EditProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Edit Profile', style: theme.textTheme.titleMedium),
+        Text(l10n.editProfile, style: theme.textTheme.titleMedium),
         AppSpacing.gapVerticalMd,
         TextField(
           controller: firstNameController,
           textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(labelText: 'First name'),
+          decoration: InputDecoration(labelText: l10n.firstName),
         ),
         AppSpacing.gapVerticalSm,
         TextField(
           controller: lastNameController,
           textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(labelText: 'Last name'),
+          decoration: InputDecoration(labelText: l10n.lastName),
         ),
         AppSpacing.gapVerticalSm,
         TextField(
           controller: bioController,
           maxLines: 3,
-          decoration: const InputDecoration(labelText: 'Bio'),
+          decoration: InputDecoration(labelText: l10n.bio),
         ),
         AppSpacing.gapVerticalMd,
         Row(
@@ -379,7 +383,7 @@ class _EditProfileForm extends StatelessWidget {
             Expanded(
               child: OutlinedButton(
                 onPressed: isSaving ? null : onCancel,
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
             ),
             AppSpacing.gapHorizontalSm,
@@ -392,7 +396,7 @@ class _EditProfileForm extends StatelessWidget {
                         height: 18,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Save'),
+                    : Text(l10n.save),
               ),
             ),
           ],

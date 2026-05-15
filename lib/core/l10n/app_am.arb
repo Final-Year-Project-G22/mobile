@@ -209,5 +209,12 @@
   "basic": "መሰረታዊ",
   "skipForNow": "ለአሁን ዝለል",
   "saving": "በማስቀመጥ ላይ...",
-  "errorSaveFailed": "የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ"
+  "errorSaveFailed": "የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ",
+  "unableToDisplayProfile": "የመገለጫ ውሂብ ማሳየት አልተቻለም",
+  "pleaseTryLoadingAgain": "እባክዎ መገለጫዎን እንደገና ለመጫን ይሞክሩ",
+  "editAvatar": "አምሳል ያስተካክሉ",
+  "profileDetails": "የመገለጫ ዝርዝሮች",
+  "noBioYet": "ገና የህይወት ታሪክ የለም",
+  "editProfile": "መገለጫ ያስተካክሉ",
+  "bio": "የህይወት ታሪክ"
 }
