@@ -6,6 +6,7 @@ import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../domain/entities/attachment.dart';
 
 class PostCard extends StatelessWidget {
@@ -84,19 +85,23 @@ class PostCard extends StatelessWidget {
     return Icons.insert_drive_file;
   }
 
-  String _formatTime(DateTime? time) {
+  String _formatTime(DateTime? time, AppLocalizations l10n) {
     if (time == null) return '';
 
     final now = DateTime.now();
     final diff = now.difference(time);
 
-    if (diff.inMinutes < 1) return 'just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m';
-    if (diff.inHours < 24) return '${diff.inHours}h';
-    return '${diff.inDays}d';
+    if (diff.inMinutes < 1) return l10n.justNow;
+    if (diff.inMinutes < 60) return l10n.timeMinutesShort(diff.inMinutes);
+    if (diff.inHours < 24) return l10n.timeHoursShort(diff.inHours);
+    return l10n.timeDaysShort(diff.inDays);
   }
 
-  Future<void> _downloadAndSaveImage(BuildContext context, String url) async {
+  Future<void> _downloadAndSaveImage(
+    BuildContext context,
+    String url,
+    AppLocalizations l10n,
+  ) async {
     try {
       final hasAccess = await Gal.hasAccess(toAlbum: true);
       if (!hasAccess) {
@@ -130,7 +135,7 @@ class PostCard extends StatelessWidget {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Image saved to gallery!')),
+          SnackBar(content: Text(l10n.imageSaved)),
         );
       }
     } on Exception catch (e) {
@@ -142,7 +147,11 @@ class PostCard extends StatelessWidget {
     }
   }
 
-  Future<void> _showImageActionDialog(BuildContext context, String url) async {
+  Future<void> _showImageActionDialog(
+    BuildContext context,
+    String url,
+    AppLocalizations l10n,
+  ) async {
     await showModalBottomSheet<void>(
       context: context,
       builder: (ctx) => SafeArea(
@@ -150,16 +159,16 @@ class PostCard extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.download),
-              title: const Text('Save to Gallery'),
+              title: Text(l10n.saveToGallery),
               onTap: () {
                 Navigator.of(ctx).pop();
-                unawaited(_downloadAndSaveImage(context, url));
+                unawaited(_downloadAndSaveImage(context, url, l10n));
               },
             ),
             if (onReply != null)
               ListTile(
                 leading: const Icon(Icons.reply),
-                title: const Text('Reply'),
+                title: Text(l10n.reply),
                 onTap: () {
                   Navigator.of(ctx).pop();
                   onReply?.call();
@@ -173,6 +182,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final safeNesting = nestingLevel > 3 ? 3 : nestingLevel;
     final indentation = safeNesting * 12;
 
@@ -193,12 +203,18 @@ class PostCard extends StatelessWidget {
                     GestureDetector(
                       onLongPress: onReportUser,
                       child: Tooltip(
-                        message: onReportUser != null ? 'Long-press to report user' : '',
+                        message: onReportUser != null
+                            ? 'Long-press to report user'
+                            : '',
                         child: CircleAvatar(
-                          backgroundImage: authorAvatarUrl != null && authorAvatarUrl!.isNotEmpty
+                          backgroundImage:
+                              authorAvatarUrl != null &&
+                                  authorAvatarUrl!.isNotEmpty
                               ? NetworkImage(authorAvatarUrl!)
                               : null,
-                          child: (authorAvatarUrl == null || authorAvatarUrl!.isEmpty)
+                          child:
+                              (authorAvatarUrl == null ||
+                                  authorAvatarUrl!.isEmpty)
                               ? const Icon(Icons.person)
                               : null,
                         ),
@@ -215,7 +231,7 @@ class PostCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            _formatTime(createdAt),
+                            _formatTime(createdAt, l10n),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -225,20 +241,27 @@ class PostCard extends StatelessWidget {
                     if (isSolution)
                       Container(
                         margin: const EdgeInsets.only(right: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.green),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.check_circle, color: Colors.green, size: 14),
-                            SizedBox(width: 4),
+                            const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
                             Text(
-                              'Solution',
-                              style: TextStyle(
+                              l10n.solved,
+                              style: const TextStyle(
                                 color: Colors.green,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -252,7 +275,10 @@ class PostCard extends StatelessWidget {
                         'edited',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                    if (onEdit != null || onDelete != null || onReport != null || onMarkSolution != null)
+                    if (onEdit != null ||
+                        onDelete != null ||
+                        onReport != null ||
+                        onMarkSolution != null)
                       PopupMenuButton<String>(
                         onSelected: (value) {
                           if (value == 'edit') {
@@ -269,37 +295,37 @@ class PostCard extends StatelessWidget {
                         },
                         itemBuilder: (context) => [
                           if (onReply != null)
-                            const PopupMenuItem(
+                            PopupMenuItem(
                               value: 'reply',
-                              child: Text('Reply'),
+                              child: Text(l10n.reply),
                             ),
                           if (onMarkSolution != null)
-                            const PopupMenuItem(
+                            PopupMenuItem(
                               value: 'markSolution',
                               child: Text(
-                                'Mark as Solution',
-                                style: TextStyle(color: Colors.green),
+                                l10n.markAsSolution,
+                                style: const TextStyle(color: Colors.green),
                               ),
                             ),
                           if (onEdit != null)
-                            const PopupMenuItem(
+                            PopupMenuItem(
                               value: 'edit',
-                              child: Text('Edit'),
+                              child: Text(l10n.edit),
                             ),
                           if (onDelete != null)
-                            const PopupMenuItem(
+                            PopupMenuItem(
                               value: 'delete',
                               child: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.red),
+                                l10n.delete,
+                                style: const TextStyle(color: Colors.red),
                               ),
                             ),
                           if (onReport != null)
-                            const PopupMenuItem(
+                            PopupMenuItem(
                               value: 'report',
                               child: Text(
-                                'Report',
-                                style: TextStyle(color: Colors.red),
+                                l10n.report,
+                                style: const TextStyle(color: Colors.red),
                               ),
                             ),
                         ],
@@ -308,7 +334,7 @@ class PostCard extends StatelessWidget {
                       IconButton(
                         onPressed: onReply,
                         icon: const Icon(Icons.reply, size: 20),
-                        tooltip: 'Reply',
+                        tooltip: l10n.reply,
                       ),
                   ],
                 ),
@@ -324,7 +350,10 @@ class PostCard extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest
+                            .withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(8),
                         border: Border(
                           left: BorderSide(
@@ -356,7 +385,10 @@ class PostCard extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest
+                            .withValues(alpha: 0.5),
                         border: Border.all(
                           color: Theme.of(
                             context,
@@ -400,14 +432,15 @@ class PostCard extends StatelessWidget {
                                   onPressed: () => _showImageActionDialog(
                                     context,
                                     att.fileUrl,
+                                    l10n,
                                   ),
-                                  tooltip: 'Save image',
+                                  tooltip: l10n.saveToGallery,
                                 )
                               else
                                 IconButton(
                                   icon: const Icon(Icons.download, size: 20),
                                   onPressed: () => _launchUrl(att.fileUrl),
-                                  tooltip: 'Download',
+                                  tooltip: l10n.download,
                                 ),
                             ],
                           ),
@@ -415,7 +448,11 @@ class PostCard extends StatelessWidget {
                           if (isImage)
                             GestureDetector(
                               onLongPress: () => unawaited(
-                                _showImageActionDialog(context, att.fileUrl),
+                                _showImageActionDialog(
+                                  context,
+                                  att.fileUrl,
+                                  l10n,
+                                ),
                               ),
                               child: ConstrainedBox(
                                 constraints: const BoxConstraints(
@@ -427,7 +464,9 @@ class PostCard extends StatelessWidget {
                                   child: Image.network(
                                     att.fileUrl,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => const Text('Failed to load image'),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Text('Failed to load image'),
                                   ),
                                 ),
                               ),

@@ -1333,5 +1333,261 @@
   "stepRemoveBookmark": "Remove bookmark",
   "@stepRemoveBookmark": {
     "description": "Remove bookmark tooltip"
+  },
+  "communityForYou": "For You",
+  "@communityForYou": {
+    "description": "For You tab"
+  },
+  "communityAll": "All",
+  "@communityAll": {
+    "description": "All tab"
+  },
+  "searchThreads": "Search threads...",
+  "@searchThreads": {
+    "description": "Threads search hint"
+  },
+  "noThreadsFound": "No threads found for {query}",
+  "@noThreadsFound": {
+    "description": "Search empty state",
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "noThreadsAvailable": "No threads available yet",
+  "@noThreadsAvailable": {
+    "description": "Empty all threads"
+  },
+  "noPersonalizedThreads": "No personalized threads available yet",
+  "@noPersonalizedThreads": {
+    "description": "Empty filtered threads"
+  },
+  "threadReplies": "{count} replies",
+  "@threadReplies": {
+    "description": "Reply count",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "threadViews": "{count} views",
+  "@threadViews": {
+    "description": "View count",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "owned": "Owned",
+  "@owned": {
+    "description": "Owned badge"
+  },
+  "solved": "Solved",
+  "@solved": {
+    "description": "Solved badge"
+  },
+  "followed": "Followed",
+  "@followed": {
+    "description": "Followed chip"
+  },
+  "moreFilters": "More filters",
+  "@moreFilters": {
+    "description": "Filter button tooltip"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Filter sheet title"
+  },
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset filters button"
+  },
+  "searchSectorsTags": "Search sectors and tags...",
+  "@searchSectorsTags": {
+    "description": "Filter search hint"
+  },
+  "sectors": "Sectors",
+  "@sectors": {
+    "description": "Sectors section"
+  },
+  "tags": "Tags",
+  "@tags": {
+    "description": "Tags section"
+  },
+  "followedOnly": "Followed only",
+  "@followedOnly": {
+    "description": "Followed filter title"
+  },
+  "showFollowedOnly": "Show only threads you follow",
+  "@showFollowedOnly": {
+    "description": "Followed filter subtitle"
+  },
+  "noItemsMatchSearch": "No items match your search",
+  "@noItemsMatchSearch": {
+    "description": "Filter no results"
+  },
+  "errorLoadingThreads": "Error loading threads: {error}",
+  "@errorLoadingThreads": {
+    "description": "Threads load error",
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "createThread": "Create Thread",
+  "@createThread": {
+    "description": "Create thread title"
+  },
+  "post": "Post",
+  "@post": {
+    "description": "Post button"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Title label"
+  },
+  "titleRequired": "Title required",
+  "@titleRequired": {
+    "description": "Title validation"
+  },
+  "minChars": "Min {count} chars",
+  "@minChars": {
+    "description": "Min chars validation",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "initialPost": "Initial Post",
+  "@initialPost": {
+    "description": "Initial post label"
+  },
+  "postRequired": "Post required",
+  "@postRequired": {
+    "description": "Post validation"
+  },
+  "addImages": "Add Images",
+  "@addImages": {
+    "description": "Add images button"
+  },
+  "addFiles": "Add Files",
+  "@addFiles": {
+    "description": "Add files button"
+  },
+  "sectorsOptional": "Sectors (optional)",
+  "@sectorsOptional": {
+    "description": "Sectors picker label"
+  },
+  "tagsOptional": "Tags (optional)",
+  "@tagsOptional": {
+    "description": "Tags picker label"
+  },
+  "deletePost": "Delete Post",
+  "@deletePost": {
+    "description": "Delete post dialog title"
+  },
+  "confirmDeletePost": "Are you sure you want to delete this post?",
+  "@confirmDeletePost": {
+    "description": "Delete post confirmation"
+  },
+  "postDeleted": "Post deleted successfully",
+  "@postDeleted": {
+    "description": "Post deleted snackbar"
+  },
+  "markAsSolution": "Mark as Solution",
+  "@markAsSolution": {
+    "description": "Mark solution dialog title"
+  },
+  "confirmMarkSolution": "Mark this post as the accepted solution?",
+  "@confirmMarkSolution": {
+    "description": "Mark solution confirmation"
+  },
+  "mark": "Mark",
+  "@mark": {
+    "description": "Mark solution confirm"
+  },
+  "markedAsSolution": "Marked as solution",
+  "@markedAsSolution": {
+    "description": "Marked solution snackbar"
+  },
+  "deleteThread": "Delete Thread",
+  "@deleteThread": {
+    "description": "Delete thread dialog title"
+  },
+  "confirmDeleteThread": "Are you sure you want to delete this thread? This action cannot be undone.",
+  "@confirmDeleteThread": {
+    "description": "Delete thread confirmation"
+  },
+  "threadDeleted": "Thread deleted successfully",
+  "@threadDeleted": {
+    "description": "Thread deleted snackbar"
+  },
+  "followThread": "Follow thread",
+  "@followThread": {
+    "description": "Follow thread tooltip"
+  },
+  "unfollowThread": "Unfollow thread",
+  "@unfollowThread": {
+    "description": "Unfollow thread tooltip"
+  },
+  "followingThread": "Following thread",
+  "@followingThread": {
+    "description": "Follow success snackbar"
+  },
+  "unfollowedThread": "Unfollowed thread",
+  "@unfollowedThread": {
+    "description": "Unfollow success snackbar"
+  },
+  "editThread": "Edit Thread",
+  "@editThread": {
+    "description": "Edit thread menu item"
+  },
+  "reportThread": "Report Thread",
+  "@reportThread": {
+    "description": "Report thread menu item"
+  },
+  "noRepliesYet": "No replies yet. Be the first!",
+  "@noRepliesYet": {
+    "description": "Empty replies state"
+  },
+  "reply": "Reply",
+  "@reply": {
+    "description": "Reply button"
+  },
+  "saveToGallery": "Save to Gallery",
+  "@saveToGallery": {
+    "description": "Save image option"
+  },
+  "imageSaved": "Image saved to gallery!",
+  "@imageSaved": {
+    "description": "Image save success"
+  },
+  "report": "Report",
+  "@report": {
+    "description": "Report menu item"
+  },
+  "selectReason": "Select a reason:",
+  "@selectReason": {
+    "description": "Report reason prompt"
+  },
+  "reasonSpam": "Spam",
+  "@reasonSpam": {
+    "description": "Report reason"
+  },
+  "reasonHarassment": "Harassment",
+  "@reasonHarassment": {
+    "description": "Report reason"
+  },
+  "reasonInappropriate": "Inappropriate Content",
+  "@reasonInappropriate": {
+    "description": "Report reason"
+  },
+  "reasonMisinformation": "Misinformation",
+  "@reasonMisinformation": {
+    "description": "Report reason"
+  },
+  "reasonOther": "Other",
+  "@reasonOther": {
+    "description": "Report reason"
+  },
+  "submitReport": "Submit Report",
+  "@submitReport": {
+    "description": "Submit report button"
+  },
+  "reportedSuccessfully": "{type} reported successfully",
+  "@reportedSuccessfully": {
+    "description": "Report success",
+    "placeholders": { "type": { "type": "String" } }
+  },
+  "reasonHint": "Describe why you are reporting this...",
+  "@reasonHint": {
+    "description": "Report reason hint"
   }
 }

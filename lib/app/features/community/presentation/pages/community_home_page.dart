@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
@@ -18,15 +19,16 @@ class CommunityHomePage extends ConsumerWidget {
     final searchText = ref.watch(searchTextProvider);
     final authState = ref.watch(authProvider);
     final currentAccountId = authState.asData?.value.account?.id;
+    final l10n = AppLocalizations.of(context);
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const TabBar(
+          title: TabBar(
             tabs: [
-              Tab(text: 'For You'),
-              Tab(text: 'All'),
+              Tab(text: l10n.communityForYou),
+              Tab(text: l10n.communityAll),
             ],
           ),
           bottom: PreferredSize(
@@ -35,7 +37,7 @@ class CommunityHomePage extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search threads...',
+                  hintText: l10n.searchThreads,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -115,8 +117,11 @@ class _ThreadListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final threadsAsync = ref.watch(
-      useFilteredAll ? filteredAllThreadsProvider : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
+      useFilteredAll
+          ? filteredAllThreadsProvider
+          : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
     );
 
     return threadsAsync.when(
@@ -130,8 +135,10 @@ class _ThreadListView extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Text(
                   searchText?.isNotEmpty == true
-                      ? 'No threads found for "$searchText"'
-                      : (useAllThreads ? 'No threads available yet' : 'No personalized threads available yet'),
+                      ? l10n.noThreadsFound(searchText!)
+                      : (useAllThreads
+                            ? l10n.noThreadsAvailable
+                            : l10n.noPersonalizedThreads),
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -142,7 +149,11 @@ class _ThreadListView extends ConsumerWidget {
 
         return RefreshIndicator(
           onRefresh: () async => ref.invalidate(
-            useFilteredAll ? allThreadsProvider : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
+            useFilteredAll
+                ? allThreadsProvider
+                : (useAllThreads
+                      ? allThreadsProvider
+                      : filteredThreadsProvider),
           ),
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
@@ -156,10 +167,14 @@ class _ThreadListView extends ConsumerWidget {
                 ),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: thread.authorAvatarUrl != null && thread.authorAvatarUrl!.isNotEmpty
+                    backgroundImage:
+                        thread.authorAvatarUrl != null &&
+                            thread.authorAvatarUrl!.isNotEmpty
                         ? NetworkImage(thread.authorAvatarUrl!)
                         : null,
-                    child: (thread.authorAvatarUrl == null || thread.authorAvatarUrl!.isEmpty)
+                    child:
+                        (thread.authorAvatarUrl == null ||
+                            thread.authorAvatarUrl!.isEmpty)
                         ? const Icon(Icons.person)
                         : null,
                   ),
@@ -198,22 +213,26 @@ class _ThreadListView extends ConsumerWidget {
                           Icon(
                             Icons.comment,
                             size: 16,
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${thread.replyCount} replies',
+                            l10n.threadReplies(thread.replyCount),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(width: 16),
                           Icon(
                             Icons.visibility,
                             size: 16,
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${thread.viewCount} views',
+                            l10n.threadViews(thread.viewCount),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -234,13 +253,17 @@ class _ThreadListView extends ConsumerWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                'Owned',
+                                l10n.owned,
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -321,18 +344,18 @@ class _ThreadListView extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.green),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.check_circle,
                                 color: Colors.green,
                                 size: 12,
                               ),
-                              SizedBox(width: 2),
+                              const SizedBox(width: 2),
                               Text(
-                                'Solved',
-                                style: TextStyle(
+                                l10n.solved,
+                                style: const TextStyle(
                                   color: Colors.green,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
@@ -371,7 +394,7 @@ class _ThreadListView extends ConsumerWidget {
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(
-        child: Text('Error loading threads: $error'),
+        child: Text(l10n.errorLoadingThreads(error.toString())),
       ),
     );
   }
@@ -382,13 +405,15 @@ class _FilterChipsRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
     final selectedSectors = ref.watch(selectedSectorIdsProvider);
     final selectedTags = ref.watch(selectedTagIdsProvider);
     final showFollowed = ref.watch(showFollowedOnlyProvider);
 
-    final hasFilters = selectedSectors.isNotEmpty || selectedTags.isNotEmpty || showFollowed;
+    final hasFilters =
+        selectedSectors.isNotEmpty || selectedTags.isNotEmpty || showFollowed;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -403,7 +428,9 @@ class _FilterChipsRow extends ConsumerWidget {
                   onTap: () {
                     ref.read(selectedSectorIdsProvider.notifier).clear();
                     ref.read(selectedTagIdsProvider.notifier).clear();
-                    ref.read(showFollowedOnlyProvider.notifier).toggle(value: false);
+                    ref
+                        .read(showFollowedOnlyProvider.notifier)
+                        .toggle(value: false);
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -420,44 +447,66 @@ class _FilterChipsRow extends ConsumerWidget {
                                 avatar: Icon(
                                   Icons.chat_bubble,
                                   size: 14,
-                                  color: showFollowed ? Theme.of(context).colorScheme.onPrimaryContainer : null,
+                                  color: showFollowed
+                                      ? Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer
+                                      : null,
                                 ),
-                                label: const Text('Followed', style: TextStyle(fontSize: 12)),
+                                label: Text(
+                                  l10n.followed,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
                                 selected: showFollowed,
                                 onSelected: (_) {
-                                  ref.read(showFollowedOnlyProvider.notifier).toggle(value: !showFollowed);
+                                  ref
+                                      .read(showFollowedOnlyProvider.notifier)
+                                      .toggle(value: !showFollowed);
                                 },
                                 visualDensity: VisualDensity.compact,
-                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
                               ),
-                      ..._buildSelectedChips(
-                        ref,
-                        sectorsAsync.asData?.value
-                            .map((s) => _FilterItem(
-                                  id: s.id,
-                                  displayName: s.name.isNotEmpty ? s.name : s.slug,
-                                ))
-                            .toList() ??
-                            [],
-                        selectedSectors,
-                        (id) {
-                          ref.read(selectedSectorIdsProvider.notifier).toggle(id);
-                        },
-                      ),
-                      ..._buildSelectedChips(
-                        ref,
-                        tagsAsync.asData?.value
-                            .map((t) => _FilterItem(
-                                  id: t.id,
-                                  displayName: t.name.isNotEmpty ? t.name : t.slug,
-                                ))
-                            .toList() ??
-                            [],
-                        selectedTags,
-                        (id) {
-                          ref.read(selectedTagIdsProvider.notifier).toggle(id);
-                        },
-                      ),
+                              ..._buildSelectedChips(
+                                ref,
+                                sectorsAsync.asData?.value
+                                        .map(
+                                          (s) => _FilterItem(
+                                            id: s.id,
+                                            displayName: s.name.isNotEmpty
+                                                ? s.name
+                                                : s.slug,
+                                          ),
+                                        )
+                                        .toList() ??
+                                    [],
+                                selectedSectors,
+                                (id) {
+                                  ref
+                                      .read(selectedSectorIdsProvider.notifier)
+                                      .toggle(id);
+                                },
+                              ),
+                              ..._buildSelectedChips(
+                                ref,
+                                tagsAsync.asData?.value
+                                        .map(
+                                          (t) => _FilterItem(
+                                            id: t.id,
+                                            displayName: t.name.isNotEmpty
+                                                ? t.name
+                                                : t.slug,
+                                          ),
+                                        )
+                                        .toList() ??
+                                    [],
+                                selectedTags,
+                                (id) {
+                                  ref
+                                      .read(selectedTagIdsProvider.notifier)
+                                      .toggle(id);
+                                },
+                              ),
                             ]
                             .map(
                               (w) => Padding(
@@ -472,10 +521,12 @@ class _FilterChipsRow extends ConsumerWidget {
               IconButton(
                 icon: Badge(
                   isLabelVisible: hasFilters,
-                  label: Text('${selectedSectors.length + selectedTags.length + (showFollowed ? 1 : 0)}'),
+                  label: Text(
+                    '${selectedSectors.length + selectedTags.length + (showFollowed ? 1 : 0)}',
+                  ),
                   child: const Icon(Icons.filter_list),
                 ),
-                tooltip: 'More filters',
+                tooltip: l10n.moreFilters,
                 onPressed: () => _openFilterSheet(context, ref),
                 visualDensity: VisualDensity.compact,
               ),
@@ -493,9 +544,7 @@ class _FilterChipsRow extends ConsumerWidget {
     Set<String> selectedIds,
     void Function(String) onRemove,
   ) {
-    return items
-        .where((item) => selectedIds.contains(item.id))
-        .map((item) {
+    return items.where((item) => selectedIds.contains(item.id)).map((item) {
       return ActionChip(
         label: Text(item.displayName, style: const TextStyle(fontSize: 11)),
         onPressed: () => onRemove(item.id),
@@ -512,7 +561,7 @@ class _FilterChipsRow extends ConsumerWidget {
         context: context,
         isScrollControlled: true,
         useSafeArea: true,
-        builder: (_) => _FilterBottomSheet(),
+        builder: (_) => const _FilterBottomSheet(),
       ),
     );
   }
@@ -525,6 +574,8 @@ class _FilterItem {
 }
 
 class _FilterBottomSheet extends ConsumerStatefulWidget {
+  const _FilterBottomSheet();
+
   @override
   ConsumerState<_FilterBottomSheet> createState() => _FilterBottomSheetState();
 }
@@ -541,6 +592,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
     final selectedSectors = ref.watch(selectedSectorIdsProvider);
@@ -558,15 +610,23 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: Row(
               children: [
-                const Text('Filters', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(
+                  l10n.filters,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const Spacer(),
                 TextButton(
                   onPressed: () {
                     ref.read(selectedSectorIdsProvider.notifier).clear();
                     ref.read(selectedTagIdsProvider.notifier).clear();
-                    ref.read(showFollowedOnlyProvider.notifier).toggle(value: false);
+                    ref
+                        .read(showFollowedOnlyProvider.notifier)
+                        .toggle(value: false);
                   },
-                  child: const Text('Reset'),
+                  child: Text(l10n.reset),
                 ),
               ],
             ),
@@ -576,7 +636,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search sectors and tags...',
+                hintText: l10n.searchSectorsTags,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchText.isNotEmpty
                     ? IconButton(
@@ -587,10 +647,17 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                         },
                       )
                     : null,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                fillColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest,
               ),
               onChanged: (v) => setState(() => _searchText = v.toLowerCase()),
             ),
@@ -602,13 +669,15 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
                 _buildFilterSection(
-                  'Sectors',
+                  l10n.sectors,
                   sectorsAsync.asData?.value
-                      .map((s) => _FilterItem(
-                            id: s.id,
-                            displayName: s.name.isNotEmpty ? s.name : s.slug,
-                          ))
-                      .toList() ??
+                          .map(
+                            (s) => _FilterItem(
+                              id: s.id,
+                              displayName: s.name.isNotEmpty ? s.name : s.slug,
+                            ),
+                          )
+                          .toList() ??
                       [],
                   selectedSectors,
                   (id) {
@@ -617,13 +686,15 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                 ),
                 const SizedBox(height: 16),
                 _buildFilterSection(
-                  'Tags',
+                  l10n.tags,
                   tagsAsync.asData?.value
-                      .map((t) => _FilterItem(
-                            id: t.id,
-                            displayName: t.name.isNotEmpty ? t.name : t.slug,
-                          ))
-                      .toList() ??
+                          .map(
+                            (t) => _FilterItem(
+                              id: t.id,
+                              displayName: t.name.isNotEmpty ? t.name : t.slug,
+                            ),
+                          )
+                          .toList() ??
                       [],
                   selectedTags,
                   (id) {
@@ -632,12 +703,14 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                 ),
                 const SizedBox(height: 16),
                 SwitchListTile(
-                  title: const Text('Followed only'),
-                  subtitle: const Text('Show only threads you follow'),
+                  title: Text(l10n.followedOnly),
+                  subtitle: Text(l10n.showFollowedOnly),
                   secondary: const Icon(Icons.chat_bubble),
                   value: showFollowed,
                   onChanged: (v) {
-                    ref.read(showFollowedOnlyProvider.notifier).toggle(value: v);
+                    ref
+                        .read(showFollowedOnlyProvider.notifier)
+                        .toggle(value: v);
                   },
                 ),
                 const SizedBox(height: 80),
@@ -655,13 +728,15 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
     Set<String> selectedIds,
     void Function(String) onToggle,
   ) {
+    final l10n = AppLocalizations.of(context);
     final filtered = _searchText.isEmpty
         ? items
         : items.where((item) {
             return item.displayName.toLowerCase().contains(_searchText);
           }).toList();
 
-    if (filtered.isEmpty && _searchText.isNotEmpty) return const SizedBox.shrink();
+    if (filtered.isEmpty && _searchText.isNotEmpty)
+      return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -676,7 +751,10 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
         ),
         const SizedBox(height: 8),
         if (filtered.isEmpty)
-          const Text('No items match your search', style: TextStyle(color: Colors.grey))
+          Text(
+            l10n.noItemsMatchSearch,
+            style: const TextStyle(color: Colors.grey),
+          )
         else
           Wrap(
             spacing: 8,

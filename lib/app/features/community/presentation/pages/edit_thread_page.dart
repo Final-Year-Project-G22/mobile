@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -66,10 +67,16 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
 
     try {
       final title = _titleController.text.trim();
-      final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
-      final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
+      final sectorIds = _selectedSectorIds.isNotEmpty
+          ? _selectedSectorIds.toList()
+          : null;
+      final tagIds = _selectedTagIds.isNotEmpty
+          ? _selectedTagIds.toList()
+          : null;
 
-      final result = await ref.read(communityMutationsProvider.notifier).updateThread(
+      final result = await ref
+          .read(communityMutationsProvider.notifier)
+          .updateThread(
             threadId: widget.thread.id,
             title: title,
             description: '',
@@ -104,12 +111,13 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Thread'),
+        title: Text(l10n.editThread),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -121,14 +129,14 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
               TextFormField(
                 controller: _titleController,
                 enabled: !_isSubmitting,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: l10n.title,
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (v) {
                   final t = v?.trim() ?? '';
-                  if (t.isEmpty) return 'Title required';
-                  if (t.length < 5) return 'Min 5 chars';
+                  if (t.isEmpty) return l10n.titleRequired;
+                  if (t.length < 5) return l10n.minChars(5);
                   return null;
                 },
               ),
@@ -136,7 +144,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
               const SizedBox(height: 16),
 
               sectorsAsync.when(
-                data: _buildSectorChips,
+                data: (sectors) => _buildSectorChips(sectors, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Center(child: CircularProgressIndicator()),
@@ -147,7 +155,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
               const SizedBox(height: 12),
 
               tagsAsync.when(
-                data: _buildTagChips,
+                data: (tags) => _buildTagChips(tags, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Center(child: CircularProgressIndicator()),
@@ -170,7 +178,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Save Changes'),
+                      : Text(l10n.save),
                 ),
               ),
             ],
@@ -180,12 +188,12 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
     );
   }
 
-  Widget _buildSectorChips(List<Sector> sectors) {
+  Widget _buildSectorChips(List<Sector> sectors, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Sectors (optional)',
+          l10n.sectorsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
@@ -205,7 +213,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
     );
   }
 
-  Widget _buildTagChips(List<Tag> tags) {
+  Widget _buildTagChips(List<Tag> tags, AppLocalizations l10n) {
     final grouped = <String, List<Tag>>{};
     for (final tag in tags) {
       grouped.putIfAbsent(tag.group, () => []).add(tag);
@@ -215,7 +223,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tags (optional)',
+          l10n.tagsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
@@ -226,8 +234,8 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
               Text(
                 entry.key,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               Wrap(

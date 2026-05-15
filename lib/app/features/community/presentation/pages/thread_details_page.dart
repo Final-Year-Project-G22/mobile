@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/providers/websocket_providers.dart';
 import '../../../../../core/services/websocket_service.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -141,20 +142,20 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     return authorId == currentAccountId;
   }
 
-  Future<void> _deletePost(DiscussionPost post) async {
+  Future<void> _deletePost(DiscussionPost post, AppLocalizations l10n) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Post'),
-        content: const Text('Are you sure you want to delete this post?'),
+        title: Text(l10n.deletePost),
+        content: Text(l10n.confirmDeletePost),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -164,7 +165,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       return;
     }
 
-    final result = await ref.read(communityMutationsProvider.notifier).deletePost(post.id, widget.threadId);
+    final result = await ref
+        .read(communityMutationsProvider.notifier)
+        .deletePost(post.id, widget.threadId);
 
     if (!mounted) {
       return;
@@ -181,26 +184,26 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           _clearMode();
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Post deleted successfully')),
+          SnackBar(content: Text(l10n.postDeleted)),
         );
       },
     );
   }
 
-  Future<void> _markSolution(DiscussionPost post) async {
+  Future<void> _markSolution(DiscussionPost post, AppLocalizations l10n) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Mark as Solution'),
-        content: const Text('Mark this post as the accepted solution?'),
+        title: Text(l10n.markAsSolution),
+        content: Text(l10n.confirmMarkSolution),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Mark', style: TextStyle(color: Colors.green)),
+            child: Text(l10n.mark, style: const TextStyle(color: Colors.green)),
           ),
         ],
       ),
@@ -208,10 +211,12 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     if (confirm != true || !mounted) return;
 
-    final result = await ref.read(communityMutationsProvider.notifier).markSolution(
-      widget.threadId,
-      post.id,
-    );
+    final result = await ref
+        .read(communityMutationsProvider.notifier)
+        .markSolution(
+          widget.threadId,
+          post.id,
+        );
     if (!mounted) return;
 
     result.fold(
@@ -222,7 +227,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       },
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Marked as solution')),
+          SnackBar(content: Text(l10n.markedAsSolution)),
         );
       },
     );
@@ -279,20 +284,23 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     }
   }
 
-  Future<void> _deleteThread(DiscussionThread thread) async {
+  Future<void> _deleteThread(
+    DiscussionThread thread,
+    AppLocalizations l10n,
+  ) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Thread'),
-        content: const Text('Are you sure you want to delete this thread? This action cannot be undone.'),
+        title: Text(l10n.deleteThread),
+        content: Text(l10n.confirmDeleteThread),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -302,7 +310,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       return;
     }
 
-    final result = await ref.read(communityMutationsProvider.notifier).deleteThread(thread.id);
+    final result = await ref
+        .read(communityMutationsProvider.notifier)
+        .deleteThread(thread.id);
 
     if (!mounted) {
       return;
@@ -316,7 +326,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       },
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Thread deleted successfully')),
+          SnackBar(content: Text(l10n.threadDeleted)),
         );
         Navigator.of(context).pop();
       },
@@ -360,9 +370,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     for (final entries in byParent.values) {
       entries.sort(
-        (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
-          b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-        ),
+        (a, b) =>
+            (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+              b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+            ),
       );
     }
 
@@ -382,9 +393,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       final remaining = source.where((post) => !ordered.contains(post));
       final leftovers = remaining.toList()
         ..sort(
-          (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
-            b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-          ),
+          (a, b) =>
+              (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
+                b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+              ),
         );
       ordered.addAll(leftovers);
     }
@@ -394,6 +406,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
     final postsAsync = ref.watch(threadPostsProvider(widget.threadId));
     final authState = ref.watch(authProvider);
@@ -403,22 +416,33 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       appBar: AppBar(
         title: Text(widget.threadTitle),
         actions: [
-          if (_isAuthor(threadAsync.asData?.value.authorId ?? '', currentAccountId))
+          if (_isAuthor(
+            threadAsync.asData?.value.authorId ?? '',
+            currentAccountId,
+          ))
             const SizedBox.shrink()
           else
             Consumer(
               builder: (context, ref, _) {
-                final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+                final threadAsync = ref.watch(
+                  threadDetailsProvider(widget.threadId),
+                );
 
                 return threadAsync.when(
                   data: (thread) {
                     return IconButton(
                       icon: Icon(
-                        thread.isFollowed ? Icons.bookmark : Icons.bookmark_border,
+                        thread.isFollowed
+                            ? Icons.bookmark
+                            : Icons.bookmark_border,
                       ),
-                      tooltip: thread.isFollowed ? 'Unfollow thread' : 'Follow thread',
+                      tooltip: thread.isFollowed
+                          ? l10n.unfollowThread
+                          : l10n.followThread,
                       onPressed: () async {
-                        final notifier = ref.read(communityMutationsProvider.notifier);
+                        final notifier = ref.read(
+                          communityMutationsProvider.notifier,
+                        );
                         final result = await (thread.isFollowed
                             ? notifier.unfollowThread(thread.id)
                             : notifier.followThread(thread.id));
@@ -434,8 +458,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               SnackBar(
                                 content: Text(
                                   thread.isFollowed
-                                      ? 'Unfollowed thread'
-                                      : 'Following thread',
+                                      ? l10n.unfollowedThread
+                                      : l10n.followingThread,
                                 ),
                               ),
                             );
@@ -451,7 +475,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             ),
           Consumer(
             builder: (context, ref, _) {
-              final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
+              final threadAsync = ref.watch(
+                threadDetailsProvider(widget.threadId),
+              );
               final authState = ref.watch(authProvider);
               final currentAccountId = authState.asData?.value.account?.id;
 
@@ -465,30 +491,30 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                       } else if (value == 'edit') {
                         unawaited(_editThread(thread));
                       } else if (value == 'delete') {
-                        unawaited(_deleteThread(thread));
+                        unawaited(_deleteThread(thread, l10n));
                       }
                     },
                     itemBuilder: (context) => [
                       if (isAuthor) ...[
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: 'edit',
-                          child: Text('Edit Thread'),
+                          child: Text(l10n.editThread),
                         ),
                         if (thread.replyCount == 0)
-                          const PopupMenuItem(
+                          PopupMenuItem(
                             value: 'delete',
                             child: Text(
-                              'Delete Thread',
-                              style: TextStyle(color: Colors.red),
+                              l10n.deleteThread,
+                              style: const TextStyle(color: Colors.red),
                             ),
                           ),
                       ],
                       if (!isAuthor)
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: 'report',
                           child: Text(
-                            'Report Thread',
-                            style: TextStyle(color: Colors.red),
+                            l10n.reportThread,
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ),
                     ],
@@ -507,7 +533,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             _markReadDone = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               unawaited(
-                ref.read(communityMutationsProvider.notifier).markThreadRead(thread.id),
+                ref
+                    .read(communityMutationsProvider.notifier)
+                    .markThreadRead(thread.id),
               );
             });
           }
@@ -515,9 +543,12 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             data: (posts) {
               final sortedPosts = [...posts]
                 ..sort(
-                  (a, b) => (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0)).compareTo(
-                    b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-                  ),
+                  (a, b) =>
+                      (a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0))
+                          .compareTo(
+                            b.createdAt ??
+                                DateTime.fromMillisecondsSinceEpoch(0),
+                          ),
                 );
 
               final postsById = {
@@ -535,7 +566,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               final initialPostId = initialPost?.id;
               final repliesSource = initialPostId == null
                   ? sortedPosts
-                  : sortedPosts.where((post) => post.id != initialPostId).toList();
+                  : sortedPosts
+                        .where((post) => post.id != initialPostId)
+                        .toList();
 
               final orderedReplies = _buildThreadedReplies(
                 repliesSource,
@@ -543,7 +576,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               );
 
               final currentPostCount = sortedPosts.length;
-              if (_previousPostCount != null && currentPostCount > _previousPostCount!) {
+              if (_previousPostCount != null &&
+                  currentPostCount > _previousPostCount!) {
                 _scrollToBottom();
               }
               _previousPostCount = currentPostCount;
@@ -564,7 +598,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               }
 
               return ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                behavior: ScrollConfiguration.of(
+                  context,
+                ).copyWith(scrollbars: false),
                 child: CustomScrollView(
                   controller: _scrollController,
                   slivers: [
@@ -587,8 +623,11 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                 content: initialPost.content,
                                 attachments: initialPost.attachments,
                                 upvoteCount: initialPost.upvoteCount,
-                                createdAt: initialPost.createdAt ?? thread.createdAt,
-                                isEdited: initialPost.editCount > 0 || initialPost.editedAt != null,
+                                createdAt:
+                                    initialPost.createdAt ?? thread.createdAt,
+                                isEdited:
+                                    initialPost.editCount > 0 ||
+                                    initialPost.editedAt != null,
                                 isSolution: initialPost.isSolution,
                                 onReply: () => _startReply(initialPost!),
                                 onEdit:
@@ -603,7 +642,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                       initialPost.authorId,
                                       currentAccountId,
                                     )
-                                    ? () => _deletePost(initialPost!)
+                                    ? () => _deletePost(initialPost!, l10n)
                                     : null,
                                 onReport:
                                     _isAuthor(
@@ -619,11 +658,17 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                     )
                                     ? null
                                     : () => _reportUser(initialPost!),
-                                onMarkSolution: _isAuthor(thread.authorId, currentAccountId) && !initialPost.isSolution
-                                    ? () => _markSolution(initialPost!)
+                                onMarkSolution:
+                                    _isAuthor(
+                                          thread.authorId,
+                                          currentAccountId,
+                                        ) &&
+                                        !initialPost.isSolution
+                                    ? () => _markSolution(initialPost!, l10n)
                                     : null,
                               )
-                            else if (thread.description != null && thread.description!.isNotEmpty)
+                            else if (thread.description != null &&
+                                thread.description!.isNotEmpty)
                               PostCard(
                                 authorId: thread.authorId,
                                 authorDisplayName: _displayName(
@@ -640,11 +685,11 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                       ),
                     ),
                     if (orderedReplies.isEmpty)
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(32),
-                            child: Text('No replies yet. Be the first!'),
+                            padding: const EdgeInsets.all(32),
+                            child: Text(l10n.noRepliesYet),
                           ),
                         ),
                       )
@@ -653,7 +698,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             final post = orderedReplies[index];
-                            final parent = post.parentPostId == null ? null : postsById[post.parentPostId!];
+                            final parent = post.parentPostId == null
+                                ? null
+                                : postsById[post.parentPostId!];
                             final parentPreview = parent == null
                                 ? null
                                 : 'Replying to ${_displayName(parent.authorId, parent.authorDisplayName)}: ${parent.content}';
@@ -672,19 +719,38 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                               attachments: post.attachments,
                               nestingLevel: _nestingLevel(post, postsById),
                               parentPreview: parentPreview,
-                              onParentPreviewTap: parentPostId != null ? () => _scrollToParent(parentPostId) : null,
-                               createdAt: post.createdAt ?? thread.createdAt,
-                               isEdited: post.editCount > 0 || post.editedAt != null,
-                               isSolution: post.isSolution,
-                               onReply: () => _startReply(post),
-                               onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
-                               onDelete: _isAuthor(post.authorId, currentAccountId) ? () => _deletePost(post) : null,
-                               onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),
-                               onReportUser: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportUser(post),
-                               onMarkSolution: _isAuthor(thread.authorId, currentAccountId) && !post.isSolution
-                                   ? () => _markSolution(post)
-                                   : null,
-                             );
+                              onParentPreviewTap: parentPostId != null
+                                  ? () => _scrollToParent(parentPostId)
+                                  : null,
+                              createdAt: post.createdAt ?? thread.createdAt,
+                              isEdited:
+                                  post.editCount > 0 || post.editedAt != null,
+                              isSolution: post.isSolution,
+                              onReply: () => _startReply(post),
+                              onEdit: _isAuthor(post.authorId, currentAccountId)
+                                  ? () => _startEdit(post)
+                                  : null,
+                              onDelete:
+                                  _isAuthor(post.authorId, currentAccountId)
+                                  ? () => _deletePost(post, l10n)
+                                  : null,
+                              onReport:
+                                  _isAuthor(post.authorId, currentAccountId)
+                                  ? null
+                                  : () => _reportPost(post),
+                              onReportUser:
+                                  _isAuthor(post.authorId, currentAccountId)
+                                  ? null
+                                  : () => _reportUser(post),
+                              onMarkSolution:
+                                  _isAuthor(
+                                        thread.authorId,
+                                        currentAccountId,
+                                      ) &&
+                                      !post.isSolution
+                                  ? () => _markSolution(post, l10n)
+                                  : null,
+                            );
                           },
                           childCount: orderedReplies.length,
                         ),
@@ -695,13 +761,13 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Center(
-              child: Text('Error loading posts: $error'),
+              child: Text(l10n.errorLoadingThreads(error.toString())),
             ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(
-          child: Text('Error loading thread: $error'),
+          child: Text(l10n.errorLoadingThreads(error.toString())),
         ),
       ),
       bottomNavigationBar: ReplyInputBar(
