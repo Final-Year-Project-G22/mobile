@@ -653,5 +653,179 @@
   "aiGuideStreamError": "Something went wrong. Tap to retry.",
   "@aiGuideStreamError": {
     "description": "Stream error message with retry"
+  },
+  "loginSubtitle": "Log in to get started",
+  "@loginSubtitle": {
+    "description": "Login page subtitle"
+  },
+  "emailOrUsername": "Email or username",
+  "@emailOrUsername": {
+    "description": "Email or username label"
+  },
+  "emailOrUsernameHint": "Enter your email or username",
+  "@emailOrUsernameHint": {
+    "description": "Email or username hint"
+  },
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Password hint"
+  },
+  "errorInvalidCredentials": "Invalid email or password",
+  "@errorInvalidCredentials": {
+    "description": "Login error"
+  },
+  "errorEmailInUse": "Email already in use",
+  "@errorEmailInUse": {
+    "description": "Registration error"
+  },
+  "errorGeneric": "An error occurred",
+  "@errorGeneric": {
+    "description": "Generic error"
+  },
+  "errorOAuthFailed": "OAuth sign in failed",
+  "@errorOAuthFailed": {
+    "description": "OAuth error"
+  },
+  "errorOAuthUnavailable": "OAuth provider is unavailable",
+  "@errorOAuthUnavailable": {
+    "description": "OAuth unavailable error"
+  },
+  "errorOAuthCallbackInvalid": "Invalid OAuth callback",
+  "@errorOAuthCallbackInvalid": {
+    "description": "OAuth callback error"
+  },
+  "errorOAuthExpired": "OAuth session expired, try again",
+  "@errorOAuthExpired": {
+    "description": "OAuth expired error"
+  },
+  "errorOAuthUnsupported": "Unsupported OAuth provider",
+  "@errorOAuthUnsupported": {
+    "description": "OAuth unsupported error"
+  },
+  "errorOAuthCancelled": "OAuth login was cancelled",
+  "@errorOAuthCancelled": {
+    "description": "OAuth cancelled error"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Register page title"
+  },
+  "registerSubtitle": "Sign up to get started",
+  "@registerSubtitle": {
+    "description": "Register page subtitle"
+  },
+  "firstNameHint": "Enter your first name",
+  "@firstNameHint": {
+    "description": "First name hint"
+  },
+  "lastNameHint": "Enter your last name",
+  "@lastNameHint": {
+    "description": "Last name hint"
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Email hint"
+  },
+  "username": "Username (optional)",
+  "@username": {
+    "description": "Username label"
+  },
+  "usernameHint": "Choose a username",
+  "@usernameHint": {
+    "description": "Username hint"
+  },
+  "registrationSuccessful": "Registration successful",
+  "@registrationSuccessful": {
+    "description": "Success message after registration"
+  },
+  "verifyEmail": "Verify Your Email",
+  "@verifyEmail": {
+    "description": "OTP page title"
+  },
+  "otpSubtitle": "Enter the 6-digit code sent to your email",
+  "@otpSubtitle": {
+    "description": "OTP page subtitle"
+  },
+  "otpCodeHint": "Please enter the 6-digit code",
+  "@otpCodeHint": {
+    "description": "OTP code hint"
+  },
+  "verify": "Verify",
+  "@verify": {
+    "description": "Verify button"
+  },
+  "didNotReceiveCode": "Didn't receive the code? ",
+  "@didNotReceiveCode": {
+    "description": "OTP resend prompt"
+  },
+  "resend": "Resend",
+  "@resend": {
+    "description": "Resend button"
+  },
+  "resendIn": "Resend in {seconds}s",
+  "@resendIn": {
+    "description": "Resend cooldown text",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInvalidOtp": "Invalid OTP code",
+  "@errorInvalidOtp": {
+    "description": "Invalid OTP error"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
+  "languageAmharic": "አማርኛ",
+  "@languageAmharic": {
+    "description": "Amharic language option"
+  },
+  "completeBusinessProfile": "Complete business profile",
+  "@completeBusinessProfile": {
+    "description": "Business profile prompt"
+  },
+  "continueOnboardingAnytime": "Continue onboarding anytime",
+  "@continueOnboardingAnytime": {
+    "description": "Onboarding continue prompt"
+  },
+  "plan": "Plan",
+  "@plan": {
+    "description": "Plan section header"
+  },
+  "freePlan": "Free plan",
+  "@freePlan": {
+    "description": "Free plan label"
+  },
+  "activeUntil": "Active until {date}",
+  "@activeUntil": {
+    "description": "Subscription active until date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pro": "Pro",
+  "@pro": {
+    "description": "Pro plan label"
+  },
+  "basic": "Basic",
+  "@basic": {
+    "description": "Basic plan label"
+  },
+  "skipForNow": "Skip for now",
+  "@skipForNow": {
+    "description": "Skip onboarding button"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Saving state text"
+  },
+  "errorSaveFailed": "Failed to save business profile. Please try again.",
+  "@errorSaveFailed": {
+    "description": "Onboarding save error"
   }
 }

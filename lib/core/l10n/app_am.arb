@@ -154,5 +154,60 @@
   "aiGuideInputHint": "ጥያቄ ይጠይቁ...",
   "aiGuideGreeting": "ስለ መመሪያዎችዎ ማንኛውንም ነገር ይጠይቁ",
   "aiGuideNewChat": "አዲስ ውይይት",
-  "aiGuideStreamError": "የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።"
+  "aiGuideStreamError": "የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።",
+  "loginSubtitle": "ለመግባት ይመዝገቡ",
+  "emailOrUsername": "ኢሜይል ወይም የተጠቃሚ ስም",
+  "emailOrUsernameHint": "ኢሜይልዎን ወይም የተጠቃሚ ስምዎን ያስገቡ",
+  "passwordHint": "ይለፍ ቃልዎን ያስገቡ",
+  "errorInvalidCredentials": "የተሳሳተ ኢሜይል ወይም ይለፍ ቃል",
+  "errorEmailInUse": "ኢሜይል ቀድሞ ጥቅም ላይ ውሏል",
+  "errorGeneric": "ስህተት ተከስቷል",
+  "errorOAuthFailed": "OAuth መግባት አልተሳካም",
+  "errorOAuthUnavailable": "OAuth አገልግሎት አይገኝም",
+  "errorOAuthCallbackInvalid": "ልክ ያልሆነ OAuth ጥሪ",
+  "errorOAuthExpired": "OAuth ክፍለ ጊዜ ጊዜው አልፏል፣ እንደገና ይሞክሩ",
+  "errorOAuthUnsupported": "የማይደገፍ OAuth አገልግሎት",
+  "errorOAuthCancelled": "OAuth መግባት ተሰርዟል",
+  "createAccount": "መለያ ይፍጠሩ",
+  "registerSubtitle": "ለመጀመር ይመዝገቡ",
+  "firstNameHint": "ስምዎን ያስገቡ",
+  "lastNameHint": "የአባት ስምዎን ያስገቡ",
+  "emailHint": "ኢሜይልዎን ያስገቡ",
+  "username": "የተጠቃሚ ስም (አማራጭ)",
+  "usernameHint": "የተጠቃሚ ስም ይምረጡ",
+  "registrationSuccessful": "ምዝገባ ተሳክቷል",
+  "verifyEmail": "ኢሜይልዎን ያረጋግጡ",
+  "otpSubtitle": "ወደ ኢሜይልዎ የተላከውን ባለ 6-አሃዝ ኮድ ያስገቡ",
+  "otpCodeHint": "እባክዎ ባለ 6-አሃዝ ኮዱን ያስገቡ",
+  "verify": "አረጋግጥ",
+  "didNotReceiveCode": "ኮዱ አልደረሰም?",
+  "resend": "እንደገና ላክ",
+  "resendIn": "በ {seconds} ሰከንድ ውስጥ እንደገና ይላኩ",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInvalidOtp": "ልክ ያልሆነ OTP ኮድ",
+  "languageEnglish": "እንግሊዝኛ",
+  "languageAmharic": "አማርኛ",
+  "completeBusinessProfile": "የንግድ መገለጫ ያጠናቅቁ",
+  "continueOnboardingAnytime": "ማስተዋወቂያውን በማንኛውም ጊዜ ይቀጥሉ",
+  "plan": "እቅድ",
+  "freePlan": "ነጻ እቅድ",
+  "activeUntil": "እስከ {date} ድረስ ንቁ",
+  "@activeUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pro": "ፕሮ",
+  "basic": "መሰረታዊ",
+  "skipForNow": "ለአሁን ዝለል",
+  "saving": "በማስቀመጥ ላይ...",
+  "errorSaveFailed": "የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ"
 }
