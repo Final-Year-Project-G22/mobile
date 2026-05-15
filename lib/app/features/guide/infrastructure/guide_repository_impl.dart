@@ -21,9 +21,43 @@ import '../domain/failures/guide_failures.dart';
 import '../domain/i_guide_repository.dart';
 
 class GuideRepositoryImpl implements IGuideRepository {
-  const GuideRepositoryImpl(this._client);
+  const GuideRepositoryImpl(this._client, this._dio);
 
   final GuidesClient _client;
+  final Dio _dio;
+
+  @override
+  Future<Either<GuideFailure, List<GuideCard>>> listGuides({
+    String? locale,
+    List<String>? sectorIds,
+    List<String>? tagIds,
+  }) async {
+    try {
+      final queryParameters = <String, dynamic>{
+        'locale': locale ?? 'en',
+        if (sectorIds != null && sectorIds.isNotEmpty)
+          'sectorIds': sectorIds.join(','),
+        if (tagIds != null && tagIds.isNotEmpty) 'tagIds': tagIds.join(','),
+      };
+
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/api/v1/guides',
+        queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      );
+
+      final guidesRaw = response.data?['guides'] as List<dynamic>? ?? [];
+      final cards = <GuideCard>[];
+      for (final item in guidesRaw) {
+        if (item is Map<String, dynamic>) {
+          final dto = GuideCardDto.fromJson(item);
+          cards.add(_mapGuideCard(dto));
+        }
+      }
+      return Right(cards);
+    } on DioException catch (e) {
+      return Left(_handleError(e));
+    }
+  }
 
   @override
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(

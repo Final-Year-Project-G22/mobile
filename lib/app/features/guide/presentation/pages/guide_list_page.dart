@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
-import '../widgets/category_filter_chips.dart';
 import '../widgets/guide_card.dart';
 import '../widgets/recent_guide_rail.dart';
+import '../widgets/taxonomy_filter_bar.dart';
 
 class GuideListPage extends ConsumerStatefulWidget {
   const GuideListPage({super.key});
@@ -31,8 +31,6 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(guideListProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    const categories = <String>[];
 
     return Scaffold(
       backgroundColor: isDark
@@ -82,72 +80,109 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
             if (state.recentGuides.isNotEmpty)
               RecentGuideRail(guides: state.recentGuides),
             if (state.recentGuides.isNotEmpty) AppSpacing.gapVerticalSm,
+            TaxonomyFilterBar(
+              selectedSectorId: state.selectedSectorId,
+              selectedTagIds: state.selectedTagIds,
+              onSectorSelected: (id) {
+                ref.read(guideListProvider.notifier).selectSector(id);
+              },
+              onTagToggled: (id) {
+                ref.read(guideListProvider.notifier).toggleTag(id);
+              },
+              onClearFilters: () {
+                ref.read(guideListProvider.notifier).clearFilters();
+              },
+            ),
+            if (state.hasActiveFilters)
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: AppSpacing.md,
+                  right: AppSpacing.md,
+                  bottom: AppSpacing.xs,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Filtered',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        ref.read(guideListProvider.notifier).clearFilters();
+                      },
+                      child: const Text(
+                        'Clear all',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
               child: Row(
                 children: [
-                  AppSpacing.gapHorizontalMd,
-                  Expanded(
-                    child: CategoryFilterChips(
-                      categories: categories,
-                      selectedCategorySlug: state.selectedCategorySlug,
-                      onCategorySelected: (slug) {
-                        ref
-                            .read(guideListProvider.notifier)
-                            .selectCategory(slug);
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.md),
-                    child: GestureDetector(
-                      onTap: () {
-                        ref.read(guideListProvider.notifier).toggleBookmarked();
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: state.showBookmarked
-                              ? AppColors.accent
-                              : (isDark
-                                    ? AppColors.slate700
-                                    : AppColors.slate100),
-                          borderRadius: AppSpacing.borderRadiusFull,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              state.showBookmarked
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border,
-                              size: 16,
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(guideListProvider.notifier).toggleBookmarked();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: state.showBookmarked
+                            ? AppColors.accent
+                            : (isDark
+                                  ? AppColors.slate700
+                                  : AppColors.slate100),
+                        borderRadius: AppSpacing.borderRadiusFull,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            state.showBookmarked
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                            size: 16,
+                            color: state.showBookmarked
+                                ? Colors.white
+                                : (isDark
+                                      ? AppColors.textSecondaryDark
+                                      : AppColors.textSecondaryLight),
+                          ),
+                          AppSpacing.gapHorizontalXxs,
+                          Text(
+                            'Bookmarked',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: state.showBookmarked
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
                               color: state.showBookmarked
                                   ? Colors.white
                                   : (isDark
                                         ? AppColors.textSecondaryDark
                                         : AppColors.textSecondaryLight),
                             ),
-                            AppSpacing.gapHorizontalXxs,
-                            Text(
-                              'Bookmarked',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: state.showBookmarked
-                                    ? FontWeight.w600
-                                    : FontWeight.w500,
-                                color: state.showBookmarked
-                                    ? Colors.white
-                                    : (isDark
-                                          ? AppColors.textSecondaryDark
-                                          : AppColors.textSecondaryLight),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

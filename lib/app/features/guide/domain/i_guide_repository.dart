@@ -8,6 +8,12 @@ import 'entities/step_bookmark.dart';
 import 'failures/guide_failures.dart';
 
 abstract class IGuideRepository {
+  Future<Either<GuideFailure, List<GuideCard>>> listGuides({
+    String? locale,
+    List<String>? sectorIds,
+    List<String>? tagIds,
+  });
+
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
     String query,
     String? locale,

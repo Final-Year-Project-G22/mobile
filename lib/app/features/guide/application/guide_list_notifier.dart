@@ -28,8 +28,8 @@ class GuideListNotifier extends _$GuideListNotifier {
     final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
     final bookmarks = bkmkResult.fold((_) => <StepBookmark>[], (b) => b);
 
-    final searchResult = await repo.searchGuides('', null);
-    final allGuides = searchResult.fold((_) => <GuideCard>[], (g) => g);
+    final listResult = await repo.listGuides();
+    final allGuides = listResult.fold((_) => <GuideCard>[], (g) => g);
 
     _allGuides = allGuides;
 
@@ -43,11 +43,7 @@ class GuideListNotifier extends _$GuideListNotifier {
 
   void search(String query) {
     if (query.isEmpty) {
-      state = state.copyWith(
-        searchQuery: '',
-        selectedCategorySlug: '',
-        guides: _allGuides,
-      );
+      _applyFilters();
       return;
     }
     state = state.copyWith(searchQuery: query, isLoading: true);
@@ -61,19 +57,95 @@ class GuideListNotifier extends _$GuideListNotifier {
       (_) => state = state.copyWith(isLoading: false),
       (guides) {
         _allGuides = guides;
-        state = state.copyWith(
-          guides: guides,
-          isLoading: false,
-          selectedCategorySlug: '',
-        );
+        _applyFilters();
       },
     );
   }
 
-  void selectCategory(String slug) {
-    // Category filtering removed — guides are now taxonomy-filtered by backend.
-    // This method is retained for UI compatibility; it currently just resets the list.
-    state = state.copyWith(selectedCategorySlug: slug, guides: _allGuides);
+  void selectSector(String? sectorId) {
+    state = state.copyWith(selectedSectorId: sectorId);
+    unawaited(_applyFiltersAsync());
+  }
+
+  void toggleTag(String tagId) {
+    final current = state.selectedTagIds;
+    final updated = current.contains(tagId)
+        ? current.where((id) => id != tagId).toList()
+        : [...current, tagId];
+    state = state.copyWith(selectedTagIds: updated);
+    unawaited(_applyFiltersAsync());
+  }
+
+  void clearFilters() {
+    state = GuideListState(
+      guides: _allGuides,
+      recentGuides: state.recentGuides,
+      bookmarks: state.bookmarks,
+    );
+  }
+
+  void _applyFilters() {
+    if (state.searchQuery.isNotEmpty) {
+      state = state.copyWith(guides: _allGuides, isLoading: false);
+      return;
+    }
+
+    var filtered = _allGuides;
+
+    if (state.selectedSectorId != null) {
+      filtered = filtered
+          .where((g) => g.sectorIds.contains(state.selectedSectorId))
+          .toList();
+    }
+
+    if (state.selectedTagIds.isNotEmpty) {
+      filtered = filtered
+          .where(
+            (g) => state.selectedTagIds.any(
+              (tagId) => g.tagIds.contains(tagId),
+            ),
+          )
+          .toList();
+    }
+
+    state = state.copyWith(
+      guides: filtered,
+      isLoading: false,
+      isFiltering: state.hasActiveFilters,
+    );
+  }
+
+  Future<void> _applyFiltersAsync() async {
+    if (state.searchQuery.isNotEmpty) {
+      state = state.copyWith(guides: _allGuides, isLoading: false);
+      return;
+    }
+
+    if (!state.hasActiveFilters) {
+      _applyFilters();
+      return;
+    }
+
+    state = state.copyWith(isLoading: true);
+
+    final repo = ref.read(guideRepositoryProvider);
+    final result = await repo.listGuides(
+      sectorIds: state.selectedSectorId != null
+          ? [state.selectedSectorId!]
+          : null,
+      tagIds: state.selectedTagIds.isNotEmpty ? state.selectedTagIds : null,
+    );
+
+    result.fold(
+      (_) => state = state.copyWith(isLoading: false),
+      (guides) {
+        state = state.copyWith(
+          guides: guides,
+          isLoading: false,
+          isFiltering: true,
+        );
+      },
+    );
   }
 
   void toggleBookmarked() {
