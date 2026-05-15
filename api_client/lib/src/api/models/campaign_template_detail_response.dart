@@ -17,6 +17,9 @@ abstract class CampaignTemplateDetailResponse
     /// Multi-channel content
     required Map<String, dynamic> defaultContent,
 
+    /// Whether push mirroring is enabled
+    required bool enablePushMirror,
+
     /// Template ID
     required String id,
 

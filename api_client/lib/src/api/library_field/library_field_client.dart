@@ -9,6 +9,7 @@ import 'package:retrofit/error_logger.dart';
 import '../models/download_template_response_body.dart';
 import '../models/list_my_downloads_response_body.dart';
 import '../models/list_template_groups_response_body.dart';
+import '../models/preview_template_response_body.dart';
 import '../models/user_template_group_detail_response.dart';
 
 part 'library_field_client.g.dart';
@@ -86,6 +87,19 @@ abstract class LibraryFieldClient {
   /// [language] - Language code.
   @GET('/api/v1/library/templates/{groupId}/download')
   Future<HttpResponse<DownloadTemplateResponseBody>> libraryDownloadTemplate({
+    @Path('groupId') required String groupId,
+    @Query('language') String? language,
+  });
+
+  /// Preview template.
+  ///
+  /// Generates a short-lived presigned URL for previewing a template.
+  ///
+  /// [groupId] - Template group ID.
+  ///
+  /// [language] - Language code.
+  @GET('/api/v1/library/templates/{groupId}/preview')
+  Future<HttpResponse<PreviewTemplateResponseBody>> libraryPreviewTemplate({
     @Path('groupId') required String groupId,
     @Query('language') String? language,
   });

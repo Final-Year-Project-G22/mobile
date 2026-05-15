@@ -14,6 +14,9 @@ abstract class CreateCampaignTemplateRequest
     /// Multi-channel content (in_app, email, push, sms)
     required Map<String, dynamic> defaultContent,
 
+    /// Enable automatic push mirroring from in-app content
+    required bool enablePushMirror,
+
     /// Template name
     required String name,
 

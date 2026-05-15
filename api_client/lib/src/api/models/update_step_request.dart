@@ -4,6 +4,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'update_step_request_translation_mode_translation_mode.dart';
+
 part 'update_step_request.freezed.dart';
 part 'update_step_request.g.dart';
 
@@ -45,6 +47,9 @@ abstract class UpdateStepRequest with _$UpdateStepRequest {
 
     /// Step type
     String? stepType,
+
+    /// Translation mode: 'merge' to upsert without deleting, anything else or absent for full replacement
+    UpdateStepRequestTranslationModeTranslationMode? translationMode,
 
     /// Localized translations
     List<dynamic>? translations,

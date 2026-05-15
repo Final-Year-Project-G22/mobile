@@ -20,6 +20,9 @@ abstract class UpdateCampaignTemplateRequest
     /// Template description
     String? description,
 
+    /// Enable automatic push mirroring from in-app content
+    bool? enablePushMirror,
+
     /// Template name
     String? name,
   }) = _UpdateCampaignTemplateRequest;

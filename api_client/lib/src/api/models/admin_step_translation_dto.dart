@@ -14,6 +14,7 @@ abstract class AdminStepTranslationDto with _$AdminStepTranslationDto {
     required String title,
     String? description,
     dynamic detailedContent,
+    dynamic requiredDocuments,
   }) = _AdminStepTranslationDto;
 
   factory AdminStepTranslationDto.fromJson(Map<String, Object?> json) =>

@@ -31,6 +31,9 @@ abstract class CreateGuideRequest with _$CreateGuideRequest {
     /// Icon identifier
     String? icon,
 
+    /// Guide cover image URL
+    String? imageUrl,
+
     /// Localized translations
     List<dynamic>? translations,
   }) = _CreateGuideRequest;

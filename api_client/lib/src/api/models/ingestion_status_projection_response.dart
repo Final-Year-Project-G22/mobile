@@ -47,8 +47,20 @@ abstract class IngestionStatusProjectionResponse
     /// Completion timestamp if terminal
     DateTime? completedAt,
 
+    /// Declared language hint (en/am)
+    String? declaredLanguage,
+
     /// Last error message if failed
     String? lastError,
+
+    /// Associated sector IDs
+    List<dynamic>? sectorIds,
+
+    /// Original source filename
+    String? sourceFilename,
+
+    /// Associated tag IDs
+    List<dynamic>? tagIds,
   }) = _IngestionStatusProjectionResponse;
 
   factory IngestionStatusProjectionResponse.fromJson(

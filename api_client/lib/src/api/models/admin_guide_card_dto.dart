@@ -18,6 +18,7 @@ abstract class AdminGuideCardDto with _$AdminGuideCardDto {
     required List<dynamic>? tagIds,
     String? description,
     String? icon,
+    String? imageUrl,
   }) = _AdminGuideCardDto;
 
   factory AdminGuideCardDto.fromJson(Map<String, Object?> json) =>

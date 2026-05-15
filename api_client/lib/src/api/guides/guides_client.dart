@@ -41,11 +41,17 @@ abstract class GuidesClient {
   /// [pageSize] - Items per page.
   ///
   /// [locale] - Language locale (en, am).
+  ///
+  /// [sectorIds] - Comma-separated sector IDs.
+  ///
+  /// [tagIds] - Comma-separated tag IDs.
   @GET('/api/v1/guides')
   Future<HttpResponse<ListGuidesResponseBody>> listGuides({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
     @Query('locale') String? locale,
+    @Query('sectorIds') String? sectorIds,
+    @Query('tagIds') String? tagIds,
   });
 
   /// List bookmarks.

@@ -129,6 +129,9 @@ class RestClient {
   LibraryFieldClient get libraryField =>
       _libraryField ??= LibraryFieldClient(_dio, baseUrl: _baseUrl);
 
+  PaymentsClient get payments =>
+      _payments ??= PaymentsClient(_dio, baseUrl: _baseUrl);
+
   NotificationsClient get notifications =>
       _notifications ??= NotificationsClient(_dio, baseUrl: _baseUrl);
 
@@ -139,7 +142,6 @@ class RestClient {
 
   TaxonomyClient get taxonomy =>
       _taxonomy ??= TaxonomyClient(_dio, baseUrl: _baseUrl);
-
 
   UsersClient get users => _users ??= UsersClient(_dio, baseUrl: _baseUrl);
 

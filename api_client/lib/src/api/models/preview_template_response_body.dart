@@ -4,13 +4,12 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'download_template_response_body.freezed.dart';
-part 'download_template_response_body.g.dart';
+part 'preview_template_response_body.freezed.dart';
+part 'preview_template_response_body.g.dart';
 
 @Freezed()
-abstract class DownloadTemplateResponseBody
-    with _$DownloadTemplateResponseBody {
-  const factory DownloadTemplateResponseBody({
+abstract class PreviewTemplateResponseBody with _$PreviewTemplateResponseBody {
+  const factory PreviewTemplateResponseBody({
     /// MIME type
     required String contentType,
 
@@ -20,13 +19,13 @@ abstract class DownloadTemplateResponseBody
     /// Suggested filename
     required String filename,
 
-    /// Temporary download URL
+    /// Temporary preview URL
     required String presignedUrl,
 
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
-  }) = _DownloadTemplateResponseBody;
+  }) = _PreviewTemplateResponseBody;
 
-  factory DownloadTemplateResponseBody.fromJson(Map<String, Object?> json) =>
-      _$DownloadTemplateResponseBodyFromJson(json);
+  factory PreviewTemplateResponseBody.fromJson(Map<String, Object?> json) =>
+      _$PreviewTemplateResponseBodyFromJson(json);
 }

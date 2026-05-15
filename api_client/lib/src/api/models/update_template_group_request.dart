@@ -40,6 +40,9 @@ abstract class UpdateTemplateGroupRequest with _$UpdateTemplateGroupRequest {
     /// Display order
     int? sortOrder,
 
+    /// Thumbnail URL
+    String? thumbnailUrl,
+
     /// Tier access level
     String? tierAccess,
   }) = _UpdateTemplateGroupRequest;

@@ -14,6 +14,7 @@ abstract class CitationDto with _$CitationDto {
     required String documentId,
     required double score,
     required String sourceType,
+    String? excerpt,
     String? title,
   }) = _CitationDto;
 

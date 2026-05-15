@@ -19,11 +19,17 @@ abstract class DownloadLogResponse with _$DownloadLogResponse {
     /// Group ID
     required String groupId,
 
+    /// Group name
+    required String groupName,
+
     /// Download log ID
     required String id,
 
     /// Template ID
     required String templateId,
+
+    /// Template title
+    required String templateTitle,
   }) = _DownloadLogResponse;
 
   factory DownloadLogResponse.fromJson(Map<String, Object?> json) =>
