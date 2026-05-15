@@ -656,4 +656,31 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get bio => 'የህይወት ታሪክ';
+
+  @override
+  String get inbox => 'የገቢ መልዕክት';
+
+  @override
+  String get markAllRead => 'ሁሉንም እንደተነበበ ምልክት አድርግ';
+
+  @override
+  String get noNotifications => 'እስካሁን ምንም ማሳወቂያ የለም';
+
+  @override
+  String get timeNow => 'አሁን';
+
+  @override
+  String timeMinutesShort(int minutes) {
+    return '$minutesደቂቃ';
+  }
+
+  @override
+  String timeHoursShort(int hours) {
+    return '$hoursሰአት';
+  }
+
+  @override
+  String timeDaysShort(int days) {
+    return '$daysቀን';
+  }
 }

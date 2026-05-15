@@ -664,4 +664,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bio => 'Bio';
+
+  @override
+  String get inbox => 'Inbox';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get timeNow => 'now';
+
+  @override
+  String timeMinutesShort(int minutes) {
+    return '${minutes}m';
+  }
+
+  @override
+  String timeHoursShort(int hours) {
+    return '${hours}h';
+  }
+
+  @override
+  String timeDaysShort(int days) {
+    return '${days}d';
+  }
 }

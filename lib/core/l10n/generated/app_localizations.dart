@@ -1309,6 +1309,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bio'**
   String get bio;
+
+  /// Inbox title
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get inbox;
+
+  /// Mark all notifications as read
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// Empty notifications state
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// Just now short form
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get timeNow;
+
+  /// Minutes ago short form
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m'**
+  String timeMinutesShort(int minutes);
+
+  /// Hours ago short form
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h'**
+  String timeHoursShort(int hours);
+
+  /// Days ago short form
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d'**
+  String timeDaysShort(int days);
 }
 
 class _AppLocalizationsDelegate
