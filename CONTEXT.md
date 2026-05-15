@@ -133,8 +133,37 @@ Each feature has a domain interface (`I*Repository`) and infrastructure implemen
 1. **Retrofit clients**: Most features use generated clients (e.g., `GuidesClient(dio)`)
 2. **Raw Dio**: AI streaming uses raw `dio.post<ResponseBody>()` for SSE support
 
-### Locale Support
-`Accept-Language` header set automatically via interceptor. Drives `locale` query param in API calls.
+### Locale Support (l10n)
+
+**Translation system**: Flutter built-in `flutter_localizations` + `intl` with ARB files in `lib/core/l10n/`.
+- `l10n.yaml` generates Dart code from ARB files into `lib/core/l10n/generated/`
+- Supported locales: `en` (English), `am` (Amharic)
+- Usage: `AppLocalizations.of(context).someKey` throughout widgets
+
+**Locale state**: Riverpod `localeProvider` (`LocaleNotifier` in `lib/core/di/app_providers.dart`).
+- Persisted to `SharedPreferences` under key `locale_code`
+- Initial value is `null` (system default) until user explicitly sets a preference
+- Changing locale propagates instantly to `MaterialApp.router(locale: locale)` and all API calls
+
+**API locale propagation**:
+- `Accept-Language` header set automatically via `InterceptorsWrapper` in `api_client_base.dart`
+- `locale` query param on per-endpoint basis via Retrofit `@Query('locale')`
+
+**UI locale toggle**:
+- **Auth pages** (login, register, OTP): Compact `LocaleToggleButton` widget (`lib/core/widgets/`) positioned top-right via `Stack` `Positioned`. Shows current locale code (`"EN"`, `"አማ"`, or `"AUTO"`) with a `PopupMenuButton` offering English, አማርኛ, System Default.
+- **Settings page**: Full `RadioGroup<Locale?>` with English, አማርኛ options. Labels come from `l10n.*`. Settings also shows System Default implicitly via absence of saved preference.
+- Toggle is NOT needed on every page — `localeProvider` is global. Auth pages are first-impression convenience.
+
+**Phased adoption**:
+- Phase 1: Auth pages (login, register, OTP), settings, onboarding
+- Phase 2+: Remaining feature modules (home, guide, ai, community, templates, notifications, payment, profile)
+
+**Adding new strings**:
+1. Add key to `app_en.arb` with English value and `@key` metadata block
+2. Add matching key to `app_am.arb` with Amharic translation
+3. Run `flutter gen-l10n` to regenerate `app_localizations.dart`
+4. Use via `AppLocalizations.of(context).keyName`
+_Avoid_: Hardcoding strings in widgets, using third-party i18n packages
 
 ### Bottom Navigation
 5 tabs: Home, Guide, Community, AI Guide (pushed, not shell), Templates.
