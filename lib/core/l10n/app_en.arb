@@ -855,5 +855,42 @@
   "bio": "Bio",
   "@bio": {
     "description": "Bio label"
+  },
+  "inbox": "Inbox",
+  "@inbox": {
+    "description": "Inbox title"
+  },
+  "markAllRead": "Mark all read",
+  "@markAllRead": {
+    "description": "Mark all notifications as read"
+  },
+  "noNotifications": "No notifications yet",
+  "@noNotifications": {
+    "description": "Empty notifications state"
+  },
+  "timeNow": "now",
+  "@timeNow": {
+    "description": "Just now short form"
+  },
+  "timeMinutesShort": "{minutes}m",
+  "@timeMinutesShort": {
+    "description": "Minutes ago short form",
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "timeHoursShort": "{hours}h",
+  "@timeHoursShort": {
+    "description": "Hours ago short form",
+    "placeholders": {
+      "hours": { "type": "int" }
+    }
+  },
+  "timeDaysShort": "{days}d",
+  "@timeDaysShort": {
+    "description": "Days ago short form",
+    "placeholders": {
+      "days": { "type": "int" }
+    }
   }
 }

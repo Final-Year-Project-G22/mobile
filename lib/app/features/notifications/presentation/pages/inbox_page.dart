@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/utils/formatters/date_formatters.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
@@ -49,26 +50,27 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(inboxProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: isDark
           ? AppColors.backgroundDark
           : AppColors.backgroundLight,
       appBar: AppBar(
-        title: const Text('Inbox'),
+        title: Text(l10n.inbox),
         actions: [
           TextButton(
             onPressed: () => ref.read(inboxProvider.notifier).markAllAsRead(),
-            child: const Text('Mark all read'),
+            child: Text(l10n.markAllRead),
           ),
           AppSpacing.gapHorizontalXs,
         ],
       ),
-      body: _buildBody(state, isDark),
+      body: _buildBody(state, isDark, l10n),
     );
   }
 
-  Widget _buildBody(InboxState state, bool isDark) {
+  Widget _buildBody(InboxState state, bool isDark, AppLocalizations l10n) {
     if (state.isLoading && state.entries.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -92,7 +94,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
             AppSpacing.gapVerticalMd,
             ElevatedButton(
               onPressed: () => ref.read(inboxProvider.notifier).refresh(),
-              child: const Text('Retry'),
+              child: Text(l10n.retry),
             ),
           ],
         ),
@@ -111,7 +113,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
             ),
             AppSpacing.gapVerticalMd,
             Text(
-              'No notifications yet',
+              l10n.noNotifications,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
@@ -158,6 +160,7 @@ class _InboxTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isUnread = !entry.isRead;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -221,7 +224,7 @@ class _InboxTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          _formatTimeAgo(entry.notification.sentAt),
+                          _formatTimeAgo(entry.notification.sentAt, l10n),
                           style: TextStyle(
                             fontSize: 12,
                             color: isDark
@@ -289,14 +292,14 @@ class _InboxTile extends StatelessWidget {
     }
   }
 
-  String _formatTimeAgo(DateTime dateTime) {
+  String _formatTimeAgo(DateTime dateTime, AppLocalizations l10n) {
     final now = DateTime.now();
     final diff = now.difference(dateTime);
 
-    if (diff.inMinutes < 1) return 'now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m';
-    if (diff.inHours < 24) return '${diff.inHours}h';
-    if (diff.inDays < 7) return '${diff.inDays}d';
+    if (diff.inMinutes < 1) return l10n.timeNow;
+    if (diff.inMinutes < 60) return l10n.timeMinutesShort(diff.inMinutes);
+    if (diff.inHours < 24) return l10n.timeHoursShort(diff.inHours);
+    if (diff.inDays < 7) return l10n.timeDaysShort(diff.inDays);
     return DateFormatters.dayMonth(dateTime);
   }
 }

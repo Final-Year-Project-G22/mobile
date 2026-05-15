@@ -216,5 +216,27 @@
   "profileDetails": "የመገለጫ ዝርዝሮች",
   "noBioYet": "ገና የህይወት ታሪክ የለም",
   "editProfile": "መገለጫ ያስተካክሉ",
-  "bio": "የህይወት ታሪክ"
+  "bio": "የህይወት ታሪክ",
+  "inbox": "የገቢ መልዕክት",
+  "markAllRead": "ሁሉንም እንደተነበበ ምልክት አድርግ",
+  "noNotifications": "እስካሁን ምንም ማሳወቂያ የለም",
+  "timeNow": "አሁን",
+  "timeMinutesShort": "{minutes}ደቂቃ",
+  "@timeMinutesShort": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "timeHoursShort": "{hours}ሰአት",
+  "@timeHoursShort": {
+    "placeholders": {
+      "hours": { "type": "int" }
+    }
+  },
+  "timeDaysShort": "{days}ቀን",
+  "@timeDaysShort": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  }
 }
