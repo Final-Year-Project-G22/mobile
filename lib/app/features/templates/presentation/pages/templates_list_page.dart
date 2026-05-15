@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_list_notifier.dart';
 import '../widgets/category_drawer.dart';
@@ -41,7 +42,8 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       unawaited(ref.read(templateListProvider.notifier).loadMore());
     }
   }
@@ -50,6 +52,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
   Widget build(BuildContext context) {
     final listAsync = ref.watch(templateListProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +63,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
-              hintText: 'Search templates...',
+              hintText: l10n.searchTemplates,
               prefixIcon: const Icon(Icons.search),
               suffixIcon: _showClear
                   ? IconButton(
@@ -69,7 +72,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         _searchController.clear();
                         setState(() => _showClear = false);
                         unawaited(
-                          ref.read(templateListProvider.notifier).setSearch(null),
+                          ref
+                              .read(templateListProvider.notifier)
+                              .setSearch(null),
                         );
                       },
                     )
@@ -98,7 +103,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
           IconButton(
             icon: const Icon(Icons.download_done),
             onPressed: () => context.push('/downloads'),
-            tooltip: 'My Downloads',
+            tooltip: l10n.myDownloads,
           ),
         ],
       ),
@@ -133,7 +138,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       child: FilterChip(
                         label: Text(category.name),
                         onSelected: (_) async {
-                          await ref.read(templateListProvider.notifier).setCategory(category.id);
+                          await ref
+                              .read(templateListProvider.notifier)
+                              .setCategory(category.id);
                         },
                       ),
                     );
@@ -157,13 +164,17 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               child: listAsync.when(
                 data: (state) {
                   if (state.items.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.folder_open, size: 64, color: Colors.grey),
-                          SizedBox(height: 16),
-                          Text('No templates found'),
+                          const Icon(
+                            Icons.folder_open,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(l10n.noTemplatesFound),
                         ],
                       ),
                     );
@@ -172,13 +183,15 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   return GridView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.all(8),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                    ),
-                    itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                    itemCount:
+                        state.items.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index >= state.items.length) {
                         return const Center(
@@ -199,7 +212,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(
-                  child: Text('Error: $error'),
+                  child: Text('${l10n.error}: $error'),
                 ),
               ),
             ),

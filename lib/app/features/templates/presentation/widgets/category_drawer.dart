@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../domain/entities/category_node.dart';
 import 'category_tree.dart';
 
@@ -38,13 +39,13 @@ class CategoryDrawer extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    'Categories',
+                    AppLocalizations.of(context).categories,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const Spacer(),
                   TextButton(
                     onPressed: () => onSelect(null),
-                    child: const Text('Show All'),
+                    child: Text(AppLocalizations.of(context).showAll),
                   ),
                 ],
               ),

@@ -276,5 +276,46 @@
       "inProgress": { "type": "int" }
     }
   },
-  "notifications": "ማሳወቂያዎች"
+  "notifications": "ማሳወቂያዎች",
+  "myDownloads": "የእኔ ውርዶች",
+  "searchTemplates": "አብነቶችን ይፈልጉ...",
+  "noTemplatesFound": "ምንም አብነቶች አልተገኙም",
+  "noDownloadsYet": "እስካሁን ምንም ውርዶች የሉም",
+  "downloadCount": "{count} ውርዶች",
+  "@downloadCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "categories": "ምድቦች",
+  "showAll": "ሁሉንም አሳይ",
+  "preview": "ቅድመ እይታ",
+  "upgrade": "አሻሽል",
+  "openInBrowser": "በአሳሽ ውስጥ ክፈት",
+  "previewFailed": "ቅድመ እይታ መክፈት አልተቻለም",
+  "downloadedFile": "{filename} ተወርዷል",
+  "@downloadedFile": {
+    "placeholders": {
+      "filename": { "type": "String" }
+    }
+  },
+  "downloadFailed": "ውርድ አልተሳካም: {message}",
+  "@downloadFailed": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "proTemplateTitle": "ፕሮ አብነት",
+  "proTemplateDescription": "ይህ አብነት በፕሮ ደንበኝነት ይገኛል። ለማውረድ እና ለመመልከት ያሻሽሉ።",
+  "upgradeToPro": "ወደ ፕሮ አሻሽል",
+  "maybeLater": "ምናልባት በኋላ",
+  "open": "ክፈት",
+  "failedToLoadPDF": "PDF መጫን አልተቻለም: {error}",
+  "@failedToLoadPDF": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "templateDetails": "የአብነት ዝርዝሮች",
+  "download": "አውርድ"
 }
