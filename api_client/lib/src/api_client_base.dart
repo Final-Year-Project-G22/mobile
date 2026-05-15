@@ -19,7 +19,7 @@ class ApiClient {
     String? Function()? getLocaleCode,
   }) : _getLocaleCode = getLocaleCode {
     dio = _createDio(baseUrl: baseUrl ?? 'https://api.example.com/v1');
-    _authInterceptor = AuthInterceptor(storage: secureStorage);
+    _authInterceptor = AuthInterceptor(storage: secureStorage, dio: dio);
     _setupInterceptors(enableLogging, additionalInterceptors);
   }
 
@@ -64,11 +64,11 @@ class ApiClient {
   bool get isAuthenticated => _authInterceptor.isAuthenticated;
 
   // Callback setters (wired after construction)
-  void setOnUnauthorizedCallback(void Function()? callback) {
+  void setOnUnauthorizedCallback(OnUnauthorized? callback) {
     _authInterceptor.setOnUnauthorizedCallback(callback);
   }
 
-  void setOnTokenRefreshedCallback(void Function(TokenPair)? callback) {
+  void setOnTokenRefreshedCallback(OnTokenRefreshed? callback) {
     _authInterceptor.setOnTokenRefreshedCallback(callback);
   }
 
@@ -92,6 +92,10 @@ class ApiClient {
 
   Future<void> clearTokens() async {
     await _authInterceptor.clearTokens();
+  }
+
+  Future<bool> refreshTokens() async {
+    return _authInterceptor.refreshTokens();
   }
 
   Future<Response<T>> get<T>(
