@@ -26,42 +26,42 @@ class SettingsPage extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('Language', style: theme.textTheme.titleMedium),
+          Text(l10n.language, style: theme.textTheme.titleMedium),
           RadioGroup<Locale?>(
             groupValue: locale,
             onChanged: (value) =>
                 ref.read(localeProvider.notifier).setLocale(value),
-            child: const Column(
+            child: Column(
               children: [
                 RadioListTile<Locale?>(
-                  title: Text('English'),
-                  value: Locale('en'),
+                  title: Text(l10n.languageEnglish),
+                  value: const Locale('en'),
                 ),
                 RadioListTile<Locale?>(
-                  title: Text('አማርኛ'),
-                  value: Locale('am'),
+                  title: Text(l10n.languageAmharic),
+                  value: const Locale('am'),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 24),
-          Text('Theme', style: theme.textTheme.titleMedium),
+          Text(l10n.theme, style: theme.textTheme.titleMedium),
           RadioGroup<ThemeMode>(
             groupValue: themeMode,
             onChanged: (value) =>
                 ref.read(themeModeProvider.notifier).setThemeMode(value!),
-            child: const Column(
+            child: Column(
               children: [
                 RadioListTile<ThemeMode>(
-                  title: Text('Light'),
+                  title: Text(l10n.lightMode),
                   value: ThemeMode.light,
                 ),
                 RadioListTile<ThemeMode>(
-                  title: Text('Dark'),
+                  title: Text(l10n.darkMode),
                   value: ThemeMode.dark,
                 ),
                 RadioListTile<ThemeMode>(
-                  title: Text('System'),
+                  title: Text(l10n.systemDefault),
                   value: ThemeMode.system,
                 ),
               ],
@@ -72,13 +72,13 @@ class SettingsPage extends ConsumerWidget {
               businessProfileAsync.value == null)
             ListTile(
               leading: const Icon(Icons.business_center_outlined),
-              title: const Text('Complete business profile'),
-              subtitle: const Text('Continue onboarding anytime'),
+              title: Text(l10n.completeBusinessProfile),
+              subtitle: Text(l10n.continueOnboardingAnytime),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => const OnboardingRoute().go(context),
             ),
           const SizedBox(height: 24),
-          Text('Plan', style: theme.textTheme.titleMedium),
+          Text(l10n.plan, style: theme.textTheme.titleMedium),
           subAsync.when(
             data: (sub) => ListTile(
               leading: Icon(
@@ -87,15 +87,20 @@ class SettingsPage extends ConsumerWidget {
                     : Icons.account_circle,
                 color: sub?.planName == 'Pro' ? Colors.amber : null,
               ),
-              title: Text(sub?.planName == 'Pro' ? 'Pro' : 'Basic'),
+              title: Text(sub?.planName == 'Pro' ? l10n.pro : l10n.basic),
               subtitle: sub != null && sub.status == 'active'
                   ? Text(
-                      'Active until ${sub.currentPeriodEnd.toLocal().toString().split(' ')[0]}',
+                      l10n.activeUntil(
+                        sub.currentPeriodEnd.toLocal().toString().split(' ')[0],
+                      ),
                     )
-                  : const Text('Free plan'),
+                  : Text(l10n.freePlan),
               trailing: sub?.planName == 'Pro'
                   ? Chip(
-                      label: const Text('Pro', style: TextStyle(fontSize: 10)),
+                      label: Text(
+                        l10n.pro,
+                        style: const TextStyle(fontSize: 10),
+                      ),
                       backgroundColor: Colors.amber.shade100,
                       padding: EdgeInsets.zero,
                       visualDensity: VisualDensity.compact,
@@ -103,18 +108,18 @@ class SettingsPage extends ConsumerWidget {
                   : const Icon(Icons.chevron_right),
               onTap: () => context.push(const PlansRoute().location),
             ),
-            loading: () => const ListTile(
-              leading: SizedBox(
+            loading: () => ListTile(
+              leading: const SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
-              title: Text('Loading...'),
+              title: Text(l10n.loading),
             ),
             error: (_, _) => ListTile(
               leading: const Icon(Icons.account_circle),
-              title: const Text('Basic'),
-              subtitle: const Text('Free plan'),
+              title: Text(l10n.basic),
+              subtitle: Text(l10n.freePlan),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push(const PlansRoute().location),
             ),
@@ -126,7 +131,7 @@ class SettingsPage extends ConsumerWidget {
               backgroundColor: theme.colorScheme.error,
               foregroundColor: theme.colorScheme.onError,
             ),
-            child: const Text('Logout'),
+            child: Text(l10n.logout),
           ),
         ],
       ),
