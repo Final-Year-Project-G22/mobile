@@ -19,7 +19,7 @@ import 'auth_oauth_state.dart';
 
 part 'auth_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   static const _prefsAccessToken = 'access_token';
   static const _prefsRefreshToken = 'refresh_token';
@@ -43,13 +43,13 @@ class AuthNotifier extends _$AuthNotifier {
     if (!apiClient.isAuthenticated) {
       final restored = await _restoreTokensFromPrefs();
       if (!restored) {
-        return const AuthStatus.unauthenticated();
+        return const Unauthenticated();
       }
     }
 
     // No token after restore/fallback.
     if (!apiClient.isAuthenticated) {
-      return const AuthStatus.unauthenticated();
+      return const Unauthenticated();
     }
 
     // If token is already expired (or nearly expired), attempt a silent refresh
@@ -59,11 +59,27 @@ class AuthNotifier extends _$AuthNotifier {
       if (!refreshed) {
         await apiClient.clearTokens();
         await _clearPrefs();
-        return const AuthStatus.unauthenticated();
+        return const Unauthenticated();
       }
     }
 
-    return const AuthStatus.authenticated(user: null, account: null);
+    final repository = ref.read(authRepositoryProvider);
+    final userResult = await repository.getCurrentUser();
+    return userResult.fold(
+      (failure) {
+        unawaited(forceLogout());
+        return const Unauthenticated();
+      },
+      (authResponse) {
+        _clearOAuthTransientState();
+        final status = Authenticated(
+          user: authResponse.user,
+          account: authResponse.account,
+        );
+        state = AsyncValue.data(status);
+        return status;
+      },
+    );
   }
 
   bool _isTokenExpiredOrNearExpiry(DateTime? expiresAt) {
@@ -84,9 +100,7 @@ class AuthNotifier extends _$AuthNotifier {
       await apiClient.setTokens(
         accessToken,
         refreshToken,
-        expiresAt: expiresAtStr != null
-            ? DateTime.tryParse(expiresAtStr)
-            : null,
+        expiresAt: expiresAtStr != null ? DateTime.tryParse(expiresAtStr) : null,
       );
       return true;
     } on Exception catch (_) {
@@ -135,7 +149,7 @@ class AuthNotifier extends _$AuthNotifier {
     await apiClient.clearTokens();
     await _clearPrefs();
     _clearOAuthTransientState();
-    state = const AsyncValue.data(AuthStatus.unauthenticated());
+    state = const AsyncValue.data(Unauthenticated());
   }
 
   Future<void> login({
@@ -183,7 +197,7 @@ class AuthNotifier extends _$AuthNotifier {
             accountStatus == 'pending';
 
         if (isPendingVerification) {
-          state = const AsyncValue.data(AuthStatus.pendingVerification());
+          state = const AsyncValue.data(PendingVerification());
           return;
         }
 
@@ -221,7 +235,7 @@ class AuthNotifier extends _$AuthNotifier {
     await apiClient.clearTokens();
     await _clearPrefs();
     _clearOAuthTransientState();
-    state = const AsyncValue.data(AuthStatus.unauthenticated());
+    state = const AsyncValue.data(Unauthenticated());
   }
 
   Future<void> loadOAuthProviders() async {
@@ -280,8 +294,7 @@ class AuthNotifier extends _$AuthNotifier {
       );
       return ok;
     } on Exception catch (e) {
-      if (e.toString().contains('cancelled') ||
-          e.toString().contains('canceled')) {
+      if (e.toString().contains('cancelled') || e.toString().contains('canceled')) {
         _setOAuthFailure(
           const AuthUserFailure.oauthCancelled(
             message: 'OAuth sign in was cancelled',
@@ -307,9 +320,7 @@ class AuthNotifier extends _$AuthNotifier {
 
     if (error != null && error.isNotEmpty) {
       final message =
-          uri.queryParameters['error_description'] ??
-          uri.queryParameters['message'] ??
-          'OAuth login failed';
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
       _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
       return false;
     }
@@ -358,9 +369,7 @@ class AuthNotifier extends _$AuthNotifier {
 
     if (error != null && error.trim().isNotEmpty) {
       final message =
-          uri.queryParameters['error_description'] ??
-          uri.queryParameters['message'] ??
-          'OAuth login failed';
+          uri.queryParameters['error_description'] ?? uri.queryParameters['message'] ?? 'OAuth login failed';
       _setOAuthFailure(AuthUserFailure.oauthCallbackInvalid(message: message));
       state = AsyncValue.error(
         AuthUserFailure.oauthCallbackInvalid(message: message),
@@ -460,20 +469,18 @@ class AuthNotifier extends _$AuthNotifier {
         state = AsyncValue.error(failure, StackTrace.current);
       },
       (callbackResult) async {
-        if (callbackResult.isAuthenticated &&
-            callbackResult.authResponse != null) {
+        if (callbackResult.isAuthenticated && callbackResult.authResponse != null) {
           await _applyAuthenticated(callbackResult.authResponse!);
           return;
         }
 
-        if (callbackResult.isEmailRequired &&
-            callbackResult.pendingEmail != null) {
+        if (callbackResult.isEmailRequired && callbackResult.pendingEmail != null) {
           final oauthStateNotifier = ref.read(authOAuthStateProvider.notifier);
           oauthStateNotifier.state = oauthStateNotifier.state.copyWith(
             oauthInProgress: false,
             pendingOAuthEmail: callbackResult.pendingEmail,
           );
-          state = const AsyncValue.data(AuthStatus.unauthenticated());
+          state = const AsyncValue.data(Unauthenticated());
           return;
         }
 
@@ -511,7 +518,7 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> _applyAuthenticated(AuthResponse authResponse) async {
     _clearOAuthTransientState();
     state = AsyncValue.data(
-      AuthStatus.authenticated(
+      Authenticated(
         user: authResponse.user,
         account: authResponse.account,
       ),

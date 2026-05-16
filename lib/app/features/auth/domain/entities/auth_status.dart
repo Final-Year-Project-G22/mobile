@@ -1,27 +1,27 @@
 import 'auth_response.dart';
 
-enum AuthStatusType { authenticated, unauthenticated, pendingVerification }
+sealed class AuthStatus {
+  const AuthStatus();
 
-class AuthStatus {
-  AuthStatus({required this.type, this.user, this.account});
+  bool get isAuthenticated => this is Authenticated;
+  bool get isPendingVerification => this is PendingVerification;
+}
 
-  const AuthStatus.unauthenticated()
-    : type = AuthStatusType.unauthenticated,
-      user = null,
-      account = null;
+class Authenticated extends AuthStatus {
+  const Authenticated({required this.user, required this.account});
 
-  const AuthStatus.authenticated({required this.user, required this.account})
-    : type = AuthStatusType.authenticated;
+  final AuthUser user;
+  final AuthAccount account;
+}
 
-  const AuthStatus.pendingVerification()
-    : type = AuthStatusType.pendingVerification,
-      user = null,
-      account = null;
+class Unauthenticated extends AuthStatus {
+  const Unauthenticated();
+}
 
-  final AuthStatusType type;
-  final AuthUser? user;
-  final AuthAccount? account;
+class PendingVerification extends AuthStatus {
+  const PendingVerification();
+}
 
-  bool get isAuthenticated => type == AuthStatusType.authenticated;
-  bool get isPendingVerification => type == AuthStatusType.pendingVerification;
+extension AuthStatusX on AuthStatus {
+  Authenticated? get asAuthenticated => this is Authenticated ? this as Authenticated : null;
 }

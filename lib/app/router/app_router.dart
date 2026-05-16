@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../features/auth/application/auth_notifier.dart';
+import '../../core/di/auth_providers.dart';
+import '../features/auth/domain/entities/auth_status.dart';
 import 'routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -20,7 +21,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ...$appRoutes,
     ],
     redirect: (context, state) {
-      final authState = ref.read(authProvider);
+      final authAsync = ref.read(resolvedAuthStatusProvider);
       final location = state.matchedLocation;
       final isAuthPage =
           location == loginLocation ||
@@ -29,18 +30,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           location == oauthCallbackLocation ||
           location == oauthCompleteEmailLocation;
 
-      final isPublicPage =
-          location == plansLocation || location == paymentSuccessLocation;
+      final isPublicPage = location == plansLocation || location == paymentSuccessLocation;
 
-      if (authState.isLoading) return null;
+      if (authAsync.isLoading) return null;
 
-      final isAuthenticated = authState.value?.isAuthenticated ?? false;
-      final isPendingVerification =
-          authState.value?.isPendingVerification ?? false;
+      final authStatus = authAsync.requireValue;
+      final isAuthenticated = authStatus is Authenticated;
+      final isPendingVerification = authStatus is PendingVerification;
 
       if (isPendingVerification) {
-        if (location == oauthCallbackLocation ||
-            location == oauthCompleteEmailLocation) {
+        if (location == oauthCallbackLocation || location == oauthCompleteEmailLocation) {
           return null;
         }
         return location == otpLocation ? null : otpLocation;
@@ -59,7 +58,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   );
 
   ref
-    ..listen(authProvider, (_, _) {
+    ..listen(resolvedAuthStatusProvider, (_, _) {
       router.refresh();
     })
     ..onDispose(router.dispose);
