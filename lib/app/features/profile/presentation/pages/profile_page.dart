@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../payment/application/providers/subscription_provider.dart';
 import '../../application/profile_notifier.dart';
@@ -86,7 +87,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final hasInvalidProfileData = user?.failureOption.isSome() ?? false;
 
     if (state.isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: Center(child: AdisuProgressIndicator.large()),
+      );
     }
 
     if (user == null || hasInvalidProfileData) {
@@ -189,13 +192,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 );
                               },
                         icon: state.isUploadingAvatar
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
+                            ? const AdisuProgressIndicator.small()
                             : const Icon(Icons.photo_camera_outlined),
                       ),
                     ),
@@ -390,11 +387,7 @@ class _EditProfileForm extends StatelessWidget {
               child: FilledButton(
                 onPressed: isSaving ? null : onSave,
                 child: isSaving
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
+                    ? const AdisuProgressIndicator.small()
                     : Text(l10n.save),
               ),
             ),

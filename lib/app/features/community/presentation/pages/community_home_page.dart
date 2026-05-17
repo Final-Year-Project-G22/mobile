@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -385,7 +386,7 @@ class _ThreadListView extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: AdisuProgressIndicator()),
       error: (error, stack) => Center(
         child: Text(l10n.errorLoadingThreads(error.toString())),
       ),

@@ -5,7 +5,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/status_badge.dart';
+import '../../../../../shared/utils/html_utils.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
 import '../../application/step_detail_notifier.dart';
@@ -27,8 +29,6 @@ class StepDetailPage extends ConsumerStatefulWidget {
 }
 
 class _StepDetailPageState extends ConsumerState<StepDetailPage> {
-  bool _isBookmarked = false;
-
   @override
   void initState() {
     super.initState();
@@ -93,7 +93,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
         title: Text(step?.title ?? l10n.stepStatusLocked),
       ),
       body: step == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: AdisuProgressIndicator())
           : Column(
               children: [
                 // ── Step header ─────────────────────────────────────
@@ -149,7 +149,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                       if (step.description != null) ...[
                         AppSpacing.gapVerticalSm,
                         Text(
-                          _stripHtml(step.description!),
+                          stripHtml(step.description!),
                           style: textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -171,7 +171,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                 StepActionBar(
                   status: step.status,
                   isOptional: step.isOptional,
-                  isBookmarked: _isBookmarked,
+                  isBookmarked: state.isBookmarked,
                   onStart: _startStep,
                   onComplete: _completeAndReturn,
                   onSkip: _skipAndReturn,
@@ -180,9 +180,6 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                     unawaited(
                       ref.read(stepDetailProvider.notifier).toggleBookmark(),
                     );
-                    setState(() {
-                      _isBookmarked = !_isBookmarked;
-                    });
                   },
                 ),
               ],
@@ -219,7 +216,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       final desc = step?.description;
       if (desc != null && desc.isNotEmpty) {
         return MarkdownBody(
-          data: _stripHtml(desc),
+          data: stripHtml(desc),
           selectable: true,
           styleSheet: _markdownStyle(colorScheme, textTheme),
         );
@@ -279,23 +276,5 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       ),
       codeblockPadding: const EdgeInsets.all(AppSpacing.sm),
     );
-  }
-
-  String _stripHtml(String html) {
-    return html
-        .replaceAll(RegExp(r'<br\s*/?>'), '\n')
-        .replaceAll(RegExp('</p>'), '\n')
-        .replaceAll(RegExp('</li>'), '\n')
-        .replaceAll(RegExp('</ul>'), '\n')
-        .replaceAll(RegExp('</ol>'), '\n')
-        .replaceAll(RegExp('</blockquote>'), '\n')
-        .replaceAll(RegExp('</div>'), '\n')
-        .replaceAll(RegExp('<[^>]*>'), '')
-        .replaceAll('&nbsp;', ' ')
-        .replaceAll('&amp;', '&')
-        .replaceAll('&lt;', '<')
-        .replaceAll('&gt;', '>')
-        .replaceAll(RegExp(r'\n{3,}'), '\n\n')
-        .trim();
   }
 }

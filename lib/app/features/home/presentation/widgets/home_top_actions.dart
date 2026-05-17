@@ -34,7 +34,9 @@ class HomeTopActions extends StatelessWidget {
                 : Text(
                     badgeText,
                     key: ValueKey<String>(badgeText),
-                    style: const TextStyle(fontSize: 11),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      fontSize: 11,
+                    ),
                   ),
           ),
           child: IconButton(

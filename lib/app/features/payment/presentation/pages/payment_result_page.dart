@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/payment_result_notifier.dart';
 import '../../domain/entities/payment_verification.dart';
@@ -41,7 +42,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CircularProgressIndicator(),
+              const AdisuProgressIndicator(),
               const SizedBox(height: AppSpacing.md),
               Text(l10n.verifyingPayment),
             ],
@@ -117,7 +118,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            const AdisuProgressIndicator(),
             const SizedBox(height: AppSpacing.md),
             Text(
               l10n.paymentProcessing,

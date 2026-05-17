@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/adisu_progress_indicator.dart';
+
 extension ContextExtensions on BuildContext {
   ThemeData get theme => Theme.of(this);
   TextTheme get textTheme => theme.textTheme;
@@ -43,11 +45,7 @@ extension ContextExtensions on BuildContext {
       SnackBar(
         content: Row(
           children: [
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
+            const AdisuProgressIndicator.small(),
             const SizedBox(width: 16),
             Text(message),
           ],

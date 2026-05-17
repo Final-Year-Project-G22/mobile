@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../application/providers/subscription_provider.dart';
 
 class ProGuard extends ConsumerWidget {
@@ -16,7 +17,7 @@ class ProGuard extends ConsumerWidget {
           (sub != null && sub.planName == 'Pro' && sub.status == 'active')
           ? child
           : fallback,
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: AdisuProgressIndicator()),
       error: (_, _) => fallback,
     );
   }

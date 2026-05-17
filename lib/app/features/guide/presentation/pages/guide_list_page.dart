@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
+import '../../../../../shared/widgets/error_view.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
 import '../widgets/guide_card.dart';
@@ -161,9 +163,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
 
             // ── Content ─────────────────────────────────────────────
             Expanded(
-              child: state.showBookmarked
-                  ? _buildBookmarksList(l10n)
-                  : _buildGuidesList(l10n),
+              child: _buildContent(l10n),
             ),
           ],
         ),
@@ -171,15 +171,29 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     );
   }
 
-  Widget _buildGuidesList(AppLocalizations l10n) {
+  Widget _buildContent(AppLocalizations l10n) {
     final state = ref.watch(guideListProvider);
-    if (state.guides.isEmpty) {
-      return EmptyStateView(
-        icon: Icons.search_off,
-        title: l10n.guideNoGuidesFound,
+
+    // ── Bookmarks tab ─────────────────────────────────────────────
+    if (state.showBookmarked) {
+      return _buildBookmarksList(l10n);
+    }
+
+    // ── Loading state (initial load, no cached data) ──────────────
+    if (state.isLoading && state.guides.isEmpty) {
+      return const Center(child: AdisuProgressIndicator.large());
+    }
+
+    // ── Error / empty state (load failed, nothing to show) ──────
+    if (!state.isLoading && state.guides.isEmpty) {
+      return ErrorView.inline(
+        message: l10n.errorGeneric,
+        retryLabel: l10n.retry,
+        onRetry: () => ref.read(guideListProvider.notifier).refresh(),
       );
     }
 
+    // ── Guides list ───────────────────────────────────────────────
     return ListView.separated(
       padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.guides.length,
@@ -200,6 +214,10 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     final state = ref.watch(guideListProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    if (state.isLoading && state.bookmarks.isEmpty) {
+      return const Center(child: AdisuProgressIndicator.large());
+    }
 
     if (state.bookmarks.isEmpty) {
       return EmptyStateView(

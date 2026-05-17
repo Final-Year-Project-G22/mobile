@@ -26,9 +26,11 @@ class SseParser {
             if (cleanLine.isEmpty) {
               if (eventType.isNotEmpty && eventData.isNotEmpty) {
                 final event = _parseEvent(eventType, eventData);
-                debugPrint(
-                  '[SSE Parser] parsed: type=$eventType data=$eventData',
-                );
+                if (kDebugMode) {
+                  debugPrint(
+                    '[SSE Parser] parsed: type=$eventType data=$eventData',
+                  );
+                }
                 if (event != null) {
                   controller.add(event);
                 }
@@ -84,7 +86,9 @@ class SseParser {
           return null;
       }
     } on FormatException catch (e) {
-      debugPrint('[SSE Parser] JSON parse error on type="$eventType": $e');
+      if (kDebugMode) {
+        debugPrint('[SSE Parser] JSON parse error on type="$eventType": $e');
+      }
       return null;
     }
   }

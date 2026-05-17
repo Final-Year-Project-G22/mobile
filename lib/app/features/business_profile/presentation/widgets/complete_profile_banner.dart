@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 
 class CompleteProfileBanner extends StatelessWidget {
@@ -12,6 +13,7 @@ class CompleteProfileBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -40,14 +42,14 @@ class CompleteProfileBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Complete your business profile',
+                  l10n.completeYourBusinessProfile,
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Unlock personalized guidance and better recommendations.',
+                  l10n.unlockPersonalizedGuidance,
                   style: textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -57,7 +59,7 @@ class CompleteProfileBanner extends StatelessWidget {
           ),
           TextButton(
             onPressed: onTap,
-            child: const Text('Continue'),
+            child: Text(l10n.continueText),
           ),
         ],
       ),

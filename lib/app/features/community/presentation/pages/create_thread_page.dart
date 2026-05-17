@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -82,14 +83,12 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   Future<void> _uploadFiles(List<XFile> files) async {
     setState(() => _isUploading = true);
     try {
-      debugPrint('Uploading ${files.length} files...');
       final result = await ref
           .read(communityMutationsProvider.notifier)
           .uploadAttachments(files);
 
       result.fold(
         (failure) {
-          debugPrint('Upload failed: $failure');
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Failed to upload: $failure')),
@@ -97,14 +96,11 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
           }
         },
         (attachments) {
-          debugPrint('Upload success: ${attachments.length} files');
           setState(() {
             _attachments.addAll(attachments);
           });
         },
       );
-    } on Exception catch (e) {
-      debugPrint('Upload error: $e');
     } finally {
       if (mounted) setState(() => _isUploading = false);
     }
@@ -135,13 +131,10 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   }
 
   Future<void> _submit() async {
-    debugPrint('Submit tapped. Validating form...');
     if (_formKey.currentState == null) {
-      debugPrint('Form key currentState is null!');
       return;
     }
     final isValid = _formKey.currentState!.validate();
-    debugPrint('Form validation result: $isValid');
     if (!isValid) return;
 
     setState(() => _isSubmitting = true);
@@ -149,7 +142,6 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     try {
       final title = _titleController.text.trim();
       final initialPost = _initialPostController.text;
-      debugPrint('Title: $title, Post: $initialPost');
 
       final attachmentIds = _attachments.isNotEmpty
           ? _attachments.map((a) => a.id).join(',')
@@ -160,10 +152,6 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
       final tagIds = _selectedTagIds.isNotEmpty
           ? _selectedTagIds.toList()
           : null;
-
-      debugPrint(
-        'Submitting thread with sectorIds: $sectorIds, tagIds: $tagIds, attachmentIds: $attachmentIds',
-      );
 
       final result = await ref
           .read(communityMutationsProvider.notifier)
@@ -226,14 +214,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
           TextButton(
             onPressed: (_isSubmitting || _isUploading) ? null : _submit,
             child: _isSubmitting
-                ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: theme.colorScheme.onPrimary,
-                    ),
-                  )
+                ? const AdisuProgressIndicator.small()
                 : Text(l10n.post),
           ),
         ],
@@ -279,7 +260,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
               data: (sectors) => _buildSectorChips(sectors, l10n),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: AdisuProgressIndicator.small()),
               ),
               error: (e, s) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -296,7 +277,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
               data: (tags) => _buildTagChips(tags, l10n),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: AdisuProgressIndicator.small()),
               ),
               error: (e, s) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -317,11 +298,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                         ? null
                         : _pickImage,
                     icon: _isUploading
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
+                        ? const AdisuProgressIndicator.small()
                         : const Icon(Icons.image),
                     label: Text(l10n.addImages),
                   ),

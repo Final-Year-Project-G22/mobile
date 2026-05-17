@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
 import '../../domain/entities/step_enums.dart';
@@ -42,7 +43,7 @@ class _GuideDetailPageState extends ConsumerState<GuideDetailPage> {
         title: Text(guide?.name ?? l10n.guide),
       ),
       body: guide == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: AdisuProgressIndicator())
           : Column(
               children: [
                 GuideProgressBar(

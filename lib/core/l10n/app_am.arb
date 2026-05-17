@@ -361,6 +361,7 @@
       "error": { "type": "String" }
     }
   },
+  "failedToLoadFilters": "ማጣሪያዎችን መጫን አልተቻለም",
   "guideSearchHint": "መመሪያዎችን ይፈልጉ...",
   "guideFiltered": "ተጣርቷል",
   "guideClearAll": "ሁሉንም አጽዳ",
@@ -490,5 +491,81 @@
   "@reportedSuccessfully": {
     "placeholders": { "type": { "type": "String" } }
   },
-  "reasonHint": "ለምን ይህን እንደሚያሪፖርቱ ይግለጹ..."
+  "reasonHint": "ለምን ይህን እንደሚያሪፖርቱ ይግለጹ...",
+  "editingPost": "ልጥፍ በማስተካከል ላይ",
+  "replyingTo": "ለ{name} ምላሽ በመስጠት ላይ",
+  "@replyingTo": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "newPost": "አዲስ ልጥፍ",
+  "updateYourPost": "ልጥፍዎን ያዘምኑ...",
+  "writeYourReply": "ምላሽዎን ይፃፉ...",
+  "writeAPost": "ልጥፍ ይፃፉ...",
+  "newAttachments": "አዲስ አባሪዎች ({count}):",
+  "@newAttachments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "existingAttachments": "ነባር አባሪዎች ({count}):",
+  "@existingAttachments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "removeAll": "ሁሉንም አስወግድ",
+  "attachmentsRemovedOnUpdate": "አባሪዎች ሲዘምን ይወገዳሉ",
+  "undoRemove": "መወገድን ቀልብስ",
+  "removeThisAttachment": "ይህን አባሪ አስወግድ",
+  "postUpdated": "ልጥፍ በተሳካ ሁኔታ ተዘምኗል",
+  "imageSavedToGallery": "ምስል ወደ ጋለሪ ተቀምጧል!",
+  "failedToLoadImage": "ምስል መጫን አልተቻለም",
+  "failedToDeletePost": "ማጥፋት አልተቻለም: {error}",
+  "@failedToDeletePost": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedToMarkSolution": "መፍትሄ ምልክት ማድረግ አልተቻለም: {error}",
+  "@failedToMarkSolution": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedWithError": "አልተሳካም: {error}",
+  "@failedWithError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "oAuthCompletionTitle": "ምዝገባዎን ያጠናቅቁ",
+  "oAuthCompletionSubtitle": "በ{provider} ለመግባት ኢሜይል ያክሉ።",
+  "@oAuthCompletionSubtitle": {
+    "placeholders": {
+      "provider": { "type": "String" }
+    }
+  },
+  "oAuthCompletionSignedInAs": "እንደ {name} ገብተዋል",
+  "@oAuthCompletionSignedInAs": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "oAuthCompletionProviderSubject": "የአቅራቢ ርዕሰ ጉዳይ: {subject}",
+  "@oAuthCompletionProviderSubject": {
+    "placeholders": {
+      "subject": { "type": "String" }
+    }
+  },
+  "oAuthFinishingSignIn": "ምዝገባን በማጠናቀቅ ላይ...",
+  "oAuthNoCompletionRequest": "ምንም የOAuth ኢሜይል ማጠናቀቂያ ጥያቄ አልተገኘም።",
+  "oAuthBackToLogin": "ወደ መግቢያ ተመለስ",
+  "completeYourBusinessProfile": "የንግድ መገለጫዎን ያጠናቅቁ",
+  "unlockPersonalizedGuidance": "ለግል የተበጀ መመሪያ እና የተሻለ ምክረ ሀሳብ ያግኙ።",
+  "noInternetConnection": "የበይነመረብ ግንኙነት የለም",
+  "filterNoResults": "ከፍለጋዎ ጋር የሚዛመድ ምንም ነገር የለም",
+  "attachments": "አባሪዎች",
+  "removeThis": "ይህን አስወግድ"
 }

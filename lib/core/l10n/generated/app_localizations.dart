@@ -1802,6 +1802,12 @@ abstract class AppLocalizations {
   /// **'Failed to load plans: {error}'**
   String failedToLoadPlans(String error);
 
+  /// Taxonomy filter bar load error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load filters'**
+  String get failedToLoadFilters;
+
   /// Guide search hint
   ///
   /// In en, this message translates to:
@@ -2317,6 +2323,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Describe why you are reporting this...'**
   String get reasonHint;
+
+  /// Label when editing a post
+  ///
+  /// In en, this message translates to:
+  /// **'Editing post'**
+  String get editingPost;
+
+  /// Label when replying to a user
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {name}'**
+  String replyingTo(String name);
+
+  /// Label when creating a new post
+  ///
+  /// In en, this message translates to:
+  /// **'New post'**
+  String get newPost;
+
+  /// Hint text for editing a post
+  ///
+  /// In en, this message translates to:
+  /// **'Update your post...'**
+  String get updateYourPost;
+
+  /// Hint text for writing a reply
+  ///
+  /// In en, this message translates to:
+  /// **'Write your reply...'**
+  String get writeYourReply;
+
+  /// Hint text for writing a new post
+  ///
+  /// In en, this message translates to:
+  /// **'Write a post...'**
+  String get writeAPost;
+
+  /// Label for newly added attachments
+  ///
+  /// In en, this message translates to:
+  /// **'New attachments ({count}):'**
+  String newAttachments(int count);
+
+  /// Label for existing attachments being edited
+  ///
+  /// In en, this message translates to:
+  /// **'Existing attachments ({count}):'**
+  String existingAttachments(int count);
+
+  /// Button to remove all items
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all'**
+  String get removeAll;
+
+  /// Warning that attachments will be removed
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments will be removed on update'**
+  String get attachmentsRemovedOnUpdate;
+
+  /// Button to undo removing an attachment
+  ///
+  /// In en, this message translates to:
+  /// **'Undo remove'**
+  String get undoRemove;
+
+  /// Tooltip to remove a specific attachment
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this attachment'**
+  String get removeThisAttachment;
+
+  /// Success snackbar after updating a post
+  ///
+  /// In en, this message translates to:
+  /// **'Post updated successfully'**
+  String get postUpdated;
+
+  /// Success snackbar when image is saved to gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved to gallery!'**
+  String get imageSavedToGallery;
+
+  /// Error when an image fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load image'**
+  String get failedToLoadImage;
+
+  /// Error snackbar when post deletion fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete: {error}'**
+  String failedToDeletePost(String error);
+
+  /// Error snackbar when marking solution fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to mark solution: {error}'**
+  String failedToMarkSolution(String error);
+
+  /// Generic error snackbar with error details
+  ///
+  /// In en, this message translates to:
+  /// **'Failed: {error}'**
+  String failedWithError(String error);
+
+  /// Title for OAuth email completion page
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your sign in'**
+  String get oAuthCompletionTitle;
+
+  /// Subtitle for OAuth email completion page
+  ///
+  /// In en, this message translates to:
+  /// **'Add an email to finish signing in with {provider}.'**
+  String oAuthCompletionSubtitle(String provider);
+
+  /// Label showing the signed-in OAuth identity
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {name}'**
+  String oAuthCompletionSignedInAs(String name);
+
+  /// Label showing the OAuth provider subject
+  ///
+  /// In en, this message translates to:
+  /// **'Provider subject: {subject}'**
+  String oAuthCompletionProviderSubject(String subject);
+
+  /// Loading message on OAuth callback page
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing sign in...'**
+  String get oAuthFinishingSignIn;
+
+  /// Message when no pending OAuth email completion
+  ///
+  /// In en, this message translates to:
+  /// **'No OAuth email completion request found.'**
+  String get oAuthNoCompletionRequest;
+
+  /// Button to return to login page
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get oAuthBackToLogin;
+
+  /// Banner title prompting to complete business profile
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your business profile'**
+  String get completeYourBusinessProfile;
+
+  /// Banner subtitle for business profile completion
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock personalized guidance and better recommendations.'**
+  String get unlockPersonalizedGuidance;
+
+  /// Offline banner message
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get noInternetConnection;
+
+  /// Empty filter results message
+  ///
+  /// In en, this message translates to:
+  /// **'No items match your search'**
+  String get filterNoResults;
+
+  /// Attachments label
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// Remove this item action
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this'**
+  String get removeThis;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../../shared/widgets/error_view.dart';
 import '../../../../constants/app_spacing.dart';
@@ -249,6 +250,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       showModalBottomSheet<void>(
         context: context,
         isScrollControlled: true,
+        useSafeArea: true,
         builder: (_) => ReportSheet(
           threadId: widget.threadId,
           postId: post.id,
@@ -262,6 +264,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       showModalBottomSheet<void>(
         context: context,
         isScrollControlled: true,
+        useSafeArea: true,
         builder: (_) => ReportSheet(
           threadId: widget.threadId,
           targetUserId: post.authorId,
@@ -276,6 +279,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
       showModalBottomSheet<void>(
         context: context,
         isScrollControlled: true,
+        useSafeArea: true,
         builder: (_) => ReportSheet(
           threadId: widget.threadId,
         ),
@@ -776,7 +780,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                 ),
               );
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: AdisuProgressIndicator()),
             error: (error, stackTrace) => ErrorView.inline(
               message: l10n.errorLoadingThreads(error.toString()),
               retryLabel: l10n.retry,
@@ -785,7 +789,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: AdisuProgressIndicator()),
         error: (error, stackTrace) => ErrorView(
           message: l10n.errorLoadingThreads(error.toString()),
           retryLabel: l10n.retry,

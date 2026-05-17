@@ -54,9 +54,7 @@ class PostCard extends StatelessWidget {
 
   Future<void> _launchUrl(String urlString) async {
     final url = Uri.parse(urlString);
-    if (!await launchUrl(url)) {
-      debugPrint('Could not launch $urlString');
-    }
+    await launchUrl(url);
   }
 
   bool _isImage(String? fileType) {
@@ -142,7 +140,7 @@ class PostCard extends StatelessWidget {
     } on Exception catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save image: $e')),
+          SnackBar(content: Text(l10n.failedWithError('$e'))),
         );
       }
     }
@@ -467,7 +465,7 @@ class PostCard extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     errorBuilder:
                                         (context, error, stackTrace) =>
-                                            const Text('Failed to load image'),
+                                            Text(l10n.failedToLoadImage),
                                   ),
                                 ),
                               ),
@@ -476,20 +474,6 @@ class PostCard extends StatelessWidget {
                       ),
                     );
                   }),
-                ],
-                if (upvoteCount != null) ...[
-                  const SizedBox(height: AppSpacing.xs),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.thumb_up_alt_outlined),
-                        iconSize: 20,
-                        onPressed: () {},
-                      ),
-                      Text('$upvoteCount'),
-                    ],
-                  ),
                 ],
               ],
             ),

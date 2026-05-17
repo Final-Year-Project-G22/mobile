@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/widgets/locale_toggle_button.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_form_notifier.dart';
@@ -315,7 +316,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               child: ColoredBox(
                 color: colorScheme.scrim.withValues(alpha: 0.5),
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: AdisuProgressIndicator.large(),
                 ),
               ),
             ),

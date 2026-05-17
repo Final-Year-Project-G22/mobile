@@ -51,14 +51,14 @@ class ChatMessageBubble extends StatelessWidget {
                     ? theme.colorScheme.primaryContainer
                     : theme.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16),
-                  topRight: const Radius.circular(16),
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
                   bottomLeft: isUser
-                      ? const Radius.circular(16)
+                      ? const Radius.circular(20)
                       : const Radius.circular(4),
                   bottomRight: isUser
                       ? const Radius.circular(4)
-                      : const Radius.circular(16),
+                      : const Radius.circular(20),
                 ),
               ),
               child: isEmpty

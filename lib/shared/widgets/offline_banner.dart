@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../app/constants/app_colors.dart';
 import '../../app/constants/app_spacing.dart';
+import '../../core/l10n/generated/app_localizations.dart';
 
 /// Top banner signaling no-connectivity state.
 ///
@@ -10,18 +10,20 @@ import '../../app/constants/app_spacing.dart';
 class OfflineBanner extends StatelessWidget {
   const OfflineBanner({
     required this.isOffline,
-    this.message = 'No internet connection',
+    this.message,
     super.key,
   });
 
   /// Whether the banner should be visible.
   final bool isOffline;
 
-  /// Message to display.
-  final String message;
+  /// Message to display. Defaults to l10n.noInternetConnection.
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return AnimatedSlide(
@@ -37,22 +39,22 @@ class OfflineBanner extends StatelessWidget {
             horizontal: AppSpacing.md,
             vertical: AppSpacing.xs,
           ),
-          color: AppColors.warning,
+          color: colorScheme.tertiary,
           child: SafeArea(
             bottom: false,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.wifi_off,
                   size: 16,
-                  color: Colors.white,
+                  color: colorScheme.onTertiary,
                 ),
                 const SizedBox(width: AppSpacing.xs),
                 Text(
-                  message,
+                  message ?? l10n.noInternetConnection,
                   style: textTheme.labelMedium?.copyWith(
-                    color: Colors.white,
+                    color: colorScheme.onTertiary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

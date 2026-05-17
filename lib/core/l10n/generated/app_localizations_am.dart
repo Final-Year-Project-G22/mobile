@@ -932,6 +932,9 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
+  String get failedToLoadFilters => 'ማጣሪያዎችን መጫን አልተቻለም';
+
+  @override
   String get guideSearchHint => 'መመሪያዎችን ይፈልጉ...';
 
   @override
@@ -1223,4 +1226,115 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get reasonHint => 'ለምን ይህን እንደሚያሪፖርቱ ይግለጹ...';
+
+  @override
+  String get editingPost => 'ልጥፍ በማስተካከል ላይ';
+
+  @override
+  String replyingTo(String name) {
+    return 'ለ$name ምላሽ በመስጠት ላይ';
+  }
+
+  @override
+  String get newPost => 'አዲስ ልጥፍ';
+
+  @override
+  String get updateYourPost => 'ልጥፍዎን ያዘምኑ...';
+
+  @override
+  String get writeYourReply => 'ምላሽዎን ይፃፉ...';
+
+  @override
+  String get writeAPost => 'ልጥፍ ይፃፉ...';
+
+  @override
+  String newAttachments(int count) {
+    return 'አዲስ አባሪዎች ($count):';
+  }
+
+  @override
+  String existingAttachments(int count) {
+    return 'ነባር አባሪዎች ($count):';
+  }
+
+  @override
+  String get removeAll => 'ሁሉንም አስወግድ';
+
+  @override
+  String get attachmentsRemovedOnUpdate => 'አባሪዎች ሲዘምን ይወገዳሉ';
+
+  @override
+  String get undoRemove => 'መወገድን ቀልብስ';
+
+  @override
+  String get removeThisAttachment => 'ይህን አባሪ አስወግድ';
+
+  @override
+  String get postUpdated => 'ልጥፍ በተሳካ ሁኔታ ተዘምኗል';
+
+  @override
+  String get imageSavedToGallery => 'ምስል ወደ ጋለሪ ተቀምጧል!';
+
+  @override
+  String get failedToLoadImage => 'ምስል መጫን አልተቻለም';
+
+  @override
+  String failedToDeletePost(String error) {
+    return 'ማጥፋት አልተቻለም: $error';
+  }
+
+  @override
+  String failedToMarkSolution(String error) {
+    return 'መፍትሄ ምልክት ማድረግ አልተቻለም: $error';
+  }
+
+  @override
+  String failedWithError(String error) {
+    return 'አልተሳካም: $error';
+  }
+
+  @override
+  String get oAuthCompletionTitle => 'ምዝገባዎን ያጠናቅቁ';
+
+  @override
+  String oAuthCompletionSubtitle(String provider) {
+    return 'በ$provider ለመግባት ኢሜይል ያክሉ።';
+  }
+
+  @override
+  String oAuthCompletionSignedInAs(String name) {
+    return 'እንደ $name ገብተዋል';
+  }
+
+  @override
+  String oAuthCompletionProviderSubject(String subject) {
+    return 'የአቅራቢ ርዕሰ ጉዳይ: $subject';
+  }
+
+  @override
+  String get oAuthFinishingSignIn => 'ምዝገባን በማጠናቀቅ ላይ...';
+
+  @override
+  String get oAuthNoCompletionRequest => 'ምንም የOAuth ኢሜይል ማጠናቀቂያ ጥያቄ አልተገኘም።';
+
+  @override
+  String get oAuthBackToLogin => 'ወደ መግቢያ ተመለስ';
+
+  @override
+  String get completeYourBusinessProfile => 'የንግድ መገለጫዎን ያጠናቅቁ';
+
+  @override
+  String get unlockPersonalizedGuidance => 'ለግል የተበጀ መመሪያ እና የተሻለ ምክረ ሀሳብ ያግኙ።';
+
+  @override
+  String get noInternetConnection => 'የበይነመረብ ግንኙነት የለም';
+
+  @override
+  String get filterNoResults => 'ከፍለጋዎ ጋር የሚዛመድ ምንም ነገር የለም';
+
+  @override
+  String get attachments => 'አባሪዎች';
+
+  @override
+  String get removeThis => 'ይህን አስወግድ';
 }

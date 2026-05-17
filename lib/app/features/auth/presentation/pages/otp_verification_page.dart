@@ -250,7 +250,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       _errorMessage!,
-                      style: TextStyle(color: colorScheme.error),
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.error,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ],

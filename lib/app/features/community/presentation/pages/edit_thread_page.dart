@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -112,7 +113,6 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
 
@@ -148,9 +148,17 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                 data: (sectors) => _buildSectorChips(sectors, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: AdisuProgressIndicator.small()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    l10n.failedToLoadFilters,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 12),
@@ -159,9 +167,17 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                 data: (tags) => _buildTagChips(tags, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: AdisuProgressIndicator.small()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    l10n.failedToLoadFilters,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 24),
@@ -171,14 +187,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : _submit,
                   child: _isSubmitting
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        )
+                      ? const AdisuProgressIndicator.small()
                       : Text(l10n.save),
                 ),
               ),

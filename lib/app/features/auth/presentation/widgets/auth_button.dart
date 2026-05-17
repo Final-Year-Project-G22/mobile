@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+
 class AuthButton extends StatelessWidget {
   const AuthButton({
     required this.text,
@@ -31,19 +33,8 @@ class AuthButton extends StatelessWidget {
   }
 
   Widget _buildChild(BuildContext context, {bool isOutlined = false}) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     if (isLoading) {
-      return SizedBox(
-        height: 20,
-        width: 20,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            isOutlined ? colorScheme.primary : colorScheme.onPrimary,
-          ),
-        ),
-      );
+      return const AdisuProgressIndicator.small();
     }
 
     return Text(text);
