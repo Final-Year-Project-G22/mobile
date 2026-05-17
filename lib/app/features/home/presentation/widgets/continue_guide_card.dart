@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../shared/widgets/circular_progress_ring.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../guide/domain/entities/guide_with_progress.dart';
 
@@ -17,19 +16,13 @@ class ContinueGuideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
       width: 140,
       child: Card(
-        elevation: 0,
-        color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppSpacing.borderRadiusMd,
-          side: BorderSide(
-            color: isDark ? AppColors.borderDark : AppColors.borderLight,
-          ),
-        ),
+        // Inherits CardTheme defaults (elevation, shape, no border)
         child: InkWell(
           onTap: onTap,
           borderRadius: AppSpacing.borderRadiusMd,
@@ -47,12 +40,9 @@ class ContinueGuideCard extends StatelessWidget {
                 AppSpacing.gapVerticalXxs,
                 Text(
                   guide.name,
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: textTheme.labelMedium?.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
-                    color: isDark
-                        ? AppColors.textPrimaryDark
-                        : AppColors.textPrimaryLight,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

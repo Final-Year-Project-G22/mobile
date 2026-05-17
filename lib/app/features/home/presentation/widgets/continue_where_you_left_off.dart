@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../guide/domain/entities/guide_with_progress.dart';
 import 'continue_guide_card.dart';
@@ -20,21 +19,18 @@ class ContinueWhereYouLeftOffRail extends StatelessWidget {
   Widget build(BuildContext context) {
     if (guides.isEmpty) return const SizedBox.shrink();
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
           child: Text(
             AppLocalizations.of(context).continueWhereYouLeftOff,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? AppColors.textPrimaryDark
-                  : AppColors.textPrimaryLight,
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
             ),
           ),
         ),
@@ -43,7 +39,7 @@ class ContinueWhereYouLeftOffRail extends StatelessWidget {
           height: 120,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
             itemCount: guides.length,
             separatorBuilder: (_, _) => AppSpacing.gapHorizontalSm,
             itemBuilder: (_, index) {
