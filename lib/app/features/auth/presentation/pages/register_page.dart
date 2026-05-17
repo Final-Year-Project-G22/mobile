@@ -286,8 +286,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ),
                         AppSpacing.gapHorizontalXs,
-                        GestureDetector(
-                          onTap: () => const LoginRoute().go(context),
+                        TextButton(
+                          onPressed: () => const LoginRoute().go(context),
+                          style: TextButton.styleFrom(
+                            minimumSize: const Size(48, 48),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.xs,
+                            ),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
                           child: Text(
                             l10n.signIn,
                             style: textTheme.labelLarge?.copyWith(

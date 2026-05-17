@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../../../../core/providers/websocket_providers.dart';
 import '../../../../../core/services/websocket_service.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -101,8 +102,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           if (key?.currentContext != null) {
             return Scrollable.ensureVisible(
               key!.currentContext!,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
+              duration: AppSpacing.durationMedium2,
+              curve: AppSpacing.curveEaseOut,
               alignment: 0.1,
             );
           }
@@ -619,11 +620,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        padding: const EdgeInsets.only(
+                          top: AppSpacing.xs,
+                          bottom: AppSpacing.xs,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 8),
+                            const SizedBox(height: AppSpacing.xs),
                             if (initialPost != null)
                               PostCard(
                                 key: _postKeys[initialPost.id],
@@ -692,7 +696,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                 content: thread.description!,
                                 createdAt: thread.createdAt,
                               ),
-                            const Divider(),
+                            const Divider(height: 1),
                           ],
                         ),
                       ),
@@ -701,7 +705,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                       SliverToBoxAdapter(
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(32),
+                            padding: const EdgeInsets.all(AppSpacing.xl),
                             child: Text(l10n.noRepliesYet),
                           ),
                         ),

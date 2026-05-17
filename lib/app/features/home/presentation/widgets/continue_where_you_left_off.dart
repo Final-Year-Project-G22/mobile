@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../../../shared/widgets/section_header.dart';
 import '../../../guide/domain/entities/guide_with_progress.dart';
 import 'continue_guide_card.dart';
 
@@ -19,20 +20,11 @@ class ContinueWhereYouLeftOffRail extends StatelessWidget {
   Widget build(BuildContext context) {
     if (guides.isEmpty) return const SizedBox.shrink();
 
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-          child: Text(
-            AppLocalizations.of(context).continueWhereYouLeftOff,
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurface,
-            ),
-          ),
+        SectionHeader(
+          title: AppLocalizations.of(context).continueWhereYouLeftOff,
         ),
         AppSpacing.gapVerticalSm,
         SizedBox(

@@ -110,8 +110,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     children: List.generate(6, (index) {
                       final isActive = index <= state.currentStep;
                       return Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 6),
+                        child: AnimatedContainer(
+                          duration: AppSpacing.durationMedium1,
+                          curve: AppSpacing.curveEaseInOut,
+                          margin: EdgeInsets.only(right: index == 5 ? 0 : 6),
                           height: 4,
                           decoration: BoxDecoration(
                             color: isActive
@@ -178,6 +180,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         : () {
                             const HomeRoute().go(context);
                           },
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size(48, 48),
+                    ),
                     child: Text(l10n.skipForNow),
                   ),
                   AppSpacing.gapHorizontalSm,

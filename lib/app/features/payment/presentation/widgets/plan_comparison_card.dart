@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 
 class PlanComparisonCard extends StatelessWidget {
   const PlanComparisonCard({
@@ -28,43 +29,48 @@ class PlanComparisonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final borderColor = highlight
-        ? colorScheme.primary
-        : colorScheme.outlineVariant;
+    final accentColor = isPro ? colorScheme.tertiary : colorScheme.primary;
+    final accentOnColor = isPro
+        ? colorScheme.onTertiary
+        : colorScheme.onPrimary;
+    final borderColor = highlight ? accentColor : colorScheme.outlineVariant;
 
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: borderColor, width: highlight ? 2 : 1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppSpacing.borderRadiusMd,
         color: theme.colorScheme.surface,
       ),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (highlight)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.xxs,
+              ),
               decoration: BoxDecoration(
-                color: colorScheme.primary,
-                borderRadius: BorderRadius.circular(12),
+                color: accentColor,
+                borderRadius: AppSpacing.borderRadiusSm,
               ),
               child: Text(
                 AppLocalizations.of(context).mostPopular,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: colorScheme.onPrimary,
+                  color: accentOnColor,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.sm),
           Text(title, style: theme.textTheme.titleLarge),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(price, style: theme.textTheme.headlineMedium),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xxs),
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
@@ -76,26 +82,26 @@ class PlanComparisonCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.md),
           ...features.map(
             (f) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: AppSpacing.xs),
               child: Row(
                 children: [
                   Icon(
                     isPro ? Icons.check_circle : Icons.check,
                     size: 18,
                     color: isPro
-                        ? colorScheme.primary
+                        ? colorScheme.tertiary
                         : colorScheme.onSurfaceVariant,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.xs),
                   Expanded(child: Text(f, style: theme.textTheme.bodyMedium)),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.md),
           if (onSubscribe != null)
             FilledButton(
               style: FilledButton.styleFrom(
@@ -110,7 +116,7 @@ class PlanComparisonCard extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: AppSpacing.borderRadiusMd,
               ),
               child: Text(
                 AppLocalizations.of(context).currentPlan,

@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
 import '../../domain/entities/language_variant.dart';
@@ -95,26 +96,29 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
           ? const Center(child: CircularProgressIndicator())
           : _error != null
           ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 64,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(l10n.failedToLoadPDF(_error!)),
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    onPressed: () => launchUrl(
-                      Uri.parse(widget.url),
-                      mode: LaunchMode.externalApplication,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      size: 64,
+                      color: colorScheme.onSurfaceVariant,
                     ),
-                    icon: const Icon(Icons.open_in_new),
-                    label: Text(l10n.openInBrowser),
-                  ),
-                ],
+                    const SizedBox(height: AppSpacing.md),
+                    Text(l10n.failedToLoadPDF(_error!)),
+                    const SizedBox(height: AppSpacing.md),
+                    FilledButton.icon(
+                      onPressed: () => launchUrl(
+                        Uri.parse(widget.url),
+                        mode: LaunchMode.externalApplication,
+                      ),
+                      icon: const Icon(Icons.open_in_new),
+                      label: Text(l10n.openInBrowser),
+                    ),
+                  ],
+                ),
               ),
             )
           : PDFView(
@@ -150,7 +154,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -159,13 +163,13 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                   size: 64,
                   color: colorScheme.onSurfaceVariant,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   _mapErrorToMessage(error, l10n),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: AppSpacing.lg),
                 FilledButton.icon(
                   onPressed: () =>
                       ref.invalidate(templateDetailProvider(widget.groupId)),
@@ -206,7 +210,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           ),
 
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.screenH,
+            AppSpacing.md,
+            AppSpacing.screenH,
+            AppSpacing.xs,
+          ),
           child: Row(
             children: [
               Expanded(
@@ -218,7 +227,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         ),
 
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
           child: Wrap(
             spacing: 8,
             children: [
@@ -238,7 +247,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           ),
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.md),
 
         // Language variant sections
         for (final variant in detail.languages) ...[
@@ -259,7 +268,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     final isDownloading = _downloadingLanguages.contains(variant.language);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.md,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -294,10 +306,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           ),
           if (variant.description != null &&
               variant.description!.isNotEmpty) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.xs),
             Text(variant.description!, style: theme.textTheme.bodyMedium),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
               Expanded(
@@ -308,7 +320,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                   label: Text(l10n.preview),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: FilledButton.icon(
                   onPressed: isDownloading
