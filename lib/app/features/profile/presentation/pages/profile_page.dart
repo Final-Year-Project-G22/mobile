@@ -154,7 +154,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 end: Alignment.bottomRight,
               ),
               borderRadius: AppSpacing.borderRadiusLg,
-              border: Border.all(color: colorScheme.outlineVariant),
             ),
             child: Column(
               children: [
@@ -218,12 +217,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       Chip(
                         label: Text(
                           l10n.pro,
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onTertiaryContainer,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        backgroundColor: Colors.amber.shade100,
+                        backgroundColor: colorScheme.tertiaryContainer,
                         side: BorderSide.none,
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         visualDensity: VisualDensity.compact,

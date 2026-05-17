@@ -42,18 +42,18 @@ class HomeDashboardContent extends StatelessWidget {
         children: [
           HeroCompletionGraph(stats: completionStats),
           if (hasNoData) const _EmptyWelcome(),
-          AppSpacing.gapVerticalMd,
+          SizedBox(height: AppSpacing.sectionGap),
           QuickActionsGrid(actions: quickActions),
-          AppSpacing.gapVerticalXl,
+          SizedBox(height: AppSpacing.sectionGap),
           ContinueWhereYouLeftOffRail(
             guides: inProgressGuides,
             onGuideTap: onGuideTap,
           ),
           if (recentlyViewed.isNotEmpty) ...[
-            AppSpacing.gapVerticalXl,
+            SizedBox(height: AppSpacing.sectionGap),
             RecentGuideRail(guides: recentlyViewed),
           ],
-          AppSpacing.gapVerticalLg,
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );

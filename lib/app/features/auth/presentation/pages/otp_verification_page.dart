@@ -191,9 +191,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(6, (index) {
                       return Container(
-                        width: 45,
-                        height: 55,
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        width: 46,
+                        height: 56,
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
                         child: TextField(
                           controller: _controllers[index],
                           focusNode: _focusNodes[index],
@@ -212,20 +212,26 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                             // We explicitly specify borders here as OTP boxes
                             // look different from typical text fields.
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusSm,
+                              ),
                               borderSide: BorderSide(
                                 color: colorScheme.outlineVariant,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusSm,
+                              ),
                               borderSide: BorderSide(
                                 color: colorScheme.primary,
                                 width: 2,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusSm,
+                              ),
                               borderSide: BorderSide(
                                 color: colorScheme.error,
                               ),
@@ -265,8 +271,15 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                         ),
                       ),
                       AppSpacing.gapHorizontalXs,
-                      GestureDetector(
-                        onTap: _resendCooldown > 0 ? null : _resendOtp,
+                      TextButton(
+                        onPressed: _resendCooldown > 0 ? null : _resendOtp,
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(48, 40),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                          ),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                         child: Text(
                           _resendCooldown > 0
                               ? l10n.resendIn(_resendCooldown)

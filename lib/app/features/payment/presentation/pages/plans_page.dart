@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/checkout_notifier.dart';
 import '../../application/providers/plans_provider.dart';
@@ -156,30 +157,29 @@ class PlansPage extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.screenH),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (hasPro)
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: colorScheme.tertiaryContainer,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: AppSpacing.borderRadiusMd,
                 border: Border.all(color: colorScheme.tertiary),
               ),
               child: Row(
                 children: [
                   Icon(Icons.check_circle, color: colorScheme.tertiary),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           l10n.youAreOnPro,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                          style: theme.textTheme.titleSmall?.copyWith(
                             color: colorScheme.onTertiaryContainer,
                           ),
                         ),
@@ -189,9 +189,8 @@ class PlansPage extends ConsumerWidget {
                               ' ',
                             )[0],
                           ),
-                          style: TextStyle(
+                          style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onTertiaryContainer,
-                            fontSize: 12,
                           ),
                         ),
                       ],
@@ -200,7 +199,7 @@ class PlansPage extends ConsumerWidget {
                 ],
               ),
             ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.cardGap),
           if (basicMonthly != null)
             PlanComparisonCard(
               title: l10n.basic,
@@ -211,7 +210,7 @@ class PlansPage extends ConsumerWidget {
               features: basicFeatures(l10n),
               currentPlan: !hasPro,
             ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.cardGap),
           if (proMonthly != null)
             PlanComparisonCard(
               title: l10n.proMonthly,
@@ -226,7 +225,7 @@ class PlansPage extends ConsumerWidget {
               currentPlan: hasPro && sub.planPeriod == 'monthly',
             ),
           if (proYearly != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.cardGap),
             PlanComparisonCard(
               title: l10n.proYearly,
               price: _formatAmount(proYearly.amount),
@@ -242,7 +241,7 @@ class PlansPage extends ConsumerWidget {
             ),
             if (_yearlySavings(proMonthly?.amount, proYearly.amount) > 0)
               Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: AppSpacing.xs),
                 child: Text(
                   l10n.savePercentYearly(
                     _yearlySavings(proMonthly?.amount, proYearly.amount),
@@ -254,7 +253,7 @@ class PlansPage extends ConsumerWidget {
                 ),
               ),
           ],
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.lg),
           Text(
             l10n.billingDisclaimer,
             style: theme.textTheme.bodySmall?.copyWith(

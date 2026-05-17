@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_list_notifier.dart';
 import '../widgets/category_drawer.dart';
@@ -60,7 +61,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
@@ -82,10 +83,6 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                   : null,
               filled: true,
               fillColor: colorScheme.surfaceContainerHighest,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
               contentPadding: EdgeInsets.zero,
             ),
             onChanged: (value) {
@@ -116,15 +113,19 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               if (categories.isEmpty) return const SizedBox.shrink();
 
               return SizedBox(
-                height: 50,
+                height: 48,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenH,
+                  ),
                   itemCount: categories.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xxs,
+                        ),
                         child: ActionChip(
                           avatar: const Icon(Icons.category_outlined, size: 18),
                           label: const Text('All'),
@@ -135,7 +136,9 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
 
                     final category = categories[index - 1];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.xxs,
+                      ),
                       child: FilterChip(
                         label: Text(category.name),
                         onSelected: (_) async {
@@ -150,7 +153,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               );
             },
             loading: () => const SizedBox(
-              height: 50,
+              height: 48,
               child: Center(child: LinearProgressIndicator()),
             ),
             error: (_, _) => const SizedBox.shrink(),
@@ -183,13 +186,13 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
 
                   return GridView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(AppSpacing.screenH),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 0.75,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
+                          crossAxisSpacing: AppSpacing.cardGap,
+                          mainAxisSpacing: AppSpacing.cardGap,
                         ),
                     itemCount:
                         state.items.length + (state.isLoadingMore ? 1 : 0),

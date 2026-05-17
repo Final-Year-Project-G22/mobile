@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/empty_state_view.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/downloads_notifier.dart';
 
 class DownloadsPage extends ConsumerStatefulWidget {
@@ -39,7 +41,6 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   Widget build(BuildContext context) {
     final downloadsAsync = ref.watch(myDownloadsProvider);
     final l10n = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,25 +53,15 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
         child: downloadsAsync.when(
           data: (state) {
             if (state.items.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.download_done,
-                      size: 64,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(l10n.noDownloadsYet),
-                  ],
-                ),
+              return EmptyStateView(
+                icon: Icons.download_done,
+                title: l10n.noDownloadsYet,
               );
             }
 
             return ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(AppSpacing.screenH),
               itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index >= state.items.length) {
@@ -85,13 +76,13 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                 final item = state.items[index];
                 return Card(
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 4,
+                    horizontal: 0,
+                    vertical: AppSpacing.xxs,
                   ),
                   child: ListTile(
                     leading: item.thumbnailUrl != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: AppSpacing.borderRadiusXs,
                             child: Image.network(
                               item.thumbnailUrl!,
                               width: 48,

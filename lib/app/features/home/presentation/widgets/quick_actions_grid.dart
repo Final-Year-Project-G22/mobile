@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../../../shared/widgets/section_header.dart';
 
 class QuickAction {
   const QuickAction({
@@ -26,34 +27,26 @@ class QuickActionsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.quickActions,
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurface,
-            ),
-          ),
-          AppSpacing.gapVerticalSm,
-          GridView.count(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title: l10n.quickActions),
+        AppSpacing.gapVerticalSm,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+          child: GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: AppSpacing.sm,
-            crossAxisSpacing: AppSpacing.sm,
+            mainAxisSpacing: AppSpacing.cardGap,
+            crossAxisSpacing: AppSpacing.cardGap,
             childAspectRatio: 1.4,
             children: actions
                 .map((action) => _QuickActionCard(action: action))
                 .toList(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

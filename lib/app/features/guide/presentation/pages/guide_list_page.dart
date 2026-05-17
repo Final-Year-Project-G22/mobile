@@ -47,25 +47,30 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 AppSpacing.screenH,
                 AppSpacing.sm,
               ),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (value) {
-                  ref.read(guideListProvider.notifier).search(value);
+              child: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _searchController,
+                builder: (context, value, _) {
+                  return TextField(
+                    controller: _searchController,
+                    onChanged: (query) {
+                      ref.read(guideListProvider.notifier).search(query);
+                    },
+                    decoration: InputDecoration(
+                      hintText: l10n.guideSearchHint,
+                      prefixIcon: const Icon(Icons.search, size: 20),
+                      suffixIcon: value.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear, size: 18),
+                              onPressed: () {
+                                _searchController.clear();
+                                ref.read(guideListProvider.notifier).search('');
+                              },
+                            )
+                          : null,
+                      // Uses InputDecorationTheme from AppTheme
+                    ),
+                  );
                 },
-                decoration: InputDecoration(
-                  hintText: l10n.guideSearchHint,
-                  prefixIcon: const Icon(Icons.search, size: 20),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear, size: 18),
-                          onPressed: () {
-                            _searchController.clear();
-                            ref.read(guideListProvider.notifier).search('');
-                          },
-                        )
-                      : null,
-                  // Uses InputDecorationTheme from AppTheme
-                ),
               ),
             ),
 
@@ -178,7 +183,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     return ListView.separated(
       padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.guides.length,
-      separatorBuilder: (_, _) => AppSpacing.gapVerticalSm,
+      separatorBuilder: (_, _) => SizedBox(height: AppSpacing.cardGap),
       itemBuilder: (context, index) {
         final guide = state.guides[index];
         return GuideCardWidget(
@@ -206,7 +211,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     return ListView.separated(
       padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.bookmarks.length,
-      separatorBuilder: (_, _) => AppSpacing.gapVerticalSm,
+      separatorBuilder: (_, _) => SizedBox(height: AppSpacing.cardGap),
       itemBuilder: (context, index) {
         final bkmk = state.bookmarks[index];
         return Card(

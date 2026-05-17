@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
@@ -34,20 +35,14 @@ class CommunityHomePage extends ConsumerWidget {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.xs,
+              ),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: l10n.searchThreads,
                   prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Theme.of(
-                    context,
-                  ).colorScheme.surfaceContainerHighest,
-                  contentPadding: EdgeInsets.zero,
                 ),
                 onChanged: (value) {
                   ref
@@ -162,14 +157,14 @@ class _ThreadListView extends ConsumerWidget {
                       : filteredThreadsProvider),
           ),
           child: ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(AppSpacing.screenH),
             itemCount: threads.length,
             itemBuilder: (context, index) {
               final thread = threads[index];
               return Card(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
+                  horizontal: 0,
+                  vertical: AppSpacing.xs,
                 ),
                 child: ListTile(
                   leading: CircleAvatar(
@@ -185,8 +180,8 @@ class _ThreadListView extends ConsumerWidget {
                         : null,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xs,
                   ),
                   title: Text(
                     thread.title,
@@ -417,7 +412,10 @@ class _FilterChipsRow extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenH,
+            vertical: AppSpacing.xs,
+          ),
           child: Row(
             children: [
               if (hasFilters)
