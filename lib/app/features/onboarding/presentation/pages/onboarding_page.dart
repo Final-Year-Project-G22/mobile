@@ -48,8 +48,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         unawaited(
           _pageController.animateToPage(
             next.currentStep,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutCubic,
+            duration: AppSpacing.durationMedium2,
+            curve: AppSpacing.curveEaseOut,
           ),
         );
       }

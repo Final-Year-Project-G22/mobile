@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 
 class HomeTopActions extends StatelessWidget {
   const HomeTopActions({
@@ -27,7 +28,7 @@ class HomeTopActions extends StatelessWidget {
         Badge(
           isLabelVisible: badgeText != null,
           label: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 180),
+            duration: AppSpacing.durationShort3,
             child: badgeText == null
                 ? const SizedBox.shrink()
                 : Text(
