@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/circular_progress_ring.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../guide/domain/entities/completion_stats.dart';
 import '../../../guide/domain/entities/guide_card.dart';
@@ -32,7 +31,6 @@ class HomeDashboardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final hasNoData =
         (completionStats == null || completionStats!.totalStepsAll == 0) &&
         inProgressGuides.isEmpty &&
@@ -43,15 +41,16 @@ class HomeDashboardContent extends StatelessWidget {
       child: ListView(
         children: [
           HeroCompletionGraph(stats: completionStats),
-          if (hasNoData) _EmptyWelcome(isDark: isDark),
-          QuickActionsGrid(actions: quickActions),
+          if (hasNoData) const _EmptyWelcome(),
           AppSpacing.gapVerticalMd,
+          QuickActionsGrid(actions: quickActions),
+          AppSpacing.gapVerticalXl,
           ContinueWhereYouLeftOffRail(
             guides: inProgressGuides,
             onGuideTap: onGuideTap,
           ),
           if (recentlyViewed.isNotEmpty) ...[
-            AppSpacing.gapVerticalMd,
+            AppSpacing.gapVerticalXl,
             RecentGuideRail(guides: recentlyViewed),
           ],
           AppSpacing.gapVerticalLg,
@@ -62,13 +61,14 @@ class HomeDashboardContent extends StatelessWidget {
 }
 
 class _EmptyWelcome extends StatelessWidget {
-  const _EmptyWelcome({required this.isDark});
-
-  final bool isDark;
+  const _EmptyWelcome();
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -85,11 +85,8 @@ class _EmptyWelcome extends StatelessWidget {
           AppSpacing.gapVerticalSm,
           Text(
             l10n.dashboardEmptyMessage,
-            style: TextStyle(
-              fontSize: 14,
-              color: isDark
-                  ? AppColors.textSecondaryDark
-                  : AppColors.textSecondaryLight,
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
           ),

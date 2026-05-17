@@ -6,6 +6,7 @@ import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../guide/domain/entities/completion_stats.dart';
 
+/// Dashboard hero card: navy gradient background with animated progress ring.
 class HeroCompletionGraph extends StatelessWidget {
   const HeroCompletionGraph({
     required this.stats,
@@ -16,8 +17,8 @@ class HeroCompletionGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
     final percent = stats?.percent ?? 0.0;
     final label = stats != null ? '${(percent * 100).round()}%' : null;
     final completed = stats?.completedGuides ?? 0;
@@ -25,33 +26,40 @@ class HeroCompletionGraph extends StatelessWidget {
     final hasData = stats != null && stats!.totalStepsAll > 0;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        gradient: AppColors.heroGradient,
+        borderRadius: AppSpacing.borderRadiusLgIncreased,
+        boxShadow: AppSpacing.shadowMd,
+      ),
       child: Column(
         children: [
           CircularProgressRing(
             percent: percent,
+            size: 140,
+            strokeWidth: 12,
+            useGradient: true,
+            trackColor: Colors.white.withValues(alpha: 0.15),
             label: label,
+            progressColor: Colors.white,
           ),
           AppSpacing.gapVerticalSm,
           Text(
             l10n.monthlyCompletion,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? AppColors.textPrimaryDark
-                  : AppColors.textPrimaryLight,
+            style: textTheme.titleMedium?.copyWith(
+              color: Colors.white,
             ),
           ),
           if (hasData) ...[
             AppSpacing.gapVerticalXxs,
             Text(
               l10n.progressSummary(completed, inProgress),
-              style: TextStyle(
-                fontSize: 13,
-                color: isDark
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
+              style: textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.7),
               ),
             ),
           ],
