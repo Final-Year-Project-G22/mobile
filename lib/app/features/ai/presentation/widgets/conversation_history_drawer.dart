@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../application/providers/ai_conversation_list_provider.dart';
 import '../../domain/entities/conversation_summary.dart';
 
@@ -345,7 +346,7 @@ class _LoadMoreIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
-      child: Center(child: CircularProgressIndicator()),
+      child: Center(child: AdisuProgressIndicator()),
     );
   }
 }

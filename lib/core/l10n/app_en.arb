@@ -1222,6 +1222,10 @@
       "error": { "type": "String" }
     }
   },
+  "failedToLoadFilters": "Failed to load filters",
+  "@failedToLoadFilters": {
+    "description": "Taxonomy filter bar load error"
+  },
   "guideSearchHint": "Search guides...",
   "@guideSearchHint": {
     "description": "Guide search hint"
@@ -1589,5 +1593,156 @@
   "reasonHint": "Describe why you are reporting this...",
   "@reasonHint": {
     "description": "Report reason hint"
+  },
+  "editingPost": "Editing post",
+  "@editingPost": {
+    "description": "Label when editing a post"
+  },
+  "replyingTo": "Replying to {name}",
+  "@replyingTo": {
+    "description": "Label when replying to a user",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "newPost": "New post",
+  "@newPost": {
+    "description": "Label when creating a new post"
+  },
+  "updateYourPost": "Update your post...",
+  "@updateYourPost": {
+    "description": "Hint text for editing a post"
+  },
+  "writeYourReply": "Write your reply...",
+  "@writeYourReply": {
+    "description": "Hint text for writing a reply"
+  },
+  "writeAPost": "Write a post...",
+  "@writeAPost": {
+    "description": "Hint text for writing a new post"
+  },
+  "newAttachments": "New attachments ({count}):",
+  "@newAttachments": {
+    "description": "Label for newly added attachments",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "existingAttachments": "Existing attachments ({count}):",
+  "@existingAttachments": {
+    "description": "Label for existing attachments being edited",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "removeAll": "Remove all",
+  "@removeAll": {
+    "description": "Button to remove all items"
+  },
+  "attachmentsRemovedOnUpdate": "Attachments will be removed on update",
+  "@attachmentsRemovedOnUpdate": {
+    "description": "Warning that attachments will be removed"
+  },
+  "undoRemove": "Undo remove",
+  "@undoRemove": {
+    "description": "Button to undo removing an attachment"
+  },
+  "removeThisAttachment": "Remove this attachment",
+  "@removeThisAttachment": {
+    "description": "Tooltip to remove a specific attachment"
+  },
+  "postUpdated": "Post updated successfully",
+  "@postUpdated": {
+    "description": "Success snackbar after updating a post"
+  },
+  "imageSavedToGallery": "Image saved to gallery!",
+  "@imageSavedToGallery": {
+    "description": "Success snackbar when image is saved to gallery"
+  },
+  "failedToLoadImage": "Failed to load image",
+  "@failedToLoadImage": {
+    "description": "Error when an image fails to load"
+  },
+  "failedToDeletePost": "Failed to delete: {error}",
+  "@failedToDeletePost": {
+    "description": "Error snackbar when post deletion fails",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedToMarkSolution": "Failed to mark solution: {error}",
+  "@failedToMarkSolution": {
+    "description": "Error snackbar when marking solution fails",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedWithError": "Failed: {error}",
+  "@failedWithError": {
+    "description": "Generic error snackbar with error details",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "oAuthCompletionTitle": "Complete your sign in",
+  "@oAuthCompletionTitle": {
+    "description": "Title for OAuth email completion page"
+  },
+  "oAuthCompletionSubtitle": "Add an email to finish signing in with {provider}.",
+  "@oAuthCompletionSubtitle": {
+    "description": "Subtitle for OAuth email completion page",
+    "placeholders": {
+      "provider": { "type": "String" }
+    }
+  },
+  "oAuthCompletionSignedInAs": "Signed in as {name}",
+  "@oAuthCompletionSignedInAs": {
+    "description": "Label showing the signed-in OAuth identity",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "oAuthCompletionProviderSubject": "Provider subject: {subject}",
+  "@oAuthCompletionProviderSubject": {
+    "description": "Label showing the OAuth provider subject",
+    "placeholders": {
+      "subject": { "type": "String" }
+    }
+  },
+  "oAuthFinishingSignIn": "Finishing sign in...",
+  "@oAuthFinishingSignIn": {
+    "description": "Loading message on OAuth callback page"
+  },
+  "oAuthNoCompletionRequest": "No OAuth email completion request found.",
+  "@oAuthNoCompletionRequest": {
+    "description": "Message when no pending OAuth email completion"
+  },
+  "oAuthBackToLogin": "Back to Login",
+  "@oAuthBackToLogin": {
+    "description": "Button to return to login page"
+  },
+  "completeYourBusinessProfile": "Complete your business profile",
+  "@completeYourBusinessProfile": {
+    "description": "Banner title prompting to complete business profile"
+  },
+  "unlockPersonalizedGuidance": "Unlock personalized guidance and better recommendations.",
+  "@unlockPersonalizedGuidance": {
+    "description": "Banner subtitle for business profile completion"
+  },
+  "noInternetConnection": "No internet connection",
+  "@noInternetConnection": {
+    "description": "Offline banner message"
+  },
+  "filterNoResults": "No items match your search",
+  "@filterNoResults": {
+    "description": "Empty filter results message"
+  },
+  "attachments": "Attachments",
+  "@attachments": {
+    "description": "Attachments label"
+  },
+  "removeThis": "Remove this",
+  "@removeThis": {
+    "description": "Remove this item action"
   }
 }

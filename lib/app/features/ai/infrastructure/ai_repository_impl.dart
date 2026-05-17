@@ -51,14 +51,22 @@ class AiRepositoryImpl implements IAiRepository {
             cancelToken: cancelToken,
           )
           .then((response) {
-            debugPrint('[AI Repo] SSE response status: ${response.statusCode}');
-            debugPrint('[AI Repo] SSE data type: ${response.data.runtimeType}');
+            if (kDebugMode) {
+              debugPrint(
+                '[AI Repo] SSE response status: ${response.statusCode}',
+              );
+              debugPrint(
+                '[AI Repo] SSE data type: ${response.data.runtimeType}',
+              );
+            }
 
             const parser = SseParser();
             final byteStream = response.data!.stream.cast<List<int>>();
 
             final loggedStream = byteStream.map((bytes) {
-              debugPrint('[AI Repo] raw chunk: ${bytes.length} bytes');
+              if (kDebugMode) {
+                debugPrint('[AI Repo] raw chunk: ${bytes.length} bytes');
+              }
               return bytes;
             });
 
@@ -67,7 +75,9 @@ class AiRepositoryImpl implements IAiRepository {
             unawaited(controller.addStream(eventStream));
           })
           .catchError((Object error) {
-            debugPrint('[AI Repo] SSE request failed: $error');
+            if (kDebugMode) {
+              debugPrint('[AI Repo] SSE request failed: $error');
+            }
             controller.addError(error);
           }),
     );

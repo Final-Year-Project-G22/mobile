@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 
 class CheckoutLauncherPage extends ConsumerStatefulWidget {
@@ -34,21 +35,11 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
   Future<void> _launchCheckout() async {
     if (!mounted) return;
 
-    debugPrint(
-      '[PAYMENT] CheckoutLauncherPage launching: url=${widget.checkoutUrl}',
-    );
-
     if (kIsWeb) {
-      debugPrint(
-        '[PAYMENT] CheckoutLauncherPage: web platform, using url_launcher',
-      );
       await _launchOnWeb();
       return;
     }
 
-    debugPrint(
-      '[PAYMENT] CheckoutLauncherPage: mobile platform, using flutter_web_auth_2',
-    );
     try {
       await FlutterWebAuth2.authenticate(
         url: widget.checkoutUrl,
@@ -91,7 +82,7 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            const AdisuProgressIndicator(),
             const SizedBox(height: AppSpacing.md),
             Text(AppLocalizations.of(context).openingSecurePayment),
           ],

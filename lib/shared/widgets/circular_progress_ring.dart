@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../app/constants/app_colors.dart';
 import '../../app/constants/app_spacing.dart';
 
 /// Animated circular progress ring with optional gradient stroke.
@@ -181,10 +182,10 @@ class _RingPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round;
 
       if (useGradient) {
-        progressPaint.shader = const SweepGradient(
+        progressPaint.shader = SweepGradient(
           startAngle: -math.pi / 2,
           endAngle: 3 * math.pi / 2,
-          colors: [Color(0xFF10B981), Color(0xFF059669)],
+          colors: AppColors.accentGradient.colors,
         ).createShader(rect);
       } else {
         progressPaint.color = color;

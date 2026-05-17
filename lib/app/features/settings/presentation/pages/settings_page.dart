@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/di/app_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -139,7 +140,7 @@ class SettingsPage extends ConsumerWidget {
                   sub?.planName == 'Pro'
                       ? Icons.workspace_premium
                       : Icons.account_circle,
-                  color: sub?.planName == 'Pro' ? Colors.amber : null,
+                  color: sub?.planName == 'Pro' ? colorScheme.tertiary : null,
                 ),
                 title: Text(sub?.planName == 'Pro' ? l10n.pro : l10n.basic),
                 subtitle: sub != null && sub.status == 'active'
@@ -155,9 +156,11 @@ class SettingsPage extends ConsumerWidget {
                     ? Chip(
                         label: Text(
                           l10n.pro,
-                          style: const TextStyle(fontSize: 10),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            fontSize: 10,
+                          ),
                         ),
-                        backgroundColor: Colors.amber.shade100,
+                        backgroundColor: colorScheme.tertiaryContainer,
                         padding: EdgeInsets.zero,
                         visualDensity: VisualDensity.compact,
                       )
@@ -165,11 +168,7 @@ class SettingsPage extends ConsumerWidget {
                 onTap: () => context.push(const PlansRoute().location),
               ),
               loading: () => ListTile(
-                leading: const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
+                leading: const AdisuProgressIndicator.small(),
                 title: Text(l10n.loading),
               ),
               error: (_, _) => ListTile(

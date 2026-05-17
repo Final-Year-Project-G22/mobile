@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
@@ -157,9 +158,17 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                 data: (sectors) => _buildSectorChips(sectors, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: AdisuProgressIndicator.small()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                  child: Text(
+                    l10n.failedToLoadFilters,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: AppSpacing.sm),
@@ -168,9 +177,17 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                 data: (tags) => _buildTagChips(tags, l10n),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: AdisuProgressIndicator.small()),
                 ),
-                error: (e, s) => const SizedBox.shrink(),
+                error: (e, s) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                  child: Text(
+                    l10n.failedToLoadFilters,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: AppSpacing.md),
@@ -180,13 +197,7 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : _submit,
                   child: _isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        )
+                      ? const AdisuProgressIndicator.small()
                       : Text(l10n.save),
                 ),
               ),

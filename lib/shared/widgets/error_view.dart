@@ -34,6 +34,8 @@ class ErrorView extends StatelessWidget {
   final IconData icon;
 
   /// Retry button label text.
+  /// NOTE: Default value is 'Retry' which cannot use AppLocalizations
+  /// because it is a const constructor default. Callers should pass l10n.retry.
   final String retryLabel;
 
   /// Whether to center and expand to fill available space.

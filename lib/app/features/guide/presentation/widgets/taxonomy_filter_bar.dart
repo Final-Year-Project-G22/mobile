@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -29,8 +30,18 @@ class TaxonomyFilterBar extends ConsumerWidget {
     final tagsAsync = ref.watch(tagsProvider);
 
     return sectorsAsync.when(
-      loading: () => const SizedBox.shrink(),
-      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const AdisuProgressIndicator.small(),
+      error: (_, _) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          child: Text(
+            AppLocalizations.of(context).failedToLoadFilters,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ),
+      ),
       data: (sectors) {
         final rootSectors = sectors.where((s) => s.parentId == null).toList();
 
@@ -84,8 +95,18 @@ class TaxonomyFilterBar extends ConsumerWidget {
     AsyncValue<List<Tag>> tagsAsync,
   ) {
     return tagsAsync.when(
-      loading: () => const SizedBox.shrink(),
-      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const AdisuProgressIndicator.small(),
+      error: (_, _) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          child: Text(
+            AppLocalizations.of(context).failedToLoadFilters,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ),
+      ),
       data: (tags) {
         final relevantTags = tags
             .where((t) => _isTagRelevant(t, selectedTagIds))

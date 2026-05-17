@@ -943,6 +943,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get failedToLoadFilters => 'Failed to load filters';
+
+  @override
   String get guideSearchHint => 'Search guides...';
 
   @override
@@ -1234,4 +1237,118 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reasonHint => 'Describe why you are reporting this...';
+
+  @override
+  String get editingPost => 'Editing post';
+
+  @override
+  String replyingTo(String name) {
+    return 'Replying to $name';
+  }
+
+  @override
+  String get newPost => 'New post';
+
+  @override
+  String get updateYourPost => 'Update your post...';
+
+  @override
+  String get writeYourReply => 'Write your reply...';
+
+  @override
+  String get writeAPost => 'Write a post...';
+
+  @override
+  String newAttachments(int count) {
+    return 'New attachments ($count):';
+  }
+
+  @override
+  String existingAttachments(int count) {
+    return 'Existing attachments ($count):';
+  }
+
+  @override
+  String get removeAll => 'Remove all';
+
+  @override
+  String get attachmentsRemovedOnUpdate =>
+      'Attachments will be removed on update';
+
+  @override
+  String get undoRemove => 'Undo remove';
+
+  @override
+  String get removeThisAttachment => 'Remove this attachment';
+
+  @override
+  String get postUpdated => 'Post updated successfully';
+
+  @override
+  String get imageSavedToGallery => 'Image saved to gallery!';
+
+  @override
+  String get failedToLoadImage => 'Failed to load image';
+
+  @override
+  String failedToDeletePost(String error) {
+    return 'Failed to delete: $error';
+  }
+
+  @override
+  String failedToMarkSolution(String error) {
+    return 'Failed to mark solution: $error';
+  }
+
+  @override
+  String failedWithError(String error) {
+    return 'Failed: $error';
+  }
+
+  @override
+  String get oAuthCompletionTitle => 'Complete your sign in';
+
+  @override
+  String oAuthCompletionSubtitle(String provider) {
+    return 'Add an email to finish signing in with $provider.';
+  }
+
+  @override
+  String oAuthCompletionSignedInAs(String name) {
+    return 'Signed in as $name';
+  }
+
+  @override
+  String oAuthCompletionProviderSubject(String subject) {
+    return 'Provider subject: $subject';
+  }
+
+  @override
+  String get oAuthFinishingSignIn => 'Finishing sign in...';
+
+  @override
+  String get oAuthNoCompletionRequest =>
+      'No OAuth email completion request found.';
+
+  @override
+  String get oAuthBackToLogin => 'Back to Login';
+
+  @override
+  String get completeYourBusinessProfile => 'Complete your business profile';
+
+  @override
+  String get unlockPersonalizedGuidance =>
+      'Unlock personalized guidance and better recommendations.';
+
+  @override
+  String get noInternetConnection => 'No internet connection';
+
+  @override
+  String get filterNoResults => 'No items match your search';
+
+  @override
+  String get attachments => 'Attachments';
+
+  @override
+  String get removeThis => 'Remove this';
 }

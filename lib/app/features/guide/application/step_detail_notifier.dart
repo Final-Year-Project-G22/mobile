@@ -12,24 +12,28 @@ class StepDetailState {
     this.isLoading = false,
     this.actionInProgress = false,
     this.error,
+    this.isBookmarked = false,
   });
 
   final GuideStep? step;
   final bool isLoading;
   final bool actionInProgress;
   final String? error;
+  final bool isBookmarked;
 
   StepDetailState copyWith({
     GuideStep? step,
     bool? isLoading,
     bool? actionInProgress,
     String? error,
+    bool? isBookmarked,
   }) {
     return StepDetailState(
       step: step ?? this.step,
       isLoading: isLoading ?? this.isLoading,
       actionInProgress: actionInProgress ?? this.actionInProgress,
       error: error ?? this.error,
+      isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
 }
@@ -107,8 +111,8 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final s = state.step;
     if (s == null) return;
     final repo = ref.read(guideRepositoryProvider);
-    // Track bookmark state to know whether to add or remove
     await repo.addBookmark(s.id);
+    state = state.copyWith(isBookmarked: true);
   }
 
   void _updateStatus(StepStatus newStatus) {

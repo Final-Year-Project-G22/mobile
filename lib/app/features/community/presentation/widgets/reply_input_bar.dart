@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
@@ -147,31 +148,27 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   }
 
   Future<void> _uploadFiles(List<XFile> files) async {
+    final l10n = AppLocalizations.of(context);
     setState(() => _isUploading = true);
     try {
-      debugPrint('Uploading ${files.length} files...');
       final result = await ref
           .read(communityMutationsProvider.notifier)
           .uploadAttachments(files);
 
       result.fold(
         (failure) {
-          debugPrint('Upload failed: $failure');
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to upload: $failure')),
+              SnackBar(content: Text(l10n.failedWithError('$failure'))),
             );
           }
         },
         (attachments) {
-          debugPrint('Upload success: ${attachments.length} files');
           setState(() {
             _attachments.addAll(attachments);
           });
         },
       );
-    } on Exception catch (e) {
-      debugPrint('Upload error: $e');
     } finally {
       if (mounted) setState(() => _isUploading = false);
     }
@@ -182,6 +179,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context);
     final rawContent = _controller.text;
     final editTarget = widget.editTarget;
     final replyTarget = widget.replyTarget;
@@ -215,12 +213,12 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to update post: $failure')),
+              SnackBar(content: Text(l10n.failedWithError('$failure'))),
             );
           },
           (_) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Post updated successfully')),
+              SnackBar(content: Text(l10n.postUpdated)),
             );
             _controller.clear();
             setState(() {
@@ -246,7 +244,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to reply: $failure')),
+              SnackBar(content: Text(l10n.failedWithError('$failure'))),
             );
           },
           (_) {
@@ -269,7 +267,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to post: $failure')),
+              SnackBar(content: Text(l10n.failedWithError('$failure'))),
             );
           },
           (_) {
@@ -282,7 +280,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text(l10n.failedWithError('$e'))),
         );
       }
     } finally {
@@ -303,17 +301,24 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         existingAttachments != null &&
         existingAttachments.isNotEmpty;
 
+    final replyToName =
+        widget.replyTarget?.authorDisplayName ??
+        widget.replyTarget?.authorUsername ??
+        (widget.replyTarget != null
+            ? 'User ${widget.replyTarget!.authorId.length >= 6 ? widget.replyTarget!.authorId.substring(0, 6) : widget.replyTarget!.authorId}'
+            : '');
+
     final modeLabel = isEditing
-        ? 'Editing post'
+        ? l10n.editingPost
         : isReplying
-        ? 'Replying to ${widget.replyTarget!.authorDisplayName ?? widget.replyTarget!.authorUsername ?? 'User ${widget.replyTarget!.authorId.length >= 6 ? widget.replyTarget!.authorId.substring(0, 6) : widget.replyTarget!.authorId}'}'
-        : 'New post';
+        ? l10n.replyingTo(replyToName)
+        : l10n.newPost;
 
     final hintText = isEditing
-        ? 'Update your post...'
+        ? l10n.updateYourPost
         : isReplying
-        ? 'Write your reply...'
-        : 'Write a post...';
+        ? l10n.writeYourReply
+        : l10n.writeAPost;
 
     final buttonLabel = isEditing
         ? l10n.edit
@@ -384,7 +389,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'New attachments (${_attachments.length}):',
+                      l10n.newAttachments(_attachments.length),
                       style: theme.textTheme.bodySmall,
                     ),
                     const SizedBox(height: AppSpacing.xxs),
@@ -445,7 +450,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Existing attachments (${existingAttachments.length}):',
+                      l10n.existingAttachments(existingAttachments.length),
                       style: theme.textTheme.bodySmall,
                     ),
                     const SizedBox(height: AppSpacing.xxs),
@@ -509,8 +514,8 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                                   _removeAttachmentIds.contains(
                                     existingAttachments[i].id,
                                   )
-                                  ? 'Undo remove'
-                                  : 'Remove this attachment',
+                                  ? l10n.undoRemove
+                                  : l10n.removeThisAttachment,
                             ),
                           ],
                         ),
@@ -522,7 +527,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                             : () => setState(
                                 () => _removeExistingAttachments = true,
                               ),
-                        child: const Text('Remove all'),
+                        child: Text(l10n.removeAll),
                       )
                     else
                       TextButton(
@@ -535,7 +540,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                                   );
                                 });
                               },
-                        child: const Text('Remove all'),
+                        child: Text(l10n.removeAll),
                       ),
                   ],
                 ),
@@ -554,8 +559,8 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                 ),
                 child: Row(
                   children: [
-                    const Expanded(
-                      child: Text('Attachments will be removed on update'),
+                    Expanded(
+                      child: Text(l10n.attachmentsRemovedOnUpdate),
                     ),
                     TextButton(
                       onPressed: (_isSubmitting || _isUploading)
@@ -563,7 +568,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                           : () => setState(
                               () => _removeExistingAttachments = false,
                             ),
-                      child: const Text('Undo'),
+                      child: Text(l10n.undoRemove),
                     ),
                   ],
                 ),
@@ -573,11 +578,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
               children: [
                 IconButton(
                   icon: _isUploading
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
+                      ? const AdisuProgressIndicator.small()
                       : const Icon(Icons.attach_file),
                   style: IconButton.styleFrom(
                     minimumSize: const Size(40, 40),
@@ -609,11 +610,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                 if (_isSubmitting)
                   const Padding(
                     padding: EdgeInsets.all(12),
-                    child: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
+                    child: AdisuProgressIndicator.small(),
                   )
                 else
                   TextButton.icon(

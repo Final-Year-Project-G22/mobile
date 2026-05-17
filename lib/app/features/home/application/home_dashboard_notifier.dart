@@ -24,6 +24,10 @@ class HomeDashboardNotifier extends _$HomeDashboardNotifier {
     final inProgressResult = await repo.getInProgressGuides();
     final recentResult = await repo.getRecentlyViewed(null);
 
+    final statsFailure = statsResult.fold(
+      (f) => f.toString(),
+      (_) => null,
+    );
     final stats = statsResult.fold((_) => null, (s) => s);
     final inProgress = inProgressResult.fold(
       (_) => <GuideWithProgress>[],
@@ -35,11 +39,14 @@ class HomeDashboardNotifier extends _$HomeDashboardNotifier {
       completionStats: stats,
       inProgressGuides: inProgress,
       recentlyViewed: recent,
+      errorMessage: (stats == null && inProgress.isEmpty && recent.isEmpty)
+          ? (statsFailure ?? 'Failed to load dashboard')
+          : null,
     );
   }
 
   Future<void> refresh() async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, clearError: true);
     await _loadData();
   }
 }

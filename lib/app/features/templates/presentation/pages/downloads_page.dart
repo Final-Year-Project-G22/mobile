@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/downloads_notifier.dart';
@@ -68,7 +69,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: CircularProgressIndicator(),
+                      child: AdisuProgressIndicator(),
                     ),
                   );
                 }
@@ -108,7 +109,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: AdisuProgressIndicator()),
           error: (error, _) => Center(child: Text('${l10n.error}: $error')),
         ),
       ),

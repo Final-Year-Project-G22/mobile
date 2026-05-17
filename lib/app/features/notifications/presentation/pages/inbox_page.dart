@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/utils/formatters/date_formatters.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/inbox_notifier.dart';
 import '../../application/inbox_state.dart';
@@ -70,7 +71,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     final textTheme = Theme.of(context).textTheme;
 
     if (state.isLoading && state.entries.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: AdisuProgressIndicator());
     }
 
     if (state.errorMessage != null && state.entries.isEmpty) {
@@ -133,7 +134,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
           if (index == state.entries.length) {
             return const Padding(
               padding: EdgeInsets.all(AppSpacing.md),
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: AdisuProgressIndicator.small()),
             );
           }
           return _InboxTile(

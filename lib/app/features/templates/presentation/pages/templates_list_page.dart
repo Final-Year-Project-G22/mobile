@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_list_notifier.dart';
@@ -128,7 +129,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         ),
                         child: ActionChip(
                           avatar: const Icon(Icons.category_outlined, size: 18),
-                          label: const Text('All'),
+                          label: Text(l10n.all),
                           onPressed: () => _showCategoryDrawer(categories),
                         ),
                       );
@@ -201,7 +202,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.all(16),
-                            child: CircularProgressIndicator(),
+                            child: AdisuProgressIndicator.small(),
                           ),
                         );
                       }
@@ -214,7 +215,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                     },
                   );
                 },
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: AdisuProgressIndicator()),
                 error: (error, _) => Center(
                   child: Text('${l10n.error}: $error'),
                 ),

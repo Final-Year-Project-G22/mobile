@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_notifier.dart';
@@ -37,6 +38,7 @@ class _OAuthCompleteEmailPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final oauthState = ref.watch(authOAuthStateProvider);
     final pending = oauthState.pendingOAuthEmail;
     final colorScheme = Theme.of(context).colorScheme;
@@ -51,13 +53,13 @@ class _OAuthCompleteEmailPageState
             }
 
             final message = error.maybeWhen(
-              networkError: (_) => 'No internet connection',
+              networkError: (_) => l10n.errorNetwork,
               oauthCallbackInvalid: (value) =>
-                  value ?? 'Invalid OAuth callback',
+                  value ?? l10n.errorOAuthCallbackInvalid,
               oauthStateInvalidOrExpired: (value) =>
-                  value ?? 'OAuth session expired, try again',
-              serverError: (value) => value ?? 'Server error',
-              orElse: () => 'Unable to complete OAuth login',
+                  value ?? l10n.errorOAuthExpired,
+              serverError: (value) => value ?? l10n.errorServer,
+              orElse: () => l10n.errorGeneric,
             );
 
             ScaffoldMessenger.of(context).showSnackBar(
@@ -76,17 +78,18 @@ class _OAuthCompleteEmailPageState
         }
 
         final message = next.oauthProvidersFailure!.maybeWhen(
-          networkError: (_) => 'No internet connection',
-          oauthCallbackInvalid: (value) => value ?? 'Invalid OAuth callback',
+          networkError: (_) => l10n.errorNetwork,
+          oauthCallbackInvalid: (value) =>
+              value ?? l10n.errorOAuthCallbackInvalid,
           oauthStateInvalidOrExpired: (value) =>
-              value ?? 'OAuth session expired, try again',
+              value ?? l10n.errorOAuthExpired,
           oauthProviderUnavailable: (value) =>
-              value ?? 'OAuth provider is unavailable',
+              value ?? l10n.errorOAuthUnavailable,
           unsupportedOAuthProvider: (value) =>
-              value ?? 'Unsupported OAuth provider',
-          oauthCancelled: (value) => value ?? 'OAuth login was cancelled',
-          serverError: (value) => value ?? 'Server error',
-          orElse: () => 'Unable to complete OAuth login',
+              value ?? l10n.errorOAuthUnsupported,
+          oauthCancelled: (value) => value ?? l10n.errorOAuthCancelled,
+          serverError: (value) => value ?? l10n.errorServer,
+          orElse: () => l10n.errorGeneric,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -103,12 +106,12 @@ class _OAuthCompleteEmailPageState
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'No OAuth email completion request found.',
+                  l10n.oAuthNoCompletionRequest,
                   style: textTheme.bodyLarge,
                 ),
                 const SizedBox(height: AppSpacing.md),
                 AuthButton(
-                  text: 'Back to Login',
+                  text: l10n.oAuthBackToLogin,
                   onPressed: () => const LoginRoute().go(context),
                 ),
               ],
@@ -127,7 +130,7 @@ class _OAuthCompleteEmailPageState
             children: [
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Complete your sign in',
+                l10n.oAuthCompletionTitle,
                 style: textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: colorScheme.onSurface,
@@ -135,7 +138,7 @@ class _OAuthCompleteEmailPageState
               ),
               AppSpacing.gapVerticalXs,
               Text(
-                'Add an email to finish signing in with ${pending.provider}.',
+                l10n.oAuthCompletionSubtitle(pending.provider),
                 style: textTheme.bodyLarge?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -152,8 +155,8 @@ class _OAuthCompleteEmailPageState
                 ),
                 child: Text(
                   pending.name.isNotEmpty
-                      ? 'Signed in as ${pending.name}'
-                      : 'Provider subject: ${pending.subject}',
+                      ? l10n.oAuthCompletionSignedInAs(pending.name)
+                      : l10n.oAuthCompletionProviderSubject(pending.subject),
                   style: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurface,
                   ),
@@ -161,15 +164,15 @@ class _OAuthCompleteEmailPageState
               ),
               const SizedBox(height: AppSpacing.lg),
               AuthTextField(
-                label: 'Email',
-                hint: 'Enter your email',
+                label: l10n.email,
+                hint: l10n.emailHint,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
               ),
               const SizedBox(height: AppSpacing.lg),
               AuthButton(
-                text: 'Continue',
+                text: l10n.continueText,
                 isLoading: oauthState.oauthInProgress,
                 onPressed: () {
                   unawaited(

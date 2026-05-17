@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/oauth_provider.dart';
 
@@ -51,7 +52,7 @@ class OAuthProviderSection extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         if (isLoading)
-          const Center(child: CircularProgressIndicator())
+          const Center(child: AdisuProgressIndicator())
         else
           ...providers.map(
             (provider) => Padding(

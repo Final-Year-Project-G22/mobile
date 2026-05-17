@@ -69,20 +69,26 @@ class AiChatNotifier extends Notifier<AiChatState> {
         )
         .listen(
           (event) {
-            debugPrint(
-              '[AI Notifier] event: ${event.type.name} text=${event.text}',
-            );
+            if (kDebugMode) {
+              debugPrint(
+                '[AI Notifier] event: ${event.type.name} text=${event.text}',
+              );
+            }
             _eventQueue.add(event);
             _scheduleFrameProcess();
           },
           onError: (Object error) {
-            debugPrint(
-              '[AI Notifier] stream onError: $error (${error.runtimeType})',
-            );
+            if (kDebugMode) {
+              debugPrint(
+                '[AI Notifier] stream onError: $error (${error.runtimeType})',
+              );
+            }
             _handleStreamError();
           },
           onDone: () {
-            debugPrint('[AI Notifier] stream onDone');
+            if (kDebugMode) {
+              debugPrint('[AI Notifier] stream onDone');
+            }
             _handleStreamDone();
           },
         );

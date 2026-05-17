@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/status_badge.dart';
-import '../../../../constants/app_colors.dart';
+import '../../../../../shared/utils/html_utils.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_step.dart';
 import '../../domain/entities/step_enums.dart';
@@ -107,12 +107,7 @@ class StepTimelineTile extends StatelessWidget {
                       if (step.description != null) ...[
                         AppSpacing.gapVerticalXxs,
                         Text(
-                          step.description!
-                              .replaceAll(RegExp(r'<br\s*/?>'), '\n')
-                              .replaceAll(RegExp('</?p>'), '')
-                              .replaceAll(RegExp('<[^>]*>'), '')
-                              .replaceAll('&nbsp;', ' ')
-                              .trim(),
+                          stripHtml(step.description!),
                           style: textTheme.bodySmall?.copyWith(
                             color: isLocked
                                 ? colorScheme.onSurfaceVariant.withValues(
@@ -181,9 +176,9 @@ class StepTimelineTile extends StatelessWidget {
         height: 28,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.warning, width: 2),
+          border: Border.all(color: colorScheme.tertiary, width: 2),
         ),
-        child: const Icon(Icons.skip_next, size: 16, color: AppColors.warning),
+        child: Icon(Icons.skip_next, size: 16, color: colorScheme.tertiary),
       );
     }
     return Container(

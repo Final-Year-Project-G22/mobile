@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../app/constants/app_colors.dart';
 import '../../app/constants/app_spacing.dart';
 
 /// M3-compliant status badge with triple redundancy: color + icon + text.
@@ -86,8 +85,8 @@ class StatusBadge extends StatelessWidget {
         );
       case StatusType.urgent:
         return _StatusConfig(
-          background: AppColors.errorContainer,
-          foreground: AppColors.onErrorContainer,
+          background: colorScheme.errorContainer,
+          foreground: colorScheme.onErrorContainer,
           icon: Icons.warning,
           defaultLabel: 'Urgent',
         );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/failures/community_failure.dart';
@@ -194,13 +195,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : () => _submit(l10n),
                   child: _isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        )
+                      ? const AdisuProgressIndicator.small()
                       : Text(l10n.submitReport),
                 ),
               ),

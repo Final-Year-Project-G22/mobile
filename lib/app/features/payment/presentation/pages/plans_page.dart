@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/checkout_notifier.dart';
@@ -45,9 +46,6 @@ class PlansPage extends ConsumerWidget {
       next.whenOrNull(
         data: (checkout) {
           if (checkout != null) {
-            debugPrint(
-              '[PAYMENT] PlansPage navigating to checkout: url=${checkout.checkoutUrl}',
-            );
             unawaited(
               context.push(
                 CheckoutLauncherRoute(
@@ -59,7 +57,6 @@ class PlansPage extends ConsumerWidget {
           }
         },
         error: (error, _) {
-          debugPrint('[PAYMENT] PlansPage checkout error: $error');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error.toString()),
@@ -83,19 +80,19 @@ class PlansPage extends ConsumerWidget {
           if (authState.isLoading ||
               authState.value?.user == null ||
               subAsync.isLoading)
-            const Center(child: CircularProgressIndicator())
+            const Center(child: AdisuProgressIndicator())
           else
             plansAsync.when(
               data: (plans) =>
                   _buildContent(context, ref, plans, subAsync.value, l10n),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: AdisuProgressIndicator()),
               error: (error, _) =>
                   Center(child: Text(l10n.failedToLoadPlans('$error'))),
             ),
           if (checkoutAsync.isLoading)
-            const ColoredBox(
-              color: Colors.black26,
-              child: Center(child: CircularProgressIndicator()),
+            ColoredBox(
+              color: Theme.of(context).colorScheme.scrim,
+              child: const Center(child: AdisuProgressIndicator.large()),
             ),
         ],
       ),
@@ -122,27 +119,17 @@ class PlansPage extends ConsumerWidget {
     final proYearly = proPlans.where((p) => p.period == 'yearly').firstOrNull;
 
     void handleSubscribe(String planName, String period) {
-      debugPrint(
-        '[PAYMENT] handleSubscribe called: plan=$planName, period=$period',
-      );
       final authState = ref.read(authProvider);
       final isAuthenticated = authState.value?.isAuthenticated ?? false;
       if (!isAuthenticated) {
-        debugPrint(
-          '[PAYMENT] handleSubscribe: not authenticated, redirecting to login',
-        );
         unawaited(context.push(const LoginRoute().location));
         return;
       }
       final user = authState.value?.user;
       final account = authState.value?.account;
       if (user == null || account == null) {
-        debugPrint('[PAYMENT] handleSubscribe: user or account is null');
         return;
       }
-      debugPrint(
-        '[PAYMENT] handleSubscribe: user=${user.firstName}, email=${account.email}',
-      );
       unawaited(
         ref
             .read(checkoutProvider.notifier)

@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
@@ -93,7 +94,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: AdisuProgressIndicator())
           : _error != null
           ? Center(
               child: Padding(
@@ -151,7 +152,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       appBar: AppBar(title: Text(l10n.templateDetails)),
       body: detailAsync.when(
         data: (data) => _buildContent(data, l10n),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: AdisuProgressIndicator()),
         error: (error, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -327,14 +328,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                       ? null
                       : () => _handleDownload(detail, variant.language, l10n),
                   icon: isDownloading
-                      ? SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        )
+                      ? const AdisuProgressIndicator.small()
                       : Icon(
                           detail.tierAccess == 'pro'
                               ? Icons.workspace_premium_outlined
