@@ -88,6 +88,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: _isLoading
@@ -97,7 +98,11 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.error_outline, size: 64, color: Colors.grey),
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   const SizedBox(height: 16),
                   Text(l10n.failedToLoadPDF(_error!)),
                   const SizedBox(height: 16),
@@ -136,6 +141,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   Widget build(BuildContext context) {
     final detailAsync = ref.watch(templateDetailProvider(widget.groupId));
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.templateDetails)),
@@ -148,7 +154,11 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline, size: 64, color: Colors.grey),
+                Icon(
+                  Icons.error_outline,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   _mapErrorToMessage(error, l10n),
@@ -305,12 +315,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                       ? null
                       : () => _handleDownload(detail, variant.language, l10n),
                   icon: isDownloading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 18,
                           height: 18,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                           ),
                         )
                       : const Icon(Icons.download, size: 18),
@@ -474,10 +484,11 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
   Future<void> _showUpgradeModal(AppLocalizations l10n) async {
     final router = GoRouter.of(context);
+    final theme = Theme.of(context);
     await showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
-        icon: const Icon(Icons.lock, color: Colors.amber),
+        icon: Icon(Icons.lock, color: theme.colorScheme.tertiary),
         title: Text(l10n.proTemplateTitle),
         content: Text(l10n.proTemplateDescription),
         actions: [

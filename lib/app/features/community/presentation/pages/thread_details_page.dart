@@ -143,6 +143,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   }
 
   Future<void> _deletePost(DiscussionPost post, AppLocalizations l10n) async {
+    final theme = Theme.of(context);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -155,7 +156,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              l10n.delete,
+              style: TextStyle(color: theme.colorScheme.error),
+            ),
           ),
         ],
       ),
@@ -191,6 +195,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   }
 
   Future<void> _markSolution(DiscussionPost post, AppLocalizations l10n) async {
+    final theme = Theme.of(context);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -203,7 +208,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.mark, style: const TextStyle(color: Colors.green)),
+            child: Text(
+              l10n.mark,
+              style: TextStyle(color: theme.colorScheme.tertiary),
+            ),
           ),
         ],
       ),
@@ -288,6 +296,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     DiscussionThread thread,
     AppLocalizations l10n,
   ) async {
+    final theme = Theme.of(context);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -300,7 +309,10 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              l10n.delete,
+              style: TextStyle(color: theme.colorScheme.error),
+            ),
           ),
         ],
       ),
@@ -407,6 +419,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
     final postsAsync = ref.watch(threadPostsProvider(widget.threadId));
     final authState = ref.watch(authProvider);
@@ -505,7 +518,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             value: 'delete',
                             child: Text(
                               l10n.deleteThread,
-                              style: const TextStyle(color: Colors.red),
+                              style: TextStyle(color: theme.colorScheme.error),
                             ),
                           ),
                       ],
@@ -514,7 +527,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                           value: 'report',
                           child: Text(
                             l10n.reportThread,
-                            style: const TextStyle(color: Colors.red),
+                            style: TextStyle(color: theme.colorScheme.error),
                           ),
                         ),
                     ],
