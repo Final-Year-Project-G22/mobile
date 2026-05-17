@@ -71,6 +71,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
               suffixIcon: _showClear
                   ? IconButton(
                       icon: const Icon(Icons.clear),
+                      tooltip: 'Clear search',
                       onPressed: () {
                         _searchController.clear();
                         setState(() => _showClear = false);

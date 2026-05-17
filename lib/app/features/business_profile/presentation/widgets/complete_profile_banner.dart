@@ -47,7 +47,7 @@ class CompleteProfileBanner extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 2),
+                AppSpacing.gapVerticalXxs,
                 Text(
                   l10n.unlockPersonalizedGuidance,
                   style: textTheme.bodySmall?.copyWith(

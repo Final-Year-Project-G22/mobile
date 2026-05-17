@@ -164,7 +164,6 @@ class _ThreadListView extends ConsumerWidget {
               final thread = threads[index];
               return Card(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 0,
                   vertical: AppSpacing.xs,
                 ),
                 child: ListTile(
@@ -193,7 +192,7 @@ class _ThreadListView extends ConsumerWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 2),
+                      AppSpacing.gapVerticalXxs,
                       Text(
                         thread.authorDisplayName ??
                             thread.authorUsername ??
@@ -256,9 +255,8 @@ class _ThreadListView extends ConsumerWidget {
                               ),
                               child: Text(
                                 l10n.owned,
-                                style: TextStyle(
+                                style: theme.textTheme.labelSmall?.copyWith(
                                   color: colorScheme.onPrimaryContainer,
-                                  fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -268,10 +266,10 @@ class _ThreadListView extends ConsumerWidget {
                                 right: -6,
                                 top: -6,
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
+                                  padding: const EdgeInsets.all(AppSpacing.xxs),
                                   decoration: BoxDecoration(
                                     color: colorScheme.error,
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: AppSpacing.borderRadiusSm,
                                   ),
                                   constraints: const BoxConstraints(
                                     minWidth: 16,
@@ -279,9 +277,8 @@ class _ThreadListView extends ConsumerWidget {
                                   ),
                                   child: Text(
                                     '${thread.unreadCount}',
-                                    style: TextStyle(
+                                    style: theme.textTheme.labelSmall?.copyWith(
                                       color: colorScheme.onError,
-                                      fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -304,10 +301,10 @@ class _ThreadListView extends ConsumerWidget {
                                 right: -6,
                                 top: -6,
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
+                                  padding: const EdgeInsets.all(AppSpacing.xxs),
                                   decoration: BoxDecoration(
                                     color: colorScheme.error,
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: AppSpacing.borderRadiusSm,
                                   ),
                                   constraints: const BoxConstraints(
                                     minWidth: 16,
@@ -315,9 +312,8 @@ class _ThreadListView extends ConsumerWidget {
                                   ),
                                   child: Text(
                                     '${thread.unreadCount}',
-                                    style: TextStyle(
+                                    style: theme.textTheme.labelSmall?.copyWith(
                                       color: colorScheme.onError,
-                                      fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -346,12 +342,11 @@ class _ThreadListView extends ConsumerWidget {
                                 color: colorScheme.tertiary,
                                 size: 12,
                               ),
-                              const SizedBox(width: 2),
+                              AppSpacing.gapHorizontalXxs,
                               Text(
                                 l10n.solved,
-                                style: TextStyle(
+                                style: theme.textTheme.labelSmall?.copyWith(
                                   color: colorScheme.onTertiaryContainer,
-                                  fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -430,7 +425,10 @@ class _FilterChipsRow extends ConsumerWidget {
                         .toggle(value: false);
                   },
                   child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xs,
+                      vertical: AppSpacing.xxs,
+                    ),
                     child: Icon(Icons.clear, size: 16),
                   ),
                 ),
@@ -452,7 +450,6 @@ class _FilterChipsRow extends ConsumerWidget {
                                 ),
                                 label: Text(
                                   l10n.followed,
-                                  style: const TextStyle(fontSize: 12),
                                 ),
                                 selected: showFollowed,
                                 onSelected: (_) {
@@ -649,6 +646,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                 suffixIcon: _searchText.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
+                        tooltip: 'Clear search',
                         onPressed: () {
                           _searchController.clear();
                           setState(() => _searchText = '');

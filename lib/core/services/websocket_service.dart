@@ -14,7 +14,8 @@ class WebSocketService {
   WebSocketChannel? _channel;
   StreamSubscription<dynamic>? _subscription;
   final _controller = StreamController<Map<String, dynamic>>.broadcast();
-  final _connectionStateController = StreamController<ConnectionState>.broadcast();
+  final _connectionStateController =
+      StreamController<ConnectionState>.broadcast();
 
   bool _isDisposed = false;
   bool _isConnecting = false;
@@ -22,12 +23,14 @@ class WebSocketService {
   final _pendingMessages = <String>[];
 
   Stream<Map<String, dynamic>> get messages => _controller.stream;
-  Stream<ConnectionState> get connectionState => _connectionStateController.stream;
+  Stream<ConnectionState> get connectionState =>
+      _connectionStateController.stream;
 
   Future<void> connect(Uri uri) async {
     if (_isDisposed) return;
     if (_channel != null || _isConnecting) {
-      debugPrint('[WS] Already connected or connecting, skipping');
+      if (kDebugMode)
+        debugPrint('[WS] Already connected or connecting, skipping');
       return;
     }
 
@@ -35,7 +38,7 @@ class WebSocketService {
 
     final token = await _tokenProvider();
     if (token == null || token.isEmpty) {
-      debugPrint('[WS] No token available, will retry connect');
+      if (kDebugMode) debugPrint('[WS] No token available, will retry connect');
       _isConnecting = false;
       _connectionStateController.add(ConnectionState.disconnected);
       _scheduleReconnect(uri);
@@ -50,7 +53,7 @@ class WebSocketService {
     );
 
     _connectionStateController.add(ConnectionState.connecting);
-    debugPrint('[WS] Connecting to $uriWithToken');
+    if (kDebugMode) debugPrint('[WS] Connecting to $uriWithToken');
 
     try {
       _channel = WebSocketChannel.connect(uriWithToken);
@@ -58,7 +61,7 @@ class WebSocketService {
       _connectionStateController.add(ConnectionState.connected);
       _reconnectAttempt = 0;
       _isConnecting = false;
-      debugPrint('[WS] Connected');
+      if (kDebugMode) debugPrint('[WS] Connected');
 
       // Flush any messages that were sent before connection established.
       final sink = _channel?.sink;
@@ -71,25 +74,25 @@ class WebSocketService {
         (data) {
           try {
             final message = jsonDecode(data as String) as Map<String, dynamic>;
-            debugPrint('[WS] Received: $message');
+            if (kDebugMode) debugPrint('[WS] Received: $message');
             _controller.add(message);
           } on FormatException catch (e) {
-            debugPrint('[WS] Failed to parse message: $e');
+            if (kDebugMode) debugPrint('[WS] Failed to parse message: $e');
           }
         },
         onError: (Object error, StackTrace stackTrace) {
-          debugPrint('[WS] Error: $error');
+          if (kDebugMode) debugPrint('[WS] Error: $error');
           _handleDisconnect();
           _scheduleReconnect(uri);
         },
         onDone: () {
-          debugPrint('[WS] Connection closed');
+          if (kDebugMode) debugPrint('[WS] Connection closed');
           _handleDisconnect();
           _scheduleReconnect(uri);
         },
       );
     } on Exception catch (e) {
-      debugPrint('[WS] Connect failed: $e');
+      if (kDebugMode) debugPrint('[WS] Connect failed: $e');
       _isConnecting = false;
       _connectionStateController.add(ConnectionState.disconnected);
       _scheduleReconnect(uri);
@@ -107,7 +110,10 @@ class WebSocketService {
 
     final delay = _reconnectDelay(_reconnectAttempt);
     _reconnectAttempt++;
-    debugPrint('[WS] Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempt)');
+    if (kDebugMode)
+      debugPrint(
+        '[WS] Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempt)',
+      );
 
     unawaited(Future.delayed(delay, () => connect(uri)));
   }
@@ -123,7 +129,8 @@ class WebSocketService {
     if (_channel != null) {
       _channel!.sink.add(data);
     } else {
-      debugPrint('[WS] Queuing message until connected: $message');
+      if (kDebugMode)
+        debugPrint('[WS] Queuing message until connected: $message');
       _pendingMessages.add(data);
     }
   }

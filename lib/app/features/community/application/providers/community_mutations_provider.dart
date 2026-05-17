@@ -16,15 +16,21 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     List<XFile> files,
   ) async {
     state = const AsyncLoading();
-    debugPrint(
-      'Mutations: uploadAttachments called with ${files.length} files',
-    );
+    if (kDebugMode) {
+      debugPrint(
+        'Mutations: uploadAttachments called with ${files.length} files',
+      );
+    }
     final repo = ref.read(communityRepositoryProvider);
     final result = await repo.uploadAttachments(files);
     result.fold(
-      (failure) => debugPrint('Mutations: upload failed: $failure'),
-      (attachments) =>
-          debugPrint('Mutations: upload success: ${attachments.length} files'),
+      (failure) {
+        if (kDebugMode) debugPrint('Mutations: upload failed: $failure');
+      },
+      (attachments) {
+        if (kDebugMode)
+          debugPrint('Mutations: upload success: ${attachments.length} files');
+      },
     );
     state = const AsyncData(null);
     return result;

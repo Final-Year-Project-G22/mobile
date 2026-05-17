@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/ai_conversation_list_provider.dart';
 import '../../domain/entities/conversation_summary.dart';
 
@@ -120,7 +121,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 14,
+                      height: AppSpacing.md,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surfaceContainerHighest,
@@ -129,7 +130,7 @@ class ConversationHistoryDrawer extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Container(
-                      height: 10,
+                      height: AppSpacing.sm,
                       width: 80,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surfaceContainerHighest,
@@ -301,7 +302,7 @@ class _ConversationTile extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(AppSpacing.xxs),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(4),

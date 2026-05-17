@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/chat_message.dart';
 import 'citation_card.dart';
 import 'typing_indicator.dart';
@@ -21,7 +22,10 @@ class ChatMessageBubble extends StatelessWidget {
     final isEmpty = message.content.isEmpty && isStreaming;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       child: Row(
         mainAxisAlignment: isUser
             ? MainAxisAlignment.end
@@ -45,7 +49,10 @@ class ChatMessageBubble extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.75,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.sm,
+              ),
               decoration: BoxDecoration(
                 color: isUser
                     ? theme.colorScheme.primaryContainer

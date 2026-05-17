@@ -31,7 +31,7 @@ class CategoryDrawer extends StatelessWidget {
               height: 4,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.zero,
               ),
             ),
             Padding(

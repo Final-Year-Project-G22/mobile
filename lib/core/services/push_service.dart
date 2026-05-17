@@ -18,14 +18,12 @@ class PushService {
 
   Stream<String> get onTokenRefresh => _messaging.onTokenRefresh;
 
-  Stream<RemoteMessage> get onMessage =>
-      FirebaseMessaging.onMessage;
+  Stream<RemoteMessage> get onMessage => FirebaseMessaging.onMessage;
 
   Future<NotificationSettings> requestPermission() =>
       _messaging.requestPermission();
 
-  Future<RemoteMessage?> getInitialMessage() =>
-      _messaging.getInitialMessage();
+  Future<RemoteMessage?> getInitialMessage() => _messaging.getInitialMessage();
 }
 
 @riverpod
@@ -38,12 +36,14 @@ Future<void> pushRegistration(Ref ref) async {
   final service = ref.watch(pushServiceProvider);
 
   final settings = await service.requestPermission();
-  debugPrint(
-    '[Push] Authorization: ${settings.authorizationStatus}',
-  );
+  if (kDebugMode) {
+    debugPrint(
+      '[Push] Authorization: ${settings.authorizationStatus}',
+    );
+  }
 
   final token = await service.getToken();
-  debugPrint('[Push] FCM token: $token');
+  if (kDebugMode) debugPrint('[Push] FCM token: $token');
 
   Future<void> register(String? t) async {
     if (t == null) return;
@@ -57,9 +57,9 @@ Future<void> pushRegistration(Ref ref) async {
           pushToken: t,
         ),
       );
-      debugPrint('[Push] Device registered');
+      if (kDebugMode) debugPrint('[Push] Device registered');
     } on Exception catch (e) {
-      debugPrint('[Push] Registration failed: $e');
+      if (kDebugMode) debugPrint('[Push] Registration failed: $e');
     }
   }
 

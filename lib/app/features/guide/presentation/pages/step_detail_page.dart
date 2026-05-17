@@ -5,9 +5,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/utils/html_utils.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/status_badge.dart';
-import '../../../../../shared/utils/html_utils.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
 import '../../application/step_detail_notifier.dart';

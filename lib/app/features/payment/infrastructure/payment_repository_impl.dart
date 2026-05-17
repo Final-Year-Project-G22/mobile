@@ -51,21 +51,27 @@ class PaymentRepositoryImpl implements IPaymentRepository {
           phone: phone,
         ),
       );
-      debugPrint(
-        '[PAYMENT] initiatePayment response: status=${response.response.statusCode}, data=${response.data}',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[PAYMENT] initiatePayment response: status=${response.response.statusCode}, data=${response.data}',
+        );
+      }
       final checkout = _mapCheckoutToDomain(response.data);
-      debugPrint(
-        '[PAYMENT] mapped checkout: txRef=${checkout.txRef}, url=${checkout.checkoutUrl}',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[PAYMENT] mapped checkout: txRef=${checkout.txRef}, url=${checkout.checkoutUrl}',
+        );
+      }
       return Right(checkout);
     } on DioException catch (e) {
-      debugPrint(
-        '[PAYMENT] initiatePayment DioException: status=${e.response?.statusCode}, data=${e.response?.data}',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[PAYMENT] initiatePayment DioException: status=${e.response?.statusCode}, data=${e.response?.data}',
+        );
+      }
       return Left(_mapDioError(e));
     } on Exception catch (e) {
-      debugPrint('[PAYMENT] initiatePayment Exception: $e');
+      if (kDebugMode) debugPrint('[PAYMENT] initiatePayment Exception: $e');
       return const Left(PaymentFailure.serverError());
     }
   }

@@ -164,8 +164,6 @@ class AppColors {
   );
 
   static const LinearGradient accentGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
     colors: [Color(0xFF10B981), Color(0xFF059669)],
   );
 

@@ -32,7 +32,7 @@ final wsMessagesProvider = StreamProvider<Map<String, dynamic>>((ref) {
   final wsUri = _buildWsUri();
 
   ref.onDispose(() {
-    debugPrint('[WS] StreamProvider disposed');
+    if (kDebugMode) debugPrint('[WS] StreamProvider disposed');
   });
 
   unawaited(service.connect(wsUri));

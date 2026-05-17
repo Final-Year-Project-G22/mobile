@@ -2,7 +2,7 @@ import 'package:api_client/api_client.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../domain/entities/attachment.dart';
 import '../domain/entities/discussion_post.dart';
@@ -60,7 +60,8 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) =>
+                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -152,20 +153,24 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     List<XFile> files,
   ) async {
     try {
-      debugPrint('Repository: uploadAttachments - ${files.length} files');
+      if (kDebugMode)
+        debugPrint('Repository: uploadAttachments - ${files.length} files');
 
       // Upload files one by one to avoid "message too large" error
       final allAttachments = <Attachment>[];
 
       for (final file in files) {
         final bytes = await file.readAsBytes();
-        debugPrint(
-          'Repository: Uploading file ${file.name} (${bytes.length} bytes)',
-        );
+        if (kDebugMode) {
+          debugPrint(
+            'Repository: Uploading file ${file.name} (${bytes.length} bytes)',
+          );
+        }
 
         // Skip empty files
         if (bytes.isEmpty) {
-          debugPrint('Repository: Skipping empty file: ${file.name}');
+          if (kDebugMode)
+            debugPrint('Repository: Skipping empty file: ${file.name}');
           continue;
         }
 
@@ -178,30 +183,37 @@ class CommunityRepositoryImpl implements ICommunityRepository {
           ],
         );
 
-        debugPrint(
-          'Repository: API response for ${file.name}: ${response.data.attachments?.length} attachments',
-        );
+        if (kDebugMode) {
+          debugPrint(
+            'Repository: API response for ${file.name}: ${response.data.attachments?.length} attachments',
+          );
+        }
 
         final attachments = (response.data.attachments ?? [])
             .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
             .toList();
 
         allAttachments.addAll(attachments);
-        debugPrint(
-          'Repository: Uploaded ${allAttachments.length}/${files.length} files',
-        );
+        if (kDebugMode) {
+          debugPrint(
+            'Repository: Uploaded ${allAttachments.length}/${files.length} files',
+          );
+        }
       }
 
-      debugPrint(
-        'Repository: Total uploaded: ${allAttachments.length} attachments',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          'Repository: Total uploaded: ${allAttachments.length} attachments',
+        );
+      }
       return Right(allAttachments);
     } on DioException catch (e) {
-      debugPrint('Repository: DioException: ${e.message}');
-      debugPrint('Repository: Error response: ${e.response?.data}');
+      if (kDebugMode) debugPrint('Repository: DioException: ${e.message}');
+      if (kDebugMode)
+        debugPrint('Repository: Error response: ${e.response?.data}');
       return Left(_handleDioError(e));
     } on Exception catch (e) {
-      debugPrint('Repository: Exception: $e');
+      if (kDebugMode) debugPrint('Repository: Exception: $e');
       return const Left(CommunityFailure.serverError());
     }
   }

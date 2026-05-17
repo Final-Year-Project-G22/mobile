@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 
 class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
@@ -84,7 +85,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
               constraints: const BoxConstraints(maxHeight: 160),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: AppSpacing.borderRadiusXl,
               ),
               child: TextField(
                 controller: _controller,
@@ -100,8 +101,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   ),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.sm,
                   ),
                 ),
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -114,6 +115,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
           if (widget.isStreaming)
             IconButton.filled(
               onPressed: _handleStop,
+              tooltip: 'Stop',
               icon: const Icon(Icons.stop_rounded, size: 20),
               style: IconButton.styleFrom(
                 backgroundColor: theme.colorScheme.error,
@@ -123,6 +125,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
           else
             IconButton.filled(
               onPressed: _hasText ? _handleSend : null,
+              tooltip: 'Send',
               icon: const Icon(Icons.arrow_upward_rounded, size: 20),
               style: IconButton.styleFrom(
                 backgroundColor: _hasText

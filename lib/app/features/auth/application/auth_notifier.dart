@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,7 +125,9 @@ class AuthNotifier extends _$AuthNotifier {
       await prefs.remove(_prefsAccessToken);
       await prefs.remove(_prefsRefreshToken);
       await prefs.remove(_prefsExpiresAt);
-    } on Exception catch (_) {}
+    } on Exception catch (e) {
+      if (kDebugMode) debugPrint('[Auth] Failed to clear prefs: $e');
+    }
   }
 
   Future<void> forceLogout() async {

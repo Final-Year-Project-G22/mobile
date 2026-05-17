@@ -16,7 +16,7 @@ class PendingPayment extends _$PendingPayment {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_key, txRef);
     } on Exception catch (e) {
-      debugPrint('[PAYMENT] Failed to persist txRef: $e');
+      if (kDebugMode) debugPrint('[PAYMENT] Failed to persist txRef: $e');
     }
     state = txRef;
   }
@@ -26,7 +26,7 @@ class PendingPayment extends _$PendingPayment {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_key);
     } on Exception catch (e) {
-      debugPrint('[PAYMENT] Failed to clear txRef: $e');
+      if (kDebugMode) debugPrint('[PAYMENT] Failed to clear txRef: $e');
     }
     state = null;
   }

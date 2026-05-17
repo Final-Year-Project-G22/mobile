@@ -13,7 +13,8 @@ part 'push_handler.g.dart';
 
 @pragma('vm:entry-point')
 Future<void> onBackgroundPush(RemoteMessage message) async {
-  debugPrint('[Push] Background message: ${message.notification?.title}');
+  if (kDebugMode)
+    debugPrint('[Push] Background message: ${message.notification?.title}');
 }
 
 @riverpod
@@ -21,7 +22,8 @@ void pushMessageHandler(Ref ref) {
   final pushService = ref.watch(pushServiceProvider);
 
   pushService.onMessage.listen((message) {
-    debugPrint('[Push] Foreground: ${message.notification?.title}');
+    if (kDebugMode)
+      debugPrint('[Push] Foreground: ${message.notification?.title}');
   });
 }
 
@@ -32,13 +34,19 @@ Future<void> pushTapHandler(Ref ref) async {
   // Handle tap from terminated state (app was killed)
   final initialMessage = await pushService.getInitialMessage();
   if (initialMessage != null) {
-    debugPrint('[Push] Opened from terminated: ${initialMessage.notification?.title}');
+    if (kDebugMode)
+      debugPrint(
+        '[Push] Opened from terminated: ${initialMessage.notification?.title}',
+      );
     ref.read(routerProvider).go('/inbox');
   }
 
   // Handle tap from background state (app was in background)
   FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    debugPrint('[Push] Opened from background: ${message.notification?.title}');
+    if (kDebugMode)
+      debugPrint(
+        '[Push] Opened from background: ${message.notification?.title}',
+      );
     ref.read(routerProvider).go('/inbox');
   });
 }

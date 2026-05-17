@@ -205,7 +205,8 @@ class PostCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    GestureDetector(
+                    InkWell(
+                      borderRadius: BorderRadius.circular(20),
                       onLongPress: onReportUser,
                       child: Tooltip(
                         message: onReportUser != null
@@ -307,7 +308,9 @@ class PostCard extends StatelessWidget {
                               value: 'markSolution',
                               child: Text(
                                 l10n.markAsSolution,
-                                style: TextStyle(color: colorScheme.tertiary),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.tertiary,
+                                ),
                               ),
                             ),
                           if (onEdit != null)
@@ -320,7 +323,9 @@ class PostCard extends StatelessWidget {
                               value: 'delete',
                               child: Text(
                                 l10n.delete,
-                                style: TextStyle(color: colorScheme.error),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.error,
+                                ),
                               ),
                             ),
                           if (onReport != null)
@@ -328,7 +333,9 @@ class PostCard extends StatelessWidget {
                               value: 'report',
                               child: Text(
                                 l10n.report,
-                                style: TextStyle(color: colorScheme.error),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.error,
+                                ),
                               ),
                             ),
                         ],
@@ -412,9 +419,7 @@ class PostCard extends StatelessWidget {
                                       att.fileName,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: theme.textTheme.bodyMedium,
                                     ),
                                     Text(
                                       att.fileType,
@@ -445,7 +450,8 @@ class PostCard extends StatelessWidget {
                           ),
                           if (isImage) const SizedBox(height: AppSpacing.xs),
                           if (isImage)
-                            GestureDetector(
+                            InkWell(
+                              borderRadius: AppSpacing.borderRadiusSm,
                               onLongPress: () => unawaited(
                                 _showImageActionDialog(
                                   context,
