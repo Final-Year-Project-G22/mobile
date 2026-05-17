@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 
 class PlanComparisonCard extends StatelessWidget {
   const PlanComparisonCard({
@@ -28,9 +27,10 @@ class PlanComparisonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final borderColor = highlight
-        ? AppColors.accent
-        : theme.colorScheme.outline.withAlpha(128);
+        ? colorScheme.primary
+        : colorScheme.outlineVariant;
 
     return Container(
       decoration: BoxDecoration(
@@ -46,13 +46,13 @@ class PlanComparisonCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.accent,
+                color: colorScheme.primary,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 AppLocalizations.of(context).mostPopular,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: Colors.white,
+                  color: colorScheme.onPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -70,7 +70,7 @@ class PlanComparisonCard extends StatelessWidget {
                 child: Text(
                   period,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.slate500,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -85,7 +85,9 @@ class PlanComparisonCard extends StatelessWidget {
                   Icon(
                     isPro ? Icons.check_circle : Icons.check,
                     size: 18,
-                    color: isPro ? AppColors.accent : AppColors.slate400,
+                    color: isPro
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(width: 8),
                   Expanded(child: Text(f, style: theme.textTheme.bodyMedium)),
@@ -97,9 +99,6 @@ class PlanComparisonCard extends StatelessWidget {
           if (onSubscribe != null)
             FilledButton(
               style: FilledButton.styleFrom(
-                backgroundColor: highlight
-                    ? AppColors.accent
-                    : AppColors.primary,
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: onSubscribe,
@@ -110,13 +109,13 @@ class PlanComparisonCard extends StatelessWidget {
               height: 48,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.slate100,
+                color: colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 AppLocalizations.of(context).currentPlan,
                 style: theme.textTheme.labelLarge?.copyWith(
-                  color: AppColors.slate500,
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
             ),

@@ -114,7 +114,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   textAlign: TextAlign.center,
                 ),
                 AppSpacing.gapVerticalMd,
-                ElevatedButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     unawaited(
                       ref.read(profileProvider.notifier).loadCurrentUser(),
@@ -388,7 +388,7 @@ class _EditProfileForm extends StatelessWidget {
             ),
             AppSpacing.gapHorizontalSm,
             Expanded(
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: isSaving ? null : onSave,
                 child: isSaving
                     ? const SizedBox(

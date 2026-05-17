@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_colors.dart';
-import '../../../../constants/app_spacing.dart';
-
 class OnboardingOptionChip extends StatelessWidget {
   const OnboardingOptionChip({
     required this.label,
@@ -17,35 +14,15 @@ class OnboardingOptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final background = selected
-        ? (isDark ? AppColors.slate700 : AppColors.slate100)
-        : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight);
-    final borderColor = selected
-        ? AppColors.accent
-        : (isDark ? AppColors.borderDark : AppColors.borderLight);
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: AppSpacing.borderRadiusFull,
-      child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: AppSpacing.borderRadiusFull,
-          border: Border.all(color: borderColor),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? AppColors.textPrimaryDark
-                : AppColors.textPrimaryLight,
-          ),
-        ),
-      ),
+    // Instead of building a custom container with manual inkwell and border,
+    // we use the standard M3 FilterChip which conforms to the design system.
+    return FilterChip(
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) {
+        if (onTap != null) onTap!();
+      },
+      showCheckmark: false,
     );
   }
 }

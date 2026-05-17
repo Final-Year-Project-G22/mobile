@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../../business_profile/application/business_profile_notifier.dart';
@@ -40,7 +39,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(onboardingProvider);
     final notifier = ref.read(onboardingProvider.notifier);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     ref.listen(onboardingProvider, (previous, next) {
@@ -63,9 +63,6 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     );
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,12 +82,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
                       Text(
                         l10n.onboardingTitle,
-                        style: TextStyle(
-                          fontSize: 16,
+                        style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? AppColors.textPrimaryDark
-                              : AppColors.textPrimaryLight,
                         ),
                       ),
                       const Spacer(),
@@ -100,18 +93,13 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.slate800
-                              : AppColors.slate100,
+                          color: colorScheme.surfaceContainerHigh,
                           borderRadius: AppSpacing.borderRadiusFull,
                         ),
                         child: Text(
                           l10n.onboardingLanguageLabel,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
@@ -127,10 +115,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           height: 4,
                           decoration: BoxDecoration(
                             color: isActive
-                                ? AppColors.accent
-                                : (isDark
-                                      ? AppColors.borderDark
-                                      : AppColors.borderLight),
+                                ? colorScheme.primary
+                                : colorScheme.surfaceContainerHighest,
                             borderRadius: AppSpacing.borderRadiusFull,
                           ),
                         ),
@@ -142,19 +128,15 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     children: [
                       Text(
                         l10n.onboardingStepLabel(state.currentStep + 1, 6),
-                        style: TextStyle(
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const Spacer(),
                       Text(
                         progressLabel,
-                        style: TextStyle(
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -200,7 +182,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   ),
                   AppSpacing.gapHorizontalSm,
                   Expanded(
-                    child: ElevatedButton(
+                    child: FilledButton(
                       onPressed: canContinue && !_isSubmitting
                           ? () async {
                               if (state.currentStep == 5) {
@@ -269,6 +251,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context).errorSaveFailed),
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return;
@@ -290,28 +273,23 @@ class _OnboardingQuestionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: TextStyle(
-            fontSize: 22,
+          style: textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
-            color: isDark
-                ? AppColors.textPrimaryDark
-                : AppColors.textPrimaryLight,
+            color: colorScheme.onSurface,
           ),
         ),
         AppSpacing.gapVerticalXs,
         Text(
           subtitle,
-          style: TextStyle(
-            fontSize: 14,
-            color: isDark
-                ? AppColors.textSecondaryDark
-                : AppColors.textSecondaryLight,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
           ),
         ),
       ],
@@ -478,6 +456,8 @@ class _LegalTaxStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
     final legalOptions = [
       _OptionValue('sole-proprietor', l10n.onboardingLegalSoleProprietor),
@@ -515,12 +495,9 @@ class _LegalTaxStep extends StatelessWidget {
           AppSpacing.gapVerticalLg,
           Text(
             l10n.onboardingTaxTitle,
-            style: TextStyle(
-              fontSize: 18,
+            style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppColors.textPrimaryDark
-                  : AppColors.textPrimaryLight,
+              color: colorScheme.onSurface,
             ),
           ),
           AppSpacing.gapVerticalSm,
@@ -600,6 +577,8 @@ class _DemographicsStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
     final options = [
       _OptionValue('demo-women-owned', l10n.onboardingDemoWomenOwned),
@@ -632,11 +611,8 @@ class _DemographicsStep extends StatelessWidget {
           AppSpacing.gapVerticalLg,
           Text(
             l10n.onboardingDemoOptional,
-            style: TextStyle(
-              fontSize: 13,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppColors.textSecondaryDark
-                  : AppColors.textSecondaryLight,
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],

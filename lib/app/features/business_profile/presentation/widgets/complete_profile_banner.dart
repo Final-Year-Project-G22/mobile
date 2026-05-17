@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
 class CompleteProfileBanner extends StatelessWidget {
@@ -13,7 +12,10 @@ class CompleteProfileBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Container(
       margin: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -23,15 +25,15 @@ class CompleteProfileBanner extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.slate800 : AppColors.slate100,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(AppSpacing.md),
         border: Border.all(
-          color: isDark ? AppColors.slate700 : AppColors.slate300,
+          color: colorScheme.outlineVariant,
         ),
       ),
       child: Row(
         children: [
-          const Icon(Icons.business_center_outlined, color: AppColors.accent),
+          Icon(Icons.business_center_outlined, color: colorScheme.primary),
           AppSpacing.gapHorizontalSm,
           Expanded(
             child: Column(
@@ -39,21 +41,15 @@ class CompleteProfileBanner extends StatelessWidget {
               children: [
                 Text(
                   'Complete your business profile',
-                  style: TextStyle(
+                  style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: isDark
-                        ? AppColors.textPrimaryDark
-                        : AppColors.textPrimaryLight,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   'Unlock personalized guidance and better recommendations.',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDark
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

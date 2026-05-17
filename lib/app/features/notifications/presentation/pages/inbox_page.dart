@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/utils/formatters/date_formatters.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/inbox_notifier.dart';
 import '../../application/inbox_state.dart';
@@ -49,13 +48,9 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(inboxProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       appBar: AppBar(
         title: Text(l10n.inbox),
         actions: [
@@ -66,11 +61,14 @@ class _InboxPageState extends ConsumerState<InboxPage> {
           AppSpacing.gapHorizontalXs,
         ],
       ),
-      body: _buildBody(state, isDark, l10n),
+      body: _buildBody(state, l10n),
     );
   }
 
-  Widget _buildBody(InboxState state, bool isDark, AppLocalizations l10n) {
+  Widget _buildBody(InboxState state, AppLocalizations l10n) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     if (state.isLoading && state.entries.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -83,16 +81,18 @@ class _InboxPageState extends ConsumerState<InboxPage> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: isDark ? AppColors.slate400 : AppColors.slate500,
+              color: colorScheme.onSurfaceVariant,
             ),
             AppSpacing.gapVerticalMd,
             Text(
               state.errorMessage!,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
               textAlign: TextAlign.center,
             ),
             AppSpacing.gapVerticalMd,
-            ElevatedButton(
+            FilledButton.tonal(
               onPressed: () => ref.read(inboxProvider.notifier).refresh(),
               child: Text(l10n.retry),
             ),
@@ -109,12 +109,14 @@ class _InboxPageState extends ConsumerState<InboxPage> {
             Icon(
               Icons.notifications_none_rounded,
               size: 64,
-              color: isDark ? AppColors.slate400 : AppColors.slate500,
+              color: colorScheme.onSurfaceVariant,
             ),
             AppSpacing.gapVerticalMd,
             Text(
               l10n.noNotifications,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
             ),
           ],
         ),
@@ -158,7 +160,8 @@ class _InboxTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final isUnread = !entry.isRead;
     final l10n = AppLocalizations.of(context);
 
@@ -169,13 +172,11 @@ class _InboxTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: isUnread
-            ? (isDark
-                  ? AppColors.slate800.withValues(alpha: 0.6)
-                  : AppColors.slate100.withValues(alpha: 0.6))
-            : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight),
+            ? colorScheme.primaryContainer.withValues(alpha: 0.3)
+            : colorScheme.surface,
         borderRadius: AppSpacing.borderRadiusMd,
         border: Border.all(
-          color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          color: colorScheme.outlineVariant,
           width: 0.5,
         ),
       ),
@@ -190,14 +191,14 @@ class _InboxTile extends StatelessWidget {
               CircleAvatar(
                 radius: 20,
                 backgroundColor: isUnread
-                    ? AppColors.accent.withValues(alpha: 0.15)
-                    : (isDark ? AppColors.slate700 : AppColors.slate100),
+                    ? colorScheme.primaryContainer
+                    : colorScheme.surfaceContainerHigh,
                 child: Icon(
                   _iconForType(entry.notification.type),
                   size: 20,
                   color: isUnread
-                      ? AppColors.accent
-                      : (isDark ? AppColors.slate400 : AppColors.slate500),
+                      ? colorScheme.onPrimaryContainer
+                      : colorScheme.onSurfaceVariant,
                 ),
               ),
               AppSpacing.gapHorizontalSm,
@@ -210,14 +211,11 @@ class _InboxTile extends StatelessWidget {
                         Expanded(
                           child: Text(
                             entry.notification.title,
-                            style: TextStyle(
+                            style: textTheme.titleSmall?.copyWith(
                               fontWeight: isUnread
                                   ? FontWeight.w600
                                   : FontWeight.w400,
-                              fontSize: 14,
-                              color: isDark
-                                  ? AppColors.textPrimaryDark
-                                  : AppColors.textPrimaryLight,
+                              color: colorScheme.onSurface,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -225,11 +223,8 @@ class _InboxTile extends StatelessWidget {
                         ),
                         Text(
                           _formatTimeAgo(entry.notification.sentAt, l10n),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -238,11 +233,8 @@ class _InboxTile extends StatelessWidget {
                       AppSpacing.gapVerticalXxs,
                       Text(
                         entry.notification.content,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -258,8 +250,8 @@ class _InboxTile extends StatelessWidget {
                     width: 8,
                     height: 8,
                     margin: const EdgeInsets.only(top: 6),
-                    decoration: const BoxDecoration(
-                      color: AppColors.accent,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                   ),
