@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../app/constants/app_colors.dart';
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/providers/payment_result_notifier.dart';
@@ -72,13 +71,14 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
   }
 
   Widget _buildSuccess(BuildContext context, AppLocalizations l10n) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle, size: 80, color: AppColors.success),
+            Icon(Icons.check_circle, size: 80, color: colorScheme.primary),
             const SizedBox(height: 16),
             Text(
               l10n.paymentSuccessful,
@@ -94,7 +94,6 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
             const SizedBox(height: 32),
             FilledButton(
               style: FilledButton.styleFrom(
-                backgroundColor: AppColors.accent,
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: () => context.go('/home'),
@@ -133,13 +132,14 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
   }
 
   Widget _buildFailed(BuildContext context, AppLocalizations l10n) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.cancel, size: 80, color: AppColors.error),
+            Icon(Icons.cancel, size: 80, color: colorScheme.error),
             const SizedBox(height: 16),
             Text(
               l10n.paymentFailed,
@@ -171,16 +171,17 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
     String message,
     AppLocalizations l10n,
   ) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.hourglass_empty,
               size: 80,
-              color: AppColors.warning,
+              color: colorScheme.error,
             ),
             const SizedBox(height: 16),
             Text(message, textAlign: TextAlign.center),

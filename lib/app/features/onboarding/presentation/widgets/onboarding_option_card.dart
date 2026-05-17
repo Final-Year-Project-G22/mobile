@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
 class OnboardingOptionCard extends StatelessWidget {
@@ -21,13 +20,15 @@ class OnboardingOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     final background = selected
-        ? (isDark ? AppColors.slate700 : AppColors.slate100)
-        : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight);
+        ? colorScheme.secondaryContainer
+        : colorScheme.surface;
     final borderColor = selected
-        ? AppColors.accent
-        : (isDark ? AppColors.borderDark : AppColors.borderLight);
+        ? colorScheme.secondary
+        : colorScheme.outlineVariant;
 
     return InkWell(
       onTap: onTap,
@@ -52,23 +53,20 @@ class OnboardingOptionCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: isDark
-                          ? AppColors.textPrimaryDark
-                          : AppColors.textPrimaryLight,
+                    style: textTheme.titleSmall?.copyWith(
+                      color: selected
+                          ? colorScheme.onSecondaryContainer
+                          : colorScheme.onSurface,
                     ),
                   ),
                   if (subtitle != null) ...[
                     AppSpacing.gapVerticalXxs,
                     Text(
                       subtitle!,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: selected
+                            ? colorScheme.onSecondaryContainer
+                            : colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -76,17 +74,15 @@ class OnboardingOptionCard extends StatelessWidget {
               ),
             ),
             if (selected)
-              const Icon(
+              Icon(
                 Icons.check_circle,
-                color: AppColors.accent,
+                color: colorScheme.secondary,
                 size: 20,
               )
             else
               Icon(
                 Icons.circle_outlined,
-                color: isDark
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
+                color: colorScheme.onSurfaceVariant,
                 size: 20,
               ),
           ],

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../app/constants/app_colors.dart';
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -63,11 +62,11 @@ class PlansPage extends ConsumerWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error.toString()),
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).colorScheme.error,
               duration: const Duration(seconds: 8),
               action: SnackBarAction(
                 label: l10n.ok,
-                textColor: Colors.white,
+                textColor: Theme.of(context).colorScheme.onError,
                 onPressed: () {},
               ),
             ),
@@ -109,6 +108,8 @@ class PlansPage extends ConsumerWidget {
     Subscription? sub,
     AppLocalizations l10n,
   ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final hasPro =
         sub != null && sub.planName == 'Pro' && sub.status == 'active';
     final basicPlans = plans.where((p) => p.name == 'Basic').toList();
@@ -163,13 +164,13 @@ class PlansPage extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.success.withAlpha(25),
+                color: colorScheme.tertiaryContainer,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.success.withAlpha(80)),
+                border: Border.all(color: colorScheme.tertiary),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle, color: AppColors.success),
+                  Icon(Icons.check_circle, color: colorScheme.tertiary),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -177,7 +178,10 @@ class PlansPage extends ConsumerWidget {
                       children: [
                         Text(
                           l10n.youAreOnPro,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onTertiaryContainer,
+                          ),
                         ),
                         Text(
                           l10n.activeUntil(
@@ -185,8 +189,8 @@ class PlansPage extends ConsumerWidget {
                               ' ',
                             )[0],
                           ),
-                          style: const TextStyle(
-                            color: AppColors.slate500,
+                          style: TextStyle(
+                            color: colorScheme.onTertiaryContainer,
                             fontSize: 12,
                           ),
                         ),
@@ -243,9 +247,9 @@ class PlansPage extends ConsumerWidget {
                   l10n.savePercentYearly(
                     _yearlySavings(proMonthly?.amount, proYearly.amount),
                   ),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.success),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.primary,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -253,9 +257,9 @@ class PlansPage extends ConsumerWidget {
           const SizedBox(height: 24),
           Text(
             l10n.billingDisclaimer,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: AppColors.slate400),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
