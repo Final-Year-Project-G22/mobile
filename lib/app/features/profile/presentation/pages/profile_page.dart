@@ -246,7 +246,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             child: Padding(
               padding: AppSpacing.paddingMd,
               child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 220),
+                duration: AppSpacing.durationMedium1,
                 child: _isEditingProfile
                     ? _EditProfileForm(
                         key: const ValueKey('edit-profile'),
