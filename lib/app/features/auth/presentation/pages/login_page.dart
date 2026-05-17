@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/widgets/locale_toggle_button.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_form_notifier.dart';
@@ -53,7 +52,8 @@ class _LogInPageState extends ConsumerState<LogInPage> {
   Widget build(BuildContext context) {
     final formState = ref.watch(loginFormProvider);
     final oauthState = ref.watch(authOAuthStateProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     ref
@@ -74,7 +74,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       orElse: () => l10n.errorGeneric,
                     ),
                   ),
-                  backgroundColor: AppColors.error,
+                  backgroundColor: colorScheme.error,
                 ),
               );
             }
@@ -103,14 +103,11 @@ class _LogInPageState extends ConsumerState<LogInPage> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message), backgroundColor: AppColors.error),
+          SnackBar(content: Text(message), backgroundColor: colorScheme.error),
         );
       });
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: Stack(
         children: [
           const Positioned(
@@ -120,7 +117,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(AppSpacing.screenH),
               child: Form(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -128,26 +125,19 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                     const SizedBox(height: AppSpacing.xxl),
                     Text(
                       l10n.login,
-                      style: TextStyle(
-                        fontSize: 28,
+                      style: textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     AppSpacing.gapVerticalXs,
                     Text(
                       l10n.loginSubtitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
-                    AppSpacing.gapLg,
                     AuthTextField(
                       label: l10n.emailOrUsername,
                       hint: l10n.emailOrUsernameHint,
@@ -184,9 +174,7 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                           _obscurePassword
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                          color: colorScheme.onSurfaceVariant,
                         ),
                         onPressed: () {
                           setState(() {
@@ -224,18 +212,17 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                       children: [
                         Text(
                           l10n.dontHaveAccount,
-                          style: TextStyle(
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        AppSpacing.gapHorizontalXs,
                         GestureDetector(
                           onTap: () => const RegisterRoute().go(context),
                           child: Text(
                             l10n.signUp,
-                            style: const TextStyle(
-                              color: AppColors.accent,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: colorScheme.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -248,10 +235,10 @@ class _LogInPageState extends ConsumerState<LogInPage> {
             ),
           ),
           if (oauthState.oauthInProgress)
-            const Positioned.fill(
+            Positioned.fill(
               child: ColoredBox(
-                color: Colors.black54,
-                child: Center(
+                color: colorScheme.scrim.withValues(alpha: 0.5),
+                child: const Center(
                   child: CircularProgressIndicator(),
                 ),
               ),

@@ -5,7 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
+import '../../../../../shared/widgets/status_badge.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_detail_notifier.dart';
 import '../../application/step_detail_notifier.dart';
@@ -48,10 +48,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
-        .updateStepStatus(
-          widget.stepSlug,
-          StepStatus.inProgress,
-        );
+        .updateStepStatus(widget.stepSlug, StepStatus.inProgress);
   }
 
   Future<void> _completeAndReturn() async {
@@ -61,10 +58,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
-        .updateStepStatus(
-          widget.stepSlug,
-          StepStatus.completed,
-        );
+        .updateStepStatus(widget.stepSlug, StepStatus.completed);
     Navigator.of(context).pop();
   }
 
@@ -73,10 +67,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
-        .updateStepStatus(
-          widget.stepSlug,
-          StepStatus.skipped,
-        );
+        .updateStepStatus(widget.stepSlug, StepStatus.skipped);
     Navigator.of(context).pop();
   }
 
@@ -85,10 +76,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     if (!mounted) return;
     ref
         .read(guideDetailProvider.notifier)
-        .updateStepStatus(
-          widget.stepSlug,
-          StepStatus.inProgress,
-        );
+        .updateStepStatus(widget.stepSlug, StepStatus.inProgress);
     Navigator.of(context).pop();
   }
 
@@ -96,36 +84,26 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(stepDetailProvider);
     final step = state.step;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       appBar: AppBar(
         title: Text(step?.title ?? l10n.stepStatusLocked),
-        backgroundColor: isDark
-            ? AppColors.surfaceDark
-            : AppColors.surfaceLight,
       ),
       body: step == null
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
+                // ── Step header ─────────────────────────────────────
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
-                    color: isDark
-                        ? AppColors.surfaceDark
-                        : AppColors.surfaceLight,
+                    color: colorScheme.surface,
                     border: Border(
-                      bottom: BorderSide(
-                        color: isDark
-                            ? AppColors.borderDark
-                            : AppColors.borderLight,
-                      ),
+                      bottom: BorderSide(color: colorScheme.outlineVariant),
                     ),
                   ),
                   child: Column(
@@ -142,9 +120,7 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: isDark
-                                    ? AppColors.slate700
-                                    : AppColors.slate100,
+                                color: colorScheme.surfaceContainerHigh,
                                 borderRadius: AppSpacing.borderRadiusFull,
                               ),
                               child: Row(
@@ -153,20 +129,15 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                                   Icon(
                                     Icons.timer_outlined,
                                     size: 14,
-                                    color: isDark
-                                        ? AppColors.textSecondaryDark
-                                        : AppColors.textSecondaryLight,
+                                    color: colorScheme.onSurfaceVariant,
                                   ),
                                   AppSpacing.gapHorizontalXxs,
                                   Text(
                                     l10n.stepEstimatedTime(
                                       '${step.estimatedTime}',
                                     ),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: isDark
-                                          ? AppColors.textSecondaryDark
-                                          : AppColors.textSecondaryLight,
+                                    style: textTheme.labelSmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
                                     ),
                                   ),
                                 ],
@@ -179,23 +150,24 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                         AppSpacing.gapVerticalSm,
                         Text(
                           _stripHtml(step.description!),
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
                     ],
                   ),
                 ),
+
+                // ── Markdown content ────────────────────────────────
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(AppSpacing.md),
-                    child: _buildMarkdown(step.detailedContent, isDark, l10n),
+                    child: _buildMarkdown(step.detailedContent, l10n),
                   ),
                 ),
+
+                // ── Action bar ──────────────────────────────────────
                 StepActionBar(
                   status: step.status,
                   isOptional: step.isOptional,
@@ -219,11 +191,11 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
   }
 
   Widget _statusBadge(StepStatus status, AppLocalizations l10n) {
-    final color = switch (status) {
-      StepStatus.completed => AppColors.success,
-      StepStatus.inProgress => AppColors.accent,
-      StepStatus.skipped => AppColors.warning,
-      StepStatus.locked => AppColors.slate500,
+    final statusType = switch (status) {
+      StepStatus.completed => StatusType.completed,
+      StepStatus.inProgress => StatusType.inProgress,
+      StepStatus.skipped => StatusType.inProgress,
+      StepStatus.locked => StatusType.notStarted,
     };
     final label = switch (status) {
       StepStatus.completed => l10n.stepStatusCompleted,
@@ -231,29 +203,17 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       StepStatus.skipped => l10n.stepStatusSkipped,
       StepStatus.locked => l10n.stepStatusLocked,
     };
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: AppSpacing.borderRadiusFull,
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: color,
-        ),
-      ),
-    );
+    return StatusBadge(status: statusType, label: label);
   }
 
   Widget _buildMarkdown(
     Map<String, dynamic>? content,
-    bool isDark,
     AppLocalizations l10n,
   ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final markdown = content?['markdown'] as String?;
+
     if (markdown == null || markdown.isEmpty) {
       final step = ref.read(stepDetailProvider).step;
       final desc = step?.description;
@@ -261,15 +221,13 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
         return MarkdownBody(
           data: _stripHtml(desc),
           selectable: true,
-          styleSheet: _markdownStyle(isDark),
+          styleSheet: _markdownStyle(colorScheme, textTheme),
         );
       }
       return Text(
         l10n.stepNoContent,
-        style: TextStyle(
-          color: isDark
-              ? AppColors.textSecondaryDark
-              : AppColors.textSecondaryLight,
+        style: textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onSurfaceVariant,
         ),
       );
     }
@@ -277,48 +235,46 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
     return MarkdownBody(
       data: markdown,
       selectable: true,
-      styleSheet: _markdownStyle(isDark),
+      styleSheet: _markdownStyle(colorScheme, textTheme),
     );
   }
 
-  MarkdownStyleSheet _markdownStyle(bool isDark) {
+  MarkdownStyleSheet _markdownStyle(
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
     return MarkdownStyleSheet(
-      h2: TextStyle(
-        fontSize: 18,
+      h2: textTheme.titleMedium?.copyWith(
+        color: colorScheme.onSurface,
         fontWeight: FontWeight.w700,
-        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
       ),
-      h3: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      h3: textTheme.titleSmall?.copyWith(
+        color: colorScheme.onSurface,
       ),
-      p: TextStyle(
-        fontSize: 14,
+      p: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface,
         height: 1.6,
-        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
       ),
-      strong: TextStyle(
+      strong: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface,
         fontWeight: FontWeight.w700,
-        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
       ),
-      listBullet: TextStyle(
-        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+      listBullet: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface,
       ),
       blockquoteDecoration: BoxDecoration(
-        color: AppColors.accent.withValues(alpha: 0.08),
-        border: const Border(
-          left: BorderSide(color: AppColors.accent, width: 3),
+        color: colorScheme.secondaryContainer.withValues(alpha: 0.3),
+        border: Border(
+          left: BorderSide(color: colorScheme.secondary, width: 3),
         ),
       ),
       blockquotePadding: const EdgeInsets.all(AppSpacing.sm),
-      code: TextStyle(
-        backgroundColor: isDark ? AppColors.slate800 : AppColors.slate100,
-        color: isDark ? AppColors.accentLight : AppColors.accentDark,
-        fontSize: 13,
+      code: textTheme.bodySmall?.copyWith(
+        backgroundColor: colorScheme.surfaceContainerHigh,
+        color: colorScheme.primary,
       ),
       codeblockDecoration: BoxDecoration(
-        color: isDark ? AppColors.slate800 : AppColors.slate100,
+        color: colorScheme.surfaceContainerHigh,
         borderRadius: AppSpacing.borderRadiusSm,
       ),
       codeblockPadding: const EdgeInsets.all(AppSpacing.sm),

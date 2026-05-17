@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
 class GuideProgressBar extends StatelessWidget {
@@ -16,7 +15,8 @@ class GuideProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
     final percent = total > 0 ? (completed / total * 100).round() : 0;
     final fraction = total > 0 ? completed / total : 0.0;
@@ -24,11 +24,9 @@ class GuideProgressBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+        color: colorScheme.surface,
         border: Border(
-          bottom: BorderSide(
-            color: isDark ? AppColors.borderDark : AppColors.borderLight,
-          ),
+          bottom: BorderSide(color: colorScheme.outlineVariant),
         ),
       ),
       child: Column(
@@ -39,20 +37,15 @@ class GuideProgressBar extends StatelessWidget {
             children: [
               Text(
                 l10n.guideProgressOf(completed, total),
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
+                style: textTheme.labelLarge?.copyWith(
+                  color: colorScheme.onSurface,
                 ),
               ),
               Text(
                 l10n.guideProgressPercent(percent),
-                style: const TextStyle(
-                  fontSize: 14,
+                style: textTheme.labelLarge?.copyWith(
+                  color: colorScheme.secondary,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.accent,
                 ),
               ),
             ],
@@ -63,10 +56,7 @@ class GuideProgressBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: fraction,
               minHeight: 6,
-              backgroundColor: isDark ? AppColors.slate700 : AppColors.slate200,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                AppColors.success,
-              ),
+              // Uses ProgressIndicatorTheme from AppTheme
             ),
           ),
         ],

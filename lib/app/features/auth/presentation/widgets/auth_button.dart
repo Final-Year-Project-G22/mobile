@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../constants/app_colors.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({
@@ -19,31 +18,21 @@ class AuthButton extends StatelessWidget {
     if (isOutlined) {
       return OutlinedButton(
         onPressed: isLoading ? null : onPressed,
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          side: const BorderSide(color: AppColors.primary),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+        // Uses OutlinedButtonTheme from AppTheme
         child: _buildChild(context, isOutlined: true),
       );
     }
 
-    return ElevatedButton(
+    return FilledButton(
       onPressed: isLoading ? null : onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 0,
-      ),
+      // Uses FilledButtonTheme from AppTheme
       child: _buildChild(context),
     );
   }
 
   Widget _buildChild(BuildContext context, {bool isOutlined = false}) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (isLoading) {
       return SizedBox(
         height: 20,
@@ -51,19 +40,12 @@ class AuthButton extends StatelessWidget {
         child: CircularProgressIndicator(
           strokeWidth: 2,
           valueColor: AlwaysStoppedAnimation<Color>(
-            isOutlined ? AppColors.primary : Colors.white,
+            isOutlined ? colorScheme.primary : colorScheme.onPrimary,
           ),
         ),
       );
     }
 
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: isOutlined ? AppColors.primary : Colors.white,
-      ),
-    );
+    return Text(text);
   }
 }

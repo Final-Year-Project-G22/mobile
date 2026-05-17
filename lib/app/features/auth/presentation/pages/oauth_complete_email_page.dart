@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_notifier.dart';
@@ -40,7 +39,8 @@ class _OAuthCompleteEmailPageState
   Widget build(BuildContext context) {
     final oauthState = ref.watch(authOAuthStateProvider);
     final pending = oauthState.pendingOAuthEmail;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     ref
       ..listen(authProvider, (previous, next) {
@@ -63,7 +63,7 @@ class _OAuthCompleteEmailPageState
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(message),
-                backgroundColor: AppColors.error,
+                backgroundColor: colorScheme.error,
               ),
             );
           },
@@ -90,7 +90,7 @@ class _OAuthCompleteEmailPageState
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message), backgroundColor: AppColors.error),
+          SnackBar(content: Text(message), backgroundColor: colorScheme.error),
         );
       });
 
@@ -98,11 +98,14 @@ class _OAuthCompleteEmailPageState
       return Scaffold(
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.screenH),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('No OAuth email completion request found.'),
+                Text(
+                  'No OAuth email completion request found.',
+                  style: textTheme.bodyLarge,
+                ),
                 const SizedBox(height: AppSpacing.md),
                 AuthButton(
                   text: 'Back to Login',
@@ -116,58 +119,43 @@ class _OAuthCompleteEmailPageState
     }
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: const EdgeInsets.all(AppSpacing.screenH),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: AppSpacing.xl),
               Text(
                 'Complete your sign in',
-                style: TextStyle(
-                  fontSize: 28,
+                style: textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
+                  color: colorScheme.onSurface,
                 ),
               ),
               AppSpacing.gapVerticalXs,
               Text(
                 'Add an email to finish signing in with ${pending.provider}.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isDark
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight,
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
               Container(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.surfaceDark
-                      : AppColors.surfaceLight,
+                  color: colorScheme.surfaceContainerHigh,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                   border: Border.all(
-                    color: isDark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight,
+                    color: colorScheme.outlineVariant,
                   ),
                 ),
                 child: Text(
                   pending.name.isNotEmpty
                       ? 'Signed in as ${pending.name}'
                       : 'Provider subject: ${pending.subject}',
-                  style: TextStyle(
-                    color: isDark
-                        ? AppColors.textPrimaryDark
-                        : AppColors.textPrimaryLight,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ),

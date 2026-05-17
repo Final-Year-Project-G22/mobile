@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/status_badge.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_step.dart';
@@ -22,7 +23,8 @@ class StepTimelineTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
     final isLocked = step.status == StepStatus.locked;
     final isCompleted = step.status == StepStatus.completed;
@@ -32,7 +34,7 @@ class StepTimelineTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,22 +44,19 @@ class StepTimelineTile extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildCircle(
-                      context,
-                      isDark,
-                      isCompleted,
-                      isCurrent,
-                      isSkipped,
-                      isLocked,
+                      colorScheme,
+                      isCompleted: isCompleted,
+                      isCurrent: isCurrent,
+                      isSkipped: isSkipped,
+                      isLocked: isLocked,
                     ),
                     if (!isLast)
                       Expanded(
                         child: Container(
                           width: 2,
                           color: isCompleted
-                              ? AppColors.success
-                              : (isDark
-                                    ? AppColors.slate700
-                                    : AppColors.slate200),
+                              ? colorScheme.secondary
+                              : colorScheme.outlineVariant,
                         ),
                       ),
                   ],
@@ -75,16 +74,12 @@ class StepTimelineTile extends StatelessWidget {
                           Expanded(
                             child: Text(
                               step.title,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                              style: textTheme.titleSmall?.copyWith(
                                 color: isLocked
-                                    ? (isDark
-                                          ? AppColors.slate600
-                                          : AppColors.slate400)
-                                    : (isDark
-                                          ? AppColors.textPrimaryDark
-                                          : AppColors.textPrimaryLight),
+                                    ? colorScheme.onSurfaceVariant.withValues(
+                                        alpha: 0.5,
+                                      )
+                                    : colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -95,18 +90,15 @@ class StepTimelineTile extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: (isDark
-                                    ? AppColors.slate700
-                                    : AppColors.slate100),
+                                color: colorScheme.surfaceContainerHigh,
                                 borderRadius: AppSpacing.borderRadiusFull,
                               ),
                               child: Text(
-                                l10n.stepEstimatedTime('${step.estimatedTime}'),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: isDark
-                                      ? AppColors.textSecondaryDark
-                                      : AppColors.textSecondaryLight,
+                                l10n.stepEstimatedTime(
+                                  '${step.estimatedTime}',
+                                ),
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ),
@@ -121,15 +113,12 @@ class StepTimelineTile extends StatelessWidget {
                               .replaceAll(RegExp('<[^>]*>'), '')
                               .replaceAll('&nbsp;', ' ')
                               .trim(),
-                          style: TextStyle(
-                            fontSize: 13,
+                          style: textTheme.bodySmall?.copyWith(
                             color: isLocked
-                                ? (isDark
-                                      ? AppColors.slate600
-                                      : AppColors.slate400)
-                                : (isDark
-                                      ? AppColors.textSecondaryDark
-                                      : AppColors.textSecondaryLight),
+                                ? colorScheme.onSurfaceVariant.withValues(
+                                    alpha: 0.5,
+                                  )
+                                : colorScheme.onSurfaceVariant,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -149,22 +138,21 @@ class StepTimelineTile extends StatelessWidget {
   }
 
   Widget _buildCircle(
-    BuildContext context,
-    bool isDark,
-    bool isCompleted,
-    bool isCurrent,
-    bool isSkipped,
-    bool isLocked,
-  ) {
+    ColorScheme colorScheme, {
+    required bool isCompleted,
+    required bool isCurrent,
+    required bool isSkipped,
+    required bool isLocked,
+  }) {
     if (isCompleted) {
       return Container(
         width: 28,
         height: 28,
-        decoration: const BoxDecoration(
-          color: AppColors.success,
+        decoration: BoxDecoration(
+          color: colorScheme.secondary,
           shape: BoxShape.circle,
         ),
-        child: const Icon(Icons.check, size: 16, color: Colors.white),
+        child: Icon(Icons.check, size: 16, color: colorScheme.onSecondary),
       );
     }
     if (isCurrent) {
@@ -173,14 +161,14 @@ class StepTimelineTile extends StatelessWidget {
         height: 28,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.accent, width: 2.5),
+          border: Border.all(color: colorScheme.primary, width: 2.5),
         ),
         child: Center(
           child: Container(
             width: 12,
             height: 12,
-            decoration: const BoxDecoration(
-              color: AppColors.accent,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
               shape: BoxShape.circle,
             ),
           ),
@@ -203,15 +191,12 @@ class StepTimelineTile extends StatelessWidget {
       height: 28,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: isDark ? AppColors.slate700 : AppColors.slate300,
-          width: 2,
-        ),
+        border: Border.all(color: colorScheme.outlineVariant, width: 2),
       ),
       child: Icon(
         Icons.lock,
         size: 14,
-        color: isDark ? AppColors.slate600 : AppColors.slate400,
+        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
       ),
     );
   }
@@ -221,45 +206,20 @@ class StepTimelineTile extends StatelessWidget {
     StepStatus status,
     AppLocalizations l10n,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final statusType = switch (status) {
+      StepStatus.completed => StatusType.completed,
+      StepStatus.inProgress => StatusType.inProgress,
+      StepStatus.skipped => StatusType.inProgress, // uses amber via override
+      StepStatus.locked => StatusType.notStarted,
+    };
 
-    Color bgColor;
-    Color textColor;
-    String label;
+    final label = switch (status) {
+      StepStatus.completed => l10n.stepStatusCompleted,
+      StepStatus.inProgress => l10n.stepStatusInProgress,
+      StepStatus.skipped => l10n.stepStatusSkipped,
+      StepStatus.locked => l10n.stepStatusLocked,
+    };
 
-    switch (status) {
-      case StepStatus.completed:
-        bgColor = AppColors.success.withValues(alpha: 0.15);
-        textColor = AppColors.success;
-        label = l10n.stepStatusCompleted;
-      case StepStatus.inProgress:
-        bgColor = AppColors.accent.withValues(alpha: 0.15);
-        textColor = AppColors.accent;
-        label = l10n.stepStatusInProgress;
-      case StepStatus.skipped:
-        bgColor = AppColors.warning.withValues(alpha: 0.15);
-        textColor = AppColors.warning;
-        label = l10n.stepStatusSkipped;
-      case StepStatus.locked:
-        bgColor = isDark ? AppColors.slate700 : AppColors.slate200;
-        textColor = isDark ? AppColors.slate500 : AppColors.slate500;
-        label = l10n.stepStatusLocked;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: AppSpacing.borderRadiusFull,
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: textColor,
-        ),
-      ),
-    );
+    return StatusBadge(status: statusType, label: label);
   }
 }
