@@ -229,7 +229,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
           child: Wrap(
-            spacing: 8,
+            spacing: AppSpacing.xs,
             children: [
               Chip(
                 avatar: const Icon(Icons.description, size: 16),
@@ -335,7 +335,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                             color: theme.colorScheme.onPrimary,
                           ),
                         )
-                      : const Icon(Icons.download, size: 18),
+                      : Icon(
+                          detail.tierAccess == 'pro'
+                              ? Icons.workspace_premium_outlined
+                              : Icons.download,
+                          size: 18,
+                        ),
                   label: Text(
                     detail.tierAccess == 'pro' ? l10n.upgrade : l10n.download,
                   ),

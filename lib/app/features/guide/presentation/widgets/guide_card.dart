@@ -112,8 +112,8 @@ class _TaxonomyBadges extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Wrap(
-      spacing: 6,
-      runSpacing: 4,
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xxs,
       children: [
         if (sectorCount > 0)
           _Badge(
@@ -148,7 +148,10 @@ class _Badge extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xs,
+        vertical: AppSpacing.xxs,
+      ),
       decoration: BoxDecoration(
         color: background,
         borderRadius: AppSpacing.borderRadiusSm,

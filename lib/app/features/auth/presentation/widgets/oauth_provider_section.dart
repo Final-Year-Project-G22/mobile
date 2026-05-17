@@ -38,7 +38,7 @@ class OAuthProviderSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               child: Text(
-                'Or',
+                'OR',
                 style: textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -56,10 +56,21 @@ class OAuthProviderSection extends StatelessWidget {
           ...providers.map(
             (provider) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: OutlinedButton.icon(
+              child: OutlinedButton(
                 onPressed: isDisabled ? null : () => onProviderTap(provider),
-                icon: _ProviderIcon(provider: provider),
-                label: Text('Continue with ${provider.displayName}'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _ProviderIcon(provider: provider),
+                    const SizedBox(width: AppSpacing.xs),
+                    Text('Continue with ${provider.displayName}'),
+                  ],
+                ),
                 // Uses OutlinedButtonTheme from AppTheme
               ),
             ),

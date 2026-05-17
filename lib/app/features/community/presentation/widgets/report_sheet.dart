@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/failures/community_failure.dart';
 
@@ -125,7 +126,12 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomInset + 16),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        bottomInset + AppSpacing.md,
+      ),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -139,22 +145,22 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
               ),
               if (widget.targetUserId != null &&
                   widget.targetUserName != null) ...[
-                const SizedBox(height: 4),
+                const SizedBox(height: AppSpacing.xxs),
                 Text(
                   'Reporting @${widget.targetUserName}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               Text(
                 l10n.selectReason,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.xs),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: AppSpacing.xs,
+                runSpacing: AppSpacing.xs,
                 children: _quickReasons.map((reason) {
                   final isSelected = _reasonController.text == reason;
                   return ChoiceChip(
@@ -164,7 +170,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               TextFormField(
                 controller: _reasonController,
@@ -173,7 +179,6 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 decoration: InputDecoration(
                   labelText: 'Reason',
                   hintText: l10n.reasonHint,
-                  border: const OutlineInputBorder(),
                 ),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) {
@@ -182,7 +187,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               SizedBox(
                 width: double.infinity,
@@ -194,7 +199,6 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
                           ),
                         )
                       : Text(l10n.submitReport),
