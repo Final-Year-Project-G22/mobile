@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/widgets/locale_toggle_button.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_form_notifier.dart';
@@ -62,7 +61,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Widget build(BuildContext context) {
     final formState = ref.watch(registerFormProvider);
     final oauthState = ref.watch(authOAuthStateProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     ref
@@ -76,7 +76,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(l10n.registrationSuccessful),
-                  backgroundColor: AppColors.success,
+                  // Assuming success color via secondary container or fallback
+                  backgroundColor: colorScheme.secondary,
                 ),
               );
             }
@@ -96,7 +97,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       orElse: () => l10n.errorGeneric,
                     ),
                   ),
-                  backgroundColor: AppColors.error,
+                  backgroundColor: colorScheme.error,
                 ),
               );
             }
@@ -125,14 +126,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message), backgroundColor: AppColors.error),
+          SnackBar(content: Text(message), backgroundColor: colorScheme.error),
         );
       });
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: Stack(
         children: [
           const Positioned(
@@ -142,7 +140,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(AppSpacing.screenH),
               child: Form(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -150,22 +148,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     const SizedBox(height: AppSpacing.xxl),
                     Text(
                       l10n.createAccount,
-                      style: TextStyle(
-                        fontSize: 28,
+                      style: textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     AppSpacing.gapVerticalXs,
                     Text(
                       l10n.registerSubtitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
@@ -251,9 +243,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           _obscurePassword
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                          color: colorScheme.onSurfaceVariant,
                         ),
                         onPressed: () {
                           setState(() {
@@ -291,18 +281,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       children: [
                         Text(
                           l10n.alreadyHaveAccount,
-                          style: TextStyle(
-                            color: isDark
-                                ? AppColors.textSecondaryDark
-                                : AppColors.textSecondaryLight,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        AppSpacing.gapHorizontalXs,
                         GestureDetector(
                           onTap: () => const LoginRoute().go(context),
                           child: Text(
                             l10n.signIn,
-                            style: const TextStyle(
-                              color: AppColors.accent,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: colorScheme.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -315,10 +304,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ),
           ),
           if (oauthState.oauthInProgress)
-            const Positioned.fill(
+            Positioned.fill(
               child: ColoredBox(
-                color: Colors.black54,
-                child: Center(
+                color: colorScheme.scrim.withValues(alpha: 0.5),
+                child: const Center(
                   child: CircularProgressIndicator(),
                 ),
               ),

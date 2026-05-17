@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_card.dart';
 
@@ -17,18 +16,10 @@ class GuideCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Card(
-      elevation: 0,
-      color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSpacing.borderRadiusMd,
-        side: BorderSide(
-          color: isDark ? AppColors.borderDark : AppColors.borderLight,
-        ),
-      ),
       child: InkWell(
         onTap: onTap,
         borderRadius: AppSpacing.borderRadiusMd,
@@ -41,12 +32,12 @@ class GuideCardWidget extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.accent.withValues(alpha: 0.1),
+                  color: colorScheme.secondaryContainer,
                   borderRadius: AppSpacing.borderRadiusSm,
                 ),
                 child: Icon(
                   _iconForGuide(guide.icon),
-                  color: AppColors.accent,
+                  color: colorScheme.onSecondaryContainer,
                   size: 22,
                 ),
               ),
@@ -57,12 +48,8 @@ class GuideCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       guide.name,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
+                      style: textTheme.titleSmall?.copyWith(
+                        color: colorScheme.onSurface,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -71,25 +58,21 @@ class GuideCardWidget extends StatelessWidget {
                       AppSpacing.gapVerticalXxs,
                       Text(
                         guide.description!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                    if (guide.sectorIds.isNotEmpty || guide.tagIds.isNotEmpty)
+                    if (guide.sectorIds.isNotEmpty ||
+                        guide.tagIds.isNotEmpty) ...[
                       AppSpacing.gapVerticalXxs,
-                    if (guide.sectorIds.isNotEmpty || guide.tagIds.isNotEmpty)
                       _TaxonomyBadges(
                         sectorCount: guide.sectorIds.length,
                         tagCount: guide.tagIds.length,
-                        theme: theme,
-                        isDark: isDark,
                       ),
+                    ],
                   ],
                 ),
               ),
@@ -118,18 +101,16 @@ class _TaxonomyBadges extends StatelessWidget {
   const _TaxonomyBadges({
     required this.sectorCount,
     required this.tagCount,
-    required this.theme,
-    required this.isDark,
   });
 
   final int sectorCount;
   final int tagCount;
-  final ThemeData theme;
-  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
+
     return Wrap(
       spacing: 6,
       runSpacing: 4,
@@ -137,14 +118,14 @@ class _TaxonomyBadges extends StatelessWidget {
         if (sectorCount > 0)
           _Badge(
             label: l10n.guideSectorCount(sectorCount),
-            color: theme.colorScheme.primary,
-            background: theme.colorScheme.primaryContainer,
+            color: colorScheme.onPrimaryContainer,
+            background: colorScheme.primaryContainer,
           ),
         if (tagCount > 0)
           _Badge(
             label: l10n.guideTagCount(tagCount),
-            color: theme.colorScheme.tertiary,
-            background: theme.colorScheme.tertiaryContainer,
+            color: colorScheme.onTertiaryContainer,
+            background: colorScheme.tertiaryContainer,
           ),
       ],
     );
@@ -164,18 +145,19 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppSpacing.borderRadiusSm,
       ),
       child: Text(
         label,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
+        style: textTheme.labelSmall?.copyWith(
           color: color,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

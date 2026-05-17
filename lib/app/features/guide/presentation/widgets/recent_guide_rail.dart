@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_card.dart';
 
@@ -16,22 +15,20 @@ class RecentGuideRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (guides.isEmpty) return const SizedBox.shrink();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
           child: Text(
             l10n.guideRecentlyViewed,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? AppColors.textPrimaryDark
-                  : AppColors.textPrimaryLight,
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
             ),
           ),
         ),
@@ -40,7 +37,7 @@ class RecentGuideRail extends StatelessWidget {
           height: 100,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
             itemCount: guides.length,
             separatorBuilder: (_, _) => AppSpacing.gapHorizontalSm,
             itemBuilder: (_, index) {
@@ -48,18 +45,6 @@ class RecentGuideRail extends StatelessWidget {
               return SizedBox(
                 width: 180,
                 child: Card(
-                  elevation: 0,
-                  color: isDark
-                      ? AppColors.surfaceDark
-                      : AppColors.surfaceLight,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: AppSpacing.borderRadiusMd,
-                    side: BorderSide(
-                      color: isDark
-                          ? AppColors.borderDark
-                          : AppColors.borderLight,
-                    ),
-                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpacing.sm),
                     child: Column(
@@ -70,18 +55,13 @@ class RecentGuideRail extends StatelessWidget {
                             Icon(
                               Icons.history,
                               size: 14,
-                              color: isDark
-                                  ? AppColors.textSecondaryDark
-                                  : AppColors.textSecondaryLight,
+                              color: colorScheme.onSurfaceVariant,
                             ),
                             AppSpacing.gapHorizontalXxs,
                             Text(
                               l10n.guideRecent,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: isDark
-                                    ? AppColors.textSecondaryDark
-                                    : AppColors.textSecondaryLight,
+                              style: textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -89,12 +69,9 @@ class RecentGuideRail extends StatelessWidget {
                         const Spacer(),
                         Text(
                           guide.name,
-                          style: TextStyle(
-                            fontSize: 13,
+                          style: textTheme.labelMedium?.copyWith(
+                            color: colorScheme.onSurface,
                             fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? AppColors.textPrimaryDark
-                                : AppColors.textPrimaryLight,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

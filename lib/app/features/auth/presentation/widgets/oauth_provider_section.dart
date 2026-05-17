@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/oauth_provider.dart';
 
@@ -25,7 +24,8 @@ class OAuthProviderSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -33,18 +33,19 @@ class OAuthProviderSection extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Divider(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
-              ),
+              child: Divider(color: colorScheme.outlineVariant),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
-              child: Text('Or'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              child: Text(
+                'Or',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
             Expanded(
-              child: Divider(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
-              ),
+              child: Divider(color: colorScheme.outlineVariant),
             ),
           ],
         ),
@@ -59,20 +60,7 @@ class OAuthProviderSection extends StatelessWidget {
                 onPressed: isDisabled ? null : () => onProviderTap(provider),
                 icon: _ProviderIcon(provider: provider),
                 label: Text('Continue with ${provider.displayName}'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                  foregroundColor: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
-                  side: BorderSide(
-                    color: isDark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                  ),
-                ),
+                // Uses OutlinedButtonTheme from AppTheme
               ),
             ),
           ),

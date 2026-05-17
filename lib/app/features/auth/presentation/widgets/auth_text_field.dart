@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../constants/app_colors.dart';
 
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
@@ -30,18 +29,14 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: isDark ? AppColors.textLabelDark : AppColors.textLabelLight,
-          ),
+          style: textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -52,53 +47,11 @@ class AuthTextField extends StatelessWidget {
           maxLines: maxLines,
           textCapitalization: textCapitalization,
           textInputAction: textInputAction,
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark
-                ? AppColors.textPrimaryDark
-                : AppColors.textPrimaryLight,
-          ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              color: isDark ? AppColors.textHintDark : AppColors.textHintLight,
-            ),
             suffixIcon: suffixIcon,
-            filled: true,
-            fillColor: isDark
-                ? AppColors.inputFillDark
-                : AppColors.inputFillLight,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.accent, width: 2),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.error),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.error, width: 2),
-            ),
             errorText: errorText,
-            errorStyle: const TextStyle(color: AppColors.error, fontSize: 12),
+            // Uses InputDecorationTheme from AppTheme for borders, fill colors, etc.
           ),
         ),
       ],

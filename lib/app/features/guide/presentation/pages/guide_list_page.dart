@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
+import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
 import '../widgets/guide_card.dart';
@@ -31,21 +31,20 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(guideListProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [
+            // ── Search field ────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
                 AppSpacing.md,
-                AppSpacing.md,
-                AppSpacing.md,
+                AppSpacing.screenH,
                 AppSpacing.sm,
               ),
               child: TextField(
@@ -65,23 +64,17 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                           },
                         )
                       : null,
-                  filled: true,
-                  fillColor: isDark
-                      ? AppColors.inputFillDark
-                      : AppColors.inputFillLight,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: AppSpacing.borderRadiusMd,
-                    borderSide: BorderSide.none,
-                  ),
+                  // Uses InputDecorationTheme from AppTheme
                 ),
               ),
             ),
+
+            // ── Recent rail ─────────────────────────────────────────
             if (state.recentGuides.isNotEmpty)
               RecentGuideRail(guides: state.recentGuides),
             if (state.recentGuides.isNotEmpty) AppSpacing.gapVerticalSm,
+
+            // ── Taxonomy filters ────────────────────────────────────
             TaxonomyFilterBar(
               selectedSectorId: state.selectedSectorId,
               selectedTagIds: state.selectedTagIds,
@@ -95,34 +88,37 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 ref.read(guideListProvider.notifier).clearFilters();
               },
             ),
+
+            // ── Active filter indicator ─────────────────────────────
             if (state.hasActiveFilters)
               Padding(
                 padding: const EdgeInsets.only(
-                  left: AppSpacing.md,
-                  right: AppSpacing.md,
+                  left: AppSpacing.screenH,
+                  right: AppSpacing.screenH,
                   bottom: AppSpacing.xs,
                 ),
                 child: Row(
                   children: [
                     Text(
                       l10n.guideFiltered,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {
+                    TextButton(
+                      onPressed: () {
                         ref.read(guideListProvider.notifier).clearFilters();
                       },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
                       child: Text(
                         l10n.guideClearAll,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.accent,
+                        style: textTheme.labelMedium?.copyWith(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -130,71 +126,39 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                   ],
                 ),
               ),
+
+            // ── Bookmark toggle ─────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
+                horizontal: AppSpacing.screenH,
                 vertical: AppSpacing.xs,
               ),
               child: Row(
                 children: [
                   const Spacer(),
-                  GestureDetector(
-                    onTap: () {
+                  FilterChip(
+                    label: Text(l10n.guideBookmarked),
+                    selected: state.showBookmarked,
+                    onSelected: (_) {
                       ref.read(guideListProvider.notifier).toggleBookmarked();
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: state.showBookmarked
-                            ? AppColors.accent
-                            : (isDark
-                                  ? AppColors.slate700
-                                  : AppColors.slate100),
-                        borderRadius: AppSpacing.borderRadiusFull,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            state.showBookmarked
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                            size: 16,
-                            color: state.showBookmarked
-                                ? Colors.white
-                                : (isDark
-                                      ? AppColors.textSecondaryDark
-                                      : AppColors.textSecondaryLight),
-                          ),
-                          AppSpacing.gapHorizontalXxs,
-                          Text(
-                            l10n.guideBookmarked,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: state.showBookmarked
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
-                              color: state.showBookmarked
-                                  ? Colors.white
-                                  : (isDark
-                                        ? AppColors.textSecondaryDark
-                                        : AppColors.textSecondaryLight),
-                            ),
-                          ),
-                        ],
-                      ),
+                    avatar: Icon(
+                      state.showBookmarked
+                          ? Icons.bookmark
+                          : Icons.bookmark_border,
+                      size: 18,
                     ),
+                    showCheckmark: false,
                   ),
                 ],
               ),
             ),
+
+            // ── Content ─────────────────────────────────────────────
             Expanded(
               child: state.showBookmarked
-                  ? _buildBookmarksList(isDark, l10n)
-                  : _buildGuidesList(isDark, l10n),
+                  ? _buildBookmarksList(l10n)
+                  : _buildGuidesList(l10n),
             ),
           ],
         ),
@@ -202,35 +166,17 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     );
   }
 
-  Widget _buildGuidesList(bool isDark, AppLocalizations l10n) {
+  Widget _buildGuidesList(AppLocalizations l10n) {
     final state = ref.watch(guideListProvider);
     if (state.guides.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.search_off,
-              size: 48,
-              color: isDark ? AppColors.slate600 : AppColors.slate400,
-            ),
-            AppSpacing.gapVerticalSm,
-            Text(
-              l10n.guideNoGuidesFound,
-              style: TextStyle(
-                fontSize: 15,
-                color: isDark
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
-              ),
-            ),
-          ],
-        ),
+      return EmptyStateView(
+        icon: Icons.search_off,
+        title: l10n.guideNoGuidesFound,
       );
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.guides.length,
       separatorBuilder: (_, _) => AppSpacing.gapVerticalSm,
       itemBuilder: (context, index) {
@@ -245,48 +191,25 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     );
   }
 
-  Widget _buildBookmarksList(bool isDark, AppLocalizations l10n) {
+  Widget _buildBookmarksList(AppLocalizations l10n) {
     final state = ref.watch(guideListProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     if (state.bookmarks.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.bookmark_border,
-              size: 48,
-              color: isDark ? AppColors.slate600 : AppColors.slate400,
-            ),
-            AppSpacing.gapVerticalSm,
-            Text(
-              l10n.guideNoBookmarks,
-              style: TextStyle(
-                fontSize: 15,
-                color: isDark
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
-              ),
-            ),
-          ],
-        ),
+      return EmptyStateView(
+        icon: Icons.bookmark_border,
+        title: l10n.guideNoBookmarks,
       );
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.bookmarks.length,
       separatorBuilder: (_, _) => AppSpacing.gapVerticalSm,
       itemBuilder: (context, index) {
         final bkmk = state.bookmarks[index];
         return Card(
-          elevation: 0,
-          color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppSpacing.borderRadiusMd,
-            side: BorderSide(
-              color: isDark ? AppColors.borderDark : AppColors.borderLight,
-            ),
-          ),
           child: Padding(
             padding: AppSpacing.paddingMd,
             child: Column(
@@ -294,21 +217,17 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.bookmark,
                       size: 16,
-                      color: AppColors.accent,
+                      color: colorScheme.secondary,
                     ),
                     AppSpacing.gapHorizontalXs,
                     Expanded(
                       child: Text(
                         bkmk.stepTitle,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? AppColors.textPrimaryDark
-                              : AppColors.textPrimaryLight,
+                        style: textTheme.titleSmall?.copyWith(
+                          color: colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -317,11 +236,8 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 AppSpacing.gapVerticalXxs,
                 Text(
                   bkmk.guideName,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDark
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

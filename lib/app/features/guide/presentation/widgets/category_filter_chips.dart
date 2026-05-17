@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 
+/// M3 FilterChip-based category selector.
 class CategoryFilterChips extends StatelessWidget {
   const CategoryFilterChips({
     required this.categories,
@@ -18,18 +18,15 @@ class CategoryFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
       child: Row(
         children: [
           _buildChip(
             context,
             label: AppLocalizations.of(context).all,
             isSelected: selectedCategorySlug.isEmpty,
-            isDark: isDark,
             onTap: () => onCategorySelected(''),
           ),
           AppSpacing.gapHorizontalXs,
@@ -40,7 +37,6 @@ class CategoryFilterChips extends StatelessWidget {
                 context,
                 label: cat,
                 isSelected: selectedCategorySlug == cat,
-                isDark: isDark,
                 onTap: () => onCategorySelected(cat),
               ),
             ),
@@ -54,32 +50,31 @@ class CategoryFilterChips extends StatelessWidget {
     BuildContext context, {
     required String label,
     required bool isSelected,
-    required bool isDark,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.accent
-              : (isDark ? AppColors.slate700 : AppColors.slate100),
-          borderRadius: AppSpacing.borderRadiusFull,
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected
-                ? Colors.white
-                : (isDark
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight),
-          ),
-        ),
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (_) => onTap(),
+      selectedColor: colorScheme.secondaryContainer,
+      checkmarkColor: colorScheme.onSecondaryContainer,
+      labelStyle: textTheme.labelMedium?.copyWith(
+        color: isSelected
+            ? colorScheme.onSecondaryContainer
+            : colorScheme.onSurfaceVariant,
+        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: AppSpacing.borderRadiusSm,
+      ),
+      side: isSelected
+          ? BorderSide.none
+          : BorderSide(color: colorScheme.outline),
+      showCheckmark: false,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }

@@ -7,7 +7,6 @@ import '../../../../../core/di/auth_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/widgets/locale_toggle_button.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../application/auth_notifier.dart';
@@ -136,7 +135,8 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
     ref.listen(authProvider, (previous, next) {
@@ -158,9 +158,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     });
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
       body: Stack(
         children: [
           const Positioned(
@@ -170,29 +167,23 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(AppSpacing.screenH),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: AppSpacing.xxl),
                   Text(
                     l10n.verifyEmail,
-                    style: TextStyle(
-                      fontSize: 28,
+                    style: textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: isDark
-                          ? AppColors.textPrimaryDark
-                          : AppColors.textPrimaryLight,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   AppSpacing.gapVerticalXs,
                   Text(
                     l10n.otpSubtitle,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: isDark
-                          ? AppColors.textSecondaryDark
-                          : AppColors.textSecondaryLight,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xxl),
@@ -209,37 +200,34 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
                           maxLength: 1,
-                          style: TextStyle(
-                            fontSize: 20,
+                          style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.textPrimaryDark
-                                : AppColors.textPrimaryLight,
+                            color: colorScheme.onSurface,
                           ),
                           decoration: InputDecoration(
                             counterText: '',
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 12,
                             ),
+                            // We explicitly specify borders here as OTP boxes
+                            // look different from typical text fields.
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide(
-                                color: isDark
-                                    ? AppColors.textSecondaryDark
-                                    : AppColors.textSecondaryLight,
+                                color: colorScheme.outlineVariant,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.accent,
+                              borderSide: BorderSide(
+                                color: colorScheme.primary,
                                 width: 2,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.error,
+                              borderSide: BorderSide(
+                                color: colorScheme.error,
                               ),
                             ),
                           ),
@@ -256,7 +244,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       _errorMessage!,
-                      style: const TextStyle(color: AppColors.error),
+                      style: TextStyle(color: colorScheme.error),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -272,24 +260,21 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     children: [
                       Text(
                         l10n.didNotReceiveCode,
-                        style: TextStyle(
-                          color: isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
+                      AppSpacing.gapHorizontalXs,
                       GestureDetector(
                         onTap: _resendCooldown > 0 ? null : _resendOtp,
                         child: Text(
                           _resendCooldown > 0
                               ? l10n.resendIn(_resendCooldown)
                               : l10n.resend,
-                          style: TextStyle(
+                          style: textTheme.labelLarge?.copyWith(
                             color: _resendCooldown > 0
-                                ? (isDark
-                                      ? AppColors.textSecondaryDark
-                                      : AppColors.textSecondaryLight)
-                                : AppColors.accent,
+                                ? colorScheme.onSurfaceVariant
+                                : colorScheme.primary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
