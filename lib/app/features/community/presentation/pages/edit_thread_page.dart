@@ -112,6 +112,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
 
@@ -170,12 +171,12 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : _submit,
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                           ),
                         )
                       : Text(l10n.save),

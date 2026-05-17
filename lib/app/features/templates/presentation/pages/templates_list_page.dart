@@ -53,6 +53,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
     final listAsync = ref.watch(templateListProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +81,7 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                     )
                   : null,
               filled: true,
-              fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+              fillColor: colorScheme.surfaceContainerHighest,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide.none,
@@ -168,10 +169,10 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.folder_open,
                             size: 64,
-                            color: Colors.grey,
+                            color: colorScheme.onSurfaceVariant,
                           ),
                           const SizedBox(height: 16),
                           Text(l10n.noTemplatesFound),

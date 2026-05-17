@@ -118,6 +118,8 @@ class _ThreadListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final threadsAsync = ref.watch(
       useFilteredAll
           ? filteredAllThreadsProvider
@@ -131,7 +133,11 @@ class _ThreadListView extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.forum, size: 64, color: Colors.grey),
+                Icon(
+                  Icons.forum,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   searchText?.isNotEmpty == true
@@ -139,7 +145,7 @@ class _ThreadListView extends ConsumerWidget {
                       : (useAllThreads
                             ? l10n.noThreadsAvailable
                             : l10n.noPersonalizedThreads),
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -184,7 +190,7 @@ class _ThreadListView extends ConsumerWidget {
                   ),
                   title: Text(
                     thread.title,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: theme.textTheme.titleMedium,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -196,7 +202,7 @@ class _ThreadListView extends ConsumerWidget {
                         thread.authorDisplayName ??
                             thread.authorUsername ??
                             'User ${thread.authorId.length >= 6 ? thread.authorId.substring(0, 6) : thread.authorId}',
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: theme.textTheme.bodySmall,
                       ),
                       if (thread.description != null) ...[
                         const SizedBox(height: 4),
@@ -204,7 +210,7 @@ class _ThreadListView extends ConsumerWidget {
                           thread.description!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: theme.textTheme.bodySmall,
                         ),
                       ],
                       const SizedBox(height: 8),
@@ -213,27 +219,23 @@ class _ThreadListView extends ConsumerWidget {
                           Icon(
                             Icons.comment,
                             size: 16,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             l10n.threadReplies(thread.replyCount),
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: theme.textTheme.bodySmall,
                           ),
                           const SizedBox(width: 16),
                           Icon(
                             Icons.visibility,
                             size: 16,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             l10n.threadViews(thread.viewCount),
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: theme.textTheme.bodySmall,
                           ),
                         ],
                       ),
@@ -253,17 +255,13 @@ class _ThreadListView extends ConsumerWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
+                                color: colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 l10n.owned,
                                 style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
+                                  color: colorScheme.onPrimaryContainer,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -276,7 +274,7 @@ class _ThreadListView extends ConsumerWidget {
                                 child: Container(
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: colorScheme.error,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   constraints: const BoxConstraints(
@@ -285,8 +283,8 @@ class _ThreadListView extends ConsumerWidget {
                                   ),
                                   child: Text(
                                     '${thread.unreadCount}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: colorScheme.onError,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -302,7 +300,7 @@ class _ThreadListView extends ConsumerWidget {
                           children: [
                             Icon(
                               Icons.chat_bubble,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: colorScheme.primary,
                               size: 20,
                             ),
                             if (thread.unreadCount > 0)
@@ -312,7 +310,7 @@ class _ThreadListView extends ConsumerWidget {
                                 child: Container(
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: colorScheme.error,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   constraints: const BoxConstraints(
@@ -321,8 +319,8 @@ class _ThreadListView extends ConsumerWidget {
                                   ),
                                   child: Text(
                                     '${thread.unreadCount}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: colorScheme.onError,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -340,23 +338,23 @@ class _ThreadListView extends ConsumerWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.green.withValues(alpha: 0.1),
+                            color: colorScheme.tertiaryContainer,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.green),
+                            border: Border.all(color: colorScheme.tertiary),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.check_circle,
-                                color: Colors.green,
+                                color: colorScheme.tertiary,
                                 size: 12,
                               ),
                               const SizedBox(width: 2),
                               Text(
                                 l10n.solved,
-                                style: const TextStyle(
-                                  color: Colors.green,
+                                style: TextStyle(
+                                  color: colorScheme.onTertiaryContainer,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -368,7 +366,7 @@ class _ThreadListView extends ConsumerWidget {
                       if (thread.isPinned)
                         Icon(
                           Icons.push_pin,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: colorScheme.primary,
                         ),
                     ],
                   ),
@@ -593,6 +591,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
     final selectedSectors = ref.watch(selectedSectorIdsProvider);
@@ -655,9 +654,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                   vertical: 10,
                 ),
                 filled: true,
-                fillColor: Theme.of(
-                  context,
-                ).colorScheme.surfaceContainerHighest,
+                fillColor: theme.colorScheme.surfaceContainerHighest,
               ),
               onChanged: (v) => setState(() => _searchText = v.toLowerCase()),
             ),
@@ -729,6 +726,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
     void Function(String) onToggle,
   ) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final filtered = _searchText.isEmpty
         ? items
         : items.where((item) {
@@ -747,14 +745,14 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
           ),
         ),
         const SizedBox(height: 8),
         if (filtered.isEmpty)
           Text(
             l10n.noItemsMatchSearch,
-            style: const TextStyle(color: Colors.grey),
+            style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
           )
         else
           Wrap(

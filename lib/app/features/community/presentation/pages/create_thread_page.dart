@@ -215,6 +215,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final sectorsAsync = ref.watch(sectorsProvider);
     final tagsAsync = ref.watch(tagsProvider);
 
@@ -225,12 +226,12 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
           TextButton(
             onPressed: (_isSubmitting || _isUploading) ? null : _submit,
             child: _isSubmitting
-                ? const SizedBox(
+                ? SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   )
                 : Text(l10n.post),
@@ -284,7 +285,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'Failed to load sectors: $e',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  style: TextStyle(color: theme.colorScheme.error),
                 ),
               ),
             ),
@@ -301,7 +302,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'Failed to load tags: $e',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  style: TextStyle(color: theme.colorScheme.error),
                 ),
               ),
             ),
@@ -342,7 +343,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
               const SizedBox(height: 8),
               Text(
                 'Attachments (${_attachments.length}):',
-                style: Theme.of(context).textTheme.bodySmall,
+                style: theme.textTheme.bodySmall,
               ),
               const SizedBox(height: 4),
               ...List.generate(_attachments.length, (index) {
@@ -355,15 +356,16 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest
-                        .withValues(alpha: 0.5),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.5,
+                    ),
                   ),
                   child: Row(
                     children: [
                       Icon(
                         _getFileIcon(att.fileName),
                         size: 20,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: theme.colorScheme.primary,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -377,7 +379,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                             ),
                             Text(
                               '${(att.fileSize / 1024).toStringAsFixed(1)} KB',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: theme.textTheme.bodySmall,
                             ),
                           ],
                         ),

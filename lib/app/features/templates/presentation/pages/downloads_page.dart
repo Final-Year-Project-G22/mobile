@@ -39,6 +39,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
   Widget build(BuildContext context) {
     final downloadsAsync = ref.watch(myDownloadsProvider);
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,10 +56,10 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.download_done,
                       size: 64,
-                      color: Colors.grey,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(height: 16),
                     Text(l10n.noDownloadsYet),
