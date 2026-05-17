@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/template_group.dart';
 import 'tier_badge.dart';
 
@@ -42,7 +43,7 @@ class TemplateCard extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(AppSpacing.xs),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -66,7 +67,7 @@ class TemplateCard extends StatelessWidget {
                             alpha: 0.6,
                           ),
                         ),
-                        const SizedBox(width: 2),
+                        const SizedBox(width: AppSpacing.xxs),
                         Text(
                           '${template.downloadCount}',
                           style: theme.textTheme.bodySmall,

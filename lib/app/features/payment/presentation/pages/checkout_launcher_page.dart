@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 
 class CheckoutLauncherPage extends ConsumerStatefulWidget {
   const CheckoutLauncherPage({
@@ -91,7 +92,7 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CircularProgressIndicator(),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             Text(AppLocalizations.of(context).openingSecurePayment),
           ],
         ),

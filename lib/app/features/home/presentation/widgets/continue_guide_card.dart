@@ -20,7 +20,7 @@ class ContinueGuideCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
-      width: 140,
+      width: 144,
       child: Card(
         // Inherits CardTheme defaults (elevation, shape, no border)
         child: InkWell(
@@ -33,7 +33,7 @@ class ContinueGuideCard extends StatelessWidget {
               children: [
                 CircularProgressRing(
                   percent: guide.percent,
-                  size: 40,
+                  size: 42,
                   strokeWidth: 4,
                   label: '${(guide.percent * 100).round()}%',
                 ),

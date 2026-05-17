@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/payment_result_notifier.dart';
 import '../../domain/entities/payment_verification.dart';
 
@@ -41,7 +42,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
               Text(l10n.verifyingPayment),
             ],
           ),
@@ -71,27 +72,28 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
   }
 
   Widget _buildSuccess(BuildContext context, AppLocalizations l10n) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.check_circle, size: 80, color: colorScheme.primary),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             Text(
               l10n.paymentSuccessful,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               l10n.proPlanActive,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xl),
             FilledButton(
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(48),
@@ -106,21 +108,22 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
   }
 
   Widget _buildPending(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
     ref.read(paymentResultProvider.notifier).startPolling(widget.txRef);
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const CircularProgressIndicator(),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             Text(
               l10n.paymentProcessing,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: theme.textTheme.headlineSmall,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               l10n.paymentBeingProcessed,
               textAlign: TextAlign.center,
@@ -132,27 +135,28 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
   }
 
   Widget _buildFailed(BuildContext context, AppLocalizations l10n) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.cancel, size: 80, color: colorScheme.error),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             Text(
               l10n.paymentFailed,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               l10n.couldNotCompletePayment,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xl),
             OutlinedButton(
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size.fromHeight(48),
@@ -174,7 +178,7 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
     final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -183,9 +187,9 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
               size: 80,
               color: colorScheme.error,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
             OutlinedButton(
               onPressed: () => context.go(const HomeRoute().location),
               child: Text(l10n.backToHome),

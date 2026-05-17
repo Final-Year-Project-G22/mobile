@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/attachment.dart';
 
 class PostCard extends StatelessWidget {
@@ -186,15 +187,21 @@ class PostCard extends StatelessWidget {
     final safeNesting = nestingLevel > 3 ? 3 : nestingLevel;
     final indentation = safeNesting * 12;
 
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Padding(
       padding: EdgeInsets.only(left: indentation.toDouble()),
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenH,
+          vertical: AppSpacing.xs,
+        ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppSpacing.borderRadiusMd,
           onLongPress: onReply,
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(AppSpacing.md),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -220,19 +227,19 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.xs),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             authorDisplayName,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: theme.textTheme.titleSmall,
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: AppSpacing.xxs),
                           Text(
                             _formatTime(createdAt, l10n),
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: theme.textTheme.bodySmall,
                           ),
                         ],
                       ),
@@ -240,31 +247,29 @@ class PostCard extends StatelessWidget {
 
                     if (isSolution)
                       Container(
-                        margin: const EdgeInsets.only(right: 8),
+                        margin: const EdgeInsets.only(right: AppSpacing.xs),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                          horizontal: AppSpacing.xs,
+                          vertical: AppSpacing.xxs,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.green.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.green),
+                          color: colorScheme.tertiaryContainer,
+                          borderRadius: AppSpacing.borderRadiusSm,
+                          border: Border.all(color: colorScheme.tertiary),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.check_circle,
-                              color: Colors.green,
+                              color: colorScheme.tertiary,
                               size: 14,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: AppSpacing.xxs),
                             Text(
                               l10n.solved,
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onTertiaryContainer,
                               ),
                             ),
                           ],
@@ -273,7 +278,7 @@ class PostCard extends StatelessWidget {
                     if (isEdited)
                       Text(
                         'edited',
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: theme.textTheme.bodySmall,
                       ),
                     if (onEdit != null ||
                         onDelete != null ||
@@ -304,7 +309,7 @@ class PostCard extends StatelessWidget {
                               value: 'markSolution',
                               child: Text(
                                 l10n.markAsSolution,
-                                style: const TextStyle(color: Colors.green),
+                                style: TextStyle(color: colorScheme.tertiary),
                               ),
                             ),
                           if (onEdit != null)
@@ -317,7 +322,7 @@ class PostCard extends StatelessWidget {
                               value: 'delete',
                               child: Text(
                                 l10n.delete,
-                                style: const TextStyle(color: Colors.red),
+                                style: TextStyle(color: colorScheme.error),
                               ),
                             ),
                           if (onReport != null)
@@ -325,7 +330,7 @@ class PostCard extends StatelessWidget {
                               value: 'report',
                               child: Text(
                                 l10n.report,
-                                style: const TextStyle(color: Colors.red),
+                                style: TextStyle(color: colorScheme.error),
                               ),
                             ),
                         ],
@@ -339,25 +344,24 @@ class PostCard extends StatelessWidget {
                   ],
                 ),
                 if (parentPreview != null && parentPreview!.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.xs),
                   InkWell(
                     onTap: onParentPreviewTap,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: AppSpacing.borderRadiusSm,
                     child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 8,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest
-                            .withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(8),
+                        color: colorScheme.surfaceContainerHighest.withValues(
+                          alpha: 0.4,
+                        ),
+                        borderRadius: AppSpacing.borderRadiusSm,
                         border: Border(
                           left: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: colorScheme.primary,
                             width: 3,
                           ),
                         ),
@@ -366,33 +370,30 @@ class PostCard extends StatelessWidget {
                         parentPreview!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: theme.textTheme.bodySmall,
                       ),
                     ),
                   ),
                 ],
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.xs),
                 Text(content),
                 if (attachments != null && attachments!.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.xs),
                   ...attachments!.map((att) {
                     final isImage = _isImage(att.fileType);
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 8),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest
-                            .withValues(alpha: 0.5),
+                        borderRadius: AppSpacing.borderRadiusSm,
+                        color: colorScheme.surfaceContainerHighest.withValues(
+                          alpha: 0.5,
+                        ),
                         border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.outline.withValues(alpha: 0.3),
+                          color: colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Column(
@@ -402,7 +403,7 @@ class PostCard extends StatelessWidget {
                             children: [
                               Icon(
                                 _getFileIcon(att.fileType, att.fileName),
-                                color: Theme.of(context).colorScheme.primary,
+                                color: colorScheme.primary,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -444,7 +445,7 @@ class PostCard extends StatelessWidget {
                                 ),
                             ],
                           ),
-                          if (isImage) const SizedBox(height: 8),
+                          if (isImage) const SizedBox(height: AppSpacing.xs),
                           if (isImage)
                             GestureDetector(
                               onLongPress: () => unawaited(
@@ -460,7 +461,7 @@ class PostCard extends StatelessWidget {
                                   minWidth: double.infinity,
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: AppSpacing.borderRadiusSm,
                                   child: Image.network(
                                     att.fileUrl,
                                     fit: BoxFit.cover,
@@ -477,7 +478,7 @@ class PostCard extends StatelessWidget {
                   }),
                 ],
                 if (upvoteCount != null) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.xs),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

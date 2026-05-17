@@ -464,6 +464,7 @@ class _FilterChipsRow extends ConsumerWidget {
                                     MaterialTapTargetSize.shrinkWrap,
                               ),
                               ..._buildSelectedChips(
+                                context,
                                 ref,
                                 sectorsAsync.asData?.value
                                         .map(
@@ -484,6 +485,7 @@ class _FilterChipsRow extends ConsumerWidget {
                                 },
                               ),
                               ..._buildSelectedChips(
+                                context,
                                 ref,
                                 tagsAsync.asData?.value
                                         .map(
@@ -506,7 +508,9 @@ class _FilterChipsRow extends ConsumerWidget {
                             ]
                             .map(
                               (w) => Padding(
-                                padding: const EdgeInsets.only(left: 6),
+                                padding: const EdgeInsets.only(
+                                  left: AppSpacing.xs,
+                                ),
                                 child: w,
                               ),
                             )
@@ -535,6 +539,7 @@ class _FilterChipsRow extends ConsumerWidget {
   }
 
   List<Widget> _buildSelectedChips(
+    BuildContext context,
     WidgetRef ref,
     List<_FilterItem> items,
     Set<String> selectedIds,
@@ -542,11 +547,14 @@ class _FilterChipsRow extends ConsumerWidget {
   ) {
     return items.where((item) => selectedIds.contains(item.id)).map((item) {
       return ActionChip(
-        label: Text(item.displayName, style: const TextStyle(fontSize: 11)),
+        label: Text(
+          item.displayName,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
         onPressed: () => onRemove(item.id),
         visualDensity: VisualDensity.compact,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        padding: const EdgeInsets.symmetric(horizontal: 6),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
       );
     }).toList();
   }
@@ -604,15 +612,17 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
       builder: (context, scrollController) => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              AppSpacing.sm,
+              AppSpacing.screenH,
+              AppSpacing.xs,
+            ),
             child: Row(
               children: [
                 Text(
                   l10n.filters,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: theme.textTheme.titleLarge,
                 ),
                 const Spacer(),
                 TextButton(
@@ -629,7 +639,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
@@ -644,12 +654,9 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                         },
                       )
                     : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.xs,
                 ),
                 filled: true,
                 fillColor: theme.colorScheme.surfaceContainerHighest,
@@ -657,11 +664,13 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
               onChanged: (v) => setState(() => _searchText = v.toLowerCase()),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.sm),
           Expanded(
             child: ListView(
               controller: scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+              ),
               children: [
                 _buildFilterSection(
                   l10n.sectors,
@@ -679,7 +688,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                     ref.read(selectedSectorIdsProvider.notifier).toggle(id);
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 _buildFilterSection(
                   l10n.tags,
                   tagsAsync.asData?.value
@@ -696,7 +705,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                     ref.read(selectedTagIdsProvider.notifier).toggle(id);
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 SwitchListTile(
                   title: Text(l10n.followedOnly),
                   subtitle: Text(l10n.showFollowedOnly),
@@ -708,7 +717,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                         .toggle(value: v);
                   },
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: AppSpacing.xxxl),
               ],
             ),
           ),
@@ -740,22 +749,22 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
       children: [
         Text(
           title,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+          style: theme.textTheme.titleSmall?.copyWith(
             color: theme.colorScheme.primary,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.xs),
         if (filtered.isEmpty)
           Text(
             l10n.noItemsMatchSearch,
-            style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           )
         else
           Wrap(
-            spacing: 8,
-            runSpacing: 4,
+            spacing: AppSpacing.xs,
+            runSpacing: AppSpacing.xxs,
             children: filtered.map<Widget>((item) {
               return FilterChip(
                 label: Text(item.displayName),

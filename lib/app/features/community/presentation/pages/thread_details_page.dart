@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/widgets/empty_state_view.dart';
+import '../../../../../shared/widgets/error_view.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../../core/providers/websocket_providers.dart';
 import '../../../../../core/services/websocket_service.dart';
@@ -703,11 +705,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                     ),
                     if (orderedReplies.isEmpty)
                       SliverToBoxAdapter(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(AppSpacing.xl),
-                            child: Text(l10n.noRepliesYet),
-                          ),
+                        child: EmptyStateView(
+                          icon: Icons.forum_outlined,
+                          title: l10n.noRepliesYet,
                         ),
                       )
                     else
@@ -777,14 +777,19 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Center(
-              child: Text(l10n.errorLoadingThreads(error.toString())),
+            error: (error, stackTrace) => ErrorView.inline(
+              message: l10n.errorLoadingThreads(error.toString()),
+              retryLabel: l10n.retry,
+              onRetry: () =>
+                  ref.invalidate(threadPostsProvider(widget.threadId)),
             ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(
-          child: Text(l10n.errorLoadingThreads(error.toString())),
+        error: (error, stackTrace) => ErrorView(
+          message: l10n.errorLoadingThreads(error.toString()),
+          retryLabel: l10n.retry,
+          onRetry: () => ref.invalidate(threadDetailsProvider(widget.threadId)),
         ),
       ),
       bottomNavigationBar: ReplyInputBar(

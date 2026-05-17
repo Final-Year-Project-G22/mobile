@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants/app_spacing.dart';
+
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
     required this.label,
@@ -36,9 +38,11 @@ class AuthTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: textTheme.titleSmall,
+          style: textTheme.titleSmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.xs),
         TextFormField(
           controller: controller,
           onChanged: onChanged,

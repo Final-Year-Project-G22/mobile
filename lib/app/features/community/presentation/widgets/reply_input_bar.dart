@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
 import '../../domain/entities/discussion_post.dart';
@@ -320,17 +321,19 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         ? l10n.reply
         : l10n.post;
 
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xs,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, -2),
-          ),
-        ],
+        color: colorScheme.surface,
+        border: Border(
+          top: BorderSide(color: colorScheme.outlineVariant),
+        ),
       ),
       child: SafeArea(
         child: Column(
@@ -340,14 +343,14 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             if (isEditing || isReplying)
               Container(
                 width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 8),
+                margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: AppSpacing.borderRadiusSm,
+                  color: colorScheme.surfaceContainerHighest,
                 ),
                 child: Row(
                   children: [
@@ -371,31 +374,33 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             // Uploaded NEW attachments preview (always show if any)
             if (_attachments.isNotEmpty)
               Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                padding: const EdgeInsets.all(AppSpacing.xs),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: AppSpacing.borderRadiusSm,
+                  color: colorScheme.surfaceContainerHighest,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'New attachments (${_attachments.length}):',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: theme.textTheme.bodySmall,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xxs),
                     for (var i = 0; i < _attachments.length; i++)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxs,
+                        ),
                         child: Row(
                           children: [
                             Icon(
                               _getFileIcon(_attachments[i].fileName),
                               size: 16,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: colorScheme.primary,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: AppSpacing.xs),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,23 +435,25 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             // Existing attachments (when editing - ALWAYS show if has existing)
             if (showExistingAttachments)
               Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                padding: const EdgeInsets.all(AppSpacing.xs),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: AppSpacing.borderRadiusSm,
+                  color: colorScheme.surfaceContainerHighest,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Existing attachments (${existingAttachments.length}):',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: theme.textTheme.bodySmall,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xxs),
                     for (var i = 0; i < existingAttachments.length; i++)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxs,
+                        ),
                         child: Row(
                           children: [
                             Icon(
@@ -456,10 +463,10 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                                   _removeAttachmentIds.contains(
                                     existingAttachments[i].id,
                                   )
-                                  ? Colors.grey
-                                  : Theme.of(context).colorScheme.primary,
+                                  ? colorScheme.onSurfaceVariant
+                                  : colorScheme.primary,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: AppSpacing.xs),
                             Expanded(
                               child: Text(
                                 existingAttachments[i].fileName,
@@ -536,14 +543,14 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
 
             if (_removeExistingAttachments)
               Container(
-                margin: const EdgeInsets.only(bottom: 8),
+                margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.orange.withValues(alpha: 0.1),
+                  borderRadius: AppSpacing.borderRadiusSm,
+                  color: colorScheme.tertiaryContainer,
                 ),
                 child: Row(
                   children: [
@@ -572,6 +579,9 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.attach_file),
+                  style: IconButton.styleFrom(
+                    minimumSize: const Size(40, 40),
+                  ),
                   onPressed: (_isSubmitting || _isUploading)
                       ? null
                       : () => _showAttachmentPicker(l10n),
@@ -583,17 +593,19 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                     maxLines: null,
                     decoration: InputDecoration(
                       hintText: hintText,
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      filled: true,
+                      fillColor: colorScheme.surfaceContainerHigh,
+                      border: OutlineInputBorder(
+                        borderRadius: AppSpacing.borderRadiusMd,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
+                        horizontal: AppSpacing.md,
+                        vertical: AppSpacing.xs,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.xs),
                 if (_isSubmitting)
                   const Padding(
                     padding: EdgeInsets.all(12),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/sector.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -117,7 +118,12 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
     final tagsAsync = ref.watch(tagsProvider);
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomInset + 16),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        bottomInset + AppSpacing.md,
+      ),
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -129,14 +135,13 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                 l10n.editThread,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               TextFormField(
                 controller: _titleController,
                 enabled: !_isSubmitting,
                 decoration: InputDecoration(
                   labelText: l10n.title,
-                  border: const OutlineInputBorder(),
                 ),
                 validator: (v) {
                   final t = v?.trim() ?? '';
@@ -146,29 +151,29 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               sectorsAsync.when(
                 data: (sectors) => _buildSectorChips(sectors, l10n),
                 loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
                   child: Center(child: CircularProgressIndicator()),
                 ),
                 error: (e, s) => const SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.sm),
 
               tagsAsync.when(
                 data: (tags) => _buildTagChips(tags, l10n),
                 loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
                   child: Center(child: CircularProgressIndicator()),
                 ),
                 error: (e, s) => const SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
               SizedBox(
                 width: double.infinity,
@@ -180,7 +185,6 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
                           ),
                         )
                       : Text(l10n.save),
@@ -201,10 +205,10 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
           l10n.sectorsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.xs),
         Wrap(
-          spacing: 8,
-          runSpacing: 8,
+          spacing: AppSpacing.xs,
+          runSpacing: AppSpacing.xs,
           children: sectors.map((sector) {
             final isSelected = _selectedSectorIds.contains(sector.id);
             return FilterChip(
@@ -231,7 +235,7 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
           l10n.tagsOptional,
           style: Theme.of(context).textTheme.titleSmall,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.xs),
         ...grouped.entries.map((entry) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,13 +243,13 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
               Text(
                 entry.key,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: AppSpacing.xxs),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: AppSpacing.xs,
+                runSpacing: AppSpacing.xs,
                 children: entry.value.map((tag) {
                   final isSelected = _selectedTagIds.contains(tag.id);
                   return FilterChip(
@@ -255,7 +259,7 @@ class _EditThreadSheetState extends ConsumerState<EditThreadSheet> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.xs),
             ],
           );
         }),
