@@ -250,7 +250,7 @@ class _InboxTile extends StatelessWidget {
                   child: Container(
                     width: 8,
                     height: 8,
-                    margin: const EdgeInsets.only(top: 6),
+                    margin: const EdgeInsets.only(top: AppSpacing.xs),
                     decoration: BoxDecoration(
                       color: colorScheme.primary,
                       shape: BoxShape.circle,

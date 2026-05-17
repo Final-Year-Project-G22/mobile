@@ -63,6 +63,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                       suffixIcon: value.text.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.clear, size: 18),
+                              tooltip: 'Clear search',
                               onPressed: () {
                                 _searchController.clear();
                                 ref.read(guideListProvider.notifier).search('');
@@ -197,7 +198,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     return ListView.separated(
       padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.guides.length,
-      separatorBuilder: (_, _) => SizedBox(height: AppSpacing.cardGap),
+      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.cardGap),
       itemBuilder: (context, index) {
         final guide = state.guides[index];
         return GuideCardWidget(
@@ -229,7 +230,7 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
     return ListView.separated(
       padding: const EdgeInsets.all(AppSpacing.screenH),
       itemCount: state.bookmarks.length,
-      separatorBuilder: (_, _) => SizedBox(height: AppSpacing.cardGap),
+      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.cardGap),
       itemBuilder: (context, index) {
         final bkmk = state.bookmarks[index];
         return Card(

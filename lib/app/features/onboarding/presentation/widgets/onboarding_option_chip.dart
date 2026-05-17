@@ -20,7 +20,7 @@ class OnboardingOptionChip extends StatelessWidget {
       label: Text(label),
       selected: selected,
       onSelected: (_) {
-        if (onTap != null) onTap!();
+        onTap?.call();
       },
       showCheckmark: false,
     );

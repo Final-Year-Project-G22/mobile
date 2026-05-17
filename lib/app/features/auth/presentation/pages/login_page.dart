@@ -177,6 +177,9 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                               : Icons.visibility,
                           color: colorScheme.onSurfaceVariant,
                         ),
+                        tooltip: _obscurePassword
+                            ? 'Show password'
+                            : 'Hide password',
                         onPressed: () {
                           setState(() {
                             _obscurePassword = !_obscurePassword;
@@ -218,8 +221,8 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                           ),
                         ),
                         AppSpacing.gapHorizontalXs,
-                        GestureDetector(
-                          onTap: () => const RegisterRoute().go(context),
+                        TextButton(
+                          onPressed: () => const RegisterRoute().go(context),
                           child: Text(
                             l10n.signUp,
                             style: textTheme.labelLarge?.copyWith(

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../core/providers/websocket_providers.dart';
+import '../../../../../core/services/websocket_service.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../../shared/widgets/error_view.dart';
 import '../../../../constants/app_spacing.dart';
-import '../../../../../core/providers/websocket_providers.dart';
-import '../../../../../core/services/websocket_service.dart';
 import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
@@ -162,7 +162,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               l10n.delete,
-              style: TextStyle(color: theme.colorScheme.error),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.error,
+              ),
             ),
           ),
         ],
@@ -214,7 +216,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               l10n.mark,
-              style: TextStyle(color: theme.colorScheme.tertiary),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.tertiary,
+              ),
             ),
           ),
         ],
@@ -318,7 +322,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               l10n.delete,
-              style: TextStyle(color: theme.colorScheme.error),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.error,
+              ),
             ),
           ),
         ],
@@ -453,8 +459,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                     return IconButton(
                       icon: Icon(
                         thread.isFollowed
-                            ? Icons.bookmark
-                            : Icons.bookmark_border,
+                            ? Icons.notifications
+                            : Icons.notifications_none,
                       ),
                       tooltip: thread.isFollowed
                           ? l10n.unfollowThread
@@ -525,7 +531,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             value: 'delete',
                             child: Text(
                               l10n.deleteThread,
-                              style: TextStyle(color: theme.colorScheme.error),
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.error,
+                              ),
                             ),
                           ),
                       ],
@@ -534,7 +542,9 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                           value: 'report',
                           child: Text(
                             l10n.reportThread,
-                            style: TextStyle(color: theme.colorScheme.error),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.error,
+                            ),
                           ),
                         ),
                     ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../../shared/widgets/status_badge.dart';
 import '../../../../../shared/utils/html_utils.dart';
+import '../../../../../shared/widgets/status_badge.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/guide_step.dart';
 import '../../domain/entities/step_enums.dart';
@@ -33,6 +33,7 @@ class StepTimelineTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      borderRadius: AppSpacing.borderRadiusMd,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
         child: IntrinsicHeight(

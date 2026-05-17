@@ -246,6 +246,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               : Icons.visibility,
                           color: colorScheme.onSurfaceVariant,
                         ),
+                        tooltip: _obscurePassword
+                            ? 'Show password'
+                            : 'Hide password',
                         onPressed: () {
                           setState(() {
                             _obscurePassword = !_obscurePassword;

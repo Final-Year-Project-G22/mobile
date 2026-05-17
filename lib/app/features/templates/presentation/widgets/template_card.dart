@@ -22,6 +22,7 @@ class TemplateCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
+        borderRadius: AppSpacing.borderRadiusMd,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

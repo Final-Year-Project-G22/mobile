@@ -191,7 +191,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(6, (index) {
                       return Container(
-                        width: 46,
+                        width: 48,
                         height: 56,
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         child: TextField(

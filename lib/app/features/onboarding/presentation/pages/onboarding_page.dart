@@ -78,6 +78,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         onPressed: state.currentStep == 0
                             ? null
                             : notifier.previousStep,
+                        tooltip: 'Previous',
                         icon: const Icon(Icons.arrow_back),
                       ),
                       Text(
@@ -113,7 +114,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         child: AnimatedContainer(
                           duration: AppSpacing.durationMedium1,
                           curve: AppSpacing.curveEaseInOut,
-                          margin: EdgeInsets.only(right: index == 5 ? 0 : 6),
+                          margin: EdgeInsets.only(
+                            right: index == 5 ? 0 : AppSpacing.xs,
+                          ),
                           height: 4,
                           decoration: BoxDecoration(
                             color: isActive

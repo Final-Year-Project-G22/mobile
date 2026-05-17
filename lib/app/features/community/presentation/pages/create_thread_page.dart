@@ -266,7 +266,9 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'Failed to load sectors: $e',
-                  style: TextStyle(color: theme.colorScheme.error),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
                 ),
               ),
             ),
@@ -283,7 +285,9 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'Failed to load tags: $e',
-                  style: TextStyle(color: theme.colorScheme.error),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
                 ),
               ),
             ),
@@ -365,7 +369,10 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                         icon: const Icon(Icons.close, size: 16),
                         onPressed: () => _removeAttachment(index),
                         padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
+                        constraints: const BoxConstraints(
+                          minWidth: 48,
+                          minHeight: 48,
+                        ),
                       ),
                     ],
                   ),

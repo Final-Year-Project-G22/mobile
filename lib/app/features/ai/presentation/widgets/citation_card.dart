@@ -2,6 +2,7 @@ import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 
 class CitationCard extends StatefulWidget {
   const CitationCard({
@@ -41,7 +42,10 @@ class _CitationCardState extends State<CitationCard> {
             onTap: () => setState(() => _isExpanded = !_isExpanded),
             borderRadius: BorderRadius.circular(12),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.sm,
+              ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

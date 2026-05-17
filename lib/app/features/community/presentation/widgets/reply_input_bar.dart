@@ -368,6 +368,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, size: 18),
+                      tooltip: 'Cancel reply',
                       onPressed: (_isSubmitting || _isUploading)
                           ? null
                           : widget.onClearMode,
@@ -426,9 +427,13 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.close, size: 16),
+                              tooltip: 'Remove attachment',
                               onPressed: () => _removeAttachment(i),
                               padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
+                              constraints: const BoxConstraints(
+                                minWidth: 48,
+                                minHeight: 48,
+                              ),
                             ),
                           ],
                         ),
@@ -509,7 +514,10 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                                       });
                                     },
                               padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
+                              constraints: const BoxConstraints(
+                                minWidth: 48,
+                                minHeight: 48,
+                              ),
                               tooltip:
                                   _removeAttachmentIds.contains(
                                     existingAttachments[i].id,
@@ -580,8 +588,9 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
                   icon: _isUploading
                       ? const AdisuProgressIndicator.small()
                       : const Icon(Icons.attach_file),
+                  tooltip: 'Add attachment',
                   style: IconButton.styleFrom(
-                    minimumSize: const Size(40, 40),
+                    minimumSize: const Size(48, 48),
                   ),
                   onPressed: (_isSubmitting || _isUploading)
                       ? null

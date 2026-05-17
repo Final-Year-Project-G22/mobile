@@ -7,7 +7,7 @@ class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: AdisuProgressIndicator.large()),
     );
   }

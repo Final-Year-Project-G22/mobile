@@ -21,9 +21,11 @@ class CheckoutNotifier extends _$CheckoutNotifier {
     required String lastName,
     String? phone,
   }) async {
-    debugPrint(
-      '[PAYMENT] CheckoutNotifier.initiate called: plan=$planName, period=$period',
-    );
+    if (kDebugMode) {
+      debugPrint(
+        '[PAYMENT] CheckoutNotifier.initiate called: plan=$planName, period=$period',
+      );
+    }
     state = const AsyncLoading();
     final repo = ref.read(paymentRepositoryProvider);
 
@@ -46,13 +48,16 @@ class CheckoutNotifier extends _$CheckoutNotifier {
             invalidData: (msg) => msg ?? 'Invalid payment request.',
             cancelled: () => 'Payment cancelled.',
           );
-          debugPrint('[PAYMENT] CheckoutNotifier FAILURE: $msg');
+          if (kDebugMode)
+            debugPrint('[PAYMENT] CheckoutNotifier FAILURE: $msg');
           throw Exception(msg);
         },
         (checkout) async {
-          debugPrint(
-            '[PAYMENT] CheckoutNotifier SUCCESS: txRef=${checkout.txRef}',
-          );
+          if (kDebugMode) {
+            debugPrint(
+              '[PAYMENT] CheckoutNotifier SUCCESS: txRef=${checkout.txRef}',
+            );
+          }
           await ref.read(pendingPaymentProvider.notifier).set(checkout.txRef);
           return checkout;
         },

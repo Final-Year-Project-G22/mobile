@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../../shared/utils/extensions/datetime_extensions.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../constants/app_spacing.dart';
@@ -77,7 +78,6 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                 final item = state.items[index];
                 return Card(
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 0,
                     vertical: AppSpacing.xxs,
                   ),
                   child: ListTile(
@@ -98,7 +98,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                         : const Icon(Icons.insert_drive_file),
                     title: Text(item.title ?? l10n.templates),
                     subtitle: Text(
-                      _formatDate(item.downloadedAt),
+                      item.downloadedAt.formattedDateTime,
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () async {
@@ -114,10 +114,5 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
         ),
       ),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final local = date.toLocal();
-    return '${local.day}/${local.month}/${local.year} ${local.hour}:${local.minute.toString().padLeft(2, '0')}';
   }
 }

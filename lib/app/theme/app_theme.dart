@@ -179,7 +179,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: AppSpacing.borderRadiusMd,
         ),
-        side: const BorderSide(color: AppColors.lightOutline, width: 1),
+        side: const BorderSide(color: AppColors.lightOutline),
         textStyle: AppTypography.labelLarge.copyWith(
           fontWeight: FontWeight.w600,
         ),
@@ -221,14 +221,14 @@ class AppTheme {
     ),
 
     // ── Bottom Sheet ────────────────────────────────────────────────
-    bottomSheetTheme: BottomSheetThemeData(
+    bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: AppColors.lightSurface,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: AppSpacing.borderRadiusSheet,
       ),
       dragHandleColor: AppColors.lightOutline,
-      dragHandleSize: const Size(40, 4),
+      dragHandleSize: Size(40, 4),
     ),
 
     // ── Dialog ──────────────────────────────────────────────────────
@@ -449,7 +449,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: AppSpacing.borderRadiusMd,
         ),
-        side: const BorderSide(color: AppColors.darkOutline, width: 1),
+        side: const BorderSide(color: AppColors.darkOutline),
         textStyle: AppTypography.labelLarge.copyWith(
           fontWeight: FontWeight.w600,
         ),
@@ -491,14 +491,14 @@ class AppTheme {
     ),
 
     // ── Bottom Sheet ────────────────────────────────────────────────
-    bottomSheetTheme: BottomSheetThemeData(
+    bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: AppColors.darkSurfaceContainer,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: AppSpacing.borderRadiusSheet,
       ),
       dragHandleColor: AppColors.darkOutline,
-      dragHandleSize: const Size(40, 4),
+      dragHandleSize: Size(40, 4),
     ),
 
     // ── Dialog ──────────────────────────────────────────────────────

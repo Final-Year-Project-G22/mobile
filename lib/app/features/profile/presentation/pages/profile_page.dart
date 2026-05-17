@@ -141,6 +141,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
+            tooltip: l10n.settings,
             onPressed: () => context.push('/settings'),
           ),
         ],
@@ -409,7 +410,7 @@ class _InfoRow extends StatelessWidget {
     final muted = theme.colorScheme.onSurfaceVariant;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

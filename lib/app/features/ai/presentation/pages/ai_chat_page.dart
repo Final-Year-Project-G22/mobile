@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../constants/app_spacing.dart';
 import '../../application/providers/ai_chat_notifier.dart';
 import '../../domain/entities/chat_message.dart';
 import '../widgets/chat_input_bar.dart';
@@ -101,6 +102,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
+          tooltip: l10n.back,
           onPressed: () {
             if (context.canPop()) {
               context.pop();
@@ -111,10 +113,12 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.menu_rounded),
+            tooltip: l10n.aiGuideConversations,
             onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
           IconButton(
             icon: const Icon(Icons.add_rounded),
+            tooltip: 'New chat',
             onPressed: () =>
                 ref.read(aiChatNotifierProvider.notifier).startNewChat(),
           ),
@@ -170,7 +174,10 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     final l10n = AppLocalizations.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       child: Row(
         children: [
           CircleAvatar(

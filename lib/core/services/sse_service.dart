@@ -6,12 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class SseService {
-  SseService({required Future<String?> Function() tokenProvider}) : _tokenProvider = tokenProvider;
+  SseService({required Future<String?> Function() tokenProvider})
+    : _tokenProvider = tokenProvider;
 
   final Future<String?> Function() _tokenProvider;
   http.Client? _client;
   final _controller = StreamController<Map<String, dynamic>>.broadcast();
-  final _connectionStateController = StreamController<ConnectionState>.broadcast();
+  final _connectionStateController =
+      StreamController<ConnectionState>.broadcast();
 
   bool _isDisposed = false;
   bool _isConnecting = false;
@@ -21,12 +23,13 @@ class SseService {
   Uri? _currentUri;
 
   Stream<Map<String, dynamic>> get events => _controller.stream;
-  Stream<ConnectionState> get connectionState => _connectionStateController.stream;
+  Stream<ConnectionState> get connectionState =>
+      _connectionStateController.stream;
 
   Future<void> connect(Uri uri) async {
     if (_isDisposed) return;
     if (_isConnecting) {
-      debugPrint('[SSE] Already connecting, skipping');
+      if (kDebugMode) debugPrint('[SSE] Already connecting, skipping');
       return;
     }
 
@@ -38,14 +41,15 @@ class SseService {
     try {
       final token = await _tokenProvider();
       if (token == null || token.isEmpty) {
-        debugPrint('[SSE] No token available, scheduling reconnect');
+        if (kDebugMode)
+          debugPrint('[SSE] No token available, scheduling reconnect');
         _isConnecting = false;
         _connectionStateController.add(ConnectionState.disconnected);
         _scheduleReconnect();
         return;
       }
 
-      debugPrint('[SSE] Connecting to $uri');
+      if (kDebugMode) debugPrint('[SSE] Connecting to $uri');
 
       _client?.close();
       _client = http.Client();
@@ -57,7 +61,10 @@ class SseService {
         },
       );
 
-      debugPrint('[SSE] Request URI: ${uriWithToken.replace(queryParameters: {'token': '***'})}');
+      if (kDebugMode)
+        debugPrint(
+          '[SSE] Request URI: ${uriWithToken.replace(queryParameters: {'token': '***'})}',
+        );
 
       final request = http.Request('GET', uriWithToken);
       request.headers['Accept'] = 'text/event-stream';
@@ -65,7 +72,8 @@ class SseService {
       final response = await _client!.send(request);
 
       if (response.statusCode != 200) {
-        debugPrint('[SSE] Non-200 response: ${response.statusCode}');
+        if (kDebugMode)
+          debugPrint('[SSE] Non-200 response: ${response.statusCode}');
         _isConnecting = false;
         _connectionStateController.add(ConnectionState.disconnected);
         _client?.close();
@@ -77,11 +85,11 @@ class SseService {
       _isConnecting = false;
       _reconnectAttempt = 0;
       _connectionStateController.add(ConnectionState.connected);
-      debugPrint('[SSE] Connected');
+      if (kDebugMode) debugPrint('[SSE] Connected');
 
       _parseStream(response);
     } on Exception catch (e) {
-      debugPrint('[SSE] Connect failed: $e');
+      if (kDebugMode) debugPrint('[SSE] Connect failed: $e');
       _isConnecting = false;
       _connectionStateController.add(ConnectionState.disconnected);
       _client?.close();
@@ -114,7 +122,7 @@ class SseService {
                     ...parsed,
                   });
                 } on Exception catch (e) {
-                  debugPrint('[SSE] Failed to parse event: $e');
+                  if (kDebugMode) debugPrint('[SSE] Failed to parse event: $e');
                 }
               }
               eventName = null;
@@ -122,11 +130,11 @@ class SseService {
             }
           },
           onError: (Object error, StackTrace stackTrace) {
-            debugPrint('[SSE] Stream error: $error');
+            if (kDebugMode) debugPrint('[SSE] Stream error: $error');
             _handleDisconnect();
           },
           onDone: () {
-            debugPrint('[SSE] Stream ended');
+            if (kDebugMode) debugPrint('[SSE] Stream ended');
             _handleDisconnect();
           },
           cancelOnError: false,
@@ -158,9 +166,11 @@ class SseService {
 
     final delay = _reconnectDelay(_reconnectAttempt);
     _reconnectAttempt++;
-    debugPrint(
-      '[SSE] Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempt)',
-    );
+    if (kDebugMode) {
+      debugPrint(
+        '[SSE] Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempt)',
+      );
+    }
 
     _reconnectTimer?.cancel();
     _reconnectTimer = Timer(delay, () => connect(_currentUri!));
