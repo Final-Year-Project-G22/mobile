@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,8 @@ class AuthNotifier extends _$AuthNotifier {
   static const _prefsAccessToken = 'access_token';
   static const _prefsRefreshToken = 'refresh_token';
   static const _prefsExpiresAt = 'expires_at';
+  static const _prefsCachedUser = 'cached_user';
+  static const _prefsCachedAccount = 'cached_account';
 
   @override
   Future<AuthStatus> build() async {
@@ -65,21 +68,25 @@ class AuthNotifier extends _$AuthNotifier {
 
     final repository = ref.read(authRepositoryProvider);
     final userResult = await repository.getCurrentUser();
-    return userResult.fold(
-      (failure) {
-        unawaited(forceLogout());
-        return const Unauthenticated();
-      },
-      (authResponse) {
-        _clearOAuthTransientState();
-        final status = Authenticated(
-          user: authResponse.user,
-          account: authResponse.account,
-        );
-        state = AsyncValue.data(status);
-        return status;
-      },
-    );
+    if (userResult.isRight()) {
+      final authResponse = userResult.getOrElse(() => throw StateError('unreachable'));
+      _clearOAuthTransientState();
+      await _cacheAuthData(authResponse.user, authResponse.account);
+      final status = Authenticated(
+        user: authResponse.user,
+        account: authResponse.account,
+      );
+      state = AsyncValue.data(status);
+      return status;
+    }
+
+    final cachedUser = await _loadCachedUser();
+    final cachedAccount = await _loadCachedAccount();
+    if (cachedUser != null && cachedAccount != null) {
+      return Authenticated(user: cachedUser, account: cachedAccount);
+    }
+    unawaited(forceLogout());
+    return const Unauthenticated();
   }
 
   bool _isTokenExpiredOrNearExpiry(DateTime? expiresAt) {
@@ -144,7 +151,70 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
+  Future<void> _cacheAuthData(AuthUser user, AuthAccount account) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        _prefsCachedUser,
+        jsonEncode({
+          'id': user.id,
+          'firstName': user.firstName,
+          'lastName': user.lastName,
+        }),
+      );
+      await prefs.setString(
+        _prefsCachedAccount,
+        jsonEncode({
+          'id': account.id,
+          'email': account.email,
+          'status': account.status,
+        }),
+      );
+    } on Exception catch (_) {}
+  }
+
+  Future<AuthUser?> _loadCachedUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final json = prefs.getString(_prefsCachedUser);
+      if (json == null) return null;
+      final map = jsonDecode(json) as Map<String, dynamic>;
+      return AuthUser(
+        id: map['id'] as String,
+        firstName: map['firstName'] as String,
+        lastName: map['lastName'] as String,
+      );
+    } on Exception catch (_) {
+      return null;
+    }
+  }
+
+  Future<AuthAccount?> _loadCachedAccount() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final json = prefs.getString(_prefsCachedAccount);
+      if (json == null) return null;
+      final map = jsonDecode(json) as Map<String, dynamic>;
+      return AuthAccount(
+        id: map['id'] as String,
+        email: map['email'] as String,
+        status: map['status'] as String,
+      );
+    } on Exception catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _clearCachedAuthData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_prefsCachedUser);
+      await prefs.remove(_prefsCachedAccount);
+    } on Exception catch (_) {}
+  }
+
   Future<void> forceLogout() async {
+    await _clearCachedAuthData();
     final apiClient = ref.read(apiClientProvider);
     await apiClient.clearTokens();
     await _clearPrefs();
@@ -220,6 +290,7 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> logout() async {
+    await _clearCachedAuthData();
     state = const AsyncValue.loading();
     final repository = ref.read(authRepositoryProvider);
     final apiClient = ref.read(apiClientProvider);
@@ -517,6 +588,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> _applyAuthenticated(AuthResponse authResponse) async {
     _clearOAuthTransientState();
+    await _cacheAuthData(authResponse.user, authResponse.account);
     state = AsyncValue.data(
       Authenticated(
         user: authResponse.user,
