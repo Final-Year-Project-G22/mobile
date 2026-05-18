@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// like). This enables automatic dark-mode adaptation via [ColorScheme].
 ///
 /// Usage: Prefer `Theme.of(context).colorScheme.<role>` in widgets.
-/// Direct access to these constants is intended for [AppTheme] setup and
+/// Direct access to these constants is intended for AppTheme setup and
 /// the occasional edge case (e.g. gradient definitions).
 class AppColors {
   AppColors._();

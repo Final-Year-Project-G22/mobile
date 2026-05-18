@@ -29,8 +29,9 @@ class WebSocketService {
   Future<void> connect(Uri uri) async {
     if (_isDisposed) return;
     if (_channel != null || _isConnecting) {
-      if (kDebugMode)
+      if (kDebugMode) {
         debugPrint('[WS] Already connected or connecting, skipping');
+      }
       return;
     }
 
@@ -110,10 +111,11 @@ class WebSocketService {
 
     final delay = _reconnectDelay(_reconnectAttempt);
     _reconnectAttempt++;
-    if (kDebugMode)
+    if (kDebugMode) {
       debugPrint(
         '[WS] Reconnecting in ${delay.inSeconds}s (attempt $_reconnectAttempt)',
       );
+    }
 
     unawaited(Future.delayed(delay, () => connect(uri)));
   }
@@ -129,8 +131,9 @@ class WebSocketService {
     if (_channel != null) {
       _channel!.sink.add(data);
     } else {
-      if (kDebugMode)
+      if (kDebugMode) {
         debugPrint('[WS] Queuing message until connected: $message');
+      }
       _pendingMessages.add(data);
     }
   }

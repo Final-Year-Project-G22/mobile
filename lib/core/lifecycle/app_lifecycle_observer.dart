@@ -30,7 +30,9 @@ class _AppLifecycleObserverState extends ConsumerState<AppLifecycleObserver>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final isForeground = state == AppLifecycleState.resumed;
-    ref.read(isAppInForegroundProvider.notifier).setForeground(value: isForeground);
+    ref
+        .read(isAppInForegroundProvider.notifier)
+        .setForeground(value: isForeground);
   }
 
   @override

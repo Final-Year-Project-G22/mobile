@@ -48,8 +48,9 @@ class CheckoutNotifier extends _$CheckoutNotifier {
             invalidData: (msg) => msg ?? 'Invalid payment request.',
             cancelled: () => 'Payment cancelled.',
           );
-          if (kDebugMode)
+          if (kDebugMode) {
             debugPrint('[PAYMENT] CheckoutNotifier FAILURE: $msg');
+          }
           throw Exception(msg);
         },
         (checkout) async {

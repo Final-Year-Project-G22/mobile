@@ -25,10 +25,12 @@ class _SetNotifier extends Notifier<Set<String>> {
   }
 }
 
-final selectedSectorIdsProvider =
-    NotifierProvider<_SetNotifier, Set<String>>(_SetNotifier.new);
-final selectedTagIdsProvider =
-    NotifierProvider<_SetNotifier, Set<String>>(_SetNotifier.new);
+final selectedSectorIdsProvider = NotifierProvider<_SetNotifier, Set<String>>(
+  _SetNotifier.new,
+);
+final selectedTagIdsProvider = NotifierProvider<_SetNotifier, Set<String>>(
+  _SetNotifier.new,
+);
 
 class _BoolNotifier extends Notifier<bool> {
   @override
@@ -37,5 +39,6 @@ class _BoolNotifier extends Notifier<bool> {
   void toggle({required bool value}) => state = value;
 }
 
-final showFollowedOnlyProvider =
-    NotifierProvider<_BoolNotifier, bool>(_BoolNotifier.new);
+final showFollowedOnlyProvider = NotifierProvider<_BoolNotifier, bool>(
+  _BoolNotifier.new,
+);

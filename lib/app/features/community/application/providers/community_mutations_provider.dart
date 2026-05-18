@@ -28,8 +28,9 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
         if (kDebugMode) debugPrint('Mutations: upload failed: $failure');
       },
       (attachments) {
-        if (kDebugMode)
+        if (kDebugMode) {
           debugPrint('Mutations: upload success: ${attachments.length} files');
+        }
       },
     );
     state = const AsyncData(null);
