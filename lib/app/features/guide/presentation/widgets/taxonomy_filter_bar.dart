@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../taxonomy/application/providers/taxonomy_providers.dart';
 import '../../../taxonomy/domain/entities/tag.dart';
@@ -57,21 +58,21 @@ class TaxonomyFilterBar extends ConsumerWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    _buildSectorChip(
-                      context,
+                    StyledFilterChip(
+                      compact: true,
                       label: AppLocalizations.of(context).all,
                       isSelected: selectedSectorId == null,
-                      onTap: () => onSectorSelected(null),
+                      onSelected: (_) => onSectorSelected(null),
                     ),
                     AppSpacing.gapHorizontalXs,
                     ...rootSectors.map(
                       (sector) => Padding(
                         padding: const EdgeInsets.only(right: AppSpacing.xs),
-                        child: _buildSectorChip(
-                          context,
+                        child: StyledFilterChip(
+                          compact: true,
                           label: sector.name,
                           isSelected: selectedSectorId == sector.id,
-                          onTap: () => onSectorSelected(
+                          onSelected: (_) => onSectorSelected(
                             selectedSectorId == sector.id ? null : sector.id,
                           ),
                         ),
@@ -141,38 +142,6 @@ class TaxonomyFilterBar extends ConsumerWidget {
 
   bool _isTagRelevant(Tag tag, List<String> selectedTagIds) {
     return selectedTagIds.contains(tag.id) || tag.isMultiSelect;
-  }
-
-  Widget _buildSectorChip(
-    BuildContext context, {
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (_) => onTap(),
-      selectedColor: colorScheme.secondaryContainer,
-      checkmarkColor: colorScheme.onSecondaryContainer,
-      labelStyle: textTheme.labelMedium?.copyWith(
-        color: isSelected
-            ? colorScheme.onSecondaryContainer
-            : colorScheme.onSurfaceVariant,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSpacing.borderRadiusSm,
-      ),
-      side: isSelected
-          ? BorderSide.none
-          : BorderSide(color: colorScheme.outline),
-      showCheckmark: false,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    );
   }
 
   Widget _buildTagChip(
