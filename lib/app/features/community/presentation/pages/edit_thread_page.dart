@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
-import '../../../taxonomy/application/providers/taxonomy_providers.dart';
-import '../../../taxonomy/domain/entities/sector.dart';
-import '../../../taxonomy/domain/entities/tag.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_thread.dart';
+import '../widgets/taxonomy_chip_selector.dart';
 
 class EditThreadPage extends ConsumerStatefulWidget {
   const EditThreadPage({
@@ -68,12 +66,8 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
 
     try {
       final title = _titleController.text.trim();
-      final sectorIds = _selectedSectorIds.isNotEmpty
-          ? _selectedSectorIds.toList()
-          : null;
-      final tagIds = _selectedTagIds.isNotEmpty
-          ? _selectedTagIds.toList()
-          : null;
+      final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
+      final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
 
       final result = await ref
           .read(communityMutationsProvider.notifier)
@@ -113,8 +107,6 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final sectorsAsync = ref.watch(sectorsProvider);
-    final tagsAsync = ref.watch(tagsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -144,40 +136,11 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
 
               const SizedBox(height: 16),
 
-              sectorsAsync.when(
-                data: (sectors) => _buildSectorChips(sectors, l10n),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Center(child: AdisuProgressIndicator.small()),
-                ),
-                error: (e, s) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    l10n.failedToLoadFilters,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              tagsAsync.when(
-                data: (tags) => _buildTagChips(tags, l10n),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Center(child: AdisuProgressIndicator.small()),
-                ),
-                error: (e, s) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    l10n.failedToLoadFilters,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                ),
+              TaxonomyChipSelector(
+                selectedSectorIds: _selectedSectorIds,
+                selectedTagIds: _selectedTagIds,
+                onToggleSector: _toggleSector,
+                onToggleTag: _toggleTag,
               ),
 
               const SizedBox(height: 24),
@@ -186,9 +149,7 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : _submit,
-                  child: _isSubmitting
-                      ? const AdisuProgressIndicator.small()
-                      : Text(l10n.save),
+                  child: _isSubmitting ? const AdisuProgressIndicator.small() : Text(l10n.save),
                 ),
               ),
             ],
@@ -198,73 +159,4 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
     );
   }
 
-  Widget _buildSectorChips(List<Sector> sectors, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.sectorsOptional,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: sectors.map((sector) {
-            final isSelected = _selectedSectorIds.contains(sector.id);
-            return FilterChip(
-              label: Text(sector.name),
-              selected: isSelected,
-              onSelected: (_) => _toggleSector(sector.id),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTagChips(List<Tag> tags, AppLocalizations l10n) {
-    final grouped = <String, List<Tag>>{};
-    for (final tag in tags) {
-      grouped.putIfAbsent(tag.group, () => []).add(tag);
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.tagsOptional,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        const SizedBox(height: 8),
-        ...grouped.entries.map((entry) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                entry.key,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: entry.value.map((tag) {
-                  final isSelected = _selectedTagIds.contains(tag.id);
-                  return FilterChip(
-                    label: Text(tag.name),
-                    selected: isSelected,
-                    onSelected: (_) => _toggleTag(tag.id),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 8),
-            ],
-          );
-        }),
-      ],
-    );
-  }
 }
