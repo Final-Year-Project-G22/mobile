@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../../../router/routes.dart';
 import '../../../auth/application/auth_notifier.dart';
@@ -438,28 +439,22 @@ class _FilterChipsRow extends ConsumerWidget {
                   child: Row(
                     children:
                         [
-                              FilterChip(
+                              StyledFilterChip(
                                 avatar: Icon(
                                   Icons.chat_bubble,
                                   size: 14,
                                   color: showFollowed
-                                      ? Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer
+                                      ? Theme.of(context).colorScheme.onPrimaryContainer
                                       : null,
                                 ),
-                                label: Text(
-                                  l10n.followed,
-                                ),
-                                selected: showFollowed,
+                                label: l10n.followed,
+                                isSelected: showFollowed,
                                 onSelected: (_) {
                                   ref
                                       .read(showFollowedOnlyProvider.notifier)
                                       .toggle(value: !showFollowed);
                                 },
-                                visualDensity: VisualDensity.compact,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
+                                compact: true,
                               ),
                               ..._buildSelectedChips(
                                 context,
@@ -765,12 +760,11 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
             spacing: AppSpacing.xs,
             runSpacing: AppSpacing.xxs,
             children: filtered.map<Widget>((item) {
-              return FilterChip(
-                label: Text(item.displayName),
-                selected: selectedIds.contains(item.id),
+              return StyledFilterChip(
+                label: item.displayName,
+                isSelected: selectedIds.contains(item.id),
                 onSelected: (_) => onToggle(item.id),
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                compact: true,
               );
             }).toList(),
           ),

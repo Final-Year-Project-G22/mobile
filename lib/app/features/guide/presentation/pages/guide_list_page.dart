@@ -8,6 +8,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../../shared/widgets/error_view.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
 import '../widgets/guide_card.dart';
@@ -144,19 +145,18 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
               child: Row(
                 children: [
                   const Spacer(),
-                  FilterChip(
-                    label: Text(l10n.guideBookmarked),
-                    selected: state.showBookmarked,
-                    onSelected: (_) {
-                      ref.read(guideListProvider.notifier).toggleBookmarked();
-                    },
+                  StyledFilterChip(
                     avatar: Icon(
                       state.showBookmarked
                           ? Icons.bookmark
                           : Icons.bookmark_border,
                       size: 18,
                     ),
-                    showCheckmark: false,
+                    label: l10n.guideBookmarked,
+                    isSelected: state.showBookmarked,
+                    onSelected: (_) {
+                      ref.read(guideListProvider.notifier).toggleBookmarked();
+                    },
                   ),
                 ],
               ),

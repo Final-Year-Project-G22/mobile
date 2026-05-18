@@ -7,11 +7,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
-import '../../../taxonomy/application/providers/taxonomy_providers.dart';
-import '../../../taxonomy/domain/entities/sector.dart';
-import '../../../taxonomy/domain/entities/tag.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
+import '../widgets/taxonomy_chip_selector.dart';
 
 class CreateThreadPage extends ConsumerStatefulWidget {
   const CreateThreadPage({super.key});
@@ -83,9 +81,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   Future<void> _uploadFiles(List<XFile> files) async {
     setState(() => _isUploading = true);
     try {
-      final result = await ref
-          .read(communityMutationsProvider.notifier)
-          .uploadAttachments(files);
+      final result = await ref.read(communityMutationsProvider.notifier).uploadAttachments(files);
 
       result.fold(
         (failure) {
@@ -143,15 +139,9 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
       final title = _titleController.text.trim();
       final initialPost = _initialPostController.text;
 
-      final attachmentIds = _attachments.isNotEmpty
-          ? _attachments.map((a) => a.id).join(',')
-          : null;
-      final sectorIds = _selectedSectorIds.isNotEmpty
-          ? _selectedSectorIds.toList()
-          : null;
-      final tagIds = _selectedTagIds.isNotEmpty
-          ? _selectedTagIds.toList()
-          : null;
+      final attachmentIds = _attachments.isNotEmpty ? _attachments.map((a) => a.id).join(',') : null;
+      final sectorIds = _selectedSectorIds.isNotEmpty ? _selectedSectorIds.toList() : null;
+      final tagIds = _selectedTagIds.isNotEmpty ? _selectedTagIds.toList() : null;
 
       final result = await ref
           .read(communityMutationsProvider.notifier)
@@ -204,8 +194,6 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final sectorsAsync = ref.watch(sectorsProvider);
-    final tagsAsync = ref.watch(tagsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -213,9 +201,7 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
         actions: [
           TextButton(
             onPressed: (_isSubmitting || _isUploading) ? null : _submit,
-            child: _isSubmitting
-                ? const AdisuProgressIndicator.small()
-                : Text(l10n.post),
+            child: _isSubmitting ? const AdisuProgressIndicator.small() : Text(l10n.post),
           ),
         ],
       ),
@@ -250,46 +236,16 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
                 labelText: l10n.initialPost,
                 border: const OutlineInputBorder(),
               ),
-              validator: (v) =>
-                  (v?.trim().isEmpty ?? true) ? l10n.postRequired : null,
+              validator: (v) => (v?.trim().isEmpty ?? true) ? l10n.postRequired : null,
             ),
 
             const SizedBox(height: 16),
 
-            sectorsAsync.when(
-              data: (sectors) => _buildSectorChips(sectors, l10n),
-              loading: () => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Center(child: AdisuProgressIndicator.small()),
-              ),
-              error: (e, s) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  'Failed to load sectors: $e',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.error,
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            tagsAsync.when(
-              data: (tags) => _buildTagChips(tags, l10n),
-              loading: () => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Center(child: AdisuProgressIndicator.small()),
-              ),
-              error: (e, s) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  'Failed to load tags: $e',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.error,
-                  ),
-                ),
-              ),
+            TaxonomyChipSelector(
+              selectedSectorIds: _selectedSectorIds,
+              selectedTagIds: _selectedTagIds,
+              onToggleSector: _toggleSector,
+              onToggleTag: _toggleTag,
             ),
 
             const SizedBox(height: 12),
@@ -298,21 +254,15 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: (_isSubmitting || _isUploading)
-                        ? null
-                        : _pickImage,
-                    icon: _isUploading
-                        ? const AdisuProgressIndicator.small()
-                        : const Icon(Icons.image),
+                    onPressed: (_isSubmitting || _isUploading) ? null : _pickImage,
+                    icon: _isUploading ? const AdisuProgressIndicator.small() : const Icon(Icons.image),
                     label: Text(l10n.addImages),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: (_isSubmitting || _isUploading)
-                        ? null
-                        : _pickFile,
+                    onPressed: (_isSubmitting || _isUploading) ? null : _pickFile,
                     icon: const Icon(Icons.attach_file),
                     label: Text(l10n.addFiles),
                   ),
@@ -387,73 +337,4 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     );
   }
 
-  Widget _buildSectorChips(List<Sector> sectors, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.sectorsOptional,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: sectors.map((sector) {
-            final isSelected = _selectedSectorIds.contains(sector.id);
-            return FilterChip(
-              label: Text(sector.name),
-              selected: isSelected,
-              onSelected: (_) => _toggleSector(sector.id),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTagChips(List<Tag> tags, AppLocalizations l10n) {
-    final grouped = <String, List<Tag>>{};
-    for (final tag in tags) {
-      grouped.putIfAbsent(tag.group, () => []).add(tag);
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.tagsOptional,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        const SizedBox(height: 8),
-        ...grouped.entries.map((entry) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                entry.key,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: entry.value.map((tag) {
-                  final isSelected = _selectedTagIds.contains(tag.id);
-                  return FilterChip(
-                    label: Text(tag.name),
-                    selected: isSelected,
-                    onSelected: (_) => _toggleTag(tag.id),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 8),
-            ],
-          );
-        }),
-      ],
-    );
-  }
 }
