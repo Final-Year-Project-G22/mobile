@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/di/auth_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../core/providers/websocket_providers.dart';
 import '../../../../../core/services/websocket_service.dart';
@@ -10,7 +11,6 @@ import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/empty_state_view.dart';
 import '../../../../../shared/widgets/error_view.dart';
 import '../../../../constants/app_spacing.dart';
-import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_post.dart';
@@ -435,8 +435,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     final theme = Theme.of(context);
     final threadAsync = ref.watch(threadDetailsProvider(widget.threadId));
     final postsAsync = ref.watch(threadPostsProvider(widget.threadId));
-    final authState = ref.watch(authProvider);
-    final currentAccountId = authState.asData?.value.account?.id;
+    final currentAccountId = ref.watch(currentAccountIdProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -504,8 +503,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               final threadAsync = ref.watch(
                 threadDetailsProvider(widget.threadId),
               );
-              final authState = ref.watch(authProvider);
-              final currentAccountId = authState.asData?.value.account?.id;
+              final currentAccountId = ref.watch(currentAccountIdProvider);
 
               return threadAsync.when(
                 data: (thread) {
