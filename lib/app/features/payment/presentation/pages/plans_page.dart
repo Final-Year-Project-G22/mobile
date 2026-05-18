@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../app/features/auth/domain/entities/auth_status.dart';
 import '../../../../../app/router/routes.dart';
+import '../../../../../core/di/auth_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
-import '../../../auth/application/auth_notifier.dart';
 import '../../application/providers/checkout_notifier.dart';
 import '../../application/providers/plans_provider.dart';
 import '../../application/providers/subscription_provider.dart';
@@ -38,7 +39,7 @@ class PlansPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final plansAsync = ref.watch(plansProvider);
     final checkoutAsync = ref.watch(checkoutProvider);
-    final authState = ref.watch(authProvider);
+    final authAsync = ref.watch(resolvedAuthStatusProvider);
     final subAsync = ref.watch(subscriptionProvider);
     final l10n = AppLocalizations.of(context);
 
@@ -77,17 +78,13 @@ class PlansPage extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.chooseYourPlan)),
       body: Stack(
         children: [
-          if (authState.isLoading ||
-              authState.value?.user == null ||
-              subAsync.isLoading)
+          if (authAsync.isLoading || authAsync.asData?.value is! Authenticated || subAsync.isLoading)
             const Center(child: AdisuProgressIndicator())
           else
             plansAsync.when(
-              data: (plans) =>
-                  _buildContent(context, ref, plans, subAsync.value, l10n),
+              data: (plans) => _buildContent(context, ref, plans, subAsync.value, l10n),
               loading: () => const Center(child: AdisuProgressIndicator()),
-              error: (error, _) =>
-                  Center(child: Text(l10n.failedToLoadPlans('$error'))),
+              error: (error, _) => Center(child: Text(l10n.failedToLoadPlans('$error'))),
             ),
           if (checkoutAsync.isLoading)
             ColoredBox(
@@ -108,38 +105,28 @@ class PlansPage extends ConsumerWidget {
   ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final hasPro =
-        sub != null && sub.planName == 'Pro' && sub.status == 'active';
+    final hasPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
     final basicPlans = plans.where((p) => p.name == 'Basic').toList();
-    final basicMonthly = basicPlans
-        .where((p) => p.period == 'monthly')
-        .firstOrNull;
+    final basicMonthly = basicPlans.where((p) => p.period == 'monthly').firstOrNull;
     final proPlans = plans.where((p) => p.name == 'Pro').toList();
     final proMonthly = proPlans.where((p) => p.period == 'monthly').firstOrNull;
     final proYearly = proPlans.where((p) => p.period == 'yearly').firstOrNull;
 
     void handleSubscribe(String planName, String period) {
-      final authState = ref.read(authProvider);
-      final isAuthenticated = authState.value?.isAuthenticated ?? false;
-      if (!isAuthenticated) {
+      final authAsync = ref.read(resolvedAuthStatusProvider);
+      final authenticated = authAsync.asData?.value.asAuthenticated;
+      if (authenticated == null) {
         unawaited(context.push(const LoginRoute().location));
         return;
       }
-      final user = authState.value?.user;
-      final account = authState.value?.account;
-      if (user == null || account == null) {
-        return;
-      }
       unawaited(
-        ref
-            .read(checkoutProvider.notifier)
-            .initiate(
-              planName: planName,
-              period: period,
-              email: account.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
-            ),
+        ref.read(checkoutProvider.notifier).initiate(
+          planName: planName,
+          period: period,
+          email: authenticated.account.email,
+          firstName: authenticated.user.firstName,
+          lastName: authenticated.user.lastName,
+        ),
       );
     }
 
@@ -191,9 +178,7 @@ class PlansPage extends ConsumerWidget {
             PlanComparisonCard(
               title: l10n.basic,
               price: _formatAmount(basicMonthly.amount),
-              period: basicMonthly.amount == 0
-                  ? l10n.freeForever
-                  : l10n.perMonth,
+              period: basicMonthly.amount == 0 ? l10n.freeForever : l10n.perMonth,
               features: basicFeatures(l10n),
               currentPlan: !hasPro,
             ),
@@ -206,9 +191,7 @@ class PlansPage extends ConsumerWidget {
               features: proFeatures(l10n),
               isPro: true,
               highlight: !hasPro,
-              onSubscribe: hasPro
-                  ? null
-                  : () => handleSubscribe('Pro', 'monthly'),
+              onSubscribe: hasPro ? null : () => handleSubscribe('Pro', 'monthly'),
               currentPlan: hasPro && sub.planPeriod == 'monthly',
             ),
           if (proYearly != null) ...[
@@ -219,11 +202,8 @@ class PlansPage extends ConsumerWidget {
               period: l10n.perYear,
               features: proFeatures(l10n),
               isPro: true,
-              onSubscribe: hasPro
-                  ? null
-                  : () => handleSubscribe('Pro', 'yearly'),
-              highlight:
-                  _yearlySavings(proMonthly?.amount, proYearly.amount) > 0,
+              onSubscribe: hasPro ? null : () => handleSubscribe('Pro', 'yearly'),
+              highlight: _yearlySavings(proMonthly?.amount, proYearly.amount) > 0,
               currentPlan: hasPro && sub.planPeriod == 'yearly',
             ),
             if (_yearlySavings(proMonthly?.amount, proYearly.amount) > 0)
