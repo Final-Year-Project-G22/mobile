@@ -165,5 +165,49 @@ Each feature has a domain interface (`I*Repository`) and infrastructure implemen
 4. Use via `AppLocalizations.of(context).keyName`
 _Avoid_: Hardcoding strings in widgets, using third-party i18n packages
 
+### Scheduled Alert
+
+A user-created notification that fires at a future time with user-defined title, body, and delivery channel. Supports cancel and reschedule. Non-pro users are limited to 3 pending.
+
+_Avoid_: Reminder, custom notification, personal alert
+
+### Scheduled Alert Template
+
+A seeded template that pre-fills the title and body of a Scheduled Alert. Users pick a template (tax filing, license renewal, custom, etc.) and may override the content.
+
+_Avoid_: Preset, example
+
+### Compliance Entry
+
+A tracked deadline tied to a Business Profile representing an official registration or license with an expiry date and user-configured reminder window (e.g., TIN registration, trade license, business registration).
+
+_Avoid_: Compliance record, license entry, deadline item
+
+### Compliance Type
+
+A seeded classification of compliance entries. Extensible by adding seed rows.
+
+_Avoid_: Category, kind
+
+### Business Alert
+
+A system-generated notification triggered when a Compliance Entry's expiry date falls within its configured reminder window. Delivered via the standard notification pipeline.
+
+_Avoid_: Compliance notification, auto-reminder
+
+### Compliance Calendar
+
+A read-only view showing upcoming Compliance Entry deadlines and active Scheduled Alerts on a timeline. Shown as a widget on the Home dashboard and as a full view inside the Notifications tab.
+
+_Avoid_: Deadline dashboard, compliance timeline
+
+## Relationships (additions)
+
+- A **Compliance Entry** belongs to exactly one **Business Profile**.
+- A **Compliance Entry** has one **Compliance Type**.
+- A **Business Alert** is triggered by a **Compliance Entry** reaching its reminder window.
+- A **Scheduled Alert** is optionally based on a **Scheduled Alert Template**.
+- A **Compliance Calendar** aggregates **Compliance Entries** and **Scheduled Alerts** into a unified timeline.
+
 ### Bottom Navigation
 5 tabs: Home, Guide, Community, AI Guide (pushed, not shell), Templates.
