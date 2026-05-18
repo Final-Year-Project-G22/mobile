@@ -47,10 +47,9 @@ class InboxNotifier extends _$InboxNotifier {
         (_) => null,
         (data) {
           final freshEntries = data.entries;
-          final existingNotInFresh =
-              state.entries.where((e) {
-                return !freshEntries.any((f) => f.id == e.id);
-              }).toList();
+          final existingNotInFresh = state.entries.where((e) {
+            return !freshEntries.any((f) => f.id == e.id);
+          }).toList();
 
           state = state.copyWith(
             entries: [...freshEntries, ...existingNotInFresh],

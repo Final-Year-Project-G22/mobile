@@ -27,7 +27,9 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
 
       final sectors = (response.data.data ?? [])
           .cast<Map<String, dynamic>>()
-          .map((json) => _mapSectorResponseToDomain(SectorResponse.fromJson(json)))
+          .map(
+            (json) => _mapSectorResponseToDomain(SectorResponse.fromJson(json)),
+          )
           .toList();
 
       return Right(sectors);

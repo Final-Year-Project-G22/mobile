@@ -153,8 +153,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     List<XFile> files,
   ) async {
     try {
-      if (kDebugMode)
+      if (kDebugMode) {
         debugPrint('Repository: uploadAttachments - ${files.length} files');
+      }
 
       // Upload files one by one to avoid "message too large" error
       final allAttachments = <Attachment>[];
@@ -169,8 +170,9 @@ class CommunityRepositoryImpl implements ICommunityRepository {
 
         // Skip empty files
         if (bytes.isEmpty) {
-          if (kDebugMode)
+          if (kDebugMode) {
             debugPrint('Repository: Skipping empty file: ${file.name}');
+          }
           continue;
         }
 
@@ -208,12 +210,15 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       }
       return Right(allAttachments);
     } on DioException catch (e) {
-      if (kDebugMode) debugPrint('Repository: DioException: ${e.message}');
-      if (kDebugMode)
+      if (kDebugMode) {
+        debugPrint('Repository: DioException: ${e.message}');
         debugPrint('Repository: Error response: ${e.response?.data}');
+      }
       return Left(_handleDioError(e));
     } on Exception catch (e) {
-      if (kDebugMode) debugPrint('Repository: Exception: $e');
+      if (kDebugMode) {
+        debugPrint('Repository: Exception: $e');
+      }
       return const Left(CommunityFailure.serverError());
     }
   }

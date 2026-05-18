@@ -50,7 +50,8 @@ class RegisterRoute extends GoRouteData with $RegisterRoute {
   const RegisterRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const RegisterPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const RegisterPage();
 }
 
 @TypedGoRoute<OtpVerificationRoute>(path: '/otp-verification')
@@ -58,7 +59,8 @@ class OtpVerificationRoute extends GoRouteData with $OtpVerificationRoute {
   const OtpVerificationRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const OtpVerificationPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OtpVerificationPage();
 }
 
 @TypedGoRoute<OAuthCallbackRoute>(path: '/oauth/callback')
@@ -66,15 +68,18 @@ class OAuthCallbackRoute extends GoRouteData with $OAuthCallbackRoute {
   const OAuthCallbackRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const OAuthCallbackPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OAuthCallbackPage();
 }
 
 @TypedGoRoute<OAuthCompleteEmailRoute>(path: '/oauth/complete-email')
-class OAuthCompleteEmailRoute extends GoRouteData with $OAuthCompleteEmailRoute {
+class OAuthCompleteEmailRoute extends GoRouteData
+    with $OAuthCompleteEmailRoute {
   const OAuthCompleteEmailRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const OAuthCompleteEmailPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OAuthCompleteEmailPage();
 }
 
 @TypedGoRoute<AiGuideRoute>(path: '/ai-guide')
@@ -90,7 +95,8 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   const OnboardingRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const OnboardingPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OnboardingPage();
 }
 
 @TypedGoRoute<CreateThreadRoute>(path: '/community/create')
@@ -98,7 +104,8 @@ class CreateThreadRoute extends GoRouteData with $CreateThreadRoute {
   const CreateThreadRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const CreateThreadPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CreateThreadPage();
 }
 
 @TypedGoRoute<ThreadDetailsRoute>(path: '/community/thread/:threadId')
@@ -129,21 +136,24 @@ class MainAppShellRoute extends ShellRouteData {
   const MainAppShellRoute();
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) => HomeShellPage(navigator: navigator);
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
+      HomeShellPage(navigator: navigator);
 }
 
 class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeDashboardPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const HomeDashboardPage();
 }
 
 class GuidesRoute extends GoRouteData with $GuidesRoute {
   const GuidesRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const GuideListPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const GuideListPage();
 }
 
 class GuideDetailRoute extends GoRouteData with $GuideDetailRoute {
@@ -152,7 +162,8 @@ class GuideDetailRoute extends GoRouteData with $GuideDetailRoute {
   final String guideSlug;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => GuideDetailPage(guideSlug: guideSlug);
+  Widget build(BuildContext context, GoRouterState state) =>
+      GuideDetailPage(guideSlug: guideSlug);
 }
 
 class StepDetailRoute extends GoRouteData with $StepDetailRoute {
@@ -162,14 +173,16 @@ class StepDetailRoute extends GoRouteData with $StepDetailRoute {
   final String stepSlug;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => StepDetailPage(guideSlug: guideSlug, stepSlug: stepSlug);
+  Widget build(BuildContext context, GoRouterState state) =>
+      StepDetailPage(guideSlug: guideSlug, stepSlug: stepSlug);
 }
 
 class TemplatesRoute extends GoRouteData with $TemplatesRoute {
   const TemplatesRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const TemplatesListPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const TemplatesListPage();
 }
 
 @TypedGoRoute<TemplateDetailRoute>(path: '/templates/:groupId')
@@ -178,21 +191,24 @@ class TemplateDetailRoute extends GoRouteData with $TemplateDetailRoute {
   final String groupId;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => TemplateDetailPage(groupId: groupId);
+  Widget build(BuildContext context, GoRouterState state) =>
+      TemplateDetailPage(groupId: groupId);
 }
 
 class DownloadsRoute extends GoRouteData with $DownloadsRoute {
   const DownloadsRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const DownloadsPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const DownloadsPage();
 }
 
 class CommunityHomeRoute extends GoRouteData with $CommunityHomeRoute {
   const CommunityHomeRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const CommunityHomePage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CommunityHomePage();
 }
 
 @TypedGoRoute<ProfileRoute>(path: '/profile')
@@ -200,7 +216,8 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const ProfilePage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ProfilePage();
 }
 
 @TypedGoRoute<SettingsRoute>(path: '/settings')
@@ -208,7 +225,8 @@ class SettingsRoute extends GoRouteData with $SettingsRoute {
   const SettingsRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const SettingsPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SettingsPage();
 }
 
 @TypedGoRoute<InboxRoute>(path: '/inbox')
@@ -235,7 +253,8 @@ class CheckoutLauncherRoute extends GoRouteData with $CheckoutLauncherRoute {
   final String txRef;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => CheckoutLauncherPage(checkoutUrl: url, txRef: txRef);
+  Widget build(BuildContext context, GoRouterState state) =>
+      CheckoutLauncherPage(checkoutUrl: url, txRef: txRef);
 }
 
 @TypedGoRoute<PaymentResultRoute>(path: '/payment-result')
@@ -245,7 +264,8 @@ class PaymentResultRoute extends GoRouteData with $PaymentResultRoute {
   final String txRef;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => PaymentResultPage(txRef: txRef);
+  Widget build(BuildContext context, GoRouterState state) =>
+      PaymentResultPage(txRef: txRef);
 }
 
 @TypedGoRoute<PaymentSuccessRoute>(path: '/payment/success')

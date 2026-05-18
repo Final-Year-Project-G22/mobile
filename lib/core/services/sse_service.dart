@@ -41,8 +41,9 @@ class SseService {
     try {
       final token = await _tokenProvider();
       if (token == null || token.isEmpty) {
-        if (kDebugMode)
+        if (kDebugMode) {
           debugPrint('[SSE] No token available, scheduling reconnect');
+        }
         _isConnecting = false;
         _connectionStateController.add(ConnectionState.disconnected);
         _scheduleReconnect();
@@ -61,10 +62,11 @@ class SseService {
         },
       );
 
-      if (kDebugMode)
+      if (kDebugMode) {
         debugPrint(
           '[SSE] Request URI: ${uriWithToken.replace(queryParameters: {'token': '***'})}',
         );
+      }
 
       final request = http.Request('GET', uriWithToken);
       request.headers['Accept'] = 'text/event-stream';
@@ -72,8 +74,9 @@ class SseService {
       final response = await _client!.send(request);
 
       if (response.statusCode != 200) {
-        if (kDebugMode)
+        if (kDebugMode) {
           debugPrint('[SSE] Non-200 response: ${response.statusCode}');
+        }
         _isConnecting = false;
         _connectionStateController.add(ConnectionState.disconnected);
         _client?.close();

@@ -38,23 +38,22 @@ class SettingsPage extends ConsumerWidget {
           AppSpacing.gapVerticalSm,
           Card(
             margin: EdgeInsets.zero,
-            child: Column(
-              children: [
-                RadioListTile<Locale?>(
-                  title: Text(l10n.languageEnglish),
-                  value: const Locale('en'),
-                  groupValue: locale,
-                  onChanged: (value) =>
-                      ref.read(localeProvider.notifier).setLocale(value),
-                ),
-                RadioListTile<Locale?>(
-                  title: Text(l10n.languageAmharic),
-                  value: const Locale('am'),
-                  groupValue: locale,
-                  onChanged: (value) =>
-                      ref.read(localeProvider.notifier).setLocale(value),
-                ),
-              ],
+            child: RadioGroup<Locale?>(
+              groupValue: locale,
+              onChanged: (value) =>
+                  ref.read(localeProvider.notifier).setLocale(value),
+              child: Column(
+                children: [
+                  RadioListTile<Locale?>(
+                    title: Text(l10n.languageEnglish),
+                    value: const Locale('en'),
+                  ),
+                  RadioListTile<Locale?>(
+                    title: Text(l10n.languageAmharic),
+                    value: const Locale('am'),
+                  ),
+                ],
+              ),
             ),
           ),
           AppSpacing.gapVerticalLg,
@@ -67,30 +66,26 @@ class SettingsPage extends ConsumerWidget {
           AppSpacing.gapVerticalSm,
           Card(
             margin: EdgeInsets.zero,
-            child: Column(
-              children: [
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.lightMode),
-                  value: ThemeMode.light,
-                  groupValue: themeMode,
-                  onChanged: (value) =>
-                      ref.read(themeModeProvider.notifier).setThemeMode(value!),
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.darkMode),
-                  value: ThemeMode.dark,
-                  groupValue: themeMode,
-                  onChanged: (value) =>
-                      ref.read(themeModeProvider.notifier).setThemeMode(value!),
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.systemDefault),
-                  value: ThemeMode.system,
-                  groupValue: themeMode,
-                  onChanged: (value) =>
-                      ref.read(themeModeProvider.notifier).setThemeMode(value!),
-                ),
-              ],
+            child: RadioGroup<ThemeMode>(
+              groupValue: themeMode,
+              onChanged: (value) =>
+                  ref.read(themeModeProvider.notifier).setThemeMode(value!),
+              child: Column(
+                children: [
+                  RadioListTile<ThemeMode>(
+                    title: Text(l10n.lightMode),
+                    value: ThemeMode.light,
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: Text(l10n.darkMode),
+                    value: ThemeMode.dark,
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: Text(l10n.systemDefault),
+                    value: ThemeMode.system,
+                  ),
+                ],
+              ),
             ),
           ),
           AppSpacing.gapVerticalLg,
