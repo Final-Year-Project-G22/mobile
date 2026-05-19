@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../../shared/utils/formatters/date_formatters.dart';
+import '../../../../../shared/utils/formatters/date_formatters.dart' show DateFormatters;
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/inbox_notifier.dart';
 import '../../application/inbox_state.dart';
+import '../../compliance/presentation/pages/compliance_page.dart';
 import '../../domain/entities/inbox_entry.dart';
+import '../../scheduled_alerts/presentation/pages/scheduled_alerts_page.dart';
 
 class InboxPage extends ConsumerStatefulWidget {
   const InboxPage({super.key});
@@ -16,13 +18,16 @@ class InboxPage extends ConsumerStatefulWidget {
   ConsumerState<InboxPage> createState() => _InboxPageState();
 }
 
-class _InboxPageState extends ConsumerState<InboxPage> {
+class _InboxPageState extends ConsumerState<InboxPage>
+    with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
   bool _initialized = false;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
@@ -36,6 +41,7 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -61,8 +67,23 @@ class _InboxPageState extends ConsumerState<InboxPage> {
           ),
           AppSpacing.gapHorizontalXs,
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Inbox'),
+            Tab(text: 'Scheduled'),
+            Tab(text: 'Compliance'),
+          ],
+        ),
       ),
-      body: _buildBody(state, l10n),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildBody(state, l10n),
+          const ScheduledAlertsPage(),
+          const CompliancePage(),
+        ],
+      ),
     );
   }
 
@@ -77,24 +98,19 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     if (state.errorMessage != null && state.entries.isEmpty) {
       return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: colorScheme.onSurfaceVariant,
-            ),
-            AppSpacing.gapVerticalMd,
+            Icon(Icons.error_outline,
+                size: 48, color: colorScheme.onSurfaceVariant),
+            const SizedBox(height: 16),
             Text(
-              state.errorMessage!,
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface,
-              ),
-              textAlign: TextAlign.center,
+              state.errorMessage ?? 'Something went wrong',
+              style: textTheme.bodyLarge,
             ),
-            AppSpacing.gapVerticalMd,
-            FilledButton.tonal(
-              onPressed: () => ref.read(inboxProvider.notifier).refresh(),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () =>
+                  ref.read(inboxProvider.notifier).loadInbox(),
               child: Text(l10n.retry),
             ),
           ],
@@ -102,22 +118,19 @@ class _InboxPageState extends ConsumerState<InboxPage> {
       );
     }
 
-    if (state.entries.isEmpty) {
+    final filteredEntries = state.entries;
+
+    if (filteredEntries.isEmpty && !state.isLoading) {
       return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.notifications_none_rounded,
-              size: 64,
-              color: colorScheme.onSurfaceVariant,
-            ),
-            AppSpacing.gapVerticalMd,
+            Icon(Icons.inbox_outlined,
+                size: 64, color: colorScheme.onSurfaceVariant),
+            const SizedBox(height: 16),
             Text(
-              l10n.noNotifications,
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface,
-              ),
+              'Your inbox is empty',
+              style: textTheme.bodyLarge,
             ),
           ],
         ),
@@ -125,27 +138,23 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     }
 
     return RefreshIndicator(
-      onRefresh: () => ref.read(inboxProvider.notifier).refresh(),
+      onRefresh: () => ref.read(inboxProvider.notifier).loadInbox(),
       child: ListView.builder(
         controller: _scrollController,
-        padding: const EdgeInsets.only(top: AppSpacing.xs),
-        itemCount: state.entries.length + (state.isLoadingMore ? 1 : 0),
+        itemCount: filteredEntries.length + (state.isLoading ? 1 : 0),
         itemBuilder: (context, index) {
-          if (index == state.entries.length) {
-            return const Padding(
-              padding: EdgeInsets.all(AppSpacing.md),
-              child: Center(child: AdisuProgressIndicator.small()),
+          if (index >= filteredEntries.length) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: AdisuProgressIndicator(),
+              ),
             );
           }
+          final entry = filteredEntries[index];
           return _InboxTile(
-            entry: state.entries[index],
-            onTap: () async {
-              await ref
-                  .read(inboxProvider.notifier)
-                  .markAsRead(
-                    state.entries[index].id,
-                  );
-            },
+            entry: entry,
+            onTap: () => ref.read(inboxProvider.notifier).markAsRead(entry.id),
           );
         },
       ),
@@ -154,145 +163,49 @@ class _InboxPageState extends ConsumerState<InboxPage> {
 }
 
 class _InboxTile extends StatelessWidget {
-  const _InboxTile({required this.entry, required this.onTap});
+  const _InboxTile({required this.entry, this.onTap});
 
   final InboxEntry entry;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final isUnread = !entry.isRead;
-    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: AppSpacing.xxs,
-      ),
-      decoration: BoxDecoration(
-        color: isUnread
-            ? colorScheme.primaryContainer.withValues(alpha: 0.3)
-            : colorScheme.surface,
-        borderRadius: AppSpacing.borderRadiusMd,
-        border: Border.all(
-          color: colorScheme.outlineVariant,
-          width: 0.5,
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: ListTile(
+        leading: Icon(
+          entry.notification.type == 'account_alert_critical'
+              ? Icons.warning
+              : Icons.notifications,
+          color: entry.isRead
+              ? colorScheme.onSurfaceVariant
+              : colorScheme.primary,
         ),
-      ),
-      child: InkWell(
-        borderRadius: AppSpacing.borderRadiusMd,
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: isUnread
-                    ? colorScheme.primaryContainer
-                    : colorScheme.surfaceContainerHigh,
-                child: Icon(
-                  _iconForType(entry.notification.type),
-                  size: 20,
-                  color: isUnread
-                      ? colorScheme.onPrimaryContainer
-                      : colorScheme.onSurfaceVariant,
-                ),
-              ),
-              AppSpacing.gapHorizontalSm,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            entry.notification.title,
-                            style: textTheme.titleSmall?.copyWith(
-                              fontWeight: isUnread
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                              color: colorScheme.onSurface,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          _formatTimeAgo(entry.notification.sentAt, l10n),
-                          style: textTheme.labelSmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (entry.notification.content.isNotEmpty) ...[
-                      AppSpacing.gapVerticalXxs,
-                      Text(
-                        entry.notification.content,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              if (isUnread)
-                Padding(
-                  padding: const EdgeInsets.only(left: AppSpacing.xs),
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    margin: const EdgeInsets.only(top: AppSpacing.xs),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-            ],
+        title: Text(
+          entry.notification.title,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: entry.isRead ? FontWeight.normal : FontWeight.w600,
           ),
         ),
+        subtitle: Text(
+          entry.notification.content,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        trailing: Text(
+          DateFormatters.shortDate(entry.notification.sentAt),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        onTap: onTap,
       ),
     );
-  }
-
-  IconData _iconForType(String type) {
-    switch (type.toLowerCase()) {
-      case 'system':
-        return Icons.campaign_rounded;
-      case 'comment':
-      case 'reply':
-        return Icons.chat_bubble_outline_rounded;
-      case 'mention':
-        return Icons.alternate_email_rounded;
-      case 'like':
-      case 'reaction':
-        return Icons.thumb_up_outlined;
-      case 'follow':
-        return Icons.person_add_outlined;
-      case 'guide':
-        return Icons.menu_book_outlined;
-      default:
-        return Icons.notifications_outlined;
-    }
-  }
-
-  String _formatTimeAgo(DateTime dateTime, AppLocalizations l10n) {
-    final now = DateTime.now();
-    final diff = now.difference(dateTime);
-
-    if (diff.inMinutes < 1) return l10n.timeNow;
-    if (diff.inMinutes < 60) return l10n.timeMinutesShort(diff.inMinutes);
-    if (diff.inHours < 24) return l10n.timeHoursShort(diff.inHours);
-    if (diff.inDays < 7) return l10n.timeDaysShort(diff.inDays);
-    return DateFormatters.dayMonth(dateTime);
   }
 }

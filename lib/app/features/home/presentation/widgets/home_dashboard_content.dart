@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/circular_progress_ring.dart';
@@ -7,6 +8,7 @@ import '../../../guide/domain/entities/completion_stats.dart';
 import '../../../guide/domain/entities/guide_card.dart';
 import '../../../guide/domain/entities/guide_with_progress.dart';
 import '../../../guide/presentation/widgets/recent_guide_rail.dart';
+import '../../../notifications/compliance/presentation/widgets/compliance_calendar_widget.dart';
 import 'continue_where_you_left_off.dart';
 import 'hero_completion_graph.dart';
 import 'quick_actions_grid.dart';
@@ -44,6 +46,10 @@ class HomeDashboardContent extends StatelessWidget {
           if (hasNoData) const _EmptyWelcome(),
           const SizedBox(height: AppSpacing.sectionGap),
           QuickActionsGrid(actions: quickActions),
+          const SizedBox(height: AppSpacing.sectionGap),
+          ComplianceCalendarWidget(
+            onSeeAll: () => context.push('/inbox'),
+          ),
           const SizedBox(height: AppSpacing.sectionGap),
           ContinueWhereYouLeftOffRail(
             guides: inProgressGuides,
