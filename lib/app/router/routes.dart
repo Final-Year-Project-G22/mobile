@@ -16,6 +16,7 @@ import '../features/guide/presentation/pages/step_detail_page.dart';
 import '../features/home/presentation/pages/home_dashboard_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/notifications/presentation/pages/inbox_page.dart';
+import '../features/notifications/scheduled_alerts/presentation/pages/create_scheduled_alert_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/payment/presentation/pages/checkout_launcher_page.dart';
 import '../features/payment/presentation/pages/payment_result_page.dart';
@@ -235,6 +236,16 @@ class InboxRoute extends GoRouteData with $InboxRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const InboxPage();
+}
+
+@TypedGoRoute<CreateScheduledAlertRoute>(path: '/scheduled/create')
+class CreateScheduledAlertRoute extends GoRouteData
+    with $CreateScheduledAlertRoute {
+  const CreateScheduledAlertRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CreateScheduledAlertPage();
 }
 
 @TypedGoRoute<PlansRoute>(path: '/plans')
