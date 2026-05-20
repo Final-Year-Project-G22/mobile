@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../application/scheduled_alert_notifier.dart';
 import '../../application/scheduled_alert_state.dart';
 import '../../domain/entities/scheduled_alert_template.dart';
+import '../../domain/failures/scheduled_alert_failure.dart';
 
 class CreateScheduledAlertPage extends ConsumerStatefulWidget {
   const CreateScheduledAlertPage({super.key});
@@ -39,49 +41,51 @@ class _CreateScheduledAlertPageState
     final asyncState = ref.watch(scheduledAlertProvider);
     final state = asyncState.value ?? ScheduledAlertState.initial();
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     ref.listen(scheduledAlertProvider, (previous, next) async {
-      final nextErr = next.value?.errorMessage;
-      final prevErr = previous?.value?.errorMessage;
-      if (nextErr != null && nextErr != prevErr) {
-        if (nextErr.contains('Upgrade to Pro')) {
-          await showDialog<void>(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: const Text('Upgrade to Pro'),
-              content: const Text(
-                "You've reached the max of 3 scheduled alerts. "
-                'Upgrade to Pro for unlimited alerts.',
+      final failure = next.value?.failure;
+      final prevFailure = previous?.value?.failure;
+      if (failure != null && failure != prevFailure) {
+        failure.when(
+          maxLimitReached: (_) async {
+            await showDialog<void>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text(l10n.upgradeToPro),
+                content: Text(l10n.upgradeToProDesc),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: Text(l10n.cancel),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                      unawaited(context.push('/plans'));
+                    },
+                    child: Text(l10n.viewPlans),
+                  ),
+                ],
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Cancel'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    unawaited(context.push('/plans'));
-                  },
-                  child: const Text('View Plans'),
-                ),
-              ],
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(nextErr)));
-        }
+            );
+          },
+          serverError: (_) => _showErrorSnackBar(l10n.errorServer),
+          unableToCreate: (_) => _showErrorSnackBar(l10n.unableToCreateAlert),
+          unableToCancel: (_) => _showErrorSnackBar(l10n.unableToCancelAlert),
+          unableToReschedule: (_) => _showErrorSnackBar(l10n.unableToRescheduleAlert),
+          notFound: (_) => _showErrorSnackBar(l10n.scheduledAlertNotFound),
+        );
       }
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Scheduled Alert'),
+        title: Text(l10n.newScheduledAlert),
         actions: [
           TextButton(
             onPressed: _save,
-            child: const Text('Save'),
+            child: Text(l10n.save),
           ),
         ],
       ),
@@ -93,14 +97,14 @@ class _CreateScheduledAlertPageState
             // Template picker
             DropdownButtonFormField<ScheduledAlertTemplate>(
               initialValue: _selectedTemplate,
-              decoration: const InputDecoration(
-                labelText: 'Template',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.template,
+                border: const OutlineInputBorder(),
               ),
               isExpanded: true,
               items: [
-                const DropdownMenuItem<ScheduledAlertTemplate>(
-                  child: Text('None (Custom)'),
+                DropdownMenuItem<ScheduledAlertTemplate>(
+                  child: Text(l10n.noneCustom),
                 ),
                 ...state.templates.map((t) =>
                     DropdownMenuItem<ScheduledAlertTemplate>(
@@ -128,39 +132,39 @@ class _CreateScheduledAlertPageState
             // Title
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.title,
+                border: const OutlineInputBorder(),
               ),
               maxLength: 255,
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Title is required' : null,
+                  (v == null || v.trim().isEmpty) ? l10n.titleRequired : null,
             ),
             const SizedBox(height: 16),
 
             // Body
             TextFormField(
               controller: _bodyController,
-              decoration: const InputDecoration(
-                labelText: 'Body',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.bodyField,
+                border: const OutlineInputBorder(),
               ),
               maxLines: 3,
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Body is required' : null,
+                  (v == null || v.trim().isEmpty) ? l10n.bodyRequired : null,
             ),
             const SizedBox(height: 16),
 
             // Channel selector
-            Text('Channels', style: theme.textTheme.titleSmall),
+            Text(l10n.channels, style: theme.textTheme.titleSmall),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: ['in_app', 'email', 'push'].map((channel) {
                 final label = switch (channel) {
-                  'in_app' => 'In-App',
-                  'email' => 'Email',
-                  'push' => 'Push',
+                  'in_app' => l10n.inAppChannel,
+                  'email' => l10n.email,
+                  'push' => l10n.pushChannel,
                   _ => channel,
                 };
                 final selected = _selectedChannels.contains(channel);
@@ -197,7 +201,7 @@ class _CreateScheduledAlertPageState
             // Info
             if (state.alerts.length < 3)
               Text(
-                'Free users: ${state.alerts.length} of 3 used',
+                l10n.freeUserAlertCount(state.alerts.length),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -243,8 +247,14 @@ class _CreateScheduledAlertPageState
 
     if (!mounted) return;
     final current = ref.read(scheduledAlertProvider);
-    if (current.value?.errorMessage == null) {
+    if (current.value?.failure == null) {
       context.pop();
     }
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Theme.of(context).colorScheme.error),
+    );
   }
 }

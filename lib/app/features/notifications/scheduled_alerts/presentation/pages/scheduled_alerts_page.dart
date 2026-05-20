@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../core/l10n/generated/app_localizations.dart';
 import '../../application/scheduled_alert_notifier.dart';
 import '../../application/scheduled_alert_state.dart';
+import '../../domain/failures/scheduled_alert_failure.dart';
 import '../widgets/scheduled_alert_card.dart';
 
 class ScheduledAlertsPage extends ConsumerStatefulWidget {
@@ -21,13 +23,27 @@ class _ScheduledAlertsPageState extends ConsumerState<ScheduledAlertsPage> {
     final state = asyncState.value ?? ScheduledAlertState.initial();
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     ref.listen(scheduledAlertProvider, (previous, next) {
-      final nextErr = next.value?.errorMessage;
-      final prevErr = previous?.value?.errorMessage;
-      if (nextErr != null && nextErr != prevErr) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(nextErr)));
+      final failure = next.value?.failure;
+      final prevFailure = previous?.value?.failure;
+      if (failure != null && failure != prevFailure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              failure.when(
+                serverError: (_) => l10n.errorServer,
+                unableToCreate: (_) => l10n.unableToCreateAlert,
+                unableToCancel: (_) => l10n.unableToCancelAlert,
+                unableToReschedule: (_) => l10n.unableToRescheduleAlert,
+                maxLimitReached: (_) => l10n.maxLimitReached,
+                notFound: (_) => l10n.scheduledAlertNotFound,
+              ),
+            ),
+            backgroundColor: colorScheme.error,
+          ),
+        );
       }
     });
 
@@ -45,12 +61,12 @@ class _ScheduledAlertsPageState extends ConsumerState<ScheduledAlertsPage> {
                       size: 48, color: colorScheme.onSurfaceVariant),
                   const SizedBox(height: 16),
                   Text(
-                    'No scheduled alerts yet',
+                    l10n.noScheduledAlerts,
                     style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Tap + to create one',
+                    l10n.tapToCreate,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),

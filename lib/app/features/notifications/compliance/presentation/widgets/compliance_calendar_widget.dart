@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../core/l10n/generated/app_localizations.dart';
 
 import '../../../../../../shared/widgets/section_header.dart';
 import '../../application/compliance_notifier.dart';
@@ -27,6 +28,7 @@ class _ComplianceCalendarWidgetState
     extends ConsumerState<ComplianceCalendarWidget> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final asyncState = ref.watch(complianceProvider);
     final state = asyncState.value ?? ComplianceState.initial();
 
@@ -38,8 +40,8 @@ class _ComplianceCalendarWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Compliance Calendar',
-          actionLabel: 'See All',
+          title: l10n.complianceCalendar,
+          actionLabel: l10n.seeAll,
           onAction: widget.onSeeAll,
         ),
         const SizedBox(height: 8),
@@ -62,6 +64,7 @@ class _CalendarEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isUrgent = entry.daysRemaining <= 7;
     final color = isUrgent ? Colors.red : theme.colorScheme.primary;
@@ -92,7 +95,7 @@ class _CalendarEntryTile extends StatelessWidget {
               ),
             ),
             Text(
-              'remaining',
+              l10n.remaining,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

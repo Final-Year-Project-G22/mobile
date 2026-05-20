@@ -131,6 +131,7 @@ class ComplianceRepositoryImpl implements IComplianceRepository {
       expiryDate: dto.expiryDate,
       reminderDaysBefore: dto.reminderDaysBefore,
       status: dto.status,
+      source: dto.source,
       referenceNumber: dto.referenceNumber,
       issuedDate: dto.issuedDate,
       lastNotifiedAt: dto.lastNotifiedAt,

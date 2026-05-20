@@ -9,6 +9,7 @@ import '../../application/inbox_notifier.dart';
 import '../../application/inbox_state.dart';
 import '../../compliance/presentation/pages/compliance_page.dart';
 import '../../domain/entities/inbox_entry.dart';
+import '../../domain/failures/inbox_failure.dart';
 import '../../scheduled_alerts/presentation/pages/scheduled_alerts_page.dart';
 
 class InboxPage extends ConsumerStatefulWidget {
@@ -69,10 +70,10 @@ class _InboxPageState extends ConsumerState<InboxPage>
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'Inbox'),
-            Tab(text: 'Scheduled'),
-            Tab(text: 'Compliance'),
+          tabs: [
+            Tab(text: l10n.inboxTab),
+            Tab(text: l10n.scheduledTab),
+            Tab(text: l10n.compliance),
           ],
         ),
       ),
@@ -95,7 +96,7 @@ class _InboxPageState extends ConsumerState<InboxPage>
       return const Center(child: AdisuProgressIndicator());
     }
 
-    if (state.errorMessage != null && state.entries.isEmpty) {
+    if (state.failure != null && state.entries.isEmpty) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -104,7 +105,13 @@ class _InboxPageState extends ConsumerState<InboxPage>
                 size: 48, color: colorScheme.onSurfaceVariant),
             const SizedBox(height: 16),
             Text(
-              state.errorMessage ?? 'Something went wrong',
+              state.failure?.when(
+                serverError: (_) => l10n.errorServer,
+                notFound: () => l10n.errorUnknown,
+                unauthorized: () => l10n.errorUnauthorized,
+                invalidData: (_) => l10n.errorUnknown,
+                networkError: () => l10n.errorNetwork,
+              ) ?? l10n.errorUnknown,
               style: textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
@@ -129,7 +136,7 @@ class _InboxPageState extends ConsumerState<InboxPage>
                 size: 64, color: colorScheme.onSurfaceVariant),
             const SizedBox(height: 16),
             Text(
-              'Your inbox is empty',
+              l10n.inboxEmpty,
               style: textTheme.bodyLarge,
             ),
           ],
