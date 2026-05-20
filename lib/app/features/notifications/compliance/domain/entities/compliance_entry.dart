@@ -12,6 +12,7 @@ abstract class ComplianceEntry with _$ComplianceEntry {
     required DateTime expiryDate,
     required int reminderDaysBefore,
     required String status,
+    @Default('manual') String source,
     String? referenceNumber,
     DateTime? issuedDate,
     DateTime? lastNotifiedAt,

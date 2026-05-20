@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../../core/l10n/generated/app_localizations.dart';
 
 import '../../application/compliance_notifier.dart';
 import '../../application/compliance_state.dart';
@@ -18,6 +20,8 @@ class _CompliancePageState extends ConsumerState<CompliancePage> {
     final asyncState = ref.watch(complianceProvider);
     final state = asyncState.value ?? ComplianceState.initial();
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     if (state.calendar.isEmpty) {
       return Center(
@@ -25,16 +29,21 @@ class _CompliancePageState extends ConsumerState<CompliancePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.calendar_today,
-                size: 48, color: theme.colorScheme.onSurfaceVariant),
+                size: 48, color: colorScheme.onSurfaceVariant),
             const SizedBox(height: 16),
-            Text('No upcoming deadlines',
+            Text(l10n.noUpcomingDeadlines,
                 style: theme.textTheme.bodyLarge),
             const SizedBox(height: 8),
             Text(
-              'Add compliance entries from your business profile',
+              l10n.complianceAddEntriesDesc,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: colorScheme.onSurfaceVariant,
               ),
+            ),
+            const SizedBox(height: 24),
+            FilledButton.tonal(
+              onPressed: () => context.push('/compliance/manage'),
+              child: Text(l10n.manageCompliance),
             ),
           ],
         ),
@@ -46,14 +55,21 @@ class _CompliancePageState extends ConsumerState<CompliancePage> {
       child: ListView(
         padding: const EdgeInsets.only(top: 8, bottom: 80),
         children: [
-          if (state.calendar.any((e) => e.type == 'compliance')) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-              child: Text(
-                'Upcoming Deadlines',
-                style: theme.textTheme.titleSmall,
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Row(
+              children: [
+                Text(l10n.upcoming,
+                    style: theme.textTheme.titleSmall),
+                const Spacer(),
+                TextButton(
+                  onPressed: () => context.push('/compliance/manage'),
+                  child: Text(l10n.manage),
+                ),
+              ],
             ),
+          ),
+          if (state.calendar.any((e) => e.type == 'compliance')) ...[
             ...state.calendar
                 .where((e) => e.type == 'compliance')
                 .map((e) => CalendarEntryTile(entry: e)),
@@ -63,7 +79,7 @@ class _CompliancePageState extends ConsumerState<CompliancePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: Text(
-                'Scheduled Alerts',
+                l10n.scheduledAlerts,
                 style: theme.textTheme.titleSmall,
               ),
             ),
@@ -84,6 +100,7 @@ class CalendarEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isUrgent = entry.daysRemaining <= 7;
     final color = isUrgent ? Colors.red : theme.colorScheme.primary;
@@ -112,7 +129,7 @@ class CalendarEntryTile extends StatelessWidget {
               ),
             ),
             Text(
-              'remaining',
+              l10n.remaining,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

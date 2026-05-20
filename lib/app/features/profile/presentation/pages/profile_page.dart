@@ -241,6 +241,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           ),
           AppSpacing.gapVerticalLg,
           Card(
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              leading: Icon(Icons.assignment_late, color: colorScheme.onSurfaceVariant),
+              title: Text(l10n.compliance),
+              subtitle: Text(l10n.manageCompliance),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/compliance/manage'),
+            ),
+          ),
+          AppSpacing.gapVerticalLg,
+          Card(
             child: Padding(
               padding: AppSpacing.paddingMd,
               child: AnimatedSwitcher(

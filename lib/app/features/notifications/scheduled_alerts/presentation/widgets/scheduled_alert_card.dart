@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/l10n/generated/app_localizations.dart';
 import '../../domain/entities/scheduled_alert.dart';
 
 class ScheduledAlertCard extends StatelessWidget {
@@ -18,11 +19,12 @@ class ScheduledAlertCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     final (Color dotColor, String statusLabel) = switch (alert.status) {
-      'pending' => (Colors.green, 'Pending'),
-      'sent' => (Colors.grey, 'Sent'),
-      'cancelled' => (Colors.red, 'Cancelled'),
+      'pending' => (Colors.green, l10n.pending),
+      'sent' => (Colors.grey, l10n.sent),
+      'cancelled' => (Colors.red, l10n.cancelledStatus),
       _ => (Colors.grey, alert.status),
     };
 
@@ -58,7 +60,7 @@ class ScheduledAlertCard extends StatelessWidget {
                   if (onReschedule != null)
                     TextButton(
                       onPressed: onReschedule,
-                      child: const Text('Reschedule'),
+                      child: Text(l10n.reschedule),
                     ),
                   if (onCancel != null)
                     TextButton(
@@ -66,7 +68,7 @@ class ScheduledAlertCard extends StatelessWidget {
                       style: TextButton.styleFrom(
                         foregroundColor: colorScheme.error,
                       ),
-                      child: const Text('Cancel'),
+                      child: Text(l10n.cancel),
                     ),
                 ],
               ],
@@ -81,22 +83,20 @@ class ScheduledAlertCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
-            Row(
+            Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 _InfoChip(label: statusLabel, color: dotColor),
-                const SizedBox(width: 8),
                 ...alert.channels.map(
-                  (ch) => Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: _InfoChip(
-                      label: _channelLabel(ch),
-                      color: colorScheme.primary,
-                    ),
+                  (ch) => _InfoChip(
+                    label: _channelLabel(l10n, ch),
+                    color: colorScheme.primary,
                   ),
                 ),
-                const Spacer(),
                 Text(
-                  _formatDate(alert.scheduledFor),
+                  _formatDate(l10n, alert.scheduledFor),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -109,26 +109,26 @@ class ScheduledAlertCard extends StatelessWidget {
     );
   }
 
-  String _channelLabel(String channel) {
+  String _channelLabel(AppLocalizations l10n, String channel) {
     return switch (channel) {
-      'in_app' => 'In-App',
-      'email' => 'Email',
-      'push' => 'Push',
+      'in_app' => l10n.inAppChannel,
+      'email' => l10n.email,
+      'push' => l10n.pushChannel,
       _ => channel,
     };
   }
 
-  String _formatDate(DateTime date) {
+  String _formatDate(AppLocalizations l10n, DateTime date) {
     final now = DateTime.now();
     final diff = date.difference(now);
     if (diff.isNegative) {
-      return 'Overdue';
+      return l10n.overdue;
     } else if (diff.inDays == 0) {
-      return 'Today';
+      return l10n.today;
     } else if (diff.inDays == 1) {
-      return 'Tomorrow';
+      return l10n.tomorrow;
     } else if (diff.inDays < 7) {
-      return '${diff.inDays} days';
+      return '${diff.inDays} ${l10n.remaining}';
     }
     return '${date.month}/${date.day}';
   }

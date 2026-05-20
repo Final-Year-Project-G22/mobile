@@ -33,6 +33,9 @@ class ScheduledAlertNotifier extends _$ScheduledAlertNotifier {
     required List<String> channels,
     required DateTime scheduledFor,
   }) async {
+    state = AsyncValue.data(
+      state.value!.copyWith(failure: null),
+    );
     final repository = ref.read(scheduledAlertRepositoryProvider);
     final result = await repository.create(
       templateSlug: templateSlug,
@@ -44,7 +47,7 @@ class ScheduledAlertNotifier extends _$ScheduledAlertNotifier {
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
@@ -54,12 +57,15 @@ class ScheduledAlertNotifier extends _$ScheduledAlertNotifier {
   }
 
   Future<void> cancelAlert(String id) async {
+    state = AsyncValue.data(
+      state.value!.copyWith(failure: null),
+    );
     final repository = ref.read(scheduledAlertRepositoryProvider);
     final result = await repository.cancel(id);
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
@@ -69,12 +75,15 @@ class ScheduledAlertNotifier extends _$ScheduledAlertNotifier {
   }
 
   Future<void> rescheduleAlert(String id, DateTime newDate) async {
+    state = AsyncValue.data(
+      state.value!.copyWith(failure: null),
+    );
     final repository = ref.read(scheduledAlertRepositoryProvider);
     final result = await repository.reschedule(id, newScheduledFor: newDate);
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
@@ -95,18 +104,6 @@ class ScheduledAlertNotifier extends _$ScheduledAlertNotifier {
           );
         }
       },
-    );
-  }
-
-  String _mapFailure(ScheduledAlertFailure failure) {
-    return failure.when(
-      unableToCreate: (msg) => msg ?? 'Unable to create alert',
-      unableToCancel: (msg) => msg ?? 'Unable to cancel alert',
-      unableToReschedule: (msg) => msg ?? 'Unable to reschedule alert',
-      maxLimitReached: (msg) =>
-          msg ?? 'Upgrade to Pro to create more than 3 scheduled alerts',
-      notFound: (msg) => msg ?? 'Scheduled alert not found',
-      serverError: (msg) => msg ?? 'Server error. Please try again.',
     );
   }
 }

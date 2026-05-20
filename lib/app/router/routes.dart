@@ -15,6 +15,9 @@ import '../features/guide/presentation/pages/guide_list_page.dart';
 import '../features/guide/presentation/pages/step_detail_page.dart';
 import '../features/home/presentation/pages/home_dashboard_page.dart';
 import '../features/home/presentation/pages/home_shell_page.dart';
+import '../features/notifications/compliance/presentation/pages/add_compliance_entry_page.dart';
+import '../features/notifications/compliance/presentation/pages/compliance_entry_detail_page.dart';
+import '../features/notifications/compliance/presentation/pages/compliance_management_page.dart';
 import '../features/notifications/presentation/pages/inbox_page.dart';
 import '../features/notifications/scheduled_alerts/presentation/pages/create_scheduled_alert_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -246,6 +249,37 @@ class CreateScheduledAlertRoute extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CreateScheduledAlertPage();
+}
+
+@TypedGoRoute<ComplianceManageRoute>(path: '/compliance/manage')
+class ComplianceManageRoute extends GoRouteData with $ComplianceManageRoute {
+  const ComplianceManageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ComplianceManagementPage();
+}
+
+@TypedGoRoute<ComplianceEntryAddRoute>(path: '/compliance/manage/add')
+class ComplianceEntryAddRoute extends GoRouteData
+    with $ComplianceEntryAddRoute {
+  const ComplianceEntryAddRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AddComplianceEntryPage();
+}
+
+@TypedGoRoute<ComplianceEntryDetailRoute>(path: '/compliance/manage/:id')
+class ComplianceEntryDetailRoute extends GoRouteData
+    with $ComplianceEntryDetailRoute {
+  const ComplianceEntryDetailRoute({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ComplianceEntryDetailPage(id: id);
 }
 
 @TypedGoRoute<PlansRoute>(path: '/plans')

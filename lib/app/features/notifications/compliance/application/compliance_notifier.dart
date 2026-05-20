@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../core/di/notification_providers.dart';
-import '../domain/failures/compliance_failure.dart';
 import 'compliance_state.dart';
 
 part 'compliance_notifier.g.dart';
@@ -26,7 +25,7 @@ class ComplianceNotifier extends _$ComplianceNotifier {
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (entries) {
@@ -57,7 +56,7 @@ class ComplianceNotifier extends _$ComplianceNotifier {
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
@@ -81,13 +80,13 @@ class ComplianceNotifier extends _$ComplianceNotifier {
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
         if (state.hasValue) {
           state = AsyncValue.data(
-            state.value!.copyWith(successMessage: 'Compliance entry updated'),
+            state.value!.copyWith(success: 'updated'),
           );
         }
       },
@@ -100,13 +99,13 @@ class ComplianceNotifier extends _$ComplianceNotifier {
     result.fold(
       (failure) {
         state = AsyncValue.data(
-          state.value!.copyWith(errorMessage: _mapFailure(failure)),
+          state.value!.copyWith(failure: failure),
         );
       },
       (_) {
         if (state.hasValue) {
           state = AsyncValue.data(
-            state.value!.copyWith(successMessage: 'Compliance entry deleted'),
+            state.value!.copyWith(success: 'deleted'),
           );
         }
       },
@@ -120,7 +119,7 @@ class ComplianceNotifier extends _$ComplianceNotifier {
       (failure) {
         if (state.hasValue) {
           state = AsyncValue.data(
-            state.value!.copyWith(errorMessage: _mapFailure(failure)),
+            state.value!.copyWith(failure: failure),
           );
         }
       },
@@ -129,16 +128,6 @@ class ComplianceNotifier extends _$ComplianceNotifier {
           (state.value ?? ComplianceState.initial()).copyWith(calendar: calendar),
         );
       },
-    );
-  }
-
-  String _mapFailure(ComplianceFailure failure) {
-    return failure.when(
-      unableToCreate: (msg) => msg ?? 'Unable to create compliance entry',
-      unableToUpdate: (msg) => msg ?? 'Unable to update compliance entry',
-      unableToDelete: (msg) => msg ?? 'Unable to delete compliance entry',
-      notFound: (msg) => msg ?? 'Compliance entry not found',
-      serverError: (msg) => msg ?? 'Server error. Please try again.',
     );
   }
 }

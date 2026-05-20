@@ -120,15 +120,15 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
       tags: data.tags == null
           ? []
           : data.tags!
-                .cast<api.TagResponse>()
-                .map(
-                  (tag) => BusinessProfileTag(
-                    id: tag.id,
-                    slug: tag.slug,
-                    group: tag.group,
-                    isMultiSelect: tag.isMultiSelect,
-                  ),
-                )
+                .map((t) {
+                  final m = t as Map<String, dynamic>;
+                  return BusinessProfileTag(
+                    id: m['id'] as String,
+                    slug: m['slug'] as String,
+                    group: m['group'] as String,
+                    isMultiSelect: m['isMultiSelect'] as bool? ?? true,
+                  );
+                })
                 .toList(),
     );
   }

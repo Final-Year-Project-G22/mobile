@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/di/inbox_providers.dart';
-import '../domain/failures/inbox_failure.dart';
 import 'inbox_state.dart';
 import 'unread_count_provider.dart';
 
@@ -68,7 +67,7 @@ class InboxNotifier extends _$InboxNotifier {
   Future<void> loadInbox() async {
     state = state.copyWith(
       isLoading: true,
-      errorMessage: null,
+      failure: null,
       currentPage: 1,
       entries: [],
     );
@@ -82,7 +81,7 @@ class InboxNotifier extends _$InboxNotifier {
     state = result.fold(
       (failure) => state.copyWith(
         isLoading: false,
-        errorMessage: _mapFailure(failure),
+        failure: failure,
       ),
       (data) => state.copyWith(
         isLoading: false,
@@ -99,7 +98,7 @@ class InboxNotifier extends _$InboxNotifier {
 
     final nextPage = state.currentPage + 1;
 
-    state = state.copyWith(isLoadingMore: true, errorMessage: null);
+    state = state.copyWith(isLoadingMore: true, failure: null);
 
     final repository = ref.read(inboxRepositoryProvider);
     final result = await repository.listInbox(
@@ -110,7 +109,7 @@ class InboxNotifier extends _$InboxNotifier {
     state = result.fold(
       (failure) => state.copyWith(
         isLoadingMore: false,
-        errorMessage: _mapFailure(failure),
+        failure: failure,
       ),
       (data) => state.copyWith(
         isLoadingMore: false,
@@ -160,13 +159,7 @@ class InboxNotifier extends _$InboxNotifier {
     ref.invalidate(unreadCountProvider);
   }
 
-  String _mapFailure(InboxFailure failure) {
-    return failure.when(
-      serverError: (msg) => msg ?? 'Server error. Please try again.',
-      notFound: () => 'Not found.',
-      unauthorized: () => 'Unauthorized. Please log in again.',
-      invalidData: (msg) => msg ?? 'Invalid data.',
-      networkError: () => 'Network error. Check your connection.',
-    );
+  void clearFailure() {
+    state = state.copyWith(failure: null);
   }
 }
