@@ -28,6 +28,9 @@ abstract class CreateStepRequest with _$CreateStepRequest {
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
+    /// Optional compliance type
+    String? complianceType,
+
     /// Visibility conditions
     List<dynamic>? conditions,
 

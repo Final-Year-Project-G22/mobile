@@ -7,6 +7,9 @@ import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
 
 import '../models/archive_notification_response_body.dart';
+import '../models/cancel_scheduled_alert_response_body.dart';
+import '../models/create_scheduled_alert_request.dart';
+import '../models/create_scheduled_alert_response_body.dart';
 import '../models/deactivate_device_response_body.dart';
 import '../models/delete_notification_response_body.dart';
 import '../models/delete_preference_response_body.dart';
@@ -15,12 +18,16 @@ import '../models/history_entry_response.dart';
 import '../models/list_history_response_body.dart';
 import '../models/list_inbox_response_body.dart';
 import '../models/list_mutes_response_body.dart';
+import '../models/list_scheduled_alerts_response_body.dart';
+import '../models/list_scheduled_templates_response_body.dart';
 import '../models/mark_all_as_read_response_body.dart';
 import '../models/mark_as_read_response_body.dart';
 import '../models/mute_account_request.dart';
 import '../models/mute_account_response_body.dart';
 import '../models/register_device_request.dart';
 import '../models/register_device_response_body.dart';
+import '../models/reschedule_scheduled_alert_request.dart';
+import '../models/reschedule_scheduled_alert_response_body.dart';
 import '../models/set_preference_request.dart';
 import '../models/set_preference_response_body.dart';
 import '../models/unmute_account_response_body.dart';
@@ -211,5 +218,48 @@ abstract class NotificationsClient {
   Future<HttpResponse<DeletePreferenceResponseBody>> deletePreference({
     @Path('type') required String type,
     @Path('channel') required String channel,
+  });
+
+  /// List scheduled alerts.
+  ///
+  /// Lists all scheduled alerts for the authenticated user.
+  @GET('/api/v1/notifications/scheduled')
+  Future<HttpResponse<ListScheduledAlertsResponseBody>> listScheduledAlerts();
+
+  /// Create scheduled alert.
+  ///
+  /// Creates a new scheduled alert for the authenticated user.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @POST('/api/v1/notifications/scheduled')
+  Future<HttpResponse<CreateScheduledAlertResponseBody>> createScheduledAlert({
+    @Body() required CreateScheduledAlertRequest body,
+  });
+
+  /// List scheduled alert templates.
+  ///
+  /// Lists all available templates for creating scheduled alerts.
+  @GET('/api/v1/notifications/scheduled/templates')
+  Future<HttpResponse<ListScheduledTemplatesResponseBody>>
+  listScheduledAlertTemplates();
+
+  /// Cancel scheduled alert.
+  ///
+  /// Cancels a pending scheduled alert.
+  @PATCH('/api/v1/notifications/scheduled/{id}/cancel')
+  Future<HttpResponse<CancelScheduledAlertResponseBody>> cancelScheduledAlert({
+    @Path('id') required String id,
+  });
+
+  /// Reschedule scheduled alert.
+  ///
+  /// Reschedules a pending scheduled alert to a new date.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @PATCH('/api/v1/notifications/scheduled/{id}/reschedule')
+  Future<HttpResponse<RescheduleScheduledAlertResponseBody>>
+  rescheduleScheduledAlert({
+    @Path('id') required String id,
+    @Body() required RescheduleScheduledAlertRequest body,
   });
 }
