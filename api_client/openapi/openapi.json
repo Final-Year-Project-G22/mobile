@@ -594,6 +594,9 @@
       "AdminGuideStepDTO": {
         "additionalProperties": false,
         "properties": {
+          "complianceType": {
+            "type": "string"
+          },
           "difficultyLevel": {
             "format": "int64",
             "type": "integer"
@@ -1309,6 +1312,43 @@
         ],
         "type": "object"
       },
+      "CalendarEntryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "daysRemaining": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "date",
+          "daysRemaining",
+          "status"
+        ],
+        "type": "object"
+      },
       "CampaignCreatedByResponse": {
         "additionalProperties": false,
         "properties": {
@@ -1639,6 +1679,27 @@
           },
           "message": {
             "description": "Success message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
+      "CancelScheduledAlertResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CancelScheduledAlertResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
             "type": "string"
           }
         },
@@ -2046,6 +2107,75 @@
           "totalStepsCompleted",
           "totalStepsAll",
           "period"
+        ],
+        "type": "object"
+      },
+      "ComplianceEntryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "businessProfileId": {
+            "type": "string"
+          },
+          "complianceType": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "issuedDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastNotifiedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "reminderDaysBefore": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "businessProfileId",
+          "accountId",
+          "complianceType",
+          "expiryDate",
+          "reminderDaysBefore",
+          "status",
+          "source"
+        ],
+        "type": "object"
+      },
+      "ComplianceTypeResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug",
+          "label"
         ],
         "type": "object"
       },
@@ -2482,6 +2612,73 @@
         ],
         "type": "object"
       },
+      "CreateComplianceEntryRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CreateComplianceEntryRequest.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "businessProfileId": {
+            "type": "string"
+          },
+          "complianceType": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "issuedDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "reminderDaysBefore": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "businessProfileId",
+          "complianceType",
+          "expiryDate",
+          "reminderDaysBefore"
+        ],
+        "type": "object"
+      },
+      "CreateComplianceEntryResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CreateComplianceEntryResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "message"
+        ],
+        "type": "object"
+      },
       "CreateGuideCondition": {
         "additionalProperties": false,
         "properties": {
@@ -2854,6 +3051,74 @@
         ],
         "type": "object"
       },
+      "CreateScheduledAlertRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CreateScheduledAlertRequest.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "channels": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "scheduledFor": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "templateSlug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "body",
+          "channels",
+          "scheduledFor"
+        ],
+        "type": "object"
+      },
+      "CreateScheduledAlertResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CreateScheduledAlertResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "message"
+        ],
+        "type": "object"
+      },
       "CreateSectorRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2999,6 +3264,10 @@
             ],
             "format": "uri",
             "readOnly": true,
+            "type": "string"
+          },
+          "complianceType": {
+            "description": "Optional compliance type",
             "type": "string"
           },
           "conditions": {
@@ -3677,6 +3946,27 @@
           },
           "message": {
             "description": "Success message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
+      "DeleteComplianceEntryResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DeleteComplianceEntryResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
             "type": "string"
           }
         },
@@ -4424,6 +4714,33 @@
           "IsSet",
           "Size",
           "Filename"
+        ],
+        "type": "object"
+      },
+      "GetCalendarResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/GetCalendarResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/CalendarEntryResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "entries"
         ],
         "type": "object"
       },
@@ -6151,6 +6468,60 @@
         ],
         "type": "object"
       },
+      "ListComplianceEntriesResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/ListComplianceEntriesResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ComplianceEntryResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ListComplianceTypesResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/ListComplianceTypesResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ComplianceTypeResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "ListConversationsOutputBody": {
         "additionalProperties": false,
         "properties": {
@@ -6761,6 +7132,60 @@
         },
         "required": [
           "roles"
+        ],
+        "type": "object"
+      },
+      "ListScheduledAlertsResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/ListScheduledAlertsResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAlertResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ListScheduledTemplatesResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/ListScheduledTemplatesResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScheduledTemplateResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "data"
         ],
         "type": "object"
       },
@@ -8803,6 +9228,54 @@
         ],
         "type": "object"
       },
+      "RescheduleScheduledAlertRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/RescheduleScheduledAlertRequest.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "scheduledFor": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scheduledFor"
+        ],
+        "type": "object"
+      },
+      "RescheduleScheduledAlertResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/RescheduleScheduledAlertResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "previousScheduledFor": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "previousScheduledFor"
+        ],
+        "type": "object"
+      },
       "ResendEmailOTPResponseBody": {
         "additionalProperties": false,
         "properties": {
@@ -8952,6 +9425,95 @@
         },
         "required": [
           "message"
+        ],
+        "type": "object"
+      },
+      "ScheduledAlertResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "cancelledAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "channels": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "rescheduledFrom": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "scheduledFor": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "sentAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "templateSlug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "body",
+          "channels",
+          "scheduledFor",
+          "status",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "ScheduledTemplateResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "defaultBody": {
+            "type": "string"
+          },
+          "defaultChannel": {
+            "type": "string"
+          },
+          "defaultTitle": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug",
+          "name",
+          "defaultTitle",
+          "defaultBody"
         ],
         "type": "object"
       },
@@ -10770,6 +11332,60 @@
         ],
         "type": "object"
       },
+      "UpdateComplianceEntryRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UpdateComplianceEntryRequest.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "expiryDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "issuedDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "reminderDaysBefore": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateComplianceEntryResponseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UpdateComplianceEntryResponseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
       "UpdateDeviceRequest": {
         "additionalProperties": false,
         "properties": {
@@ -11350,6 +11966,10 @@
             ],
             "format": "uri",
             "readOnly": true,
+            "type": "string"
+          },
+          "complianceType": {
+            "description": "Optional compliance type",
             "type": "string"
           },
           "conditions": {
@@ -22064,6 +22684,284 @@
         ]
       }
     },
+    "/api/v1/compliance/calendar": {
+      "get": {
+        "description": "Returns upcoming compliance deadlines and scheduled alerts for the authenticated user.",
+        "operationId": "getComplianceCalendar",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCalendarResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get compliance calendar",
+        "tags": [
+          "Compliance"
+        ]
+      }
+    },
+    "/api/v1/compliance/entries": {
+      "get": {
+        "description": "Lists all compliance entries for a business profile.",
+        "operationId": "listComplianceEntries",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "businessProfileId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListComplianceEntriesResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List compliance entries",
+        "tags": [
+          "Compliance"
+        ]
+      },
+      "post": {
+        "description": "Creates a new compliance entry for a business profile.",
+        "operationId": "createComplianceEntry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateComplianceEntryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateComplianceEntryResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create compliance entry",
+        "tags": [
+          "Compliance"
+        ]
+      }
+    },
+    "/api/v1/compliance/entries/{id}": {
+      "delete": {
+        "description": "Deletes a compliance entry.",
+        "operationId": "deleteComplianceEntry",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteComplianceEntryResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Delete compliance entry",
+        "tags": [
+          "Compliance"
+        ]
+      },
+      "patch": {
+        "description": "Updates a compliance entry.",
+        "operationId": "updateComplianceEntry",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateComplianceEntryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateComplianceEntryResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update compliance entry",
+        "tags": [
+          "Compliance"
+        ]
+      }
+    },
+    "/api/v1/compliance/types": {
+      "get": {
+        "description": "Lists all seeded compliance types for dropdown selections.",
+        "operationId": "listComplianceTypes",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListComplianceTypesResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List compliance types",
+        "tags": [
+          "Compliance"
+        ]
+      }
+    },
     "/api/v1/guides": {
       "get": {
         "description": "Lists guides filtered by the user's business profile taxonomy (sector, tags, region, stage).",
@@ -24268,6 +25166,229 @@
           }
         ],
         "summary": "Delete preference",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/v1/notifications/scheduled": {
+      "get": {
+        "description": "Lists all scheduled alerts for the authenticated user.",
+        "operationId": "listScheduledAlerts",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListScheduledAlertsResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List scheduled alerts",
+        "tags": [
+          "Notifications"
+        ]
+      },
+      "post": {
+        "description": "Creates a new scheduled alert for the authenticated user.",
+        "operationId": "createScheduledAlert",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduledAlertRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateScheduledAlertResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create scheduled alert",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/v1/notifications/scheduled/templates": {
+      "get": {
+        "description": "Lists all available templates for creating scheduled alerts.",
+        "operationId": "listScheduledAlertTemplates",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListScheduledTemplatesResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List scheduled alert templates",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/v1/notifications/scheduled/{id}/cancel": {
+      "patch": {
+        "description": "Cancels a pending scheduled alert.",
+        "operationId": "cancelScheduledAlert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelScheduledAlertResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Cancel scheduled alert",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/v1/notifications/scheduled/{id}/reschedule": {
+      "patch": {
+        "description": "Reschedules a pending scheduled alert to a new date.",
+        "operationId": "rescheduleScheduledAlert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RescheduleScheduledAlertRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RescheduleScheduledAlertResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Reschedule scheduled alert",
         "tags": [
           "Notifications"
         ]

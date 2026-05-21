@@ -18,6 +18,7 @@ abstract class AdminGuideStepDto with _$AdminGuideStepDto {
     required int sortOrder,
     required String stepType,
     required List<dynamic>? translations,
+    String? complianceType,
     int? difficultyLevel,
     int? estimatedTime,
     DateTime? expiryDate,

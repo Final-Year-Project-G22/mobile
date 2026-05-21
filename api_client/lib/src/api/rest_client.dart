@@ -21,6 +21,7 @@ import 'ai_ingestion_status/ai_ingestion_status_client.dart';
 import 'authentication/authentication_client.dart';
 import 'o_auth/o_auth_client.dart';
 import 'community/community_client.dart';
+import 'compliance/compliance_client.dart';
 import 'guides/guides_client.dart';
 import 'library_field/library_field_client.dart';
 import 'payments/payments_client.dart';
@@ -63,6 +64,7 @@ class RestClient {
   AuthenticationClient? _authentication;
   OAuthClient? _oAuth;
   CommunityClient? _community;
+  ComplianceClient? _compliance;
   GuidesClient? _guides;
   LibraryFieldClient? _libraryField;
   PaymentsClient? _payments;
@@ -123,6 +125,9 @@ class RestClient {
 
   CommunityClient get community =>
       _community ??= CommunityClient(_dio, baseUrl: _baseUrl);
+
+  ComplianceClient get compliance =>
+      _compliance ??= ComplianceClient(_dio, baseUrl: _baseUrl);
 
   GuidesClient get guides => _guides ??= GuidesClient(_dio, baseUrl: _baseUrl);
 

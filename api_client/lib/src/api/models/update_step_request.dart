@@ -15,6 +15,9 @@ abstract class UpdateStepRequest with _$UpdateStepRequest {
     /// A URL to the JSON Schema for this object.
     @JsonKey(name: '\$schema') String? schema,
 
+    /// Optional compliance type
+    String? complianceType,
+
     /// Visibility conditions
     List<dynamic>? conditions,
 
