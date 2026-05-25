@@ -2887,6 +2887,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scheduled alert not found'**
   String get scheduledAlertNotFound;
+
+  /// Notification preferences page title
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Preferences'**
+  String get notificationPreferences;
+
+  /// Email notifications toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Email Notifications'**
+  String get emailNotifications;
+
+  /// Push notifications toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get pushNotifications;
+
+  /// In-app notifications are always enabled
+  ///
+  /// In en, this message translates to:
+  /// **'Always enabled'**
+  String get inAppAlwaysOn;
 }
 
 class _AppLocalizationsDelegate

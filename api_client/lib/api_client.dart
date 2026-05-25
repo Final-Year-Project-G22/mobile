@@ -80,6 +80,8 @@ export 'src/api/models/list_my_downloads_response_body.dart';
 export 'src/api/models/my_download_response.dart';
 
 export 'src/api/notifications/notifications_client.dart';
+export 'src/api/models/notification_preferences_response.dart';
+export 'src/api/models/update_notification_preferences_request.dart';
 export 'src/api/models/register_device_request.dart';
 export 'src/api/models/register_device_response_body.dart';
 export 'src/api/models/device_response.dart';

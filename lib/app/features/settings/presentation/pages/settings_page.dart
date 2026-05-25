@@ -57,6 +57,16 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapVerticalLg,
+          Card(
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              leading: const Icon(Icons.notifications_outlined),
+              title: Text(l10n.notificationPreferences),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => const NotificationPreferencesRoute().push<void>(context),
+            ),
+          ),
+          AppSpacing.gapVerticalLg,
           Text(
             l10n.theme,
             style: theme.textTheme.titleMedium?.copyWith(

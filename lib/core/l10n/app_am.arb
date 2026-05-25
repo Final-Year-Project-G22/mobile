@@ -637,5 +637,9 @@
   "unableToCancelAlert": "ማሳሰቢያውን መሰረዝ አልተቻለም",
   "unableToRescheduleAlert": "የማሳሰቢያውን ቀጠሮ መቀየር አልተቻለም",
   "maxLimitReached": "ከ3 በላይ የተቀጠሩ ማሳሰቢያዎችን ለመፍጠር ወደ ፕሮ (Pro) ያሳድጉ",
-  "scheduledAlertNotFound": "የተቀጠረው ማሳሰቢያ አልተገኘም"
+  "scheduledAlertNotFound": "የተቀጠረው ማሳሰቢያ አልተገኘም",
+  "notificationPreferences": "የማሳወቂያ ምርጫዎች",
+  "emailNotifications": "የኢሜይል ማሳወቂያዎች",
+  "pushNotifications": "የግፋ ማሳወቂያዎች",
+  "inAppAlwaysOn": "ሁልጊዜ ነቅቷል"
 }

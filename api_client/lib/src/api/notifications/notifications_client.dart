@@ -24,6 +24,7 @@ import '../models/mark_all_as_read_response_body.dart';
 import '../models/mark_as_read_response_body.dart';
 import '../models/mute_account_request.dart';
 import '../models/mute_account_response_body.dart';
+import '../models/notification_preferences_response.dart';
 import '../models/register_device_request.dart';
 import '../models/register_device_response_body.dart';
 import '../models/reschedule_scheduled_alert_request.dart';
@@ -33,6 +34,7 @@ import '../models/set_preference_response_body.dart';
 import '../models/unmute_account_response_body.dart';
 import '../models/unread_count_response_body.dart';
 import '../models/update_device_request.dart';
+import '../models/update_notification_preferences_request.dart';
 
 part 'notifications_client.g.dart';
 
@@ -78,6 +80,24 @@ abstract class NotificationsClient {
   Future<HttpResponse<DeviceResponse>> updateDevice({
     @Path('id') required String id,
     @Body() required UpdateDeviceRequest body,
+  });
+
+  /// Get notification preferences.
+  ///
+  /// Returns the global email and push notification preferences for the authenticated user.
+  @GET('/api/v1/notifications/global-preferences')
+  Future<HttpResponse<NotificationPreferencesResponse>>
+  getNotificationPreferences();
+
+  /// Update notification preferences.
+  ///
+  /// Updates the global email and push notification preferences for the authenticated user.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @PUT('/api/v1/notifications/global-preferences')
+  Future<HttpResponse<NotificationPreferencesResponse>>
+  updateNotificationPreferences({
+    @Body() required UpdateNotificationPreferencesRequest body,
   });
 
   /// List history.
