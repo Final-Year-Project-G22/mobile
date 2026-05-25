@@ -1531,4 +1531,16 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get scheduledAlertNotFound => 'የተቀጠረው ማሳሰቢያ አልተገኘም';
+
+  @override
+  String get notificationPreferences => 'የማሳወቂያ ምርጫዎች';
+
+  @override
+  String get emailNotifications => 'የኢሜይል ማሳወቂያዎች';
+
+  @override
+  String get pushNotifications => 'የግፋ ማሳወቂያዎች';
+
+  @override
+  String get inAppAlwaysOn => 'ሁልጊዜ ነቅቷል';
 }

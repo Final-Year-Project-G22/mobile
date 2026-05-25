@@ -1548,4 +1548,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scheduledAlertNotFound => 'Scheduled alert not found';
+
+  @override
+  String get notificationPreferences => 'Notification Preferences';
+
+  @override
+  String get emailNotifications => 'Email Notifications';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get inAppAlwaysOn => 'Always enabled';
 }

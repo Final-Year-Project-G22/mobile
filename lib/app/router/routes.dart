@@ -18,6 +18,7 @@ import '../features/home/presentation/pages/home_shell_page.dart';
 import '../features/notifications/compliance/presentation/pages/add_compliance_entry_page.dart';
 import '../features/notifications/compliance/presentation/pages/compliance_entry_detail_page.dart';
 import '../features/notifications/compliance/presentation/pages/compliance_management_page.dart';
+import '../features/notifications/notification_preference/presentation/pages/notification_preferences_page.dart';
 import '../features/notifications/presentation/pages/inbox_page.dart';
 import '../features/notifications/scheduled_alerts/presentation/pages/create_scheduled_alert_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -288,6 +289,16 @@ class PlansRoute extends GoRouteData with $PlansRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const PlansPage();
+}
+
+@TypedGoRoute<NotificationPreferencesRoute>(path: '/notifications/preferences')
+class NotificationPreferencesRoute extends GoRouteData
+    with $NotificationPreferencesRoute {
+  const NotificationPreferencesRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const NotificationPreferencesPage();
 }
 
 @TypedGoRoute<CheckoutLauncherRoute>(path: '/checkout')

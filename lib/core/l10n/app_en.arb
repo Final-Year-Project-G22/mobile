@@ -2001,5 +2001,21 @@
   "scheduledAlertNotFound": "Scheduled alert not found",
   "@scheduledAlertNotFound": {
     "description": "Scheduled alert not found error"
+  },
+  "notificationPreferences": "Notification Preferences",
+  "@notificationPreferences": {
+    "description": "Notification preferences page title"
+  },
+  "emailNotifications": "Email Notifications",
+  "@emailNotifications": {
+    "description": "Email notifications toggle label"
+  },
+  "pushNotifications": "Push Notifications",
+  "@pushNotifications": {
+    "description": "Push notifications toggle label"
+  },
+  "inAppAlwaysOn": "Always enabled",
+  "@inAppAlwaysOn": {
+    "description": "In-app notifications are always enabled"
   }
 }

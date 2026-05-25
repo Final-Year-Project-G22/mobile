@@ -86,15 +86,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final user = state.user;
     final hasInvalidProfileData = user?.failureOption.isSome() ?? false;
 
+    final appBar = AppBar(
+      title: Text(l10n.profile),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.settings),
+          tooltip: l10n.settings,
+          onPressed: () => context.push('/settings'),
+        ),
+      ],
+    );
+
     if (state.isLoading) {
-      return const Scaffold(
-        body: Center(child: AdisuProgressIndicator.large()),
+      return Scaffold(
+        appBar: appBar,
+        body: const Center(child: AdisuProgressIndicator.large()),
       );
     }
 
     if (user == null || hasInvalidProfileData) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.profile)),
+        appBar: appBar,
         body: Center(
           child: Padding(
             padding: AppSpacing.paddingLg,
@@ -136,16 +148,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     _bindForm(user);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.profile),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: l10n.settings,
-            onPressed: () => context.push('/settings'),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: ListView(
         padding: AppSpacing.paddingLg,
         children: [
