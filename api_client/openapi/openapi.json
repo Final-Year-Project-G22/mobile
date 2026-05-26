@@ -10671,6 +10671,10 @@
             "description": "Whether current user follows this thread",
             "type": "boolean"
           },
+          "isMuted": {
+            "description": "Whether current user has muted this thread",
+            "type": "boolean"
+          },
           "isPinned": {
             "description": "Pinned flag",
             "type": "boolean"
@@ -10752,6 +10756,7 @@
           "authorDisplayName",
           "isPinned",
           "isFollowed",
+          "isMuted",
           "unreadCount",
           "hasSolution",
           "status",
@@ -22193,6 +22198,102 @@
           }
         ],
         "summary": "Follow thread",
+        "tags": [
+          "Community"
+        ]
+      }
+    },
+    "/api/v1/community/threads/{id}/mute": {
+      "delete": {
+        "description": "Unmutes notifications for a discussion thread.",
+        "operationId": "unmuteCommunityThread",
+        "parameters": [
+          {
+            "description": "Thread ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Thread ID",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FollowResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Unmute thread",
+        "tags": [
+          "Community"
+        ]
+      },
+      "post": {
+        "description": "Mutes notifications for a discussion thread.",
+        "operationId": "muteCommunityThread",
+        "parameters": [
+          {
+            "description": "Thread ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Thread ID",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FollowResponseBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Mute thread",
         "tags": [
           "Community"
         ]

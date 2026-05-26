@@ -244,6 +244,40 @@ class CommunityMutationsNotifier extends AsyncNotifier<void> {
     return result;
   }
 
+  Future<Either<CommunityFailure, Unit>> muteThread(
+    String threadId,
+  ) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.muteThread(threadId);
+
+    state = const AsyncData(null);
+    result.fold((_) {}, (_) {
+      ref
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider)
+        ..invalidate(threadDetailsProvider(threadId));
+    });
+    return result;
+  }
+
+  Future<Either<CommunityFailure, Unit>> unmuteThread(
+    String threadId,
+  ) async {
+    state = const AsyncLoading();
+    final repo = ref.read(communityRepositoryProvider);
+    final result = await repo.unmuteThread(threadId);
+
+    state = const AsyncData(null);
+    result.fold((_) {}, (_) {
+      ref
+        ..invalidate(filteredThreadsProvider)
+        ..invalidate(allThreadsProvider)
+        ..invalidate(threadDetailsProvider(threadId));
+    });
+    return result;
+  }
+
   Future<Either<CommunityFailure, Unit>> markThreadRead(
     String threadId,
   ) async {

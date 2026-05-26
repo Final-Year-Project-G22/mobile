@@ -85,6 +85,8 @@ abstract class ICommunityRepository {
 
   Future<Either<CommunityFailure, Unit>> followThread(String threadId);
   Future<Either<CommunityFailure, Unit>> unfollowThread(String threadId);
+  Future<Either<CommunityFailure, Unit>> muteThread(String threadId);
+  Future<Either<CommunityFailure, Unit>> unmuteThread(String threadId);
   Future<Either<CommunityFailure, Unit>> markThreadRead(String threadId);
 
   Future<Either<CommunityFailure, Unit>> markSolution(

@@ -25,6 +25,9 @@ abstract class ThreadDto with _$ThreadDto {
     /// Whether current user follows this thread
     required bool isFollowed,
 
+    /// Whether current user has muted this thread
+    required bool isMuted,
+
     /// Pinned flag
     required bool isPinned,
 

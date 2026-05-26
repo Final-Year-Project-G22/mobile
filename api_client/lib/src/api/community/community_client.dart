@@ -365,6 +365,26 @@ abstract class CommunityClient {
     @Path('id') required String id,
   });
 
+  /// Unmute thread.
+  ///
+  /// Unmutes notifications for a discussion thread.
+  ///
+  /// [id] - Thread ID.
+  @DELETE('/api/v1/community/threads/{id}/mute')
+  Future<HttpResponse<FollowResponseBody>> unmuteCommunityThread({
+    @Path('id') required String id,
+  });
+
+  /// Mute thread.
+  ///
+  /// Mutes notifications for a discussion thread.
+  ///
+  /// [id] - Thread ID.
+  @POST('/api/v1/community/threads/{id}/mute')
+  Future<HttpResponse<FollowResponseBody>> muteCommunityThread({
+    @Path('id') required String id,
+  });
+
   /// List thread posts.
   ///
   /// Lists posts in a thread.

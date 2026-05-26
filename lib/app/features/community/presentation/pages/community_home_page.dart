@@ -122,45 +122,55 @@ class _ThreadListView extends ConsumerWidget {
           : (useAllThreads ? allThreadsProvider : filteredThreadsProvider),
     );
 
-    return threadsAsync.when(
-      data: (threads) {
-        if (threads.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.forum,
-                  size: 64,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  searchText?.isNotEmpty == true
-                      ? l10n.noThreadsFound(searchText!)
-                      : (useAllThreads
-                            ? l10n.noThreadsAvailable
-                            : l10n.noPersonalizedThreads),
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        }
+    final threads = threadsAsync.value;
 
-        return RefreshIndicator(
-          onRefresh: () async => ref.invalidate(
-            useFilteredAll
-                ? allThreadsProvider
-                : (useAllThreads
-                      ? allThreadsProvider
-                      : filteredThreadsProvider),
-          ),
-          child: ListView.builder(
-            padding: const EdgeInsets.all(AppSpacing.screenH),
-            itemCount: threads.length,
-            itemBuilder: (context, index) {
+    if (threads == null && threadsAsync.isLoading) {
+      return const Center(child: AdisuProgressIndicator());
+    }
+
+    if (threads == null && threadsAsync.hasError) {
+      return Center(
+        child: Text(l10n.errorLoadingThreads(threadsAsync.error.toString())),
+      );
+    }
+
+    if (threads!.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.forum,
+              size: 64,
+              color: colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              searchText?.isNotEmpty == true
+                  ? l10n.noThreadsFound(searchText!)
+                  : (useAllThreads
+                        ? l10n.noThreadsAvailable
+                        : l10n.noPersonalizedThreads),
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(
+        useFilteredAll
+            ? allThreadsProvider
+            : (useAllThreads
+                  ? allThreadsProvider
+                  : filteredThreadsProvider),
+      ),
+      child: ListView.builder(
+        padding: const EdgeInsets.all(AppSpacing.screenH),
+        itemCount: threads.length,
+        itemBuilder: (context, index) {
               final thread = threads[index];
               return Card(
                 margin: const EdgeInsets.symmetric(
@@ -380,14 +390,9 @@ class _ThreadListView extends ConsumerWidget {
             },
           ),
         );
-      },
-      loading: () => const Center(child: AdisuProgressIndicator()),
-      error: (error, stack) => Center(
-        child: Text(l10n.errorLoadingThreads(error.toString())),
-      ),
-    );
-  }
+    }
 }
+
 
 class _FilterChipsRow extends ConsumerWidget {
   const _FilterChipsRow();

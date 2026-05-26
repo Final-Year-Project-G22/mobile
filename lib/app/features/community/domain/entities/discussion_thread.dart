@@ -13,6 +13,7 @@ abstract class DiscussionThread with _$DiscussionThread {
     required String authorId,
     required bool isPinned,
     required bool isFollowed,
+    required bool isMuted,
     required int unreadCount,
     required bool hasSolution,
     required int viewCount,
