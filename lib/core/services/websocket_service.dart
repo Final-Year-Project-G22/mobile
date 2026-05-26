@@ -21,10 +21,22 @@ class WebSocketService {
   bool _isConnecting = false;
   int _reconnectAttempt = 0;
   final _pendingMessages = <String>[];
+  Uri? _lastUri;
+  final _subscribedThreadIds = <String>{};
 
   Stream<Map<String, dynamic>> get messages => _controller.stream;
   Stream<ConnectionState> get connectionState =>
       _connectionStateController.stream;
+
+  void subscribeThread(String threadId) {
+    _subscribedThreadIds.add(threadId);
+    send({'type': 'subscribe', 'threadId': threadId});
+  }
+
+  void unsubscribeThread(String threadId) {
+    _subscribedThreadIds.remove(threadId);
+    send({'type': 'unsubscribe', 'threadId': threadId});
+  }
 
   Future<void> connect(Uri uri) async {
     if (_isDisposed) return;
@@ -36,13 +48,14 @@ class WebSocketService {
     }
 
     _isConnecting = true;
+    _lastUri = uri;
 
     final token = await _tokenProvider();
     if (token == null || token.isEmpty) {
       if (kDebugMode) debugPrint('[WS] No token available, will retry connect');
       _isConnecting = false;
       _connectionStateController.add(ConnectionState.disconnected);
-      _scheduleReconnect(uri);
+      _scheduleReconnect();
       return;
     }
 
@@ -64,6 +77,14 @@ class WebSocketService {
       _isConnecting = false;
       if (kDebugMode) debugPrint('[WS] Connected');
 
+      // Re-subscribe to all active threads
+      for (final threadId in _subscribedThreadIds) {
+        _channel!.sink.add(jsonEncode({
+          'type': 'subscribe',
+          'threadId': threadId,
+        }));
+      }
+
       // Flush any messages that were sent before connection established.
       final sink = _channel?.sink;
       if (sink != null) {
@@ -84,19 +105,19 @@ class WebSocketService {
         onError: (Object error, StackTrace stackTrace) {
           if (kDebugMode) debugPrint('[WS] Error: $error');
           _handleDisconnect();
-          _scheduleReconnect(uri);
+          _scheduleReconnect();
         },
         onDone: () {
           if (kDebugMode) debugPrint('[WS] Connection closed');
           _handleDisconnect();
-          _scheduleReconnect(uri);
+          _scheduleReconnect();
         },
       );
     } on Exception catch (e) {
       if (kDebugMode) debugPrint('[WS] Connect failed: $e');
       _isConnecting = false;
       _connectionStateController.add(ConnectionState.disconnected);
-      _scheduleReconnect(uri);
+      _scheduleReconnect();
     }
   }
 
@@ -106,8 +127,8 @@ class WebSocketService {
     _connectionStateController.add(ConnectionState.disconnected);
   }
 
-  void _scheduleReconnect(Uri uri) {
-    if (_isDisposed) return;
+  void _scheduleReconnect() {
+    if (_isDisposed || _lastUri == null) return;
 
     final delay = _reconnectDelay(_reconnectAttempt);
     _reconnectAttempt++;
@@ -117,7 +138,7 @@ class WebSocketService {
       );
     }
 
-    unawaited(Future.delayed(delay, () => connect(uri)));
+    unawaited(Future.delayed(delay, () => connect(_lastUri!)));
   }
 
   Duration _reconnectDelay(int attempt) {
@@ -140,6 +161,7 @@ class WebSocketService {
 
   void dispose() {
     _isDisposed = true;
+    _subscribedThreadIds.clear();
     _pendingMessages.clear();
     unawaited(_subscription?.cancel());
     unawaited(_channel?.sink.close(status.goingAway));

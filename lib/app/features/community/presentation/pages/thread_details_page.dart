@@ -52,20 +52,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     _webSocketService = ref.read(webSocketServiceProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      _webSocketService.send({
-        'type': 'subscribe',
-        'threadId': widget.threadId,
-      });
+      _webSocketService.subscribeThread(widget.threadId);
     });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _webSocketService.send({
-      'type': 'unsubscribe',
-      'threadId': widget.threadId,
-    });
+    _webSocketService.unsubscribeThread(widget.threadId);
     super.dispose();
   }
 
@@ -455,42 +449,84 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
                 return threadAsync.when(
                   data: (thread) {
-                    return IconButton(
-                      icon: Icon(
-                        thread.isFollowed
-                            ? Icons.notifications
-                            : Icons.notifications_none,
-                      ),
-                      tooltip: thread.isFollowed
-                          ? l10n.unfollowThread
-                          : l10n.followThread,
-                      onPressed: () async {
-                        final notifier = ref.read(
-                          communityMutationsProvider.notifier,
-                        );
-                        final result = await (thread.isFollowed
-                            ? notifier.unfollowThread(thread.id)
-                            : notifier.followThread(thread.id));
-                        if (!context.mounted) return;
-                        result.fold(
-                          (failure) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Failed: $failure')),
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            thread.isFollowed
+                                ? Icons.notifications
+                                : Icons.notifications_none,
+                          ),
+                          tooltip: thread.isFollowed
+                              ? l10n.unfollowThread
+                              : l10n.followThread,
+                          onPressed: () async {
+                            final notifier = ref.read(
+                              communityMutationsProvider.notifier,
+                            );
+                            final result = await (thread.isFollowed
+                                ? notifier.unfollowThread(thread.id)
+                                : notifier.followThread(thread.id));
+                            if (!context.mounted) return;
+                            result.fold(
+                              (failure) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed: $failure')),
+                                );
+                              },
+                              (_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      thread.isFollowed
+                                          ? l10n.unfollowedThread
+                                          : l10n.followingThread,
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
-                          (_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  thread.isFollowed
-                                      ? l10n.unfollowedThread
-                                      : l10n.followingThread,
-                                ),
-                              ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            thread.isMuted
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          tooltip: thread.isMuted
+                              ? 'Unmute Thread'
+                              : 'Mute Thread',
+                          onPressed: () async {
+                            final notifier = ref.read(
+                              communityMutationsProvider.notifier,
+                            );
+                            final result = await (thread.isMuted
+                                ? notifier.unmuteThread(thread.id)
+                                : notifier.muteThread(thread.id));
+                            if (!context.mounted) return;
+                            result.fold(
+                              (failure) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed: $failure')),
+                                );
+                              },
+                              (_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      thread.isMuted
+                                          ? 'Thread unmuted'
+                                          : 'Thread muted',
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
+                        ),
+                      ],
                     );
                   },
                   loading: () => const SizedBox.shrink(),
@@ -607,6 +643,15 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
               if (_previousPostCount != null &&
                   currentPostCount > _previousPostCount!) {
                 _scrollToBottom();
+                if (_previousPostCount! > 0) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    unawaited(
+                      ref
+                          .read(communityMutationsProvider.notifier)
+                          .markThreadRead(widget.threadId),
+                    );
+                  });
+                }
               }
               _previousPostCount = currentPostCount;
 

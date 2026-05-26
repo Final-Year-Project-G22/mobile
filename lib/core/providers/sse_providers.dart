@@ -28,7 +28,7 @@ Uri sseInboxUri(Ref ref) {
   return base.replace(path: '/api/v1/notifications/inbox/events');
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<Map<String, dynamic>> sseInboxEvents(Ref ref) {
   final isForeground = ref.watch(isAppInForegroundProvider);
   final uri = ref.watch(sseInboxUriProvider);

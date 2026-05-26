@@ -51,21 +51,33 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
       l10n.templates,
     ];
 
+    final routerState = GoRouterState.of(context);
+    final currentPath = routerState.matchedLocation;
+    final isTabRoot = [
+      '/home',
+      '/guides',
+      '/community',
+      '/templates',
+      '/downloads',
+    ].any((tabPath) => currentPath == tabPath);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          tabLabels[currentIndex],
-          style: theme.textTheme.titleLarge,
-        ),
-        actions: [
-          HomeTopActions(
-            unreadCount: unreadCountAsync.value,
-            onNotificationsTap: () => context.push('/inbox'),
-            onProfileTap: () => context.push('/profile'),
-          ),
-          AppSpacing.gapHorizontalXs,
-        ],
-      ),
+      appBar: isTabRoot
+          ? AppBar(
+              title: Text(
+                tabLabels[currentIndex],
+                style: theme.textTheme.titleLarge,
+              ),
+              actions: [
+                HomeTopActions(
+                  unreadCount: unreadCountAsync.value,
+                  onNotificationsTap: () => context.push('/inbox'),
+                  onProfileTap: () => context.push('/profile'),
+                ),
+                AppSpacing.gapHorizontalXs,
+              ],
+            )
+          : null,
       body: Column(
         children: [
           if (businessProfileAsync.hasValue &&

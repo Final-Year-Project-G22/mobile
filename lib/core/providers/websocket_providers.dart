@@ -1,24 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../services/websocket_service.dart';
 
-final _secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
-  return const FlutterSecureStorage();
-});
+part 'websocket_providers.g.dart';
 
-final webSocketServiceProvider = Provider<WebSocketService>((ref) {
+@Riverpod(keepAlive: true)
+FlutterSecureStorage wsSecureStorage(Ref ref) {
+  return const FlutterSecureStorage();
+}
+
+@Riverpod(keepAlive: true)
+WebSocketService webSocketService(Ref ref) {
+  final storage = ref.watch(wsSecureStorageProvider);
   return WebSocketService(
-    tokenProvider: () async {
-      final storage = ref.read(_secureStorageProvider);
-      return storage.read(key: 'access_token');
-    },
+    tokenProvider: () => storage.read(key: 'access_token'),
   );
-});
+}
 
 Uri _buildWsUri() {
   final baseUrl = AppConfig.apiBaseUrl;
@@ -27,7 +29,8 @@ Uri _buildWsUri() {
   return uri.replace(scheme: wsScheme, path: '/ws');
 }
 
-final wsMessagesProvider = StreamProvider<Map<String, dynamic>>((ref) {
+@Riverpod(keepAlive: true)
+Stream<Map<String, dynamic>> wsMessages(Ref ref) {
   final service = ref.watch(webSocketServiceProvider);
   final wsUri = _buildWsUri();
 
@@ -37,4 +40,4 @@ final wsMessagesProvider = StreamProvider<Map<String, dynamic>>((ref) {
 
   unawaited(service.connect(wsUri));
   return service.messages;
-});
+}

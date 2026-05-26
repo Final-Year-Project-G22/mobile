@@ -411,6 +411,30 @@ class CommunityRepositoryImpl implements ICommunityRepository {
   }
 
   @override
+  Future<Either<CommunityFailure, Unit>> muteThread(String threadId) async {
+    try {
+      await _client.muteCommunityThread(id: threadId);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
+  Future<Either<CommunityFailure, Unit>> unmuteThread(String threadId) async {
+    try {
+      await _client.unmuteCommunityThread(id: threadId);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
+    } on Exception {
+      return const Left(CommunityFailure.serverError());
+    }
+  }
+
+  @override
   Future<Either<CommunityFailure, Unit>> markThreadRead(String threadId) async {
     try {
       await _client.markThreadRead(id: threadId);
@@ -548,6 +572,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       authorAvatarUrl: authorAvatarUrl,
       isPinned: dto.isPinned,
       isFollowed: dto.isFollowed,
+      isMuted: dto.isMuted,
       unreadCount: dto.unreadCount,
       hasSolution: dto.hasSolution,
       status: status,
