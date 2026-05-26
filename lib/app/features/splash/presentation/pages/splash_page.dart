@@ -62,7 +62,6 @@ class _SplashPageState extends ConsumerState<SplashPage>
               child: SvgPicture.asset(
                 'assets/images/logo.svg',
                 width: 160,
-                fit: BoxFit.contain,
               ),
             ),
             AppSpacing.gapVerticalLg,
