@@ -8,10 +8,10 @@ import '../l10n/generated/app_localizations.dart';
 class LocaleToggleButton extends ConsumerWidget {
   const LocaleToggleButton({super.key});
 
-  String _labelFor(Locale? locale) {
-    if (locale == null) return 'AUTO';
-    if (locale.languageCode == 'am') return 'አማ';
-    return 'EN';
+  String _labelFor(Locale? locale, AppLocalizations l10n) {
+    if (locale == null) return l10n.systemDefault;
+    if (locale.languageCode == 'am') return l10n.languageAmharic;
+    return l10n.languageEnglish;
   }
 
   @override
@@ -48,12 +48,23 @@ class LocaleToggleButton extends ConsumerWidget {
           ),
           color: theme.colorScheme.surface.withValues(alpha: 0.8),
         ),
-        child: Text(
-          _labelFor(locale),
-          style: theme.textTheme.labelSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.translate,
+              size: 14,
+              color: theme.colorScheme.onSurface,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              _labelFor(locale, l10n),
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+          ],
         ),
       ),
     );

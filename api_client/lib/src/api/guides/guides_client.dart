@@ -40,8 +40,6 @@ abstract class GuidesClient {
   ///
   /// [pageSize] - Items per page.
   ///
-  /// [locale] - Language locale (en, am).
-  ///
   /// [sectorIds] - Comma-separated sector IDs.
   ///
   /// [tagIds] - Comma-separated tag IDs.
@@ -49,7 +47,6 @@ abstract class GuidesClient {
   Future<HttpResponse<ListGuidesResponseBody>> listGuides({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
-    @Query('locale') String? locale,
     @Query('sectorIds') String? sectorIds,
     @Query('tagIds') String? tagIds,
   });
@@ -76,12 +73,8 @@ abstract class GuidesClient {
   /// Get in-progress guides.
   ///
   /// Retrieves guides the user has started but not completed, with progress data.
-  ///
-  /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/in-progress')
-  Future<HttpResponse<GetInProgressGuidesResponseBody>> getInProgressGuides({
-    @Query('locale') String? locale,
-  });
+  Future<HttpResponse<GetInProgressGuidesResponseBody>> getInProgressGuides();
 
   /// Get recently viewed guides.
   ///
@@ -90,13 +83,10 @@ abstract class GuidesClient {
   /// [page] - Page number.
   ///
   /// [pageSize] - Items per page.
-  ///
-  /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/recent')
   Future<HttpResponse<GetRecentlyViewedResponseBody>> getRecentlyViewed({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
-    @Query('locale') String? locale,
   });
 
   /// Search guides.
@@ -108,14 +98,11 @@ abstract class GuidesClient {
   /// [page] - Page number.
   ///
   /// [pageSize] - Items per page.
-  ///
-  /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/search')
   Future<HttpResponse<SearchGuidesResponseBody>> searchGuides({
     @Query('q') String? q,
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,
-    @Query('locale') String? locale,
   });
 
   /// Remove bookmark.
@@ -212,12 +199,9 @@ abstract class GuidesClient {
   /// Retrieves a guide with personalized step statuses based on user progress.
   ///
   /// [guideSlug] - Guide slug.
-  ///
-  /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/{guideSlug}')
   Future<HttpResponse<GetPersonalizedGuideResponseBody>> getPersonalizedGuide({
     @Path('guideSlug') required String guideSlug,
-    @Query('locale') String? locale,
   });
 
   /// Get current step.
@@ -225,11 +209,8 @@ abstract class GuidesClient {
   /// Returns the next incomplete step in a guide for the user.
   ///
   /// [guideSlug] - Guide slug.
-  ///
-  /// [locale] - Language locale (en, am).
   @GET('/api/v1/guides/{guideSlug}/current-step')
   Future<HttpResponse<GetCurrentStepResponseBody>> getCurrentStep({
     @Path('guideSlug') required String guideSlug,
-    @Query('locale') String? locale,
   });
 }

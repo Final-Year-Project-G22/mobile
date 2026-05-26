@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/config/app_config.dart';
+import '../../../../core/di/app_providers.dart';
 import '../../../../core/di/auth_providers.dart';
 import '../../../../core/di/infra_providers.dart';
 import '../domain/entities/auth_response.dart';
@@ -168,6 +170,7 @@ class AuthNotifier extends _$AuthNotifier {
           'id': account.id,
           'email': account.email,
           'status': account.status,
+          'language': account.language,
         }),
       );
     } on Exception catch (_) {}
@@ -199,6 +202,7 @@ class AuthNotifier extends _$AuthNotifier {
         id: map['id'] as String,
         email: map['email'] as String,
         status: map['status'] as String,
+        language: map['language'] as String? ?? 'en',
       );
     } on Exception catch (_) {
       return null;
@@ -596,6 +600,15 @@ class AuthNotifier extends _$AuthNotifier {
       ),
     );
     await _saveTokensToPrefs();
+
+    // Sync language from backend response to local preference
+    final language = authResponse.account.language;
+    if (language.isNotEmpty) {
+      ref.read(localeProvider.notifier).setLocale(
+        Locale(language),
+        syncToBackend: false,
+      );
+    }
   }
 
   void _setOAuthFailure(AuthUserFailure failure) {

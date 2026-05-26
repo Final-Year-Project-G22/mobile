@@ -9,21 +9,16 @@ import 'failures/guide_failures.dart';
 
 abstract class IGuideRepository {
   Future<Either<GuideFailure, List<GuideCard>>> listGuides({
-    String? locale,
     List<String>? sectorIds,
     List<String>? tagIds,
   });
 
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
     String query,
-    String? locale,
   );
-  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed(
-    String? locale,
-  );
+  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed();
   Future<Either<GuideFailure, GuideDetail>> getPersonalizedGuide(
     String guideSlug,
-    String? locale,
   );
   Future<Either<GuideFailure, List<GuideWithProgress>>> getInProgressGuides();
   Future<Either<GuideFailure, CompletionStats>> getCompletionStats();

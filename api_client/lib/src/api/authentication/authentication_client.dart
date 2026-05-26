@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
 
+import '../models/account_preference_response.dart';
 import '../models/admin_register_request.dart';
 import '../models/admin_register_response_body.dart';
 import '../models/admin_update_roles_output_body.dart';
@@ -21,6 +22,7 @@ import '../models/register_response_body.dart';
 import '../models/resend_email_otp_response_body.dart';
 import '../models/update_account_password_request.dart';
 import '../models/update_account_password_response_body.dart';
+import '../models/update_account_preference_request.dart';
 import '../models/verify_email_otp_request.dart';
 import '../models/verify_email_otp_response_body.dart';
 
@@ -92,6 +94,22 @@ abstract class AuthenticationClient {
   /// Returns the current authenticated user's profile and account information.
   @GET('/api/v1/auth/me')
   Future<HttpResponse<GetCurrentUserResponseBody>> getCurrentUser();
+
+  /// Get account preferences.
+  ///
+  /// Returns the language and timezone preferences for the authenticated user.
+  @GET('/api/v1/auth/preferences')
+  Future<HttpResponse<AccountPreferenceResponse>> getAccountPreferences();
+
+  /// Update account preferences.
+  ///
+  /// Updates the language and timezone preferences for the authenticated user.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @PUT('/api/v1/auth/preferences')
+  Future<HttpResponse<AccountPreferenceResponse>> updateAccountPreferences({
+    @Body() required UpdateAccountPreferenceRequest body,
+  });
 
   /// Refresh access token.
   ///

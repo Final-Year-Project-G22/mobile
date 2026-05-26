@@ -111,11 +111,6 @@ class _LogInPageState extends ConsumerState<LogInPage> {
     return Scaffold(
       body: Stack(
         children: [
-          const Positioned(
-            top: 8,
-            right: 8,
-            child: LocaleToggleButton(),
-          ),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.screenH),
@@ -237,6 +232,11 @@ class _LogInPageState extends ConsumerState<LogInPage> {
                 ),
               ),
             ),
+          ),
+          const Positioned(
+            top: 48,
+            right: 8,
+            child: LocaleToggleButton(),
           ),
           if (oauthState.oauthInProgress)
             Positioned.fill(

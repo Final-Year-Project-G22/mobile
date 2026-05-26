@@ -21,8 +21,14 @@ class AuthUser {
 }
 
 class AuthAccount {
-  AuthAccount({required this.id, required this.email, required this.status});
+  AuthAccount({
+    required this.id,
+    required this.email,
+    required this.status,
+    this.language = 'en',
+  });
   final String id;
   final String email;
   final String status;
+  final String language;
 }

@@ -21,12 +21,8 @@ abstract class LibraryFieldClient {
   /// List categories.
   ///
   /// Lists active categories as a tree, optionally localized.
-  ///
-  /// [locale] - Language code for localized names.
   @GET('/api/v1/library/categories')
-  Future<HttpResponse<dynamic>> libraryListCategories({
-    @Query('locale') String? locale,
-  });
+  Future<HttpResponse<dynamic>> libraryListCategories();
 
   /// My downloads.
   ///
@@ -69,13 +65,10 @@ abstract class LibraryFieldClient {
   /// Gets a template group with its language variants.
   ///
   /// [groupId] - Template group ID.
-  ///
-  /// [locale] - Language code.
   @GET('/api/v1/library/templates/{groupId}')
   Future<HttpResponse<UserTemplateGroupDetailResponse>>
   libraryGetTemplateGroup({
     @Path('groupId') required String groupId,
-    @Query('locale') String? locale,
   });
 
   /// Download template.

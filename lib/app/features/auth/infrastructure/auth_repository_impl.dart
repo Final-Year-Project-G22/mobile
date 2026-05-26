@@ -57,6 +57,7 @@ class AuthRepositoryImpl implements IAuthRepository {
             id: httpResponse.data.account.id,
             email: httpResponse.data.account.email,
             status: httpResponse.data.account.status,
+            language: httpResponse.data.account.language ?? 'en',
           ),
         ),
       );
@@ -98,6 +99,7 @@ class AuthRepositoryImpl implements IAuthRepository {
             id: httpResponse.data.account.id,
             email: httpResponse.data.account.email,
             status: httpResponse.data.account.status,
+            language: httpResponse.data.account.language ?? 'en',
           ),
         ),
       );
@@ -219,6 +221,7 @@ class AuthRepositoryImpl implements IAuthRepository {
             id: httpResponse.data.account.id,
             email: httpResponse.data.account.email,
             status: httpResponse.data.account.status,
+            language: httpResponse.data.account.language ?? 'en',
           ),
         ),
       );
@@ -328,6 +331,7 @@ class AuthRepositoryImpl implements IAuthRepository {
             id: account.id,
             email: account.email,
             status: account.status,
+            language: account.language ?? 'en',
           ),
         ),
       ),

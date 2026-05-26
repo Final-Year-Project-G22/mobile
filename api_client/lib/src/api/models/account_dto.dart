@@ -19,6 +19,9 @@ abstract class AccountDto with _$AccountDto {
     /// Account status (pending_verification, active, locked, suspended, disabled)
     required String status,
 
+    /// Account language preference (en, am)
+    String? language,
+
     /// Account username
     String? username,
   }) = _AccountDto;

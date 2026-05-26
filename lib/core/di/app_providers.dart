@@ -50,7 +50,7 @@ class LocaleNotifier extends _$LocaleNotifier {
     );
   }
 
-  void setLocale(Locale? locale) {
+  void setLocale(Locale? locale, {bool syncToBackend = true}) {
     state = locale;
     ref.read(sharedPreferencesProviderFuture).whenData((prefs) {
       if (locale != null) {
