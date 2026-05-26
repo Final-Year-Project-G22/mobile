@@ -144,9 +144,8 @@ _Avoid_: Using the full "Adisu Serategna" text as a logo mark; recoloring the lo
 | Splash BG | `#F8FAFC` | Native splash, Flutter splash page, app icon background |
 
 ### Splash Screen Typography
-- **Wordmark font**: Playfair Display (Google Font, serif) — used for "Adisu Serategna" on the splash page only
-- **App body fonts**: Plus Jakarta Sans (headings) + Inter (body) — unchanged from theme defaults
-- Imported via `google_fonts` (already a dependency)
+- **Wordmark style**: Uses the theme's `displayLarge` (Plus Jakarta Sans) for consistency — same heading font across the app
+- **App body fonts**: Plus Jakarta Sans (headings) + Inter (body)
 
 ### Splash Screen
 The splash (`/splash` route) serves as a branded loading gate while auth status resolves. Composition: centered SVG logo with fade-in animation, "Adisu Serategna" wordmark below in Playfair Display, then `AdisuProgressIndicator` spinner. Background is `#F8FAFC`. The native splash layer (pre-Flutter) uses the same background color for a seamless handoff.
