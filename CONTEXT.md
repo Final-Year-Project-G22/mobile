@@ -124,6 +124,34 @@ _Avoid_: Classification, categorization
 | `settings` | App settings |
 | `splash` | Loading/splash screen |
 
+## Brand & Identity
+
+### App Name
+**Adisu Serategna** — used as the app title across platform manifests (Android `android:label`, iOS `CFBundleDisplayName`), the Material app title, and the splash wordmark.
+_Avoid_: Adisu, Adisu app, Serategna alone
+
+### Logo
+An Ethiopian-styled **"A" letterform** (initial of "Adisu") rendered as a single silhouette with internal negative-space ornamental cutouts. Uses color `#293751` (dark navy, distinct from the theme primary `#1E293B`). Transparent background — designed to sit on a light surface.
+_Avoid_: Using the full "Adisu Serategna" text as a logo mark; recoloring the logo to match theme primary
+
+### Brand Colors
+
+| Role | Hex | Usage |
+|------|-----|-------|
+| Logo | `#293751` | SVG letterform, app icon foreground, splash hero |
+| Primary | `#1E293B` | Theme primary (Material), headings, navigation accents |
+| Secondary | `#10B981` | Theme secondary, branded spinner, CTAs |
+| Splash BG | `#F8FAFC` | Native splash, Flutter splash page, app icon background |
+
+### Splash Screen Typography
+- **Wordmark font**: Playfair Display (Google Font, serif) — used for "Adisu Serategna" on the splash page only
+- **App body fonts**: Plus Jakarta Sans (headings) + Inter (body) — unchanged from theme defaults
+- Imported via `google_fonts` (already a dependency)
+
+### Splash Screen
+The splash (`/splash` route) serves as a branded loading gate while auth status resolves. Composition: centered SVG logo with fade-in animation, "Adisu Serategna" wordmark below in Playfair Display, then `AdisuProgressIndicator` spinner. Background is `#F8FAFC`. The native splash layer (pre-Flutter) uses the same background color for a seamless handoff.
+_Avoid_: Placing navigation logic in the splash widget (handled by GoRouter redirect); adding user-actionable elements on splash
+
 ## Key Implementation Patterns
 
 ### Repository Pattern
