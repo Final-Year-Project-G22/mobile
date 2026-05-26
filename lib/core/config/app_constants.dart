@@ -1,7 +1,7 @@
 class AppConstants {
   AppConstants._();
 
-  static const String appName = 'Adisu';
+  static const String appName = 'Adisu Serategna';
   static const String appVersion = '1.0.0';
 
   static const int cacheValidityMinutes = 30;
