@@ -22,7 +22,7 @@ class GuideListNotifier extends _$GuideListNotifier {
   Future<void> _loadData() async {
     final repo = ref.read(guideRepositoryProvider);
 
-    final recentResult = await repo.getRecentlyViewed(null);
+    final recentResult = await repo.getRecentlyViewed();
     final bkmkResult = await repo.listBookmarks();
 
     final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
@@ -52,7 +52,7 @@ class GuideListNotifier extends _$GuideListNotifier {
 
   Future<void> _runSearch(String query) async {
     final repo = ref.read(guideRepositoryProvider);
-    final result = await repo.searchGuides(query, null);
+    final result = await repo.searchGuides(query);
     result.fold(
       (_) => state = state.copyWith(isLoading: false),
       (guides) {

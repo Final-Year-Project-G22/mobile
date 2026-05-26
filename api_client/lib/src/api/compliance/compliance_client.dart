@@ -72,7 +72,5 @@ abstract class ComplianceClient {
   ///
   /// Lists all seeded compliance types for dropdown selections.
   @GET('/api/v1/compliance/types')
-  Future<HttpResponse<ListComplianceTypesResponseBody>> listComplianceTypes({
-    @Query('locale') String? locale,
-  });
+  Future<HttpResponse<ListComplianceTypesResponseBody>> listComplianceTypes();
 }

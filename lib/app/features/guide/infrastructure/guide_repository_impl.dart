@@ -21,31 +21,22 @@ import '../domain/failures/guide_failures.dart';
 import '../domain/i_guide_repository.dart';
 
 class GuideRepositoryImpl implements IGuideRepository {
-  const GuideRepositoryImpl(this._client, this._dio);
+  const GuideRepositoryImpl(this._client);
 
   final GuidesClient _client;
-  final Dio _dio;
 
   @override
   Future<Either<GuideFailure, List<GuideCard>>> listGuides({
-    String? locale,
     List<String>? sectorIds,
     List<String>? tagIds,
   }) async {
     try {
-      final queryParameters = <String, dynamic>{
-        'locale': locale ?? 'en',
-        if (sectorIds != null && sectorIds.isNotEmpty)
-          'sectorIds': sectorIds.join(','),
-        if (tagIds != null && tagIds.isNotEmpty) 'tagIds': tagIds.join(','),
-      };
-
-      final response = await _dio.get<Map<String, dynamic>>(
-        '/api/v1/guides',
-        queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      final response = await _client.listGuides(
+        sectorIds: sectorIds?.join(','),
+        tagIds: tagIds?.join(','),
       );
 
-      final guidesRaw = response.data?['guides'] as List<dynamic>? ?? [];
+      final guidesRaw = response.data.guides ?? [];
       final cards = <GuideCard>[];
       for (final item in guidesRaw) {
         if (item is Map<String, dynamic>) {
@@ -62,12 +53,10 @@ class GuideRepositoryImpl implements IGuideRepository {
   @override
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
     String query,
-    String? locale,
   ) async {
     try {
       final response = await _client.searchGuides(
         q: query.isEmpty ? null : query,
-        locale: locale,
       );
       final raw = response.data.guides;
       if (raw == null) return const Right([]);
@@ -85,11 +74,9 @@ class GuideRepositoryImpl implements IGuideRepository {
   }
 
   @override
-  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed(
-    String? locale,
-  ) async {
+  Future<Either<GuideFailure, List<GuideCard>>> getRecentlyViewed() async {
     try {
-      final response = await _client.getRecentlyViewed(locale: locale);
+      final response = await _client.getRecentlyViewed();
       final raw = response.data.guides;
       if (raw == null) return const Right([]);
       final cards = <GuideCard>[];
@@ -108,12 +95,10 @@ class GuideRepositoryImpl implements IGuideRepository {
   @override
   Future<Either<GuideFailure, GuideDetail>> getPersonalizedGuide(
     String guideSlug,
-    String? locale,
   ) async {
     try {
       final response = await _client.getPersonalizedGuide(
         guideSlug: guideSlug,
-        locale: locale,
       );
       final data = response.data;
 

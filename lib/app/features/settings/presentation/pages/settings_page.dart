@@ -1,8 +1,11 @@
+import 'package:api_client/api_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/di/app_providers.dart';
+import '../../../../../core/di/auth_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../constants/app_spacing.dart';
@@ -38,10 +41,23 @@ class SettingsPage extends ConsumerWidget {
           AppSpacing.gapVerticalSm,
           Card(
             margin: EdgeInsets.zero,
-            child: RadioGroup<Locale?>(
+            child:           RadioGroup<Locale?>(
               groupValue: locale,
-              onChanged: (value) =>
-                  ref.read(localeProvider.notifier).setLocale(value),
+              onChanged: (value) async {
+                ref.read(localeProvider.notifier).setLocale(value);
+                if (value != null) {
+                  try {
+                    final authClient = ref.read(authenticationClientProvider);
+                    await authClient.updateAccountPreferences(
+                      body: UpdateAccountPreferenceRequest(
+                        language: value.languageCode,
+                      ),
+                    );
+                  } on DioException {
+                    // Silently ignore — local preference is already set
+                  }
+                }
+              },
               child: Column(
                 children: [
                   RadioListTile<Locale?>(

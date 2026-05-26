@@ -40,7 +40,7 @@ class GuideDetailNotifier extends _$GuideDetailNotifier {
   Future<void> loadGuide(String slug) async {
     state = state.copyWith(isLoading: true);
     final repo = ref.read(guideRepositoryProvider);
-    final result = await repo.getPersonalizedGuide(slug, null);
+    final result = await repo.getPersonalizedGuide(slug);
     result.fold(
       (f) {
         final message = f.map(

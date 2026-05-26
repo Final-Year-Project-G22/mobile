@@ -12,6 +12,10 @@
             "description": "Account's unique identifier",
             "type": "string"
           },
+          "language": {
+            "description": "Account language preference (en, am)",
+            "type": "string"
+          },
           "status": {
             "description": "Account status (pending_verification, active, locked, suspended, disabled)",
             "type": "string"
@@ -25,6 +29,33 @@
           "id",
           "email",
           "status"
+        ],
+        "type": "object"
+      },
+      "AccountPreferenceResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/AccountPreferenceResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "language": {
+            "description": "User's language preference (en, am)",
+            "type": "string"
+          },
+          "timezone": {
+            "description": "User's timezone (e.g. UTC, Africa/Addis_Ababa)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "language",
+          "timezone"
         ],
         "type": "object"
       },
@@ -10900,6 +10931,26 @@
         ],
         "type": "object"
       },
+      "UpdateAccountPreferenceRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UpdateAccountPreferenceRequest.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "language": {
+            "description": "Language code (en, am)",
+            "maxLength": 10,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "UpdateAdminStatusOutputBody": {
         "additionalProperties": false,
         "properties": {
@@ -20627,6 +20678,88 @@
         ]
       }
     },
+    "/api/v1/auth/preferences": {
+      "get": {
+        "description": "Returns the language and timezone preferences for the authenticated user.",
+        "operationId": "getAccountPreferences",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountPreferenceResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get account preferences",
+        "tags": [
+          "Authentication"
+        ]
+      },
+      "put": {
+        "description": "Updates the language and timezone preferences for the authenticated user.",
+        "operationId": "updateAccountPreferences",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountPreferenceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountPreferenceResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update account preferences",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
     "/api/v1/auth/refresh": {
       "post": {
         "description": "Uses the refresh token cookie to issue new access and refresh tokens. Implements token rotation for security.",
@@ -23066,16 +23199,6 @@
       "get": {
         "description": "Lists all seeded compliance types for dropdown selections.",
         "operationId": "listComplianceTypes",
-        "parameters": [
-          {
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "content": {
@@ -23134,16 +23257,6 @@
               "description": "Items per page",
               "format": "int64",
               "type": "integer"
-            }
-          },
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
             }
           },
           {
@@ -23302,18 +23415,6 @@
       "get": {
         "description": "Retrieves guides the user has started but not completed, with progress data.",
         "operationId": "getInProgressGuides",
-        "parameters": [
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "content": {
@@ -23372,16 +23473,6 @@
               "description": "Items per page",
               "format": "int64",
               "type": "integer"
-            }
-          },
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
             }
           }
         ],
@@ -23454,16 +23545,6 @@
               "description": "Items per page",
               "format": "int64",
               "type": "integer"
-            }
-          },
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
             }
           }
         ],
@@ -23928,16 +24009,6 @@
               "minLength": 1,
               "type": "string"
             }
-          },
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -23988,16 +24059,6 @@
               "minLength": 1,
               "type": "string"
             }
-          },
-          {
-            "description": "Language locale (en, am)",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language locale (en, am)",
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -24037,18 +24098,6 @@
       "get": {
         "description": "Lists active categories as a tree, optionally localized.",
         "operationId": "LibraryListCategories",
-        "parameters": [
-          {
-            "description": "Language code for localized names",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language code for localized names",
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "content": {
@@ -24243,16 +24292,6 @@
             "required": true,
             "schema": {
               "description": "Template group ID",
-              "type": "string"
-            }
-          },
-          {
-            "description": "Language code",
-            "explode": false,
-            "in": "query",
-            "name": "locale",
-            "schema": {
-              "description": "Language code",
               "type": "string"
             }
           }

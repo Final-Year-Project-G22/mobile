@@ -22,7 +22,7 @@ class HomeDashboardNotifier extends _$HomeDashboardNotifier {
 
     final statsResult = await repo.getCompletionStats();
     final inProgressResult = await repo.getInProgressGuides();
-    final recentResult = await repo.getRecentlyViewed(null);
+    final recentResult = await repo.getRecentlyViewed();
 
     final statsFailure = statsResult.fold(
       (f) => f.toString(),

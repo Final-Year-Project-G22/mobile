@@ -14,11 +14,17 @@ AsyncValue<AuthStatus> resolvedAuthStatus(Ref ref) {
   return ref.watch(authProvider);
 }
 
+@Riverpod(keepAlive: true)
+AuthenticationClient authenticationClient(Ref ref) {
+  final apiClient = ref.read(apiClientProvider);
+  return AuthenticationClient(apiClient.dio);
+}
+
 @riverpod
 IAuthRepository authRepository(Ref ref) {
   final apiClient = ref.read(apiClientProvider);
   final dio = apiClient.dio;
-  final authClient = AuthenticationClient(dio);
+  final authClient = ref.read(authenticationClientProvider);
   final oauthClient = OAuthClient(dio);
   return AuthRepositoryImpl(authClient, oauthClient, apiClient);
 }

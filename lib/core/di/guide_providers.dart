@@ -13,7 +13,6 @@ part 'guide_providers.g.dart';
 @riverpod
 IGuideRepository guideRepository(Ref ref) {
   final apiClient = ref.read(apiClientProvider);
-  final dio = apiClient.dio;
-  final guidesClient = GuidesClient(dio);
-  return GuideRepositoryImpl(guidesClient, dio);
+  final guidesClient = GuidesClient(apiClient.dio);
+  return GuideRepositoryImpl(guidesClient);
 }

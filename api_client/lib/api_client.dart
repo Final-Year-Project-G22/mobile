@@ -133,3 +133,5 @@ export 'src/api/models/create_scheduled_alert_response_body.dart';
 export 'src/api/models/reschedule_scheduled_alert_request.dart';
 export 'src/api/models/reschedule_scheduled_alert_response_body.dart';
 export 'src/api/models/cancel_scheduled_alert_response_body.dart';
+export 'src/api/models/account_preference_response.dart';
+export 'src/api/models/update_account_preference_request.dart';

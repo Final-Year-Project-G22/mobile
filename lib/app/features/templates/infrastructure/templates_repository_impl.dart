@@ -16,11 +16,9 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
   final LibraryFieldClient _client;
 
   @override
-  Future<Either<TemplateFailure, List<CategoryNode>>> listCategories({
-    String? locale,
-  }) async {
+  Future<Either<TemplateFailure, List<CategoryNode>>> listCategories() async {
     try {
-      final response = await _client.libraryListCategories(locale: locale);
+      final response = await _client.libraryListCategories();
       final data = response.data;
 
       if (data is! List<dynamic>) {
@@ -73,13 +71,11 @@ class TemplatesRepositoryImpl implements ITemplatesRepository {
 
   @override
   Future<Either<TemplateFailure, TemplateGroupDetail>> getTemplateGroupDetail(
-    String groupId, {
-    String? locale,
-  }) async {
+    String groupId,
+  ) async {
     try {
       final response = await _client.libraryGetTemplateGroup(
         groupId: groupId,
-        locale: locale,
       );
 
       final detail = _mapTemplateGroupDetail(response.data);

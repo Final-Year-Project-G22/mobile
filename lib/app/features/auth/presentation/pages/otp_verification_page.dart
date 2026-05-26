@@ -36,6 +36,22 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   void initState() {
     super.initState();
     _startResendCooldown();
+    for (final node in _focusNodes) {
+      node.onKeyEvent = _handleKeyEvent;
+    }
+  }
+
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace) {
+      final index = _focusNodes.indexOf(node);
+      if (index > 0 && _controllers[index].text.isEmpty) {
+        _controllers[index - 1].clear();
+        _focusNodes[index - 1].requestFocus();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
   }
 
   @override
@@ -125,7 +141,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   }
 
   void _onDigitChanged(int index, String value) {
-    if (value.length == 1 && index < 5) {
+    if (value.isEmpty && index > 0) {
+      _focusNodes[index - 1].requestFocus();
+    } else if (value.length == 1 && index < 5) {
       _focusNodes[index + 1].requestFocus();
     }
     setState(() {
@@ -160,11 +178,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     return Scaffold(
       body: Stack(
         children: [
-          const Positioned(
-            top: 8,
-            right: 8,
-            child: LocaleToggleButton(),
-          ),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.screenH),
@@ -191,21 +204,19 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(6, (index) {
                       return Container(
-                        width: 48,
-                        height: 56,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        child: TextField(
+                      width: 48,
+                      height: 56,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      child: TextField(
                           controller: _controllers[index],
                           focusNode: _focusNodes[index],
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
-                          maxLength: 1,
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.onSurface,
                           ),
                           decoration: InputDecoration(
-                            counterText: '',
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 12,
                             ),
@@ -237,11 +248,16 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                               ),
                             ),
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(1),
-                          ],
-                          onChanged: (value) => _onDigitChanged(index, value),
+                          inputFormatters: const [],
+                          onChanged: (value) {
+                            // Only keep last digit if multiple chars pasted
+                            if (value.length > 1) {
+                              final last = value.replaceAll(RegExp('[^0-9]'), '');
+                              _controllers[index].text = last.isNotEmpty ? last.substring(last.length - 1) : '';
+                              _controllers[index].selection = const TextSelection.collapsed(offset: 1);
+                            }
+                            _onDigitChanged(index, _controllers[index].text);
+                          },
                         ),
                       );
                     }),
@@ -299,6 +315,11 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                 ],
               ),
             ),
+          ),
+          const Positioned(
+            top: 48,
+            right: 8,
+            child: LocaleToggleButton(),
           ),
         ],
       ),

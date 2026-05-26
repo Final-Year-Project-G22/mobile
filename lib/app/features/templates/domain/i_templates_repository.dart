@@ -8,9 +8,7 @@ import 'entities/template_group_detail.dart';
 import 'failures/template_failure.dart';
 
 abstract class ITemplatesRepository {
-  Future<Either<TemplateFailure, List<CategoryNode>>> listCategories({
-    String? locale,
-  });
+  Future<Either<TemplateFailure, List<CategoryNode>>> listCategories();
 
   Future<Either<TemplateFailure, List<TemplateGroup>>> listTemplateGroups({
     String? categoryId,
@@ -20,9 +18,8 @@ abstract class ITemplatesRepository {
   });
 
   Future<Either<TemplateFailure, TemplateGroupDetail>> getTemplateGroupDetail(
-    String groupId, {
-    String? locale,
-  });
+    String groupId,
+  );
 
   Future<Either<TemplateFailure, DownloadResult>> downloadTemplate(
     String groupId, {
