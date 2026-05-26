@@ -80,8 +80,7 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
           : null,
       body: Column(
         children: [
-          if (businessProfileAsync.hasValue &&
-              businessProfileAsync.value == null)
+          if (businessProfileAsync.hasValue && businessProfileAsync.value == null)
             CompleteProfileBanner(
               onTap: () {
                 const OnboardingRoute().go(context);
