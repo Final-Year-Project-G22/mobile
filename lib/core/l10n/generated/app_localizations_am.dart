@@ -1425,6 +1425,21 @@ class AppLocalizationsAm extends AppLocalizations {
   String get manage => 'ያስተዳድሩ';
 
   @override
+  String get currentPassword => 'አሁን ያለ ይለፍ ቃል';
+
+  @override
+  String get newPassword => 'አዲስ ይለፍ ቃል';
+
+  @override
+  String get changePassword => 'ይለፍ ቃል ይቀይሩ';
+
+  @override
+  String get passwordUpdated => 'ይለፍ ቃል በተሳካ ሁኔታ ተቀይሯል';
+
+  @override
+  String get errorPasswordChangeFailed => 'ይለፍ ቃል መቀየር አልተሳካም';
+
+  @override
   String get scheduledAlerts => 'የተቀጠሩ ማሳሰቢያዎች';
 
   @override

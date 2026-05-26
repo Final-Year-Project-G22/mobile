@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/ai/presentation/pages/ai_chat_page.dart';
+import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/oauth_callback_page.dart';
 import '../features/auth/presentation/pages/oauth_complete_email_page.dart';
@@ -232,6 +233,15 @@ class SettingsRoute extends GoRouteData with $SettingsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SettingsPage();
+}
+
+@TypedGoRoute<ChangePasswordRoute>(path: '/settings/change-password')
+class ChangePasswordRoute extends GoRouteData with $ChangePasswordRoute {
+  const ChangePasswordRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ChangePasswordPage();
 }
 
 @TypedGoRoute<InboxRoute>(path: '/inbox')

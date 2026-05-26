@@ -1441,6 +1441,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manage => 'Manage';
 
   @override
+  String get currentPassword => 'Current Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get passwordUpdated => 'Password updated successfully';
+
+  @override
+  String get errorPasswordChangeFailed => 'Failed to change password';
+
+  @override
   String get scheduledAlerts => 'Scheduled Alerts';
 
   @override

@@ -70,8 +70,93 @@ class LoginFormNotifier extends _$LoginFormNotifier {
   }
 }
 
-// Register Form
-//
+// Change Password Form
+
+@freezed
+abstract class ChangePasswordFormState with _$ChangePasswordFormState {
+  const factory ChangePasswordFormState({
+    @Default('') String existingPassword,
+    @Default('') String newPassword,
+    @Default('') String confirmPassword,
+    @Default(false) bool isSubmitting,
+    @Default(false) bool showErrorMessages,
+    @Default(false) bool isSuccess,
+    AuthValueFailure<String>? existingPasswordFailure,
+    AuthValueFailure<String>? newPasswordFailure,
+    AuthValueFailure<String>? confirmPasswordFailure,
+  }) = _ChangePasswordFormState;
+}
+
+@riverpod
+class ChangePasswordFormNotifier extends _$ChangePasswordFormNotifier {
+  @override
+  ChangePasswordFormState build() => const ChangePasswordFormState();
+
+  void existingPasswordChanged(String value) {
+    final result = validatePassword(value);
+    state = state.copyWith(
+      existingPassword: value,
+      existingPasswordFailure: result.fold((l) => l, (r) => null),
+    );
+  }
+
+  void newPasswordChanged(String value) {
+    final result = validatePassword(value);
+    state = state.copyWith(
+      newPassword: value,
+      newPasswordFailure: result.fold((l) => l, (r) => null),
+      confirmPasswordFailure: state.confirmPassword.isEmpty
+          ? null
+          : validateConfirmPassword(state.confirmPassword, value)
+              .fold((l) => l, (r) => null),
+    );
+  }
+
+  void confirmPasswordChanged(String value) {
+    final result = validateConfirmPassword(value, state.newPassword);
+    state = state.copyWith(
+      confirmPassword: value,
+      confirmPasswordFailure: result.fold((l) => l, (r) => null),
+    );
+  }
+
+  void reset() {
+    state = const ChangePasswordFormState();
+  }
+
+  Future<void> submit() async {
+    state = state.copyWith(showErrorMessages: true);
+
+    final existingResult = validatePassword(state.existingPassword);
+    final newResult = validatePassword(state.newPassword);
+    final confirmResult = validateConfirmPassword(
+      state.confirmPassword,
+      state.newPassword,
+    );
+
+    state = state.copyWith(
+      existingPasswordFailure: existingResult.fold((l) => l, (r) => null),
+      newPasswordFailure: newResult.fold((l) => l, (r) => null),
+      confirmPasswordFailure: confirmResult.fold((l) => l, (r) => null),
+    );
+
+    if (state.existingPasswordFailure != null ||
+        state.newPasswordFailure != null ||
+        state.confirmPasswordFailure != null) {
+      return;
+    }
+
+    state = state.copyWith(isSubmitting: true);
+
+    final success = await ref.read(authProvider.notifier).changePassword(
+          existingPassword: state.existingPassword,
+          newPassword: state.newPassword,
+          confirmPassword: state.confirmPassword,
+        );
+
+    state = state.copyWith(isSubmitting: false, isSuccess: success);
+  }
+}
 @freezed
 abstract class RegisterFormState with _$RegisterFormState {
   const factory RegisterFormState({

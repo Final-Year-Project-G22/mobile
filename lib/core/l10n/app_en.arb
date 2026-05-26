@@ -1854,6 +1854,26 @@
     "description": "Upcoming section header"
   },
   "manage": "Manage",
+  "currentPassword": "Current Password",
+  "@currentPassword": {
+    "description": "Current password label"
+  },
+  "newPassword": "New Password",
+  "@newPassword": {
+    "description": "New password label"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Change password button/section label"
+  },
+  "passwordUpdated": "Password updated successfully",
+  "@passwordUpdated": {
+    "description": "Password changed success message"
+  },
+  "errorPasswordChangeFailed": "Failed to change password",
+  "@errorPasswordChangeFailed": {
+    "description": "Password change error fallback"
+  },
   "@manage": {
     "description": "Manage action link"
   },

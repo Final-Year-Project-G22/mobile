@@ -106,3 +106,23 @@ Either<AuthValueFailure<String>, String> validateUsername(String? input) {
 
   return right(input);
 }
+
+Either<AuthValueFailure<String>, String> validateConfirmPassword(
+  String input,
+  String password,
+) {
+  if (input.isEmpty) {
+    return left(
+      AuthValueFailure.emptyField(
+        failedValue: input,
+        fieldName: 'Confirm Password',
+      ),
+    );
+  }
+
+  if (input != password) {
+    return left(AuthValueFailure.passwordsDontMatch(failedValue: input));
+  }
+
+  return right(input);
+}
