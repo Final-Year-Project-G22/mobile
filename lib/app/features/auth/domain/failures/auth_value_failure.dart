@@ -31,6 +31,10 @@ abstract class AuthValueFailure<T> with _$AuthValueFailure<T> {
 
   const factory AuthValueFailure.invalidUsername({required T failedValue}) =
       InvalidUsername<T>;
+
+  const factory AuthValueFailure.passwordsDontMatch({
+    required T failedValue,
+  }) = PasswordsDontMatch<T>;
 }
 
 extension AuthValueFailureX on AuthValueFailure {
@@ -45,6 +49,7 @@ extension AuthValueFailureX on AuthValueFailure {
         'Must be 3-32 chars: lowercase letters, digits, or underscore',
     invalidUsername: (_) =>
         'Username must be 3-32 chars: lowercase letters, digits, or underscore',
+    passwordsDontMatch: (_) => 'Passwords do not match',
     orElse: () => 'Invalid input',
   );
 }

@@ -280,6 +280,26 @@ class AuthNotifier extends _$AuthNotifier {
     );
   }
 
+  Future<bool> changePassword({
+    required String existingPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.changePassword(
+      existingPassword: existingPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    );
+    return result.fold(
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+        return false;
+      },
+      (_) => true,
+    );
+  }
+
   Future<void> completeVerification() async {
     final apiClient = ref.read(apiClientProvider);
     await apiClient.loadTokensFromStorage();

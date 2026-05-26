@@ -2678,6 +2678,36 @@ abstract class AppLocalizations {
   /// **'Manage'**
   String get manage;
 
+  /// Current password label
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPassword;
+
+  /// New password label
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// Change password button/section label
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// Password changed success message
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated successfully'**
+  String get passwordUpdated;
+
+  /// Password change error fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to change password'**
+  String get errorPasswordChangeFailed;
+
   /// Scheduled alerts section header
   ///
   /// In en, this message translates to:

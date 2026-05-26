@@ -282,6 +282,28 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
+  @override
+  Future<Either<AuthUserFailure, String>> changePassword({
+    required String existingPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      final httpResponse = await _client.accountPassword(
+        body: UpdateAccountPasswordRequest(
+          existingPassword: existingPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword,
+        ),
+      );
+      return Right(httpResponse.data.message);
+    } on DioException catch (e) {
+      return Left(_handlePasswordChangeError(e));
+    } on Exception {
+      return const Left(AuthUserFailure.serverError());
+    }
+  }
+
   Future<Either<AuthUserFailure, OAuthCallbackResult>>
   _handleOAuthCallbackResponse(
     HttpResponse<OAuthCallbackResponse> response,
@@ -457,6 +479,38 @@ class AuthRepositoryImpl implements IAuthRepository {
           return AuthUserFailure.oauthProviderUnavailable(message: detail);
         }
 
+        return AuthUserFailure.serverError(message: detail);
+      case DioExceptionType.cancel:
+      case DioExceptionType.badCertificate:
+      case DioExceptionType.unknown:
+        return const AuthUserFailure.serverError();
+    }
+  }
+
+  AuthUserFailure _handlePasswordChangeError(DioException error) {
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.connectionError:
+        return const AuthUserFailure.networkError();
+      case DioExceptionType.badResponse:
+        final statusCode = error.response?.statusCode;
+        final data = error.response?.data;
+        final detail = data is Map<String, dynamic>
+            ? data['detail'] as String?
+            : null;
+
+        if (statusCode == 400) {
+          return AuthUserFailure.passwordChangeFailed(
+            message: detail ?? 'Current password is incorrect',
+          );
+        }
+        if (statusCode == 401) {
+          return AuthUserFailure.passwordChangeFailed(
+            message: detail ?? 'Current password is incorrect',
+          );
+        }
         return AuthUserFailure.serverError(message: detail);
       case DioExceptionType.cancel:
       case DioExceptionType.badCertificate:

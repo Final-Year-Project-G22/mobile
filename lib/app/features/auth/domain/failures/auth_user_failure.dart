@@ -22,4 +22,6 @@ abstract class AuthUserFailure with _$AuthUserFailure {
       OAuthProviderUnavailable;
   const factory AuthUserFailure.oauthCancelled({String? message}) =
       OAuthCancelled;
+  const factory AuthUserFailure.passwordChangeFailed({String? message}) =
+      PasswordChangeFailed;
 }

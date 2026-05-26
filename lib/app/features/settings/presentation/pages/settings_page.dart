@@ -83,6 +83,16 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapVerticalLg,
+          Card(
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              leading: const Icon(Icons.lock_outline),
+              title: Text(l10n.changePassword),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => const ChangePasswordRoute().push<void>(context),
+            ),
+          ),
+          AppSpacing.gapVerticalLg,
           Text(
             l10n.theme,
             style: theme.textTheme.titleMedium?.copyWith(

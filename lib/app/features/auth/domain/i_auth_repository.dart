@@ -39,4 +39,10 @@ abstract class IAuthRepository {
   Future<Either<AuthUserFailure, String>> verifyOtp({required String otp});
 
   Future<Either<AuthUserFailure, String>> resendOtp();
+
+  Future<Either<AuthUserFailure, String>> changePassword({
+    required String existingPassword,
+    required String newPassword,
+    required String confirmPassword,
+  });
 }

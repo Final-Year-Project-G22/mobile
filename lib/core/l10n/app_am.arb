@@ -641,5 +641,10 @@
   "notificationPreferences": "የማሳወቂያ ምርጫዎች",
   "emailNotifications": "የኢሜይል ማሳወቂያዎች",
   "pushNotifications": "የግፋ ማሳወቂያዎች",
-  "inAppAlwaysOn": "ሁልጊዜ ነቅቷል"
+  "inAppAlwaysOn": "ሁልጊዜ ነቅቷል",
+  "currentPassword": "አሁን ያለ ይለፍ ቃል",
+  "newPassword": "አዲስ ይለፍ ቃል",
+  "changePassword": "ይለፍ ቃል ይቀይሩ",
+  "passwordUpdated": "ይለፍ ቃል በተሳካ ሁኔታ ተቀይሯል",
+  "errorPasswordChangeFailed": "ይለፍ ቃል መቀየር አልተሳካም"
 }
