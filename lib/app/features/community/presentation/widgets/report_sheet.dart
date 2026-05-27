@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/failures/community_failure.dart';
@@ -53,8 +54,8 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     super.dispose();
   }
 
-  void _selectReason(String reason) {
-    _reasonController.text = reason;
+  void _selectReason(String reason, AppLocalizations l10n) {
+    _reasonController.text = _reasonLabel(reason, l10n);
   }
 
   Future<void> _submit(AppLocalizations l10n) async {
@@ -164,10 +165,10 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 runSpacing: AppSpacing.xs,
                 children: _quickReasons.map((reason) {
                   final isSelected = _reasonController.text == reason;
-                  return ChoiceChip(
-                    label: Text(_reasonLabel(reason, l10n)),
-                    selected: isSelected,
-                    onSelected: (_) => _selectReason(reason),
+                  return StyledFilterChip(
+                    label: _reasonLabel(reason, l10n),
+                    isSelected: isSelected,
+                    onSelected: (_) => _selectReason(reason, l10n),
                   );
                 }).toList(),
               ),
@@ -178,12 +179,12 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
                 minLines: 3,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  labelText: 'Reason',
+                  labelText: l10n.reasonLabel,
                   hintText: l10n.reasonHint,
                 ),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) {
-                    return 'Please enter a reason';
+                    return l10n.reasonRequired;
                   }
                   return null;
                 },

@@ -71,11 +71,11 @@ class _ChatInputBarState extends State<ChatInputBar> {
           ),
         ),
       ),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 12,
         right: 8,
         top: 8,
-        bottom: MediaQuery.of(context).padding.bottom + 8,
+        bottom: 8,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,

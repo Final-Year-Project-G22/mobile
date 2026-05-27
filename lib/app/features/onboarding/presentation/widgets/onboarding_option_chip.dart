@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../shared/widgets/styled_filter_chip.dart';
+
 class OnboardingOptionChip extends StatelessWidget {
   const OnboardingOptionChip({
     required this.label,
@@ -14,15 +16,10 @@ class OnboardingOptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Instead of building a custom container with manual inkwell and border,
-    // we use the standard M3 FilterChip which conforms to the design system.
-    return FilterChip(
-      label: Text(label),
-      selected: selected,
-      onSelected: (_) {
-        onTap?.call();
-      },
-      showCheckmark: false,
+    return StyledFilterChip(
+      label: label,
+      isSelected: selected,
+      onSelected: (_) => onTap?.call(),
     );
   }
 }

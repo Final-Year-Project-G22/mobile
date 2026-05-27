@@ -481,6 +481,8 @@
   "imageSaved": "ምስል ወደ ማዕከለ-ስዕላት ተቀምጧል!",
   "report": "ሪፖርት",
   "selectReason": "ምክንያት ይምረጡ:",
+  "reasonLabel": "ምክንያት",
+  "reasonRequired": "እባክዎን ምክንያት ያስገቡ",
   "reasonSpam": "አይፈለጌ መልዕክት",
   "reasonHarassment": "ትንኮሳ",
   "reasonInappropriate": "አግባብ ያልሆነ ይዘት",

@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../app/router/routes.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
@@ -232,17 +233,19 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           child: Wrap(
             spacing: AppSpacing.xs,
             children: [
-              Chip(
+              StyledFilterChip(
                 avatar: const Icon(Icons.description, size: 16),
-                label: Text(
-                  _formatContentType(detail.languages.first.contentType),
-                ),
-                visualDensity: VisualDensity.compact,
+                label: _formatContentType(detail.languages.first.contentType),
+                isSelected: false,
+                onSelected: (_) {},
+                compact: true,
               ),
-              Chip(
+              StyledFilterChip(
                 avatar: const Icon(Icons.download, size: 16),
-                label: Text(l10n.downloadCount(detail.downloadCount)),
-                visualDensity: VisualDensity.compact,
+                label: l10n.downloadCount(detail.downloadCount),
+                isSelected: false,
+                onSelected: (_) {},
+                compact: true,
               ),
             ],
           ),

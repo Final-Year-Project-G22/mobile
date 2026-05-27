@@ -9,11 +9,13 @@ abstract class ITaxonomyRepository {
     int? page,
     int? pageSize,
     String? search,
+    String? localeCode,
   });
 
   Future<Either<TaxonomyFailure, List<Tag>>> getTags({
     int? page,
     int? pageSize,
     String? search,
+    String? localeCode,
   });
 }

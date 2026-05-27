@@ -17,6 +17,7 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
     int? page,
     int? pageSize,
     String? search,
+    String? localeCode,
   }) async {
     try {
       final response = await _client.listTaxonomySectors(
@@ -28,7 +29,10 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
       final sectors = (response.data.data ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) => _mapSectorResponseToDomain(SectorResponse.fromJson(json)),
+            (json) => _mapSectorResponseToDomain(
+              SectorResponse.fromJson(json),
+              localeCode,
+            ),
           )
           .toList();
 
@@ -45,6 +49,7 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
     int? page,
     int? pageSize,
     String? search,
+    String? localeCode,
   }) async {
     try {
       final response = await _client.listTaxonomyTags(
@@ -55,7 +60,12 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
 
       final tags = (response.data.data ?? [])
           .cast<Map<String, dynamic>>()
-          .map((json) => _mapTagResponseToDomain(TagResponse.fromJson(json)))
+          .map(
+            (json) => _mapTagResponseToDomain(
+              TagResponse.fromJson(json),
+              localeCode,
+            ),
+          )
           .toList();
 
       return Right(tags);
@@ -66,25 +76,37 @@ class TaxonomyRepositoryImpl implements ITaxonomyRepository {
     }
   }
 
-  Sector _mapSectorResponseToDomain(SectorResponse dto) {
-    final name = dto.nameEn.trim().isNotEmpty ? dto.nameEn : dto.slug;
+  Sector _mapSectorResponseToDomain(SectorResponse dto, String? localeCode) {
+    final useAmharic = localeCode == 'am';
+    final name = useAmharic && dto.nameAm.trim().isNotEmpty
+        ? dto.nameAm
+        : dto.nameEn.trim().isNotEmpty
+        ? dto.nameEn
+        : dto.slug;
+    final description = useAmharic ? dto.descAm : dto.descEn;
     return Sector(
       id: dto.id,
       slug: dto.slug,
       name: name,
-      description: dto.descEn,
+      description: description,
       parentId: dto.parentId,
     );
   }
 
-  Tag _mapTagResponseToDomain(TagResponse dto) {
-    final name = dto.nameEn.trim().isNotEmpty ? dto.nameEn : dto.slug;
+  Tag _mapTagResponseToDomain(TagResponse dto, String? localeCode) {
+    final useAmharic = localeCode == 'am';
+    final name = useAmharic && dto.nameAm.trim().isNotEmpty
+        ? dto.nameAm
+        : dto.nameEn.trim().isNotEmpty
+        ? dto.nameEn
+        : dto.slug;
+    final description = useAmharic ? dto.descAm : dto.descEn;
     return Tag(
       id: dto.id,
       slug: dto.slug,
       group: dto.group,
       name: name,
-      description: dto.descEn,
+      description: description,
       isMultiSelect: dto.isMultiSelect,
     );
   }

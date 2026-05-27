@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_list_notifier.dart';
@@ -128,10 +129,12 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.xxs,
                         ),
-                        child: ActionChip(
+                        child: StyledFilterChip(
                           avatar: const Icon(Icons.category_outlined, size: 18),
-                          label: Text(l10n.all),
-                          onPressed: () => _showCategoryDrawer(categories),
+                          label: l10n.all,
+                          isSelected: false,
+                          onSelected: (_) => _showCategoryDrawer(categories),
+                          compact: true,
                         ),
                       );
                     }
@@ -141,13 +144,15 @@ class _TemplatesListPageState extends ConsumerState<TemplatesListPage> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.xxs,
                       ),
-                      child: FilterChip(
-                        label: Text(category.name),
+                      child: StyledFilterChip(
+                        label: category.name,
+                        isSelected: false,
                         onSelected: (_) async {
                           await ref
                               .read(templateListProvider.notifier)
                               .setCategory(category.id);
                         },
+                        compact: true,
                       ),
                     );
                   },

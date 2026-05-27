@@ -1202,6 +1202,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get selectReason => 'ምክንያት ይምረጡ:';
 
   @override
+  String get reasonLabel => 'ምክንያት';
+
+  @override
+  String get reasonRequired => 'እባክዎን ምክንያት ያስገቡ';
+
+  @override
   String get reasonSpam => 'አይፈለጌ መልዕክት';
 
   @override

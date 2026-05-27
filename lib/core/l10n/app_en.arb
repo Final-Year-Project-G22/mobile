@@ -1561,6 +1561,14 @@
   "@selectReason": {
     "description": "Report reason prompt"
   },
+  "reasonLabel": "Reason",
+  "@reasonLabel": {
+    "description": "Label for the reason text field"
+  },
+  "reasonRequired": "Please enter a reason",
+  "@reasonRequired": {
+    "description": "Validation message for empty reason field"
+  },
   "reasonSpam": "Spam",
   "@reasonSpam": {
     "description": "Report reason"
