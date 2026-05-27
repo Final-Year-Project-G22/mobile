@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/di/guide_providers.dart';
 import '../domain/entities/guide_step.dart';
 import '../domain/entities/step_enums.dart';
+import 'guide_list_notifier.dart';
 
 part 'step_detail_notifier.g.dart';
 
@@ -111,8 +112,25 @@ class StepDetailNotifier extends _$StepDetailNotifier {
     final s = state.step;
     if (s == null) return;
     final repo = ref.read(guideRepositoryProvider);
-    await repo.addBookmark(s.id);
-    state = state.copyWith(isBookmarked: true);
+    if (state.isBookmarked) {
+      final result = await repo.removeBookmark(s.id);
+      result.fold(
+        (_) {},
+        (_) {
+          state = state.copyWith(isBookmarked: false);
+          ref.invalidate(guideListProvider);
+        },
+      );
+    } else {
+      final result = await repo.addBookmark(s.id);
+      result.fold(
+        (_) {},
+        (_) {
+          state = state.copyWith(isBookmarked: true);
+          ref.invalidate(guideListProvider);
+        },
+      );
+    }
   }
 
   void _updateStatus(StepStatus newStatus) {
