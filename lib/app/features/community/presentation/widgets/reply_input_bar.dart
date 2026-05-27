@@ -340,8 +340,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
           top: BorderSide(color: colorScheme.outlineVariant),
         ),
       ),
-      child: SafeArea(
-        child: Column(
+      child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -631,7 +630,6 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
             ),
           ],
         ),
-      ),
     );
   }
 

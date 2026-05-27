@@ -1213,6 +1213,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectReason => 'Select a reason:';
 
   @override
+  String get reasonLabel => 'Reason';
+
+  @override
+  String get reasonRequired => 'Please enter a reason';
+
+  @override
   String get reasonSpam => 'Spam';
 
   @override

@@ -2276,6 +2276,18 @@ abstract class AppLocalizations {
   /// **'Select a reason:'**
   String get selectReason;
 
+  /// Label for the reason text field
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reasonLabel;
+
+  /// Validation message for empty reason field
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a reason'**
+  String get reasonRequired;
+
   /// Report reason
   ///
   /// In en, this message translates to:

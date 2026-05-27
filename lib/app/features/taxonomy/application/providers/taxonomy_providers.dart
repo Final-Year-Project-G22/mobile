@@ -1,6 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../core/di/app_providers.dart';
 import '../../../../../core/di/infra_providers.dart';
 import '../../domain/entities/sector.dart';
 import '../../domain/entities/tag.dart';
@@ -18,7 +19,8 @@ ITaxonomyRepository taxonomyRepository(Ref ref) {
 @riverpod
 Future<List<Sector>> sectors(Ref ref) async {
   final repository = ref.watch(taxonomyRepositoryProvider);
-  final result = await repository.getSectors();
+  final localeCode = ref.watch(localeProvider)?.languageCode;
+  final result = await repository.getSectors(localeCode: localeCode);
 
   return result.fold(
     (failure) => throw Exception(failure.toString()),
@@ -29,7 +31,8 @@ Future<List<Sector>> sectors(Ref ref) async {
 @riverpod
 Future<List<Tag>> tags(Ref ref) async {
   final repository = ref.watch(taxonomyRepositoryProvider);
-  final result = await repository.getTags();
+  final localeCode = ref.watch(localeProvider)?.languageCode;
+  final result = await repository.getTags(localeCode: localeCode);
 
   return result.fold(
     (failure) => throw Exception(failure.toString()),
