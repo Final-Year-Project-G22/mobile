@@ -1558,4 +1558,52 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get inAppAlwaysOn => 'ሁልጊዜ ነቅቷል';
+
+  @override
+  String get businessProfile => 'የንግድ መገለጫ';
+
+  @override
+  String get manageBusinessDetails => 'የንግድ ዝርዝሮችዎን ያስተዳድሩ';
+
+  @override
+  String get companyName => 'የኩባንያ ስም';
+
+  @override
+  String get companyEmail => 'የኩባንያ ኢሜይል';
+
+  @override
+  String get companyPhone => 'የኩባንያ ስልክ';
+
+  @override
+  String get physicalAddress => 'አካላዊ አድራሻ';
+
+  @override
+  String get businessDescription => 'መግለጫ';
+
+  @override
+  String get complianceInfo => 'የተገዢነት መረጃ';
+
+  @override
+  String get registrationNumber => 'የምዝገባ ቁጥር';
+
+  @override
+  String get taxIdentificationNumber => 'የግብር መታወቂያ ቁጥር';
+
+  @override
+  String get tradeLicenseNumber => 'የንግድ ፍቃድ ቁጥር';
+
+  @override
+  String get businessProfileUpdated => 'የንግድ መገለጫ ተዘምኗል';
+
+  @override
+  String get logo => 'አርማ';
+
+  @override
+  String get banner => 'ባነር';
+
+  @override
+  String get changeLogo => 'አርማ ቀይር';
+
+  @override
+  String get changeBanner => 'ባነር ቀይር';
 }

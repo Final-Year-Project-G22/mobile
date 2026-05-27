@@ -34,4 +34,14 @@ abstract class AiAskClient {
   Future<HttpResponse<void>> askStream({
     @Body() required AskRequest body,
   });
+
+  /// Ask a question with debug streaming (admin only).
+  ///
+  /// Ask AI a question and receive full ReAct loop internals including reasoning, tool calls, and results. Requires admin permission.
+  ///
+  /// [body] - Name not received - field will be skipped.
+  @POST('/api/v1/ai/ask/stream/debug')
+  Future<HttpResponse<void>> askStreamDebug({
+    @Body() required AskRequest body,
+  });
 }

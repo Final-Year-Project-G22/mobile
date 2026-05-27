@@ -13,6 +13,12 @@ abstract class AskRequest with _$AskRequest {
     /// User question
     required String query,
 
+    /// Enable debug mode including thinking chunks
+    @Default(false) bool debugMode,
+
+    /// Ask strategy: simple or agentic
+    @Default('simple') String strategy,
+
     /// Number of context chunks to retrieve
     @Default(5) int topK,
 

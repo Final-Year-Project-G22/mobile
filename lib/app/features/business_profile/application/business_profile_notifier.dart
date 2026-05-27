@@ -1,6 +1,8 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/di/business_profile_providers.dart';
+import '../../../../core/di/profile_providers.dart';
 import '../../onboarding/domain/entities/onboarding_answers.dart';
 import '../domain/entities/business_profile.dart';
 import '../domain/failures/business_profile_failure.dart';
@@ -71,12 +73,63 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
     state = nextState;
   }
 
+  Future<void> createProfile({
+    required String companyName,
+    required String companyEmail,
+    required String companyPhoneNumber,
+    String? physicalAddress,
+    String? description,
+    String? logoUrl,
+    String? bannerUrl,
+    String? registrationNumber,
+    String? taxIdentificationNumber,
+    String? tradeLicenseNumber,
+    String? region,
+    String? stage,
+    String? sectorSlug,
+    List<String> tagSlugs = const [],
+  }) async {
+    state = const AsyncValue.loading();
+    final nextState = await AsyncValue.guard(() async {
+      final repository = ref.read(businessProfileRepositoryProvider);
+      final result = await repository.createBusinessProfile(
+        companyName: companyName,
+        companyEmail: companyEmail,
+        companyPhoneNumber: companyPhoneNumber,
+        physicalAddress: physicalAddress,
+        description: description,
+        logoUrl: logoUrl,
+        bannerUrl: bannerUrl,
+        registrationNumber: registrationNumber,
+        taxIdentificationNumber: taxIdentificationNumber,
+        tradeLicenseNumber: tradeLicenseNumber,
+        region: region,
+        stage: stage,
+        sectorSlug: sectorSlug,
+        tagSlugs: tagSlugs,
+      );
+
+      return result.fold(
+        (failure) =>
+            throw Exception('Failed to create business profile: $failure'),
+        (profile) => profile,
+      );
+    });
+    if (!ref.mounted) return;
+    state = nextState;
+  }
+
   Future<void> updateProfile({
     String? companyName,
     String? companyEmail,
     String? companyPhoneNumber,
     String? physicalAddress,
     String? description,
+    String? logoUrl,
+    String? bannerUrl,
+    String? registrationNumber,
+    String? taxIdentificationNumber,
+    String? tradeLicenseNumber,
     String? region,
     String? stage,
     String? sectorSlug,
@@ -100,6 +153,11 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
         companyPhoneNumber: companyPhoneNumber,
         physicalAddress: physicalAddress,
         description: description,
+        logoUrl: logoUrl,
+        bannerUrl: bannerUrl,
+        registrationNumber: registrationNumber,
+        taxIdentificationNumber: taxIdentificationNumber,
+        tradeLicenseNumber: tradeLicenseNumber,
         region: region,
         stage: stage,
         sectorSlug: sectorSlug,
@@ -114,5 +172,37 @@ class BusinessProfileNotifier extends _$BusinessProfileNotifier {
     });
     if (!ref.mounted) return;
     state = nextState;
+  }
+
+  Future<String?> uploadLogoFromGallery() async {
+    final picker = ref.read(imagePickerProvider);
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked == null) return null;
+
+    final repository = ref.read(businessProfileRepositoryProvider);
+    final result = await repository.uploadLogo(picked);
+    return result.fold(
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+        return null;
+      },
+      (imageUrl) => imageUrl,
+    );
+  }
+
+  Future<String?> uploadBannerFromGallery() async {
+    final picker = ref.read(imagePickerProvider);
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked == null) return null;
+
+    final repository = ref.read(businessProfileRepositoryProvider);
+    final result = await repository.uploadBanner(picked);
+    return result.fold(
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+        return null;
+      },
+      (imageUrl) => imageUrl,
+    );
   }
 }

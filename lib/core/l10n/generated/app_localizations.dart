@@ -2941,6 +2941,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Always enabled'**
   String get inAppAlwaysOn;
+
+  /// Business profile page title
+  ///
+  /// In en, this message translates to:
+  /// **'Business Profile'**
+  String get businessProfile;
+
+  /// Business profile card subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your business details'**
+  String get manageBusinessDetails;
+
+  /// Company name label
+  ///
+  /// In en, this message translates to:
+  /// **'Company Name'**
+  String get companyName;
+
+  /// Company email label
+  ///
+  /// In en, this message translates to:
+  /// **'Company Email'**
+  String get companyEmail;
+
+  /// Company phone label
+  ///
+  /// In en, this message translates to:
+  /// **'Company Phone'**
+  String get companyPhone;
+
+  /// Physical address label
+  ///
+  /// In en, this message translates to:
+  /// **'Physical Address'**
+  String get physicalAddress;
+
+  /// Business description label
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get businessDescription;
+
+  /// Compliance section header
+  ///
+  /// In en, this message translates to:
+  /// **'Compliance Information'**
+  String get complianceInfo;
+
+  /// Registration number label
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Number'**
+  String get registrationNumber;
+
+  /// Tax identification number label
+  ///
+  /// In en, this message translates to:
+  /// **'Tax ID (TIN)'**
+  String get taxIdentificationNumber;
+
+  /// Trade license number label
+  ///
+  /// In en, this message translates to:
+  /// **'Trade License Number'**
+  String get tradeLicenseNumber;
+
+  /// Success snackbar after saving business profile
+  ///
+  /// In en, this message translates to:
+  /// **'Business profile updated'**
+  String get businessProfileUpdated;
+
+  /// Logo image label
+  ///
+  /// In en, this message translates to:
+  /// **'Logo'**
+  String get logo;
+
+  /// Banner image label
+  ///
+  /// In en, this message translates to:
+  /// **'Banner'**
+  String get banner;
+
+  /// Change logo button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Change Logo'**
+  String get changeLogo;
+
+  /// Change banner button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Change Banner'**
+  String get changeBanner;
 }
 
 class _AppLocalizationsDelegate

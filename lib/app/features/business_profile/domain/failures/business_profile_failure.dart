@@ -8,4 +8,5 @@ abstract class BusinessProfileFailure with _$BusinessProfileFailure {
   const factory BusinessProfileFailure.notFound() = _NotFound;
   const factory BusinessProfileFailure.alreadyExists() = _AlreadyExists;
   const factory BusinessProfileFailure.invalidData() = _InvalidData;
+  const factory BusinessProfileFailure.unableToUpload() = _UnableToUpload;
 }

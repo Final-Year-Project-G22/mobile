@@ -1,3 +1,4 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 
 import 'entities/business_profile.dart';
@@ -13,6 +14,11 @@ abstract class IBusinessProfileRepository {
     String? companyPhoneNumber,
     String? physicalAddress,
     String? description,
+    String? logoUrl,
+    String? bannerUrl,
+    String? registrationNumber,
+    String? taxIdentificationNumber,
+    String? tradeLicenseNumber,
     String? region,
     String? stage,
     String? sectorSlug,
@@ -26,9 +32,18 @@ abstract class IBusinessProfileRepository {
     String? companyPhoneNumber,
     String? physicalAddress,
     String? description,
+    String? logoUrl,
+    String? bannerUrl,
+    String? registrationNumber,
+    String? taxIdentificationNumber,
+    String? tradeLicenseNumber,
     String? region,
     String? stage,
     String? sectorSlug,
     List<String>? tagSlugs,
   });
+
+  Future<Either<BusinessProfileFailure, String>> uploadLogo(XFile file);
+
+  Future<Either<BusinessProfileFailure, String>> uploadBanner(XFile file);
 }

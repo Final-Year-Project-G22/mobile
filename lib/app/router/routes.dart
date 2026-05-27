@@ -8,6 +8,7 @@ import '../features/auth/presentation/pages/oauth_callback_page.dart';
 import '../features/auth/presentation/pages/oauth_complete_email_page.dart';
 import '../features/auth/presentation/pages/otp_verification_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import '../features/business_profile/presentation/pages/business_profile_page.dart';
 import '../features/community/presentation/pages/community_home_page.dart';
 import '../features/community/presentation/pages/create_thread_page.dart';
 import '../features/community/presentation/pages/thread_details_page.dart';
@@ -217,13 +218,26 @@ class CommunityHomeRoute extends GoRouteData with $CommunityHomeRoute {
       const CommunityHomePage();
 }
 
-@TypedGoRoute<ProfileRoute>(path: '/profile')
+@TypedGoRoute<ProfileRoute>(
+  path: '/profile',
+  routes: [
+    TypedGoRoute<BusinessProfileRoute>(path: 'business'),
+  ],
+)
 class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ProfilePage();
+}
+
+class BusinessProfileRoute extends GoRouteData with $BusinessProfileRoute {
+  const BusinessProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const BusinessProfilePage();
 }
 
 @TypedGoRoute<SettingsRoute>(path: '/settings')

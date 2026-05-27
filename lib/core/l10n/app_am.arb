@@ -646,5 +646,21 @@
   "newPassword": "አዲስ ይለፍ ቃል",
   "changePassword": "ይለፍ ቃል ይቀይሩ",
   "passwordUpdated": "ይለፍ ቃል በተሳካ ሁኔታ ተቀይሯል",
-  "errorPasswordChangeFailed": "ይለፍ ቃል መቀየር አልተሳካም"
+  "errorPasswordChangeFailed": "ይለፍ ቃል መቀየር አልተሳካም",
+  "businessProfile": "የንግድ መገለጫ",
+  "manageBusinessDetails": "የንግድ ዝርዝሮችዎን ያስተዳድሩ",
+  "companyName": "የኩባንያ ስም",
+  "companyEmail": "የኩባንያ ኢሜይል",
+  "companyPhone": "የኩባንያ ስልክ",
+  "physicalAddress": "አካላዊ አድራሻ",
+  "businessDescription": "መግለጫ",
+  "complianceInfo": "የተገዢነት መረጃ",
+  "registrationNumber": "የምዝገባ ቁጥር",
+  "taxIdentificationNumber": "የግብር መታወቂያ ቁጥር",
+  "tradeLicenseNumber": "የንግድ ፍቃድ ቁጥር",
+  "businessProfileUpdated": "የንግድ መገለጫ ተዘምኗል",
+  "logo": "አርማ",
+  "banner": "ባነር",
+  "changeLogo": "አርማ ቀይር",
+  "changeBanner": "ባነር ቀይር"
 }
