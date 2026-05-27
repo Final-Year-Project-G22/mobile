@@ -72,6 +72,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                 children: [
                   Text(
                     'Adisu Serategna',
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: AppColors.slate800,
                     ),
