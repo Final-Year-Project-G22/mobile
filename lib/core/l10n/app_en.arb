@@ -2037,5 +2037,69 @@
   "inAppAlwaysOn": "Always enabled",
   "@inAppAlwaysOn": {
     "description": "In-app notifications are always enabled"
+  },
+  "businessProfile": "Business Profile",
+  "@businessProfile": {
+    "description": "Business profile page title"
+  },
+  "manageBusinessDetails": "Manage your business details",
+  "@manageBusinessDetails": {
+    "description": "Business profile card subtitle"
+  },
+  "companyName": "Company Name",
+  "@companyName": {
+    "description": "Company name label"
+  },
+  "companyEmail": "Company Email",
+  "@companyEmail": {
+    "description": "Company email label"
+  },
+  "companyPhone": "Company Phone",
+  "@companyPhone": {
+    "description": "Company phone label"
+  },
+  "physicalAddress": "Physical Address",
+  "@physicalAddress": {
+    "description": "Physical address label"
+  },
+  "businessDescription": "Description",
+  "@businessDescription": {
+    "description": "Business description label"
+  },
+  "complianceInfo": "Compliance Information",
+  "@complianceInfo": {
+    "description": "Compliance section header"
+  },
+  "registrationNumber": "Registration Number",
+  "@registrationNumber": {
+    "description": "Registration number label"
+  },
+  "taxIdentificationNumber": "Tax ID (TIN)",
+  "@taxIdentificationNumber": {
+    "description": "Tax identification number label"
+  },
+  "tradeLicenseNumber": "Trade License Number",
+  "@tradeLicenseNumber": {
+    "description": "Trade license number label"
+  },
+  "businessProfileUpdated": "Business profile updated",
+  "@businessProfileUpdated": {
+    "description": "Success snackbar after saving business profile"
+  },
+  "logo": "Logo",
+  "@logo": {
+    "description": "Logo image label"
+  },
+  "banner": "Banner",
+  "@banner": {
+    "description": "Banner image label"
+  },
+  "changeLogo": "Change Logo",
+  "@changeLogo": {
+    "description": "Change logo button tooltip"
+  },
+  "changeBanner": "Change Banner",
+  "@changeBanner": {
+    "description": "Change banner button tooltip"
   }
 }

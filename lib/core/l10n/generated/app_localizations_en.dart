@@ -1575,4 +1575,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inAppAlwaysOn => 'Always enabled';
+
+  @override
+  String get businessProfile => 'Business Profile';
+
+  @override
+  String get manageBusinessDetails => 'Manage your business details';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get companyEmail => 'Company Email';
+
+  @override
+  String get companyPhone => 'Company Phone';
+
+  @override
+  String get physicalAddress => 'Physical Address';
+
+  @override
+  String get businessDescription => 'Description';
+
+  @override
+  String get complianceInfo => 'Compliance Information';
+
+  @override
+  String get registrationNumber => 'Registration Number';
+
+  @override
+  String get taxIdentificationNumber => 'Tax ID (TIN)';
+
+  @override
+  String get tradeLicenseNumber => 'Trade License Number';
+
+  @override
+  String get businessProfileUpdated => 'Business profile updated';
+
+  @override
+  String get logo => 'Logo';
+
+  @override
+  String get banner => 'Banner';
+
+  @override
+  String get changeLogo => 'Change Logo';
+
+  @override
+  String get changeBanner => 'Change Banner';
 }

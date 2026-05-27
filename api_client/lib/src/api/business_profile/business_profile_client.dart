@@ -2,6 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, unused_import, invalid_annotation_target, unnecessary_import
 
+import 'dart:convert';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
@@ -9,6 +10,7 @@ import 'package:retrofit/error_logger.dart';
 import '../models/business_profile_response.dart';
 import '../models/create_business_profile_request.dart';
 import '../models/update_business_profile_request.dart';
+import '../models/upload_business_image_response.dart';
 
 part 'business_profile_client.g.dart';
 
@@ -41,5 +43,28 @@ abstract class BusinessProfileClient {
   @PUT('/api/v1/users/business-profile')
   Future<HttpResponse<BusinessProfileResponse>> updateBusinessProfile({
     @Body() required UpdateBusinessProfileRequest body,
+  });
+
+  /// Upload business profile banner.
+  ///
+  /// Uploads and sets the authenticated user's business profile banner image.
+  ///
+  /// [file] - Name not received - field will be skipped.
+  @MultiPart()
+  @POST('/api/v1/users/business-profile/banner')
+  Future<HttpResponse<UploadBusinessImageResponse>>
+  uploadBusinessProfileBanner({
+    @Part(name: 'file') required MultipartFile file,
+  });
+
+  /// Upload business profile logo.
+  ///
+  /// Uploads and sets the authenticated user's business profile logo image.
+  ///
+  /// [file] - Name not received - field will be skipped.
+  @MultiPart()
+  @POST('/api/v1/users/business-profile/logo')
+  Future<HttpResponse<UploadBusinessImageResponse>> uploadBusinessProfileLogo({
+    @Part(name: 'file') required MultipartFile file,
   });
 }

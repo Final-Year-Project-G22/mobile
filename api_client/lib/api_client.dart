@@ -36,6 +36,7 @@ export 'src/api/models/refresh_response_body.dart';
 export 'src/api/models/update_user_profile_request.dart';
 export 'src/api/models/update_user_profile_response_body.dart';
 export 'src/api/models/upload_avatar_response.dart';
+export 'src/api/models/upload_business_image_response.dart';
 export 'src/api/models/user_dto.dart';
 export 'src/api/models/account_dto.dart';
 export 'src/api/models/error_model.dart';
