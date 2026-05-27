@@ -15,8 +15,7 @@ class SplashPage extends ConsumerStatefulWidget {
   ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends ConsumerState<SplashPage>
-    with SingleTickerProviderStateMixin {
+class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _logoFade;
   late final Animation<double> _contentFade;
@@ -75,6 +74,8 @@ class _SplashPageState extends ConsumerState<SplashPage>
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: AppColors.slate800,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
                     ),
                   ),
                   AppSpacing.gapVerticalXxl,
