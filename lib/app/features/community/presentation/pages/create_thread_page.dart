@@ -56,19 +56,11 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
   Future<void> _pickFile() async {
     final result = await FilePicker.pickFiles(
       allowMultiple: true,
-      withData: true,
     );
     if (result != null && result.files.isNotEmpty && mounted) {
       final files = <XFile>[];
       for (final file in result.files) {
-        if (file.bytes != null && file.bytes!.isNotEmpty) {
-          files.add(
-            XFile.fromData(
-              file.bytes!,
-              name: file.name,
-            ),
-          );
-        } else if (file.path != null) {
+        if (file.path != null) {
           files.add(XFile(file.path!));
         }
       }

@@ -3020,6 +3020,24 @@ abstract class AppLocalizations {
   /// **'Compliance Information'**
   String get complianceInfo;
 
+  /// Business sector and tags section header
+  ///
+  /// In en, this message translates to:
+  /// **'Sector & Tags'**
+  String get sectorAndTags;
+
+  /// Prompt to select a business sector
+  ///
+  /// In en, this message translates to:
+  /// **'Select your business sector'**
+  String get selectSector;
+
+  /// Prompt to select relevant tags
+  ///
+  /// In en, this message translates to:
+  /// **'Select relevant tags'**
+  String get selectTags;
+
   /// Registration number label
   ///
   /// In en, this message translates to:

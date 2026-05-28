@@ -1616,6 +1616,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get complianceInfo => 'Compliance Information';
 
   @override
+  String get sectorAndTags => 'Sector & Tags';
+
+  @override
+  String get selectSector => 'Select your business sector';
+
+  @override
+  String get selectTags => 'Select relevant tags';
+
+  @override
   String get registrationNumber => 'Registration Number';
 
   @override

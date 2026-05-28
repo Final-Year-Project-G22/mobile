@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
+import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../taxonomy/application/providers/taxonomy_providers.dart';
+import '../../../taxonomy/domain/entities/tag.dart';
 import '../../application/business_profile_notifier.dart';
 import '../../domain/entities/business_profile.dart';
 
@@ -34,6 +37,8 @@ class _BusinessProfilePageState extends ConsumerState<BusinessProfilePage> {
   bool _isBannerUploading = false;
   bool _isSaving = false;
   bool _isInitialized = false;
+  String? _selectedSectorSlug;
+  List<String> _selectedTagSlugs = [];
 
   @override
   void dispose() {
@@ -60,6 +65,8 @@ class _BusinessProfilePageState extends ConsumerState<BusinessProfilePage> {
     _tradeLicenseController.text = profile.tradeLicenseNumber ?? '';
     _logoUrl = profile.logoUrl;
     _bannerUrl = profile.bannerUrl;
+    _selectedSectorSlug = profile.sector?.slug;
+    _selectedTagSlugs = profile.tags.map((t) => t.slug).toList();
     _isInitialized = true;
   }
 
@@ -118,6 +125,8 @@ class _BusinessProfilePageState extends ConsumerState<BusinessProfilePage> {
         tradeLicenseNumber: _tradeLicenseController.text.isNotEmpty
             ? _tradeLicenseController.text
             : null,
+        sectorSlug: _selectedSectorSlug,
+        tagSlugs: _selectedTagSlugs,
       );
     } else {
       await notifier.createProfile(
@@ -141,6 +150,8 @@ class _BusinessProfilePageState extends ConsumerState<BusinessProfilePage> {
         tradeLicenseNumber: _tradeLicenseController.text.isNotEmpty
             ? _tradeLicenseController.text
             : null,
+        sectorSlug: _selectedSectorSlug,
+        tagSlugs: _selectedTagSlugs,
       );
     }
 
@@ -254,6 +265,51 @@ class _BusinessProfilePageState extends ConsumerState<BusinessProfilePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
+                      l10n.sectorAndTags,
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  ),
+                  Text(
+                    l10n.selectSector,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _SectorPicker(
+                    selectedSlug: _selectedSectorSlug,
+                    onSelected: (slug) {
+                      setState(() {
+                        _selectedSectorSlug =
+                            _selectedSectorSlug == slug ? null : slug;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.selectTags,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _TagsPicker(
+                    selectedSlugs: _selectedTagSlugs,
+                    onToggled: (slug) {
+                      setState(() {
+                        if (_selectedTagSlugs.contains(slug)) {
+                          _selectedTagSlugs.remove(slug);
+                        } else {
+                          _selectedTagSlugs.add(slug);
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  Divider(color: colorScheme.outlineVariant),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
                       l10n.complianceInfo,
                       style: theme.textTheme.titleMedium,
                     ),
@@ -360,6 +416,92 @@ class _ImagePickerSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SectorPicker extends ConsumerWidget {
+  const _SectorPicker({
+    required this.selectedSlug,
+    required this.onSelected,
+  });
+
+  final String? selectedSlug;
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sectorsAsync = ref.watch(sectorsProvider);
+    return sectorsAsync.when(
+      loading: () => const SizedBox(
+        height: 40,
+        child: Center(child: AdisuProgressIndicator.small()),
+      ),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (sectors) {
+        final rootSectors =
+            sectors.where((s) => s.parentId == null).toList();
+        return Wrap(
+          spacing: AppSpacing.xs,
+          runSpacing: AppSpacing.xs,
+          children: rootSectors.map((sector) {
+            return StyledFilterChip(
+              label: sector.name,
+              isSelected: selectedSlug == sector.slug,
+              onSelected: (_) => onSelected(sector.slug),
+              compact: true,
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+}
+
+class _TagsPicker extends ConsumerWidget {
+  const _TagsPicker({
+    required this.selectedSlugs,
+    required this.onToggled,
+  });
+
+  final List<String> selectedSlugs;
+  final ValueChanged<String> onToggled;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tagsAsync = ref.watch(tagsProvider);
+    return tagsAsync.when(
+      loading: () => const SizedBox(
+        height: 40,
+        child: Center(child: AdisuProgressIndicator.small()),
+      ),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (tags) {
+        final grouped = <String, List<Tag>>{};
+        for (final tag in tags) {
+          grouped.putIfAbsent(tag.group, () => []).add(tag);
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: grouped.entries.map((entry) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+              child: Wrap(
+                spacing: AppSpacing.xs,
+                runSpacing: AppSpacing.xs,
+                children: entry.value.map((tag) {
+                  return StyledFilterChip(
+                    label: tag.name,
+                    isSelected: selectedSlugs.contains(tag.slug),
+                    onSelected: (_) => onToggled(tag.slug),
+                    compact: true,
+                  );
+                }).toList(),
+              ),
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

@@ -2090,6 +2090,18 @@
   "@complianceInfo": {
     "description": "Compliance section header"
   },
+  "sectorAndTags": "Sector & Tags",
+  "@sectorAndTags": {
+    "description": "Business sector and tags section header"
+  },
+  "selectSector": "Select your business sector",
+  "@selectSector": {
+    "description": "Prompt to select a business sector"
+  },
+  "selectTags": "Select relevant tags",
+  "@selectTags": {
+    "description": "Prompt to select relevant tags"
+  },
   "registrationNumber": "Registration Number",
   "@registrationNumber": {
     "description": "Registration number label"

@@ -3,6 +3,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../domain/entities/attachment.dart';
 import '../domain/entities/discussion_post.dart';
@@ -31,8 +32,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) =>
-                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -60,8 +60,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) =>
-                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -81,9 +80,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final response = await _client.getCommunityThread(id: threadId);
       final threadDto = response.data.thread;
       final responseMap = response.response.data;
-      final threadMap = responseMap is Map<String, dynamic>
-          ? responseMap['thread'] as Map<String, dynamic>?
-          : null;
+      final threadMap = responseMap is Map<String, dynamic> ? responseMap['thread'] as Map<String, dynamic>? : null;
       return Right(_mapThreadDtoToDomain(threadDto, json: threadMap));
     } on DioException catch (e) {
       return Left(_handleDioError(e));
@@ -135,8 +132,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       final threads = (response.data.threads ?? [])
           .cast<Map<String, dynamic>>()
           .map(
-            (json) =>
-                _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
+            (json) => _mapThreadDtoToDomain(ThreadDto.fromJson(json), json: json),
           )
           .toList();
 
@@ -181,6 +177,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
             MultipartFile.fromBytes(
               bytes,
               filename: file.name,
+              contentType: _detectContentType(file.name),
             ),
           ],
         );
@@ -531,9 +528,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final data = error.response?.data;
-        final detail = data is Map<String, dynamic>
-            ? data['detail'] as String?
-            : null;
+        final detail = data is Map<String, dynamic> ? data['detail'] as String? : null;
 
         if (statusCode == 404) {
           return const CommunityFailure.notFound();
@@ -595,9 +590,7 @@ class CommunityRepositoryImpl implements ICommunityRepository {
     final authorDisplayName = json?['authorDisplayName'] as String?;
     final authorAvatarUrl = json?['authorAvatarUrl'] as String?;
 
-    final attachments = dto.attachments
-        ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final attachments = dto.attachments?.map((e) => Attachment.fromJson(e as Map<String, dynamic>)).toList();
 
     return DiscussionPost(
       id: dto.id,
@@ -628,6 +621,31 @@ class CommunityRepositoryImpl implements ICommunityRepository {
       case 'open':
       default:
         return ThreadStatus.open;
+    }
+  }
+
+  MediaType _detectContentType(String filename) {
+    final ext = filename.split('.').last.toLowerCase();
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+        return MediaType('image', 'jpeg');
+      case 'png':
+        return MediaType('image', 'png');
+      case 'gif':
+        return MediaType('image', 'gif');
+      case 'webp':
+        return MediaType('image', 'webp');
+      case 'pdf':
+        return MediaType('application', 'pdf');
+      case 'doc':
+      case 'docx':
+        return MediaType('application', 'msword');
+      case 'xls':
+      case 'xlsx':
+        return MediaType('application', 'vnd.ms-excel');
+      default:
+        return MediaType('application', 'octet-stream');
     }
   }
 }
