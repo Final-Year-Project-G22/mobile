@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +26,8 @@ class CheckoutLauncherPage extends ConsumerStatefulWidget {
 }
 
 class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
+  bool _navigated = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,42 +37,13 @@ class _CheckoutLauncherPageState extends ConsumerState<CheckoutLauncherPage> {
   Future<void> _launchCheckout() async {
     if (!mounted) return;
 
-    if (kIsWeb) {
-      await _launchOnWeb();
-      return;
-    }
-
-    try {
-      await FlutterWebAuth2.authenticate(
-        url: widget.checkoutUrl,
-        callbackUrlScheme: 'adisu',
-      );
-
-      if (!mounted) return;
-      context.replace(PaymentResultRoute(txRef: widget.txRef).location);
-    } on Exception catch (e) {
-      if (!mounted) return;
-      final message = e.toString().toLowerCase();
-      if (message.contains('cancelled') || message.contains('canceled')) {
-        context.replace(const PlansRoute().location);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).paymentCancelled),
-          ),
-        );
-      } else {
-        context.replace(PaymentResultRoute(txRef: widget.txRef).location);
-      }
-    }
-  }
-
-  Future<void> _launchOnWeb() async {
     final uri = Uri.parse(widget.checkoutUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
 
-    if (!mounted) return;
+    if (!mounted || _navigated) return;
+    _navigated = true;
     context.replace(PaymentResultRoute(txRef: widget.txRef).location);
   }
 
