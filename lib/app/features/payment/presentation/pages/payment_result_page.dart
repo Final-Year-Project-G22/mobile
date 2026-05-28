@@ -59,7 +59,16 @@ class _PaymentResultPageState extends ConsumerState<PaymentResultPage> {
     AppLocalizations l10n,
   ) {
     if (verification == null) {
-      return _buildError(context, l10n.noVerificationResult, l10n);
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const AdisuProgressIndicator(),
+            const SizedBox(height: AppSpacing.md),
+            Text(l10n.verifyingPayment),
+          ],
+        ),
+      );
     }
 
     switch (verification.status) {
