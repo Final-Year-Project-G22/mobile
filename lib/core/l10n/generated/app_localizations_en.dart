@@ -969,6 +969,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guideBookmarked => 'Bookmarked';
 
   @override
+  String get guideTabForYou => 'For You';
+
+  @override
+  String get guideTabAll => 'All';
+
+  @override
   String get guideNoGuidesFound =>
       'No guides match your search. Try different keywords.';
 

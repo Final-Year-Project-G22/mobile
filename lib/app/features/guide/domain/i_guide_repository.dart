@@ -13,6 +13,8 @@ abstract class IGuideRepository {
     List<String>? tagIds,
   });
 
+  Future<Either<GuideFailure, List<GuideCard>>> listAllGuides();
+
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
     String query,
   );

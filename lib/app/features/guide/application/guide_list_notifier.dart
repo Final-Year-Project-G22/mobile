@@ -12,6 +12,7 @@ part 'guide_list_notifier.g.dart';
 @riverpod
 class GuideListNotifier extends _$GuideListNotifier {
   var _allGuides = <GuideCard>[];
+  var _forYouGuides = <GuideCard>[];
 
   @override
   GuideListState build() {
@@ -28,15 +29,33 @@ class GuideListNotifier extends _$GuideListNotifier {
     final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
     final bookmarks = bkmkResult.fold((_) => <StepBookmark>[], (b) => b);
 
-    final listResult = await repo.listGuides();
-    final allGuides = listResult.fold((_) => <GuideCard>[], (g) => g);
+    final forYouResult = await repo.listGuides();
+    _forYouGuides = forYouResult.fold((_) => <GuideCard>[], (g) => g);
 
-    _allGuides = allGuides;
+    final allResult = await repo.listAllGuides();
+    _allGuides = allResult.fold((_) => <GuideCard>[], (g) => g);
+
+    final guides = state.selectedTab == GuideTab.forYou
+        ? _forYouGuides
+        : _allGuides;
 
     state = state.copyWith(
-      guides: allGuides,
+      guides: guides,
       recentGuides: recent,
       bookmarks: bookmarks,
+      isLoading: false,
+    );
+  }
+
+  void switchTab(GuideTab tab) {
+    if (tab == state.selectedTab) return;
+    final guides = tab == GuideTab.forYou ? _forYouGuides : _allGuides;
+    state = state.copyWith(
+      selectedTab: tab,
+      guides: guides,
+      searchQuery: '',
+      selectedSectorId: null,
+      selectedTagIds: const [],
       isLoading: false,
     );
   }
@@ -77,10 +96,14 @@ class GuideListNotifier extends _$GuideListNotifier {
   }
 
   void clearFilters() {
+    final guides = state.selectedTab == GuideTab.forYou
+        ? _forYouGuides
+        : _allGuides;
     state = GuideListState(
-      guides: _allGuides,
+      guides: guides,
       recentGuides: state.recentGuides,
       bookmarks: state.bookmarks,
+      selectedTab: state.selectedTab,
     );
   }
 

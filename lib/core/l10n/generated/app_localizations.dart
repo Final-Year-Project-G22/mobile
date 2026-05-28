@@ -1832,6 +1832,18 @@ abstract class AppLocalizations {
   /// **'Bookmarked'**
   String get guideBookmarked;
 
+  /// Personalized guides tab label
+  ///
+  /// In en, this message translates to:
+  /// **'For You'**
+  String get guideTabForYou;
+
+  /// All guides tab label
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get guideTabAll;
+
   /// Empty guide list
   ///
   /// In en, this message translates to:
