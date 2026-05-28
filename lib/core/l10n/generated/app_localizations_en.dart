@@ -42,13 +42,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phone => 'Phone';
 
   @override
-  String get forgotPassword => 'Forgot Password?';
+  String get forgotPassword => 'Forgot your password?';
 
   @override
-  String get dontHaveAccount => 'Don\'t have an account?';
+  String get dontHaveAccount => 'New here? Create an account';
 
   @override
-  String get alreadyHaveAccount => 'Already have an account?';
+  String get alreadyHaveAccount => 'Already with us? Sign in';
 
   @override
   String get signUp => 'Sign Up';
@@ -132,28 +132,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get info => 'Information';
 
   @override
-  String get errorNetwork => 'No internet connection';
+  String get errorNetwork =>
+      'You\'re offline. Check your connection and try again.';
 
   @override
-  String get errorServer => 'Server error. Please try again later';
+  String get errorServer =>
+      'Something\'s wrong on our end. We\'re fixing it — try again soon.';
 
   @override
-  String get errorUnknown => 'Something went wrong';
+  String get errorUnknown =>
+      'Oops! Something unexpected happened. Please try again.';
 
   @override
-  String get errorTimeout => 'Request timed out. Please try again';
+  String get errorTimeout =>
+      'That took too long. Check your connection and try again.';
 
   @override
-  String get errorUnauthorized => 'Session expired. Please login again';
+  String get errorUnauthorized => 'Your session expired. Please sign in again.';
 
   @override
-  String get errorValidation => 'Please check your input';
+  String get errorValidation =>
+      'Something doesn\'t look right. Please check your entries.';
 
   @override
-  String get confirmDelete => 'Are you sure you want to delete?';
+  String get confirmDelete => 'Delete this? This can\'t be undone.';
 
   @override
-  String get confirmLogout => 'Are you sure you want to logout?';
+  String get confirmLogout => 'Sign out? You can always come back.';
 
   @override
   String get confirm => 'Confirm';
@@ -299,7 +304,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finish => 'Finish';
 
   @override
-  String get onboardingTitle => 'Community Setup';
+  String get onboardingTitle => 'Let\'s set up your profile';
 
   @override
   String get onboardingLanguageLabel => 'Eng';
@@ -490,7 +495,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingDemoInvestor => 'Diaspora/Foreign Investor';
 
   @override
-  String get onboardingDemoOptional => 'You can skip this step if you prefer.';
+  String get onboardingDemoOptional => 'This is optional — skip if you prefer.';
 
   @override
   String get aiGuideTitle => 'Adisu Agent';
@@ -499,25 +504,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiGuideConversations => 'Conversations';
 
   @override
-  String get aiGuideNoConversations => 'No conversations yet';
+  String get aiGuideNoConversations =>
+      'Start a conversation — ask anything about your business!';
 
   @override
   String get aiGuideConversationsError => 'Couldn\'t load conversations';
 
   @override
-  String get aiGuideInputHint => 'Ask a question...';
+  String get aiGuideInputHint => 'Ask about registration, taxes, licenses...';
 
   @override
-  String get aiGuideGreeting => 'Ask me anything about your business';
+  String get aiGuideGreeting =>
+      'Hi! I\'m your business guide. Ask me anything about formalizing your business.';
 
   @override
   String get aiGuideNewChat => 'New Chat';
 
   @override
-  String get aiGuideStreamError => 'Something went wrong. Tap to retry.';
+  String get aiGuideStreamError => 'Lost connection. Tap to try again.';
 
   @override
-  String get loginSubtitle => 'Log in to get started';
+  String get loginSubtitle => 'Welcome back! Sign in to continue';
 
   @override
   String get emailOrUsername => 'Email or username';
@@ -529,7 +536,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordHint => 'Enter your password';
 
   @override
-  String get errorInvalidCredentials => 'Invalid email or password';
+  String get errorInvalidCredentials =>
+      'That email and password don\'t match. Try again.';
 
   @override
   String get errorEmailInUse => 'Email already in use';
@@ -556,10 +564,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorOAuthCancelled => 'OAuth login was cancelled';
 
   @override
-  String get createAccount => 'Create Account';
+  String get createAccount => 'Create Your Account';
 
   @override
-  String get registerSubtitle => 'Sign up to get started';
+  String get registerSubtitle => 'Join Adisu and start your journey';
 
   @override
   String get firstNameHint => 'Enter your first name';
@@ -580,10 +588,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registrationSuccessful => 'Registration successful';
 
   @override
-  String get verifyEmail => 'Verify Your Email';
+  String get verifyEmail => 'Let\'s verify your email';
 
   @override
-  String get otpSubtitle => 'Enter the 6-digit code sent to your email';
+  String get otpSubtitle => 'We sent a 6-digit code to your email';
 
   @override
   String get otpCodeHint => 'Please enter the 6-digit code';
@@ -642,7 +650,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorSaveFailed =>
-      'Failed to save business profile. Please try again.';
+      'We couldn\'t save your profile. Please try again.';
 
   @override
   String get unableToDisplayProfile => 'Unable to display profile data.';
@@ -672,7 +680,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get markAllRead => 'Mark all read';
 
   @override
-  String get noNotifications => 'No notifications yet';
+  String get noNotifications => 'You\'re all caught up!';
 
   @override
   String get timeNow => 'now';
@@ -710,7 +718,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get archiveConversationContent =>
-      'This will remove the conversation from your history. This cannot be undone.';
+      'Archive this conversation? You won\'t see it in your history.';
 
   @override
   String get archiveConversationAction => 'Archive';
@@ -745,17 +753,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use ready-made templates to move faster.';
 
   @override
-  String get continueWhereYouLeftOff => 'Continue Where You Left Off';
+  String get continueWhereYouLeftOff => 'Pick Up Where You Left Off';
 
   @override
   String get dashboardEmptyMessage =>
-      'Welcome! Start your first guide to see your progress here.';
+      'Welcome! Let\'s get your business on track. Start your first guide.';
 
   @override
   String get quickActions => 'Quick Actions';
 
   @override
-  String get monthlyCompletion => 'Monthly Completion';
+  String get monthlyCompletion => 'This Month\'s Progress';
 
   @override
   String progressSummary(int completed, int inProgress) {
@@ -772,10 +780,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchTemplates => 'Search templates...';
 
   @override
-  String get noTemplatesFound => 'No templates found';
+  String get noTemplatesFound => 'No templates match your search.';
 
   @override
-  String get noDownloadsYet => 'No downloads yet';
+  String get noDownloadsYet => 'Templates you download will appear here.';
 
   @override
   String downloadCount(int count) {
@@ -798,7 +806,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openInBrowser => 'Open in Browser';
 
   @override
-  String get previewFailed => 'Could not open preview';
+  String get previewFailed =>
+      'Couldn\'t open the preview. Try downloading instead.';
 
   @override
   String downloadedFile(String filename) {
@@ -913,10 +922,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noVerificationResult => 'No verification result';
 
   @override
-  String get paymentSuccessful => 'Payment Successful';
+  String get paymentSuccessful => 'You\'re all set!';
 
   @override
-  String get proPlanActive => 'Your Pro plan is now active.';
+  String get proPlanActive =>
+      'Your Pro plan is active. Enjoy unlimited access!';
 
   @override
   String get paymentProcessing => 'Payment Processing';
@@ -926,10 +936,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your payment is being processed by your bank. This may take a moment.';
 
   @override
-  String get paymentFailed => 'Payment Failed';
+  String get paymentFailed => 'Payment couldn\'t be completed';
 
   @override
-  String get couldNotCompletePayment => 'Your payment could not be completed.';
+  String get couldNotCompletePayment =>
+      'Something went wrong with your payment. Please try again.';
 
   @override
   String get tryAgain => 'Try Again';
@@ -958,10 +969,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guideBookmarked => 'Bookmarked';
 
   @override
-  String get guideNoGuidesFound => 'No guides found';
+  String get guideNoGuidesFound =>
+      'No guides match your search. Try different keywords.';
 
   @override
-  String get guideNoBookmarks => 'No bookmarks yet';
+  String get guideNoBookmarks => 'Save guides for later by bookmarking them.';
 
   @override
   String get guideRecentlyViewed => 'Recently Viewed';
@@ -1063,7 +1075,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noThreadsAvailable => 'No threads available yet';
+  String get noThreadsAvailable =>
+      'No discussions yet. Be the first to start one!';
 
   @override
   String get noPersonalizedThreads => 'No personalized threads available yet';
@@ -1180,7 +1193,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmDeleteThread =>
-      'Are you sure you want to delete this thread? This action cannot be undone.';
+      'Delete this thread? This can\'t be undone.';
 
   @override
   String get threadDeleted => 'Thread deleted successfully';
@@ -1377,7 +1390,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get compliance => 'Compliance';
 
   @override
-  String get inboxEmpty => 'Your inbox is empty';
+  String get inboxEmpty => 'All clear! No new messages.';
 
   @override
   String get complianceAutoTracked => 'Auto-tracked';
@@ -1386,7 +1399,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get complianceManual => 'Manual';
 
   @override
-  String get complianceNoEntries => 'No compliance entries yet';
+  String get complianceNoEntries =>
+      'No deadlines tracked yet. Add one to stay compliant.';
 
   @override
   String get complianceAutoTrackedDesc =>
@@ -1519,7 +1533,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noScheduledAlerts => 'No scheduled alerts yet';
+  String get noScheduledAlerts =>
+      'No alerts scheduled. Stay on top of deadlines!';
 
   @override
   String get tapToCreate => 'Tap + to create one';

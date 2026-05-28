@@ -6,7 +6,7 @@ import 'entities/conversation_list_result.dart';
 import 'entities/conversation_result.dart';
 import 'failures/ai_failures.dart';
 
-enum SseEventType { chunk, citations, done, error }
+enum SseEventType { chunk, citations, done, error, toolUse, toolResult }
 
 class SseEvent {
   const SseEvent({
@@ -15,12 +15,18 @@ class SseEvent {
     this.citations,
     this.sessionId,
     this.error,
+    this.toolName,
+    this.toolArguments,
+    this.toolResultSummary,
   });
   final SseEventType type;
   final String? text;
   final List<CitationDto>? citations;
   final String? sessionId;
   final String? error;
+  final String? toolName;
+  final String? toolArguments;
+  final String? toolResultSummary;
 }
 
 abstract class IAiRepository {

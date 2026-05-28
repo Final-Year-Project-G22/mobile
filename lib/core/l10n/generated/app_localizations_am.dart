@@ -21,16 +21,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get logout => 'ውጣ';
 
   @override
-  String get register => 'መዝግብ';
+  String get register => 'ተመዝገብ';
 
   @override
   String get email => 'ኢሜይል';
 
   @override
-  String get password => 'ይለፍ';
+  String get password => 'ይለፍ ቃል';
 
   @override
-  String get confirmPassword => 'ይለፍ አረጋግጥ';
+  String get confirmPassword => 'ይለፍ ቃል ያረጋግጡ';
 
   @override
   String get firstName => 'ስም';
@@ -39,58 +39,58 @@ class AppLocalizationsAm extends AppLocalizations {
   String get lastName => 'የአባት ስም';
 
   @override
-  String get phone => 'ስልክ';
+  String get phone => 'ስልክ ቁጥር';
 
   @override
-  String get forgotPassword => 'ይለፍ ረሳኽ?';
+  String get forgotPassword => 'ይለፍ ቃልዎን ረሱ?';
 
   @override
-  String get dontHaveAccount => 'አካውንት የለህም?';
+  String get dontHaveAccount => 'አዲስ ነዎት? መለያ ይፍጠሩ';
 
   @override
-  String get alreadyHaveAccount => 'አካውንት አለህ?';
+  String get alreadyHaveAccount => 'ቀድሞውኑ አባል ነዎት? ይግቡ';
 
   @override
-  String get signUp => 'ይመዝገብ';
+  String get signUp => 'ይመዝገቡ';
 
   @override
-  String get signIn => 'ግባ';
+  String get signIn => 'ይግቡ';
 
   @override
-  String get profile => 'ፕሮፋይል';
+  String get profile => 'መገለጫ';
 
   @override
   String get settings => 'ቅንብሮች';
 
   @override
-  String get home => 'ቤት';
+  String get home => 'መነሻ';
 
   @override
   String get search => 'ፈልግ';
 
   @override
-  String get searchHint => 'ፈልግ...';
+  String get searchHint => 'ይፈልጉ...';
 
   @override
-  String get cancel => 'ሰርዝ';
+  String get cancel => 'ተው';
 
   @override
   String get save => 'አስቀምጥ';
 
   @override
-  String get delete => 'ሰርዝ';
+  String get delete => 'አስወግድ';
 
   @override
-  String get edit => 'አርስ';
+  String get edit => 'አስተካክል';
 
   @override
-  String get done => 'ተያያዥ';
+  String get done => 'ተጠናቋል';
 
   @override
   String get next => 'ቀጣይ';
 
   @override
-  String get back => 'ተመልስ';
+  String get back => 'ተመለስ';
 
   @override
   String get continueText => 'ቀጥል';
@@ -108,22 +108,22 @@ class AppLocalizationsAm extends AppLocalizations {
   String get yes => 'አዎ';
 
   @override
-  String get no => 'አይ';
+  String get no => 'አይደለም';
 
   @override
-  String get ok => 'ነው';
+  String get ok => 'እሺ';
 
   @override
   String get loading => 'በመጫን ላይ...';
 
   @override
-  String get pleaseWait => 'እባክህ ጠብቅ...';
+  String get pleaseWait => 'እባክዎ ይጠብቁ...';
 
   @override
   String get error => 'ስህተት';
 
   @override
-  String get success => 'ተሳካ';
+  String get success => 'ተሳክቷል';
 
   @override
   String get warning => 'ማስጠንቀቂያ';
@@ -132,40 +132,41 @@ class AppLocalizationsAm extends AppLocalizations {
   String get info => 'መረጃ';
 
   @override
-  String get errorNetwork => 'አውታረመር የለም';
+  String get errorNetwork => 'ከበይነመረብ ውጪ ነዎት። ግንኙነትዎን ፈትሸው እንደገና ይሞክሩ።';
 
   @override
-  String get errorServer => 'አገልጋይ ስህተት ነው። እንደገና ሞክር';
+  String get errorServer =>
+      'በእኛ በኩል የተፈጠረ ችግር አለ። እየገነባነው ስለሆነ በቅርቡ እንደገና ይሞክሩ።';
 
   @override
-  String get errorUnknown => 'ያልታወቀ ስህተት ሆኗል';
+  String get errorUnknown => 'ያልተጠበቀ ስህተት አጋጥሟል። እባክዎ እንደገና ይሞክሩ።';
 
   @override
-  String get errorTimeout => 'ጊዜው አልቋል። እንደገና ሞክር';
+  String get errorTimeout => 'ጥያቄው ብዙ ጊዜ ወስዷል። ግንኙነትዎን ፈትሸው እንደገና ይሞክሩ።';
 
   @override
-  String get errorUnauthorized => 'ክፈፍ ጠፍቷል። እንደገና ግባ';
+  String get errorUnauthorized => 'የቆይታ ጊዜዎ አልቋል። እባክዎ እንደገና ይግቡ።';
 
   @override
-  String get errorValidation => 'ግብዓትህን ፈተሻሻ';
+  String get errorValidation => 'የሆነ ስህተት አለ። እባክዎ ያስገቡትን መረጃ ይፈትሹ።';
 
   @override
-  String get confirmDelete => 'ለማሰር ታስቧል?';
+  String get confirmDelete => 'ይህን ማጥፋት ይፈልጋሉ? ድርጊቱን መመለስ አይቻልም።';
 
   @override
-  String get confirmLogout => 'ለመውጣት ታስቧል?';
+  String get confirmLogout => 'ለመውጣት እርግጠኛ ነዎት? በማንኛውም ጊዜ መመለስ ይችላሉ።';
 
   @override
   String get confirm => 'አረጋግጥ';
 
   @override
-  String get noData => 'ምንም ውሂብ የለም';
+  String get noData => 'ምንም መረጃ የለም';
 
   @override
-  String get noResults => 'ውጤት አልተገኘም';
+  String get noResults => 'ምንም ውጤት አልተገኘም';
 
   @override
-  String get pullToRefresh => 'ለማደስ ድረስ ድርቅ';
+  String get pullToRefresh => 'ለማደስ ወደ ታች ይጎትቱ';
 
   @override
   String get loadingMore => 'ተጨማሪ በመጫን ላይ...';
@@ -180,22 +181,22 @@ class AppLocalizationsAm extends AppLocalizations {
   String get select => 'ምረጥ';
 
   @override
-  String get selected => 'ተመርጦሃል';
+  String get selected => 'ተመርጧል';
 
   @override
-  String get required => 'ይሄ መስክ ያስፈልጋል';
+  String get required => 'ይህ መስክ መሞላት አለበት';
 
   @override
-  String get invalidEmail => 'ትክክለኛ ኢሜይል አስገባ';
+  String get invalidEmail => 'ትክክለኛ ኢሜይል ያስገቡ';
 
   @override
-  String get invalidPhone => 'ትክክለኛ ስልክ አስገባ';
+  String get invalidPhone => 'ትክክለኛ ስልክ ቁጥር ያስገቡ';
 
   @override
-  String get passwordTooShort => 'ይለፍ ቢያንስ 8 ቁምፊዎች መሆን አለበት';
+  String get passwordTooShort => 'ይለፍ ቃል ቢያንስ 8 ቁምፊዎች መሆን አለበት';
 
   @override
-  String get passwordMismatch => 'ይለፎች አይዛመዱም';
+  String get passwordMismatch => 'ይለፍ ቃላቱ አይዛመዱም';
 
   @override
   String fieldRequired(String fieldName) {
@@ -257,7 +258,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get yesterday => 'ትናንት';
 
   @override
-  String get thisWeek => 'ይህ ሳምንት';
+  String get thisWeek => 'በዚህ ሳምንት';
 
   @override
   String get language => 'ቋንቋ';
@@ -266,40 +267,40 @@ class AppLocalizationsAm extends AppLocalizations {
   String get theme => 'ገጽታ';
 
   @override
-  String get darkMode => 'ጨለማ ሁኔታ';
+  String get darkMode => 'ጨለማ ሁነታ';
 
   @override
-  String get lightMode => 'ብርሃን ሁኔታ';
+  String get lightMode => 'ብርሃን ሁነታ';
 
   @override
-  String get systemDefault => 'ስርዓት ነባር';
+  String get systemDefault => 'የስርዓቱ ነባሪ';
 
   @override
-  String get about => 'ስለ';
+  String get about => 'ስለ መተግበሪያው';
 
   @override
   String get version => 'ስሪት';
 
   @override
-  String get privacyPolicy => 'ግላዊነት ፖሊሲ';
+  String get privacyPolicy => 'የግላዊነት ፖሊሲ';
 
   @override
-  String get termsOfService => 'አገልግሎት ውሎች';
+  String get termsOfService => 'የአገልግሎት ውሎች';
 
   @override
   String get contactSupport => 'ድጋፍ ያግኙ';
 
   @override
-  String get rateApp => 'አፕሊኬሽን ደርስ';
+  String get rateApp => 'መተግበሪያውን ደረጃ ይስጡ';
 
   @override
-  String get shareApp => 'አፕሊኬሽን አጋራ';
+  String get shareApp => 'መተግበሪያውን ያጋሩ';
 
   @override
   String get finish => 'ጨርስ';
 
   @override
-  String get onboardingTitle => 'የማህበረሰብ ማዋቀር';
+  String get onboardingTitle => 'የመገለጫ ማዋቀር';
 
   @override
   String get onboardingLanguageLabel => 'አማ';
@@ -483,7 +484,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get onboardingDemoInvestor => 'የውጭ/ዳያስፖራ ባለሀብት';
 
   @override
-  String get onboardingDemoOptional => 'ይህን ደረጃ መዝለል ይችላሉ።';
+  String get onboardingDemoOptional => 'ይህ ምርጫ ነው — ካልፈለጉ መዝለል ይችላሉ።';
 
   @override
   String get aiGuideTitle => 'አዲሱ ዴጀንት';
@@ -492,25 +493,26 @@ class AppLocalizationsAm extends AppLocalizations {
   String get aiGuideConversations => 'ውይይቶች';
 
   @override
-  String get aiGuideNoConversations => 'እስካሁን ምንም ውይይት የለም';
+  String get aiGuideNoConversations => 'ውይይት ይጀምሩ — ስለ ቢዝነስዎ የሚፈልጉትን ይጠይቁ!';
 
   @override
   String get aiGuideConversationsError => 'ውይይቶችን መጫን አልተቻለም';
 
   @override
-  String get aiGuideInputHint => 'ጥያቄ ይጠይቁ...';
+  String get aiGuideInputHint => 'ስለ ምዝገባ፣ ታክስ፣ ፍቃዶች ይጠይቁ...';
 
   @override
-  String get aiGuideGreeting => 'ስለ ቢዝነስዎ ማንኛውንም ነገር ይጠይቁ';
+  String get aiGuideGreeting =>
+      'ሰላም! እኔ የቢዝነስ ረዳትዎ ነኝ። ስለ ንግድ ድርጅትዎ ህጋዊ ምዝገባ ማንኛውንም ነገር ይጠይቁኝ።';
 
   @override
   String get aiGuideNewChat => 'አዲስ ውይይት';
 
   @override
-  String get aiGuideStreamError => 'የሆነ ችግር ተከስቷል። እንደገና ለመሞከር ይንኩ።';
+  String get aiGuideStreamError => 'የመስመር ግንኙነት ተቋርጧል። እንደገና ለመሞከር ይንኩ።';
 
   @override
-  String get loginSubtitle => 'ለመግባት ይመዝገቡ';
+  String get loginSubtitle => 'እንኳን ደህና መጡ! ለመቀጠል ይግቡ።';
 
   @override
   String get emailOrUsername => 'ኢሜይል ወይም የተጠቃሚ ስም';
@@ -522,37 +524,38 @@ class AppLocalizationsAm extends AppLocalizations {
   String get passwordHint => 'ይለፍ ቃልዎን ያስገቡ';
 
   @override
-  String get errorInvalidCredentials => 'የተሳሳተ ኢሜይል ወይም ይለፍ ቃል';
+  String get errorInvalidCredentials =>
+      'የተሳሳተ ኢሜይል ወይም ይለፍ ቃል አቅርበዋል። እባክዎ እንደገና ይሞክሩ።';
 
   @override
-  String get errorEmailInUse => 'ኢሜይል ቀድሞ ጥቅም ላይ ውሏል';
+  String get errorEmailInUse => 'ይህ ኢሜይል ቀድሞ ጥቅም ላይ ውሏል';
 
   @override
   String get errorGeneric => 'ስህተት ተከስቷል';
 
   @override
-  String get errorOAuthFailed => 'OAuth መግባት አልተሳካም';
+  String get errorOAuthFailed => 'በማህበራዊ ድረ-ገጽ መግባት አልተሳካም';
 
   @override
-  String get errorOAuthUnavailable => 'OAuth አገልግሎት አይገኝም';
+  String get errorOAuthUnavailable => 'የማህበራዊ ድረ-ገጽ መግቢያ አገልግሎት አሁን አይገኝም';
 
   @override
-  String get errorOAuthCallbackInvalid => 'ልክ ያልሆነ OAuth ጥሪ';
+  String get errorOAuthCallbackInvalid => 'ልክ ያልሆነ የማረጋገጫ ጥሪ';
 
   @override
-  String get errorOAuthExpired => 'OAuth ክፍለ ጊዜ ጊዜው አልፏል፣ እንደገና ይሞክሩ';
+  String get errorOAuthExpired => 'የክፍለ ጊዜው ጊዜ አልፏል፣ እባክዎ እንደገና ይሞክሩ';
 
   @override
-  String get errorOAuthUnsupported => 'የማይደገፍ OAuth አገልግሎት';
+  String get errorOAuthUnsupported => 'ይህ የማህበራዊ ድረ-ገጽ መግቢያ አይደገፍም';
 
   @override
-  String get errorOAuthCancelled => 'OAuth መግባት ተሰርዟል';
+  String get errorOAuthCancelled => 'የማህበራዊ ድረ-ገጽ መግቢያው ተሰርዟል';
 
   @override
-  String get createAccount => 'መለያ ይፍጠሩ';
+  String get createAccount => 'የአባልነት መለያ ይፍጠሩ';
 
   @override
-  String get registerSubtitle => 'ለመጀመር ይመዝገቡ';
+  String get registerSubtitle => 'ከአዲሱ ጋር ይቀላቀሉና የንግድ ጉዞዎን ይጀምሩ';
 
   @override
   String get firstNameHint => 'ስምዎን ያስገቡ';
@@ -570,13 +573,13 @@ class AppLocalizationsAm extends AppLocalizations {
   String get usernameHint => 'የተጠቃሚ ስም ይምረጡ';
 
   @override
-  String get registrationSuccessful => 'ምዝገባ ተሳክቷል';
+  String get registrationSuccessful => 'ምዝገባው ተሳክቷል';
 
   @override
-  String get verifyEmail => 'ኢሜይልዎን ያረጋግጡ';
+  String get verifyEmail => 'ኢሜይልዎን እናረጋግጥ';
 
   @override
-  String get otpSubtitle => 'ወደ ኢሜይልዎ የተላከውን ባለ 6-አሃዝ ኮድ ያስገቡ';
+  String get otpSubtitle => 'ወደ ኢሜይልዎ የ6-አሃዝ ኮድ ልከናል';
 
   @override
   String get otpCodeHint => 'እባክዎ ባለ 6-አሃዝ ኮዱን ያስገቡ';
@@ -585,7 +588,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get verify => 'አረጋግጥ';
 
   @override
-  String get didNotReceiveCode => 'ኮዱ አልደረሰም?';
+  String get didNotReceiveCode => 'ኮዱ አልደረሰዎትም?';
 
   @override
   String get resend => 'እንደገና ላክ';
@@ -596,19 +599,19 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get errorInvalidOtp => 'ልክ ያልሆነ OTP ኮድ';
+  String get errorInvalidOtp => 'ልክ ያልሆነ የኦቲፒ (OTP) ኮድ';
 
   @override
-  String get languageEnglish => 'እንግሊዝኛ';
+  String get languageEnglish => 'English';
 
   @override
   String get languageAmharic => 'አማርኛ';
 
   @override
-  String get completeBusinessProfile => 'የንግድ መገለጫ ያጠናቅቁ';
+  String get completeBusinessProfile => 'የንግድ መገለጫዎን ያጠናቅቁ';
 
   @override
-  String get continueOnboardingAnytime => 'ማስተዋወቂያውን በማንኛውም ጊዜ ይቀጥሉ';
+  String get continueOnboardingAnytime => 'የማስተዋወቂያ መመሪያውን በማንኛውም ጊዜ መቀጠል ይችላሉ';
 
   @override
   String get plan => 'እቅድ';
@@ -622,7 +625,7 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get pro => 'ፕሮ';
+  String get pro => 'ፕሮ (Pro)';
 
   @override
   String get basic => 'መሰረታዊ';
@@ -634,28 +637,28 @@ class AppLocalizationsAm extends AppLocalizations {
   String get saving => 'በማስቀመጥ ላይ...';
 
   @override
-  String get errorSaveFailed => 'የንግድ መገለጫውን ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ';
+  String get errorSaveFailed => 'መገለጫዎን ማስቀመጥ አልተቻለም። እባክዎ እንደገና ይሞክሩ።';
 
   @override
-  String get unableToDisplayProfile => 'የመገለጫ ውሂብ ማሳየት አልተቻለም';
+  String get unableToDisplayProfile => 'የመገለጫ መረጃን ማሳየት አልተቻለም';
 
   @override
   String get pleaseTryLoadingAgain => 'እባክዎ መገለጫዎን እንደገና ለመጫን ይሞክሩ';
 
   @override
-  String get editAvatar => 'አምሳል ያስተካክሉ';
+  String get editAvatar => 'ምስል ይቀይሩ';
 
   @override
   String get profileDetails => 'የመገለጫ ዝርዝሮች';
 
   @override
-  String get noBioYet => 'ገና የህይወት ታሪክ የለም';
+  String get noBioYet => 'እስካሁን ምንም መግለጫ አልተጻፈም';
 
   @override
   String get editProfile => 'መገለጫ ያስተካክሉ';
 
   @override
-  String get bio => 'የህይወት ታሪክ';
+  String get bio => 'ስለ እርስዎ';
 
   @override
   String get inbox => 'የገቢ መልዕክት';
@@ -664,7 +667,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get markAllRead => 'ሁሉንም እንደተነበበ ምልክት አድርግ';
 
   @override
-  String get noNotifications => 'እስካሁን ምንም ማሳወቂያ የለም';
+  String get noNotifications => 'ሁሉንም አይተው ጨርሰዋል!';
 
   @override
   String get timeNow => 'አሁን';
@@ -676,7 +679,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String timeHoursShort(int hours) {
-    return '$hoursሰአት';
+    return '$hoursሰዓት';
   }
 
   @override
@@ -702,7 +705,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get archiveConversationContent =>
-      'ይህ ውይይቱን ከታሪክዎ ያስወግዳል። ይህን መቀልበስ አይቻልም።';
+      'ይህን ውይይት ወደ ማህደር ማስቀመጥ ይፈልጋሉ? ከታሪክዎ ውስጥ አይታይም።';
 
   @override
   String get archiveConversationAction => 'አርክብ';
@@ -729,24 +732,24 @@ class AppLocalizationsAm extends AppLocalizations {
   String get continueChat => 'ውይይት ቀጥል';
 
   @override
-  String get guidePlaceholderSubtitle => 'የተመራ የመማሪያ መንገዶችን እና ምክሮችን ያስሱ።';
+  String get guidePlaceholderSubtitle => 'የተመሩ የትምህርት መንገዶችን እና ምክሮችን ያስሱ።';
 
   @override
   String get templatesPlaceholderSubtitle =>
-      'በፍጥነት ለመንቀሳቀስ ዝግጁ የሆኑ አብነቶችን ይጠቀሙ።';
+      'ስራዎችን በፍጥነት ለማጠናቀቅ ዝግጁ የሆኑ አብነቶችን ይጠቀሙ።';
 
   @override
-  String get continueWhereYouLeftOff => 'በቆሙበት ቀጥል';
+  String get continueWhereYouLeftOff => 'ከቆሙበት ቦታ ይቀጥሉ';
 
   @override
   String get dashboardEmptyMessage =>
-      'እንኳን ደህና መጡ! ሂደትዎን ለማየት የመጀመሪያ መመሪያዎን ይጀምሩ።';
+      'እንኳን ደህና መጡ! ቢዝነስዎን በትክክለኛው መስመር ላይ ለማስጀመር የመጀመሪያ መመሪያዎን እዚህ ይጀምሩ።';
 
   @override
   String get quickActions => 'ፈጣን እርምጃዎች';
 
   @override
-  String get monthlyCompletion => 'ወርሃዊ ማጠናቀቅ';
+  String get monthlyCompletion => 'የዚህ ወር ሂደት';
 
   @override
   String progressSummary(int completed, int inProgress) {
@@ -763,10 +766,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get searchTemplates => 'አብነቶችን ይፈልጉ...';
 
   @override
-  String get noTemplatesFound => 'ምንም አብነቶች አልተገኙም';
+  String get noTemplatesFound => 'ከፍለጋዎ ጋር የሚዛመድ ምንም አብነት አልተገኘም';
 
   @override
-  String get noDownloadsYet => 'እስካሁን ምንም ውርዶች የሉም';
+  String get noDownloadsYet => 'የሚያወርዷቸው አብነቶች እዚህ ይታያሉ። ለመጀመር ማውጫውን ይጎብኙ።';
 
   @override
   String downloadCount(int count) {
@@ -789,7 +792,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get openInBrowser => 'በአሳሽ ውስጥ ክፈት';
 
   @override
-  String get previewFailed => 'ቅድመ እይታ መክፈት አልተቻለም';
+  String get previewFailed => 'ቅድመ እይታውን መክፈት አልተቻለም። በምትኩ አውርደው ይሞክሩ።';
 
   @override
   String downloadedFile(String filename) {
@@ -798,21 +801,21 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String downloadFailed(String message) {
-    return 'ውርድ አልተሳካም: $message';
+    return 'ውርዱ አልተሳካም: $message';
   }
 
   @override
-  String get proTemplateTitle => 'ፕሮ አብነት';
+  String get proTemplateTitle => 'የፕሮ (Pro) አብነት';
 
   @override
   String get proTemplateDescription =>
-      'ይህ አብነት በፕሮ ደንበኝነት ይገኛል። ለማውረድ እና ለመመልከት ያሻሽሉ።';
+      'ይህ አብነት በፕሮ ደንበኝነት ምዝገባ ብቻ የሚገኝ ነው። ለማውረድ እና ለመመልከት እቅድዎን ያሻሽሉ።';
 
   @override
-  String get upgradeToPro => 'ወደ ፕሮ አሻሽል';
+  String get upgradeToPro => 'ወደ ፕሮ ያሳድጉ';
 
   @override
-  String get maybeLater => 'ምናልባት በኋላ';
+  String get maybeLater => 'ምናልባት ቆይቶ';
 
   @override
   String get open => 'ክፈት';
@@ -856,7 +859,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get mostPopular => 'በጣም ታዋቂ';
 
   @override
-  String get youAreOnPro => 'በፕሮ ላይ ነዎት';
+  String get youAreOnPro => 'የፕሮ ተጠቃሚ ነዎት';
 
   @override
   String savePercentYearly(int percent) {
@@ -864,7 +867,7 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get billingDisclaimer => 'ክፍያዎች በ ETB ይከፈላሉ። በማንኛውም ጊዜ መሰረዝ ይችላሉ።';
+  String get billingDisclaimer => 'ክፍያዎች በ ETB ይፈጸማሉ። በማንኛውም ጊዜ መሰረዝ ይችላሉ።';
 
   @override
   String get planFeatureAllGuides => 'ሁሉንም መመሪያዎች ማግኘት';
@@ -876,49 +879,51 @@ class AppLocalizationsAm extends AppLocalizations {
   String get planFeatureAiQuestions => 'በወር 3 AI ጥያቄዎች';
 
   @override
-  String get planFeatureEverythingBasic => 'ሁሉም በመሰረታዊ ውስጥ';
+  String get planFeatureEverythingBasic => 'ሁሉም በመሰረታዊ ውስጥ ያሉ';
 
   @override
-  String get planFeatureUnlimitedAi => 'ያልተገደበ AI ጥያቄዎች';
+  String get planFeatureUnlimitedAi => 'ያልተገደበ የAI ጥያቄዎች';
 
   @override
-  String get planFeatureTemplates => 'የአብነት ውርዶች';
+  String get planFeatureTemplates => 'ሁሉንም አብነቶች ማውረድ';
 
   @override
-  String get planFeatureSupport => 'ቅድሚያ የማህበረሰብ ድጋፍ';
+  String get planFeatureSupport => 'ቅድሚያ የሚሰጠው የድጋፍ አገልግሎት';
 
   @override
-  String get planFeatureAdvancedProfile => 'የላቀ የንግድ መገለጫ';
+  String get planFeatureAdvancedProfile => 'የላቀ የንግድ መገለጫ ማስተዳደሪያ';
 
   @override
   String get openingSecurePayment => 'ደህንነቱ የተጠበቀ ክፍያ በመክፈት ላይ...';
 
   @override
-  String get paymentCancelled => 'ክፍያ ተሰርዟል';
+  String get paymentCancelled => 'ክፍያው ተሰርዟል';
 
   @override
   String get verifyingPayment => 'ክፍያዎን በማረጋገጥ ላይ...';
 
   @override
-  String get noVerificationResult => 'ምንም የማረጋገጫ ውጤት የለም';
+  String get noVerificationResult => 'ምንም የማረጋገጫ ውጤት አልተገኘም';
 
   @override
-  String get paymentSuccessful => 'ክፍያ ተሳክቷል';
+  String get paymentSuccessful => 'ሁሉንም ነገር አዘናግተዋል! ክፍያው ተሳክቷል።';
 
   @override
-  String get proPlanActive => 'የፕሮ እቅድዎ አሁን ንቁ ነው።';
+  String get proPlanActive =>
+      'የፕሮ (Pro) እቅድዎ አሁን ንቁ ሆኗል። ያልተገደበ አገልግሎት ማግኘት ይችላሉ!';
 
   @override
-  String get paymentProcessing => 'ክፍያ በሂደት ላይ';
+  String get paymentProcessing => 'ክፍያ በሂደት ላይ ነው';
 
   @override
-  String get paymentBeingProcessed => 'ክፍያዎ በባንክዎ እየተሰራ ነው። ትንሽ ጊዜ ሊወስድ ይችላል።';
+  String get paymentBeingProcessed => 'ክፍያዎ በባንክዎ እየተሰራ ነው። ጥቂት ጊዜ ሊወስድ ይችላል።';
 
   @override
-  String get paymentFailed => 'ክፍያ አልተሳካም';
+  String get paymentFailed => 'ክፍያው ሊጠናቀቅ አልቻለም';
 
   @override
-  String get couldNotCompletePayment => 'ክፍያዎ ሊጠናቀቅ አልቻለም።';
+  String get couldNotCompletePayment =>
+      'በክፍያዎ ላይ የሆነ ችግር ተፈጥሯል። እባክዎ እንደገና ይሞክሩ።';
 
   @override
   String get tryAgain => 'እንደገና ሞክር';
@@ -938,25 +943,27 @@ class AppLocalizationsAm extends AppLocalizations {
   String get guideSearchHint => 'መመሪያዎችን ይፈልጉ...';
 
   @override
-  String get guideFiltered => 'ተጣርቷል';
+  String get guideFiltered => 'የተጣራ';
 
   @override
   String get guideClearAll => 'ሁሉንም አጽዳ';
 
   @override
-  String get guideBookmarked => 'ዕልባት ተሰጥቶታል';
+  String get guideBookmarked => 'ዕልባት ተደርጓል';
 
   @override
-  String get guideNoGuidesFound => 'ምንም መመሪያዎች አልተገኙም';
+  String get guideNoGuidesFound =>
+      'ከፍለጋዎ ጋር የሚዛመድ ምንም መመሪያ አልተገኘም። ሌሎች ቃላትን ይሞክሩ።';
 
   @override
-  String get guideNoBookmarks => 'እስካሁን ምንም ዕልባቶች የሉም';
+  String get guideNoBookmarks =>
+      'በኋላ ላይ ለማንበብ የሚፈልጓቸውን መመሪያዎች እዚህ ዕልባት አድርገው ያስቀምጡ።';
 
   @override
-  String get guideRecentlyViewed => 'በቅርብ የታዩ';
+  String get guideRecentlyViewed => 'በቅርብ ጊዜ የታዩ';
 
   @override
-  String get guideRecent => 'የቅርብ';
+  String get guideRecent => 'የቅርብ ጊዜ';
 
   @override
   String guideProgressOf(int completed, int total) {
@@ -1005,7 +1012,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get stepChecklist => 'የምርመራ ዝርዝር';
 
   @override
-  String get stepProTip => 'የግል ምክር';
+  String get stepProTip => 'ጠቃሚ ምክር';
 
   @override
   String get stepStatusCompleted => 'ተጠናቋል';
@@ -1014,16 +1021,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get stepStatusInProgress => 'በሂደት ላይ';
 
   @override
-  String get stepStatusSkipped => 'ተዝሏል';
+  String get stepStatusSkipped => 'የታለፈ';
 
   @override
-  String get stepStatusLocked => 'ተቆልፏል';
+  String get stepStatusLocked => 'የተቆለፈ';
 
   @override
-  String get stepStart => 'ደረጃ ጀምር';
+  String get stepStart => 'ደረጃውን ጀምር';
 
   @override
-  String get stepComplete => 'ደረጃ አጠናቅቅ';
+  String get stepComplete => 'ደረጃውን አጠናቅቅ';
 
   @override
   String get stepSkip => 'ዝለል';
@@ -1044,18 +1051,19 @@ class AppLocalizationsAm extends AppLocalizations {
   String get communityAll => 'ሁሉም';
 
   @override
-  String get searchThreads => 'ክሮችን ይፈልጉ...';
+  String get searchThreads => 'ውይይቶችን ይፈልጉ...';
 
   @override
   String noThreadsFound(String query) {
-    return '\"$query\" የሚል ክሮች አልተገኙም';
+    return 'ከ \"$query\" ጋር የሚዛመዱ የውይይት ርዕሶች አልተገኘም';
   }
 
   @override
-  String get noThreadsAvailable => 'እስካሁን ምንም ክሮች የሉም';
+  String get noThreadsAvailable =>
+      'እስካሁን ምንም ውይይት የለም። የመጀመሪያውን ውይይት እርስዎ ይጀምሩ!';
 
   @override
-  String get noPersonalizedThreads => 'እስካሁን ምንም የግል የተደረጉ ክሮች የሉም';
+  String get noPersonalizedThreads => 'እስካሁን ለእርስዎ የተበጁ ውይይቶች የሉም';
 
   @override
   String threadReplies(int count) {
@@ -1068,13 +1076,13 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get owned => 'የባለቤትነት';
+  String get owned => 'የእኔ ውይይቶች';
 
   @override
-  String get solved => 'ተፈቷል';
+  String get solved => 'የተፈቱ';
 
   @override
-  String get followed => 'የተከተሉ';
+  String get followed => 'የምከተላቸው';
 
   @override
   String get moreFilters => 'ተጨማሪ ማጣሪያዎች';
@@ -1095,21 +1103,21 @@ class AppLocalizationsAm extends AppLocalizations {
   String get tags => 'መለያዎች';
 
   @override
-  String get followedOnly => 'የተከተሉት ብቻ';
+  String get followedOnly => 'የምከተላቸው ብቻ';
 
   @override
-  String get showFollowedOnly => 'የሚከተሏቸውን ክሮች ብቻ አሳይ';
+  String get showFollowedOnly => 'የምከተላቸውን ውይይቶች ብቻ አሳይ';
 
   @override
   String get noItemsMatchSearch => 'ከፍለጋዎ ጋር የሚዛመድ ምንም ነገር የለም';
 
   @override
   String errorLoadingThreads(String error) {
-    return 'ክሮችን በመጫን ላይ ስህተት: $error';
+    return 'ውይይቶችን በመጫን ላይ ስህተት አጋጥሟል: $error';
   }
 
   @override
-  String get createThread => 'ክር ይፍጠሩ';
+  String get createThread => 'አዲስ የውይይት ርዕስ ፍጠር';
 
   @override
   String get post => 'ለጥፍ';
@@ -1118,24 +1126,24 @@ class AppLocalizationsAm extends AppLocalizations {
   String get title => 'ርዕስ';
 
   @override
-  String get titleRequired => 'ርዕስ ያስፈልጋል';
+  String get titleRequired => 'ርዕስ ማስገባት ግዴታ ነው';
 
   @override
   String minChars(int count) {
-    return 'ቢያንስ $count ቁምፊዎች';
+    return 'ቢያንስ $count ቁምፊዎች መሆን አለበት';
   }
 
   @override
-  String get initialPost => 'የመጀመሪያ ልጥፍ';
+  String get initialPost => 'የመጀመሪያ ጽሑፍ';
 
   @override
-  String get postRequired => 'ልጥፍ ያስፈልጋል';
+  String get postRequired => 'የጽሑፍ ይዘት ያስፈልጋል';
 
   @override
-  String get addImages => 'ምስሎችን አክል';
+  String get addImages => 'ምስሎች አክል';
 
   @override
-  String get addFiles => 'ፋይሎችን አክል';
+  String get addFiles => 'ፋይሎች አክል';
 
   @override
   String get sectorsOptional => 'ዘርፎች (አማራጭ)';
@@ -1144,16 +1152,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get tagsOptional => 'መለያዎች (አማራጭ)';
 
   @override
-  String get deletePost => 'ልጥፍ ሰርዝ';
+  String get deletePost => 'ጽሑፉን አጥፋ';
 
   @override
-  String get confirmDeletePost => 'እርግጠኛ ነዎት ይህን ልጥፍ መሰረዝ ይፈልጋሉ?';
+  String get confirmDeletePost => 'እርግጠኛ ነዎት ይህንን ጽሑፍ መሰረዝ ይፈልጋሉ?';
 
   @override
-  String get postDeleted => 'ልጥፍ በተሳካ ሁኔታ ተሰርዟል';
+  String get postDeleted => 'ጽሑፉ በተሳካ ሁኔታ ተሰርዟል';
 
   @override
-  String get markAsSolution => 'እንደ መፍትሄ ምልክት አድርግ';
+  String get markAsSolution => 'እንደ ትክክለኛ መፍትሄ ምልክት አድርግ';
 
   @override
   String get confirmMarkSolution => 'ይህን ልጥፍ እንደ ተቀባይነት ያለው መፍትሄ ምልክት አድርግ?';
@@ -1162,47 +1170,47 @@ class AppLocalizationsAm extends AppLocalizations {
   String get mark => 'ምልክት አድርግ';
 
   @override
-  String get markedAsSolution => 'እንደ መፍትሄ ምልክት ተደርጓል';
+  String get markedAsSolution => 'መፍትሄ ሆኖ ተመርጧል';
 
   @override
-  String get deleteThread => 'ክር ሰርዝ';
+  String get deleteThread => 'ውይይቱን አጥፋ';
 
   @override
   String get confirmDeleteThread =>
-      'እርግጠኛ ነዎት ይህን ክር መሰረዝ ይፈልጋሉ? ይህ ተግባር መቀልበስ አይቻልም።';
+      'ይህን የውይይት ርዕስ መሰረዝ ይፈልጋሉ? ድርጊቱን መመለስ አይቻልም።';
 
   @override
-  String get threadDeleted => 'ክር በተሳካ ሁኔታ ተሰርዟል';
+  String get threadDeleted => 'የውይይት ርዕሱ በተሳካ ሁኔታ ተሰርዟል';
 
   @override
-  String get followThread => 'ክር ተከተል';
+  String get followThread => 'ውይይቱን ተከታተል';
 
   @override
-  String get unfollowThread => 'ክር መከታተል አቁም';
+  String get unfollowThread => 'መከታተል አቁም';
 
   @override
-  String get followingThread => 'ክር እየተከተሉ ነው';
+  String get followingThread => 'ውይይቱን እየተከተሉ ነው';
 
   @override
-  String get unfollowedThread => 'ክር መከታተል አቁመዋል';
+  String get unfollowedThread => 'ውይይቱን መከታተል አቁመዋል';
 
   @override
-  String get editThread => 'ክር አስተካክል';
+  String get editThread => 'ውይይቱን አስተካክል';
 
   @override
-  String get reportThread => 'ክር ሪፖርት አድርግ';
+  String get reportThread => 'ውይይቱን ሪፖርት አድርግ';
 
   @override
-  String get noRepliesYet => 'እስካሁን ምላሽ የለም። የመጀመሪያ ይሁኑ!';
+  String get noRepliesYet => 'እስካሁን ምንም ምላሽ የለም። የመጀመሪያው ምላሽ ሰጪ ይሁኑ!';
 
   @override
-  String get reply => 'ምላሽ';
+  String get reply => 'ምላሽ ስጥ';
 
   @override
   String get saveToGallery => 'ወደ ማዕከለ-ስዕላት አስቀምጥ';
 
   @override
-  String get imageSaved => 'ምስል ወደ ማዕከለ-ስዕላት ተቀምጧል!';
+  String get imageSaved => 'ምስሉ ወደ ማዕከለ-ስዕላት ተቀምጧል!';
 
   @override
   String get report => 'ሪፖርት';
@@ -1217,7 +1225,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get reasonRequired => 'እባክዎን ምክንያት ያስገቡ';
 
   @override
-  String get reasonSpam => 'አይፈለጌ መልዕክት';
+  String get reasonSpam => 'አይፈለጌ መልዕክት (Spam)';
 
   @override
   String get reasonHarassment => 'ትንኮሳ';
@@ -1229,7 +1237,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get reasonMisinformation => 'የተሳሳተ መረጃ';
 
   @override
-  String get reasonOther => 'ሌላ';
+  String get reasonOther => 'ሌላ ምክንያት';
 
   @override
   String get submitReport => 'ሪፖርት አስገባ';
@@ -1240,10 +1248,10 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get reasonHint => 'ለምን ይህን እንደሚያሪፖርቱ ይግለጹ...';
+  String get reasonHint => 'ለምን ሪፖርት እንደሚያደርጉ እባክዎ ያብራሩ...';
 
   @override
-  String get editingPost => 'ልጥፍ በማስተካከል ላይ';
+  String get editingPost => 'ጽሑፉን በማስተካከል ላይ';
 
   @override
   String replyingTo(String name) {
@@ -1251,16 +1259,16 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get newPost => 'አዲስ ልጥፍ';
+  String get newPost => 'አዲስ ጽሑፍ';
 
   @override
-  String get updateYourPost => 'ልጥፍዎን ያዘምኑ...';
+  String get updateYourPost => 'ጽሑፍዎን ያዘምኑ...';
 
   @override
-  String get writeYourReply => 'ምላሽዎን ይፃፉ...';
+  String get writeYourReply => 'ምላሽዎን እዚህ ይጻፉ...';
 
   @override
-  String get writeAPost => 'ልጥፍ ይፃፉ...';
+  String get writeAPost => 'አንድ ነገር ይጻፉ...';
 
   @override
   String newAttachments(int count) {
@@ -1269,14 +1277,14 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String existingAttachments(int count) {
-    return 'ነባር አባሪዎች ($count):';
+    return 'የነበሩ አባሪዎች ($count):';
   }
 
   @override
   String get removeAll => 'ሁሉንም አስወግድ';
 
   @override
-  String get attachmentsRemovedOnUpdate => 'አባሪዎች ሲዘምን ይወገዳሉ';
+  String get attachmentsRemovedOnUpdate => 'አባሪዎች ሲዘምኑ ይወገዳሉ';
 
   @override
   String get undoRemove => 'መወገድን ቀልብስ';
@@ -1285,13 +1293,13 @@ class AppLocalizationsAm extends AppLocalizations {
   String get removeThisAttachment => 'ይህን አባሪ አስወግድ';
 
   @override
-  String get postUpdated => 'ልጥፍ በተሳካ ሁኔታ ተዘምኗል';
+  String get postUpdated => 'ጽሑፉ በተሳካ ሁኔታ ተዘምኗል';
 
   @override
-  String get imageSavedToGallery => 'ምስል ወደ ጋለሪ ተቀምጧል!';
+  String get imageSavedToGallery => 'ምስሉ ወደ ማዕከለ-ስዕላት ተቀምጧል!';
 
   @override
-  String get failedToLoadImage => 'ምስል መጫን አልተቻለም';
+  String get failedToLoadImage => 'ምስሉን መጫን አልተቻለም';
 
   @override
   String failedToDeletePost(String error) {
@@ -1300,7 +1308,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String failedToMarkSolution(String error) {
-    return 'መፍትሄ ምልክት ማድረግ አልተቻለም: $error';
+    return 'መፍትሄ መሆኑን ምልክት ማድረግ አልተቻለም: $error';
   }
 
   @override
@@ -1313,24 +1321,25 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String oAuthCompletionSubtitle(String provider) {
-    return 'በ$provider ለመግባት ኢሜይል ያክሉ።';
+    return 'በ$provider ለመግባት እባክዎ ኢሜይልዎን ያክሉ።';
   }
 
   @override
   String oAuthCompletionSignedInAs(String name) {
-    return 'እንደ $name ገብተዋል';
+    return 'እንደ $name ሆነው ገብተዋል';
   }
 
   @override
   String oAuthCompletionProviderSubject(String subject) {
-    return 'የአቅራቢ ርዕሰ ጉዳይ: $subject';
+    return 'የአቅራቢ መለያ: $subject';
   }
 
   @override
   String get oAuthFinishingSignIn => 'ምዝገባን በማጠናቀቅ ላይ...';
 
   @override
-  String get oAuthNoCompletionRequest => 'ምንም የOAuth ኢሜይል ማጠናቀቂያ ጥያቄ አልተገኘም።';
+  String get oAuthNoCompletionRequest =>
+      'ምንም የማህበራዊ ገጽ መግቢያ ማጠናቀቂያ ጥያቄ አልተገኘም።';
 
   @override
   String get oAuthBackToLogin => 'ወደ መግቢያ ተመለስ';
@@ -1339,7 +1348,8 @@ class AppLocalizationsAm extends AppLocalizations {
   String get completeYourBusinessProfile => 'የንግድ መገለጫዎን ያጠናቅቁ';
 
   @override
-  String get unlockPersonalizedGuidance => 'ለግል የተበጀ መመሪያ እና የተሻለ ምክረ ሀሳብ ያግኙ።';
+  String get unlockPersonalizedGuidance =>
+      'ለግል የተበጀ መመሪያ እና የተሻሉ የንግድ ምክሮችን ያግኙ።';
 
   @override
   String get noInternetConnection => 'የበይነመረብ ግንኙነት የለም';
@@ -1354,16 +1364,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get removeThis => 'ይህን አስወግድ';
 
   @override
-  String get inboxTab => 'ገቢ መልዕክት';
+  String get inboxTab => 'የገቢ መልዕክት';
 
   @override
-  String get scheduledTab => 'የተቀጠሩ';
+  String get scheduledTab => 'የተቀጠሩ ቀናት';
 
   @override
   String get compliance => 'ህግና ደንብ';
 
   @override
-  String get inboxEmpty => 'የገቢ መልዕክት ሳጥንዎ ባዶ ነው';
+  String get inboxEmpty => 'ሁሉም ነገር ንጹህ ነው! አዲስ መልዕክት የለም።';
 
   @override
   String get complianceAutoTracked => 'በራስ-ሰር የሚከታተሉ';
@@ -1372,11 +1382,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get complianceManual => 'በእጅ የሚገቡ';
 
   @override
-  String get complianceNoEntries => 'እስካሁን ምንም የህግና ደንብ መረጃ አልገባም';
+  String get complianceNoEntries =>
+      'እስካሁን የክትትል ቀናት አልተመዘገቡም። ለመጀመር የመጀመሪያ ተገዢነትዎን ያክሉ።';
 
   @override
   String get complianceAutoTrackedDesc =>
-      'የንግድ መገለጫዎ ላይ የግብር ከፋይ መለያ ቁጥር (TIN)፣ ፈቃድ ወይም የምዝገባ ቁጥሮችን ሲያክሉ በራስ-ሰር የሚከታተሉ መረጃዎች እዚህ ይታያሉ።';
+      'በንግድ መገለጫዎ ላይ የግብር ከፋይ መለያ ቁጥር (TIN) ወይም የምዝገባ ቁጥሮችን ሲያክሉ የሚከታተሉ መረጃዎች እዚህ ይታያሉ።';
 
   @override
   String get businessProfileRequired => 'የንግድ መገለጫ ያስፈልጋል';
@@ -1395,7 +1406,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get autoGenerated => 'በራስ-ሰር የተፈጠረ';
 
   @override
-  String get addComplianceEntry => 'የህግና ደንብ መረጃ አክል';
+  String get addComplianceEntry => 'የተገዢነት መረጃ አክል';
 
   @override
   String get referenceNumber => 'የማጣቀሻ ቁጥር';
@@ -1419,13 +1430,13 @@ class AppLocalizationsAm extends AppLocalizations {
   String get autoGeneratedFromProfile => 'ከንግድ መገለጫዎ በራስ-ሰር የተፈጠረ';
 
   @override
-  String get complianceType => 'የህግና ደንብ ዓይነት';
+  String get complianceType => 'የተገዢነት ዓይነት';
 
   @override
   String get notSet => 'አልተመረጠም';
 
   @override
-  String get noUpcomingDeadlines => 'የሚመጡ ማጠናቀቂያ ቀናት የሉም';
+  String get noUpcomingDeadlines => 'በቅርብ የሚመጡ ማጠናቀቂያ ቀናት የሉም';
 
   @override
   String get complianceAddEntriesDesc => 'ከንግድ መገለጫዎ ላይ የህግና ደንብ መረጃዎችን ያክሉ';
@@ -1461,10 +1472,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get remaining => 'የቀረው';
 
   @override
-  String get complianceCalendar => 'የህግና ደንብ የቀን መቁጠሪያ';
+  String get complianceCalendar => 'የተገዢነት የቀን መቁጠሪያ';
 
   @override
-  String get seeAll => 'ሁሉንም ይዩ';
+  String get seeAll => 'ሁሉንም ይመልከቱ';
 
   @override
   String get upgradeToProDesc =>
@@ -1477,10 +1488,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get newScheduledAlert => 'አዲስ የተቀጠረ ማሳሰቢያ';
 
   @override
-  String get template => 'አብነት (Template)';
+  String get template => 'አብነት';
 
   @override
-  String get noneCustom => 'የለም (ብጁ)';
+  String get noneCustom => 'ብጁ ማሳሰቢያ';
 
   @override
   String get bodyField => 'ዝርዝር መግለጫ';
@@ -1489,24 +1500,25 @@ class AppLocalizationsAm extends AppLocalizations {
   String get bodyRequired => 'ዝርዝር መግለጫ ማስገባት ግዴታ ነው';
 
   @override
-  String get channels => 'ማሳወቂያ መንገዶች';
+  String get channels => 'የማሳወቂያ መንገዶች';
 
   @override
   String get inAppChannel => 'በመተግበሪያው ውስጥ';
 
   @override
-  String get pushChannel => 'በስልክ ማሳወቂያ (Push)';
+  String get pushChannel => 'የስልክ ላይ ማሳወቂያ (Push)';
 
   @override
   String freeUserAlertCount(int count) {
-    return 'ለነፃ ተጠቃሚዎች፦ ከ3ቱ ውስጥ $count ጥቅም ላይ ውሏል';
+    return 'ከ3 ነፃ ማሳሰቢያዎች፦ $count ጥቅም ላይ ውሏል';
   }
 
   @override
-  String get noScheduledAlerts => 'እስካሁን ምንም የተቀጠሩ ማሳሰቢያዎች የሉም';
+  String get noScheduledAlerts =>
+      'እስካሁን የተቀጠሩ ማሳሰቢያዎች የሉም። ቀነ-ገደቦችን እንዳያመልጥዎት ማሳሰቢያ ይቅጠሩ!';
 
   @override
-  String get tapToCreate => 'አንድ ለመፍጠር + ምልክቱን ይጫኑ';
+  String get tapToCreate => 'አዲስ ለመፍጠር የ + ምልክቱን ይጫኑ';
 
   @override
   String get pending => 'በጥበቃ ላይ';
@@ -1527,25 +1539,25 @@ class AppLocalizationsAm extends AppLocalizations {
   String get tomorrow => 'ነገ';
 
   @override
-  String get complianceCreated => 'የህግና ደንብ መረጃው ተፈጥሯል';
+  String get complianceCreated => 'የተገዢነት መረጃው ተፈጥሯል';
 
   @override
-  String get complianceUpdated => 'የህግና ደንብ መረጃው ተሻሽሏል';
+  String get complianceUpdated => 'የተገዢነት መረጃው ተሻሽሏል';
 
   @override
-  String get complianceDeleted => 'የህግና ደንብ መረጃው ተሰርዟል';
+  String get complianceDeleted => 'የተገዢነት መረጃው ተሰርዟል';
 
   @override
-  String get complianceUnableToCreate => 'የህግና ደንብ መረጃውን መፍጠር አልተቻለም';
+  String get complianceUnableToCreate => 'መረጃውን መፍጠር አልተቻለም';
 
   @override
-  String get complianceUnableToUpdate => 'የህግና ደንብ መረጃውን ማሻሻል አልተቻለም';
+  String get complianceUnableToUpdate => 'መረጃውን ማሻሻል አልተቻለም';
 
   @override
-  String get complianceUnableToDelete => 'የህግና ደንብ መረጃውን መሰረዝ አልተቻለም';
+  String get complianceUnableToDelete => 'መረጃውን መሰረዝ አልተቻለም';
 
   @override
-  String get complianceNotFound => 'የህግና ደንብ መረጃው አልተገኘም';
+  String get complianceNotFound => 'የተገዢነት መረጃው አልተገኘም';
 
   @override
   String get unableToCreateAlert => 'ማሳሰቢያውን መፍጠር አልተቻለም';
@@ -1557,7 +1569,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get unableToRescheduleAlert => 'የማሳሰቢያውን ቀጠሮ መቀየር አልተቻለም';
 
   @override
-  String get maxLimitReached => 'ከ3 በላይ የተቀጠሩ ማሳሰቢያዎችን ለመፍጠር ወደ ፕሮ (Pro) ያሳድጉ';
+  String get maxLimitReached => 'ከ3 በላይ ማሳሰቢያዎችን ለመፍጠር እባክዎ ወደ ፕሮ (Pro) ያሳድጉ';
 
   @override
   String get scheduledAlertNotFound => 'የተቀጠረው ማሳሰቢያ አልተገኘም';
@@ -1569,10 +1581,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get emailNotifications => 'የኢሜይል ማሳወቂያዎች';
 
   @override
-  String get pushNotifications => 'የግፋ ማሳወቂያዎች';
+  String get pushNotifications => 'የስልክ ላይ (Push) ማሳወቂያዎች';
 
   @override
-  String get inAppAlwaysOn => 'ሁልጊዜ ነቅቷል';
+  String get inAppAlwaysOn => 'ሁልጊዜ የነቃ';
 
   @override
   String get businessProfile => 'የንግድ መገለጫ';
@@ -1581,19 +1593,19 @@ class AppLocalizationsAm extends AppLocalizations {
   String get manageBusinessDetails => 'የንግድ ዝርዝሮችዎን ያስተዳድሩ';
 
   @override
-  String get companyName => 'የኩባንያ ስም';
+  String get companyName => 'የድርጅቱ ስም';
 
   @override
-  String get companyEmail => 'የኩባንያ ኢሜይል';
+  String get companyEmail => 'የድርጅቱ ኢሜይል';
 
   @override
-  String get companyPhone => 'የኩባንያ ስልክ';
+  String get companyPhone => 'የድርጅቱ ስልክ ቁጥር';
 
   @override
-  String get physicalAddress => 'አካላዊ አድራሻ';
+  String get physicalAddress => 'አድራሻ (ቦታ)';
 
   @override
-  String get businessDescription => 'መግለጫ';
+  String get businessDescription => 'ስለ ድርጅቱ ማብራሪያ';
 
   @override
   String get complianceInfo => 'የተገዢነት መረጃ';
@@ -1611,19 +1623,19 @@ class AppLocalizationsAm extends AppLocalizations {
   String get registrationNumber => 'የምዝገባ ቁጥር';
 
   @override
-  String get taxIdentificationNumber => 'የግብር መታወቂያ ቁጥር';
+  String get taxIdentificationNumber => 'የግብር ከፋይ መለያ ቁጥር (TIN)';
 
   @override
   String get tradeLicenseNumber => 'የንግድ ፍቃድ ቁጥር';
 
   @override
-  String get businessProfileUpdated => 'የንግድ መገለጫ ተዘምኗል';
+  String get businessProfileUpdated => 'የንግድ መገለጫው ተዘምኗል';
 
   @override
-  String get logo => 'አርማ';
+  String get logo => 'አርማ (Logo)';
 
   @override
-  String get banner => 'ባነር';
+  String get banner => 'ባነር (Banner)';
 
   @override
   String get changeLogo => 'አርማ ቀይር';
