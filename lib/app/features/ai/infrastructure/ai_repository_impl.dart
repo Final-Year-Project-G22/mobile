@@ -224,6 +224,7 @@ class AiRepositoryImpl implements IAiRepository {
       }).toList();
 
       // Sort by createdAt with tiebreaker: user messages before assistant
+      // ignore: cascade_invocations
       messages.sort((a, b) {
         final aTime = a.createdAt?.millisecondsSinceEpoch ?? 0;
         final bTime = b.createdAt?.millisecondsSinceEpoch ?? 0;
