@@ -44,15 +44,15 @@
   "@phone": {
     "description": "Phone label"
   },
-  "forgotPassword": "Forgot Password?",
+  "forgotPassword": "Forgot your password?",
   "@forgotPassword": {
     "description": "Forgot password text"
   },
-  "dontHaveAccount": "Don't have an account?",
+  "dontHaveAccount": "New here? Create an account",
   "@dontHaveAccount": {
     "description": "Sign up prompt"
   },
-  "alreadyHaveAccount": "Already have an account?",
+  "alreadyHaveAccount": "Already with us? Sign in",
   "@alreadyHaveAccount": {
     "description": "Login prompt"
   },
@@ -164,35 +164,35 @@
   "@info": {
     "description": "Information title"
   },
-  "errorNetwork": "No internet connection",
+  "errorNetwork": "You're offline. Check your connection and try again.",
   "@errorNetwork": {
     "description": "Network error message"
   },
-  "errorServer": "Server error. Please try again later",
+  "errorServer": "Something's wrong on our end. We're fixing it — try again soon.",
   "@errorServer": {
     "description": "Server error message"
   },
-  "errorUnknown": "Something went wrong",
+  "errorUnknown": "Oops! Something unexpected happened. Please try again.",
   "@errorUnknown": {
     "description": "Unknown error message"
   },
-  "errorTimeout": "Request timed out. Please try again",
+  "errorTimeout": "That took too long. Check your connection and try again.",
   "@errorTimeout": {
     "description": "Timeout error message"
   },
-  "errorUnauthorized": "Session expired. Please login again",
+  "errorUnauthorized": "Your session expired. Please sign in again.",
   "@errorUnauthorized": {
     "description": "Unauthorized error message"
   },
-  "errorValidation": "Please check your input",
+  "errorValidation": "Something doesn't look right. Please check your entries.",
   "@errorValidation": {
     "description": "Validation error message"
   },
-  "confirmDelete": "Are you sure you want to delete?",
+  "confirmDelete": "Delete this? This can't be undone.",
   "@confirmDelete": {
     "description": "Delete confirmation message"
   },
-  "confirmLogout": "Are you sure you want to logout?",
+  "confirmLogout": "Sign out? You can always come back.",
   "@confirmLogout": {
     "description": "Logout confirmation message"
   },
@@ -365,7 +365,7 @@
   "@finish": {
     "description": "Finish button text"
   },
-  "onboardingTitle": "Community Setup",
+  "onboardingTitle": "Let's set up your profile",
   "@onboardingTitle": {
     "description": "Onboarding title"
   },
@@ -618,7 +618,7 @@
   "@onboardingDemoInvestor": {
     "description": "Demographics option"
   },
-  "onboardingDemoOptional": "You can skip this step if you prefer.",
+  "onboardingDemoOptional": "This is optional — skip if you prefer.",
   "@onboardingDemoOptional": {
     "description": "Demographics optional helper text"
   },
@@ -630,7 +630,7 @@
   "@aiGuideConversations": {
     "description": "Conversation history drawer title"
   },
-  "aiGuideNoConversations": "No conversations yet",
+  "aiGuideNoConversations": "Start a conversation — ask anything about your business!",
   "@aiGuideNoConversations": {
     "description": "Empty conversation list message"
   },
@@ -638,11 +638,11 @@
   "@aiGuideConversationsError": {
     "description": "Conversation list error message"
   },
-  "aiGuideInputHint": "Ask a question...",
+  "aiGuideInputHint": "Ask about registration, taxes, licenses...",
   "@aiGuideInputHint": {
     "description": "Chat input placeholder"
   },
-  "aiGuideGreeting": "Ask me anything about your business",
+  "aiGuideGreeting": "Hi! I'm your business guide. Ask me anything about formalizing your business.",
   "@aiGuideGreeting": {
     "description": "Empty chat greeting subtitle"
   },
@@ -650,11 +650,11 @@
   "@aiGuideNewChat": {
     "description": "New chat button label"
   },
-  "aiGuideStreamError": "Something went wrong. Tap to retry.",
+  "aiGuideStreamError": "Lost connection. Tap to try again.",
   "@aiGuideStreamError": {
     "description": "Stream error message with retry"
   },
-  "loginSubtitle": "Log in to get started",
+  "loginSubtitle": "Welcome back! Sign in to continue",
   "@loginSubtitle": {
     "description": "Login page subtitle"
   },
@@ -670,7 +670,7 @@
   "@passwordHint": {
     "description": "Password hint"
   },
-  "errorInvalidCredentials": "Invalid email or password",
+  "errorInvalidCredentials": "That email and password don't match. Try again.",
   "@errorInvalidCredentials": {
     "description": "Login error"
   },
@@ -706,11 +706,11 @@
   "@errorOAuthCancelled": {
     "description": "OAuth cancelled error"
   },
-  "createAccount": "Create Account",
+  "createAccount": "Create Your Account",
   "@createAccount": {
     "description": "Register page title"
   },
-  "registerSubtitle": "Sign up to get started",
+  "registerSubtitle": "Join Adisu and start your journey",
   "@registerSubtitle": {
     "description": "Register page subtitle"
   },
@@ -738,11 +738,11 @@
   "@registrationSuccessful": {
     "description": "Success message after registration"
   },
-  "verifyEmail": "Verify Your Email",
+  "verifyEmail": "Let's verify your email",
   "@verifyEmail": {
     "description": "OTP page title"
   },
-  "otpSubtitle": "Enter the 6-digit code sent to your email",
+  "otpSubtitle": "We sent a 6-digit code to your email",
   "@otpSubtitle": {
     "description": "OTP page subtitle"
   },
@@ -824,7 +824,7 @@
   "@saving": {
     "description": "Saving state text"
   },
-  "errorSaveFailed": "Failed to save business profile. Please try again.",
+  "errorSaveFailed": "We couldn't save your profile. Please try again.",
   "@errorSaveFailed": {
     "description": "Onboarding save error"
   },
@@ -864,7 +864,7 @@
   "@markAllRead": {
     "description": "Mark all notifications as read"
   },
-  "noNotifications": "No notifications yet",
+  "noNotifications": "You're all caught up!",
   "@noNotifications": {
     "description": "Empty notifications state"
   },
@@ -916,7 +916,7 @@
   "@archiveConversationTitle": {
     "description": "Archive dialog title"
   },
-  "archiveConversationContent": "This will remove the conversation from your history. This cannot be undone.",
+  "archiveConversationContent": "Archive this conversation? You won't see it in your history.",
   "@archiveConversationContent": {
     "description": "Archive dialog body"
   },
@@ -960,11 +960,11 @@
   "@templatesPlaceholderSubtitle": {
     "description": "Templates tab placeholder subtitle"
   },
-  "continueWhereYouLeftOff": "Continue Where You Left Off",
+  "continueWhereYouLeftOff": "Pick Up Where You Left Off",
   "@continueWhereYouLeftOff": {
     "description": "Continue section header"
   },
-  "dashboardEmptyMessage": "Welcome! Start your first guide to see your progress here.",
+  "dashboardEmptyMessage": "Welcome! Let's get your business on track. Start your first guide.",
   "@dashboardEmptyMessage": {
     "description": "Empty dashboard welcome message"
   },
@@ -972,7 +972,7 @@
   "@quickActions": {
     "description": "Quick actions section header"
   },
-  "monthlyCompletion": "Monthly Completion",
+  "monthlyCompletion": "This Month's Progress",
   "@monthlyCompletion": {
     "description": "Monthly completion section header"
   },
@@ -996,11 +996,11 @@
   "@searchTemplates": {
     "description": "Templates search hint"
   },
-  "noTemplatesFound": "No templates found",
+  "noTemplatesFound": "No templates match your search.",
   "@noTemplatesFound": {
     "description": "Empty templates list"
   },
-  "noDownloadsYet": "No downloads yet",
+  "noDownloadsYet": "Templates you download will appear here.",
   "@noDownloadsYet": {
     "description": "Empty downloads list"
   },
@@ -1031,7 +1031,7 @@
   "@openInBrowser": {
     "description": "Open in browser button"
   },
-  "previewFailed": "Could not open preview",
+  "previewFailed": "Couldn't open the preview. Try downloading instead.",
   "@previewFailed": {
     "description": "Preview error message"
   },
@@ -1183,11 +1183,11 @@
   "@noVerificationResult": {
     "description": "Null verification error"
   },
-  "paymentSuccessful": "Payment Successful",
+  "paymentSuccessful": "You're all set!",
   "@paymentSuccessful": {
     "description": "Success result title"
   },
-  "proPlanActive": "Your Pro plan is now active.",
+  "proPlanActive": "Your Pro plan is active. Enjoy unlimited access!",
   "@proPlanActive": {
     "description": "Success result subtitle"
   },
@@ -1199,11 +1199,11 @@
   "@paymentBeingProcessed": {
     "description": "Pending result subtitle"
   },
-  "paymentFailed": "Payment Failed",
+  "paymentFailed": "Payment couldn't be completed",
   "@paymentFailed": {
     "description": "Failed result title"
   },
-  "couldNotCompletePayment": "Your payment could not be completed.",
+  "couldNotCompletePayment": "Something went wrong with your payment. Please try again.",
   "@couldNotCompletePayment": {
     "description": "Failed result subtitle"
   },
@@ -1242,11 +1242,11 @@
   "@guideBookmarked": {
     "description": "Bookmark toggle label"
   },
-  "guideNoGuidesFound": "No guides found",
+  "guideNoGuidesFound": "No guides match your search. Try different keywords.",
   "@guideNoGuidesFound": {
     "description": "Empty guide list"
   },
-  "guideNoBookmarks": "No bookmarks yet",
+  "guideNoBookmarks": "Save guides for later by bookmarking them.",
   "@guideNoBookmarks": {
     "description": "Empty bookmarks list"
   },
@@ -1369,7 +1369,7 @@
       "query": { "type": "String" }
     }
   },
-  "noThreadsAvailable": "No threads available yet",
+  "noThreadsAvailable": "No discussions yet. Be the first to start one!",
   "@noThreadsAvailable": {
     "description": "Empty all threads"
   },
@@ -1517,7 +1517,7 @@
   "@deleteThread": {
     "description": "Delete thread dialog title"
   },
-  "confirmDeleteThread": "Are you sure you want to delete this thread? This action cannot be undone.",
+  "confirmDeleteThread": "Delete this thread? This can't be undone.",
   "@confirmDeleteThread": {
     "description": "Delete thread confirmation"
   },
@@ -1777,7 +1777,7 @@
   "@compliance": {
     "description": "Compliance tab/AppBar title"
   },
-  "inboxEmpty": "Your inbox is empty",
+  "inboxEmpty": "All clear! No new messages.",
   "@inboxEmpty": {
     "description": "Empty inbox state"
   },
@@ -1789,7 +1789,7 @@
   "@complianceManual": {
     "description": "Manual section header"
   },
-  "complianceNoEntries": "No compliance entries yet",
+  "complianceNoEntries": "No deadlines tracked yet. Add one to stay compliant.",
   "@complianceNoEntries": {
     "description": "Empty compliance list title"
   },
@@ -1962,7 +1962,7 @@
       }
     }
   },
-  "noScheduledAlerts": "No scheduled alerts yet",
+  "noScheduledAlerts": "No alerts scheduled. Stay on top of deadlines!",
   "@noScheduledAlerts": {
     "description": "Empty scheduled alerts title"
   },

@@ -82,6 +82,18 @@ class SseParser {
             type: SseEventType.error,
             error: json['message'] as String? ?? 'An error occurred',
           );
+        case 'tool_use':
+          return SseEvent(
+            type: SseEventType.toolUse,
+            toolName: json['tool'] as String?,
+            toolArguments: json['argumentsJson'] as String?,
+          );
+        case 'tool_result':
+          return SseEvent(
+            type: SseEventType.toolResult,
+            toolName: json['tool'] as String?,
+            toolResultSummary: json['resultSummary'] as String?,
+          );
         default:
           return null;
       }

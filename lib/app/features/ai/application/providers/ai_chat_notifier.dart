@@ -212,6 +212,18 @@ class AiChatNotifier extends Notifier<AiChatState> {
         _cancelToken = null;
       case SseEventType.error:
         _handleStreamError(message: event.error);
+      case SseEventType.toolUse:
+        if (kDebugMode) {
+          debugPrint(
+            '[AI Notifier] tool_use: ${event.toolName} args=${event.toolArguments}',
+          );
+        }
+      case SseEventType.toolResult:
+        if (kDebugMode) {
+          debugPrint(
+            '[AI Notifier] tool_result: ${event.toolName} result=${event.toolResultSummary}',
+          );
+        }
     }
   }
 

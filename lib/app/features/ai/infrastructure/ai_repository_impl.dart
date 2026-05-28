@@ -53,6 +53,7 @@ class AiRepositoryImpl implements IAiRepository {
           'sessionId': ?sessionId,
           'title': ?title,
           'language': ?locale,
+          'strategy': 'agentic',
         });
 
         final request = http.Request('POST', uri);

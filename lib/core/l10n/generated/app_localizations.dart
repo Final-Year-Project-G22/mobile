@@ -167,19 +167,19 @@ abstract class AppLocalizations {
   /// Forgot password text
   ///
   /// In en, this message translates to:
-  /// **'Forgot Password?'**
+  /// **'Forgot your password?'**
   String get forgotPassword;
 
   /// Sign up prompt
   ///
   /// In en, this message translates to:
-  /// **'Don\'t have an account?'**
+  /// **'New here? Create an account'**
   String get dontHaveAccount;
 
   /// Login prompt
   ///
   /// In en, this message translates to:
-  /// **'Already have an account?'**
+  /// **'Already with us? Sign in'**
   String get alreadyHaveAccount;
 
   /// Sign up action
@@ -347,49 +347,49 @@ abstract class AppLocalizations {
   /// Network error message
   ///
   /// In en, this message translates to:
-  /// **'No internet connection'**
+  /// **'You\'re offline. Check your connection and try again.'**
   String get errorNetwork;
 
   /// Server error message
   ///
   /// In en, this message translates to:
-  /// **'Server error. Please try again later'**
+  /// **'Something\'s wrong on our end. We\'re fixing it — try again soon.'**
   String get errorServer;
 
   /// Unknown error message
   ///
   /// In en, this message translates to:
-  /// **'Something went wrong'**
+  /// **'Oops! Something unexpected happened. Please try again.'**
   String get errorUnknown;
 
   /// Timeout error message
   ///
   /// In en, this message translates to:
-  /// **'Request timed out. Please try again'**
+  /// **'That took too long. Check your connection and try again.'**
   String get errorTimeout;
 
   /// Unauthorized error message
   ///
   /// In en, this message translates to:
-  /// **'Session expired. Please login again'**
+  /// **'Your session expired. Please sign in again.'**
   String get errorUnauthorized;
 
   /// Validation error message
   ///
   /// In en, this message translates to:
-  /// **'Please check your input'**
+  /// **'Something doesn\'t look right. Please check your entries.'**
   String get errorValidation;
 
   /// Delete confirmation message
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete?'**
+  /// **'Delete this? This can\'t be undone.'**
   String get confirmDelete;
 
   /// Logout confirmation message
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to logout?'**
+  /// **'Sign out? You can always come back.'**
   String get confirmLogout;
 
   /// Confirm button text
@@ -611,7 +611,7 @@ abstract class AppLocalizations {
   /// Onboarding title
   ///
   /// In en, this message translates to:
-  /// **'Community Setup'**
+  /// **'Let\'s set up your profile'**
   String get onboardingTitle;
 
   /// Language pill label
@@ -971,7 +971,7 @@ abstract class AppLocalizations {
   /// Demographics optional helper text
   ///
   /// In en, this message translates to:
-  /// **'You can skip this step if you prefer.'**
+  /// **'This is optional — skip if you prefer.'**
   String get onboardingDemoOptional;
 
   /// Adisu Agent chat page title
@@ -989,7 +989,7 @@ abstract class AppLocalizations {
   /// Empty conversation list message
   ///
   /// In en, this message translates to:
-  /// **'No conversations yet'**
+  /// **'Start a conversation — ask anything about your business!'**
   String get aiGuideNoConversations;
 
   /// Conversation list error message
@@ -1001,13 +1001,13 @@ abstract class AppLocalizations {
   /// Chat input placeholder
   ///
   /// In en, this message translates to:
-  /// **'Ask a question...'**
+  /// **'Ask about registration, taxes, licenses...'**
   String get aiGuideInputHint;
 
   /// Empty chat greeting subtitle
   ///
   /// In en, this message translates to:
-  /// **'Ask me anything about your business'**
+  /// **'Hi! I\'m your business guide. Ask me anything about formalizing your business.'**
   String get aiGuideGreeting;
 
   /// New chat button label
@@ -1019,13 +1019,13 @@ abstract class AppLocalizations {
   /// Stream error message with retry
   ///
   /// In en, this message translates to:
-  /// **'Something went wrong. Tap to retry.'**
+  /// **'Lost connection. Tap to try again.'**
   String get aiGuideStreamError;
 
   /// Login page subtitle
   ///
   /// In en, this message translates to:
-  /// **'Log in to get started'**
+  /// **'Welcome back! Sign in to continue'**
   String get loginSubtitle;
 
   /// Email or username label
@@ -1049,7 +1049,7 @@ abstract class AppLocalizations {
   /// Login error
   ///
   /// In en, this message translates to:
-  /// **'Invalid email or password'**
+  /// **'That email and password don\'t match. Try again.'**
   String get errorInvalidCredentials;
 
   /// Registration error
@@ -1103,13 +1103,13 @@ abstract class AppLocalizations {
   /// Register page title
   ///
   /// In en, this message translates to:
-  /// **'Create Account'**
+  /// **'Create Your Account'**
   String get createAccount;
 
   /// Register page subtitle
   ///
   /// In en, this message translates to:
-  /// **'Sign up to get started'**
+  /// **'Join Adisu and start your journey'**
   String get registerSubtitle;
 
   /// First name hint
@@ -1151,13 +1151,13 @@ abstract class AppLocalizations {
   /// OTP page title
   ///
   /// In en, this message translates to:
-  /// **'Verify Your Email'**
+  /// **'Let\'s verify your email'**
   String get verifyEmail;
 
   /// OTP page subtitle
   ///
   /// In en, this message translates to:
-  /// **'Enter the 6-digit code sent to your email'**
+  /// **'We sent a 6-digit code to your email'**
   String get otpSubtitle;
 
   /// OTP code hint
@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// Onboarding save error
   ///
   /// In en, this message translates to:
-  /// **'Failed to save business profile. Please try again.'**
+  /// **'We couldn\'t save your profile. Please try again.'**
   String get errorSaveFailed;
 
   /// Profile error state title
@@ -1325,7 +1325,7 @@ abstract class AppLocalizations {
   /// Empty notifications state
   ///
   /// In en, this message translates to:
-  /// **'No notifications yet'**
+  /// **'You\'re all caught up!'**
   String get noNotifications;
 
   /// Just now short form
@@ -1379,7 +1379,7 @@ abstract class AppLocalizations {
   /// Archive dialog body
   ///
   /// In en, this message translates to:
-  /// **'This will remove the conversation from your history. This cannot be undone.'**
+  /// **'Archive this conversation? You won\'t see it in your history.'**
   String get archiveConversationContent;
 
   /// Archive confirm button
@@ -1445,13 +1445,13 @@ abstract class AppLocalizations {
   /// Continue section header
   ///
   /// In en, this message translates to:
-  /// **'Continue Where You Left Off'**
+  /// **'Pick Up Where You Left Off'**
   String get continueWhereYouLeftOff;
 
   /// Empty dashboard welcome message
   ///
   /// In en, this message translates to:
-  /// **'Welcome! Start your first guide to see your progress here.'**
+  /// **'Welcome! Let\'s get your business on track. Start your first guide.'**
   String get dashboardEmptyMessage;
 
   /// Quick actions section header
@@ -1463,7 +1463,7 @@ abstract class AppLocalizations {
   /// Monthly completion section header
   ///
   /// In en, this message translates to:
-  /// **'Monthly Completion'**
+  /// **'This Month\'s Progress'**
   String get monthlyCompletion;
 
   /// Progress summary text
@@ -1493,13 +1493,13 @@ abstract class AppLocalizations {
   /// Empty templates list
   ///
   /// In en, this message translates to:
-  /// **'No templates found'**
+  /// **'No templates match your search.'**
   String get noTemplatesFound;
 
   /// Empty downloads list
   ///
   /// In en, this message translates to:
-  /// **'No downloads yet'**
+  /// **'Templates you download will appear here.'**
   String get noDownloadsYet;
 
   /// Download count badge
@@ -1541,7 +1541,7 @@ abstract class AppLocalizations {
   /// Preview error message
   ///
   /// In en, this message translates to:
-  /// **'Could not open preview'**
+  /// **'Couldn\'t open the preview. Try downloading instead.'**
   String get previewFailed;
 
   /// Download success snackbar
@@ -1751,13 +1751,13 @@ abstract class AppLocalizations {
   /// Success result title
   ///
   /// In en, this message translates to:
-  /// **'Payment Successful'**
+  /// **'You\'re all set!'**
   String get paymentSuccessful;
 
   /// Success result subtitle
   ///
   /// In en, this message translates to:
-  /// **'Your Pro plan is now active.'**
+  /// **'Your Pro plan is active. Enjoy unlimited access!'**
   String get proPlanActive;
 
   /// Pending result title
@@ -1775,13 +1775,13 @@ abstract class AppLocalizations {
   /// Failed result title
   ///
   /// In en, this message translates to:
-  /// **'Payment Failed'**
+  /// **'Payment couldn\'t be completed'**
   String get paymentFailed;
 
   /// Failed result subtitle
   ///
   /// In en, this message translates to:
-  /// **'Your payment could not be completed.'**
+  /// **'Something went wrong with your payment. Please try again.'**
   String get couldNotCompletePayment;
 
   /// Retry payment button
@@ -1835,13 +1835,13 @@ abstract class AppLocalizations {
   /// Empty guide list
   ///
   /// In en, this message translates to:
-  /// **'No guides found'**
+  /// **'No guides match your search. Try different keywords.'**
   String get guideNoGuidesFound;
 
   /// Empty bookmarks list
   ///
   /// In en, this message translates to:
-  /// **'No bookmarks yet'**
+  /// **'Save guides for later by bookmarking them.'**
   String get guideNoBookmarks;
 
   /// Recent guides section header
@@ -1997,7 +1997,7 @@ abstract class AppLocalizations {
   /// Empty all threads
   ///
   /// In en, this message translates to:
-  /// **'No threads available yet'**
+  /// **'No discussions yet. Be the first to start one!'**
   String get noThreadsAvailable;
 
   /// Empty filtered threads
@@ -2213,7 +2213,7 @@ abstract class AppLocalizations {
   /// Delete thread confirmation
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete this thread? This action cannot be undone.'**
+  /// **'Delete this thread? This can\'t be undone.'**
   String get confirmDeleteThread;
 
   /// Thread deleted snackbar
@@ -2561,7 +2561,7 @@ abstract class AppLocalizations {
   /// Empty inbox state
   ///
   /// In en, this message translates to:
-  /// **'Your inbox is empty'**
+  /// **'All clear! No new messages.'**
   String get inboxEmpty;
 
   /// Auto-tracked section header
@@ -2579,7 +2579,7 @@ abstract class AppLocalizations {
   /// Empty compliance list title
   ///
   /// In en, this message translates to:
-  /// **'No compliance entries yet'**
+  /// **'No deadlines tracked yet. Add one to stay compliant.'**
   String get complianceNoEntries;
 
   /// Empty compliance list description
@@ -2831,7 +2831,7 @@ abstract class AppLocalizations {
   /// Empty scheduled alerts title
   ///
   /// In en, this message translates to:
-  /// **'No scheduled alerts yet'**
+  /// **'No alerts scheduled. Stay on top of deadlines!'**
   String get noScheduledAlerts;
 
   /// Empty scheduled alerts description
