@@ -154,15 +154,38 @@ class AiRepositoryImpl implements IAiRepository {
     int messageOffset = 0,
   }) async {
     try {
-      final response = await _dio.get<Map<String, dynamic>>(
-        '/api/v1/ai/conversations/$sessionId',
-        queryParameters: {
-          'messageLimit': messageLimit,
-          'messageOffset': messageOffset,
-        },
+      final token = await _tokenProvider();
+      final locale = await _localeProvider();
+      final uri = Uri.parse(
+        '$_baseUrl/api/v1/ai/conversations/$sessionId'
+        '?messageLimit=$messageLimit&messageOffset=$messageOffset',
       );
 
-      final data = response.data!;
+      final request = http.Request('GET', uri);
+      request.headers['Accept'] = 'application/json';
+      if (token != null && token.isNotEmpty) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+      if (locale != null && locale.isNotEmpty) {
+        request.headers['Accept-Language'] = locale;
+      }
+
+      final response = await _httpClient.send(request);
+      final bytes = await response.stream.toBytes();
+
+      // Decode with utf8 first; fall back to latin1 for garbled PDF text
+      String body;
+      try {
+        body = utf8.decode(bytes);
+      } on FormatException {
+        body = latin1.decode(bytes);
+      }
+
+      if (response.statusCode != 200) {
+        return left(_mapHttpError(response.statusCode));
+      }
+
+      final data = jsonDecode(body) as Map<String, dynamic>;
 
       final sessionDto = ConversationDto.fromJson(
         data['session'] as Map<String, dynamic>,
@@ -182,7 +205,13 @@ class AiRepositoryImpl implements IAiRepository {
 
         final citationsRaw = dto.citations ?? [];
         final citations = citationsRaw
-            .map((c) => CitationDto.fromJson(c as Map<String, dynamic>))
+            .map((c) {
+              if (c is Map<String, dynamic>) {
+                return CitationDto.fromJson(c);
+              }
+              return null;
+            })
+            .whereType<CitationDto>()
             .toList();
 
         return ChatMessage(
@@ -194,15 +223,38 @@ class AiRepositoryImpl implements IAiRepository {
         );
       }).toList();
 
+      // Sort by createdAt with tiebreaker: user messages before assistant
+      messages.sort((a, b) {
+        final aTime = a.createdAt?.millisecondsSinceEpoch ?? 0;
+        final bTime = b.createdAt?.millisecondsSinceEpoch ?? 0;
+        final t = aTime.compareTo(bTime);
+        if (t != 0) return t;
+        if (a.role != b.role) {
+          return a.role == ChatRole.user ? -1 : 1;
+        }
+        return 0;
+      });
+
+      // Remove true duplicates (same role + identical content)
+      final deduped = <ChatMessage>[];
+      for (final m in messages) {
+        if (deduped.isNotEmpty &&
+            deduped.last.role == m.role &&
+            deduped.last.content == m.content) {
+          continue;
+        }
+        deduped.add(m);
+      }
+
       return right(
         ConversationResult(
           session: session,
-          messages: messages,
+          messages: deduped,
           totalMsgs: totalMsgs,
         ),
       );
-    } on DioException catch (e) {
-      return left(_mapDioError(e));
+    } on Exception catch (_) {
+      return left(_mapHttpError(null));
     }
   }
 
@@ -231,6 +283,14 @@ class AiRepositoryImpl implements IAiRepository {
       return const AiFailure.serverError();
     }
 
+    return const AiFailure.networkError();
+  }
+
+  AiFailure _mapHttpError(int? statusCode) {
+    if (statusCode == null) return const AiFailure.networkError();
+    if (statusCode == 401) return const AiFailure.unauthorized();
+    if (statusCode == 404) return const AiFailure.notFound();
+    if (statusCode >= 500) return const AiFailure.serverError();
     return const AiFailure.networkError();
   }
 }
