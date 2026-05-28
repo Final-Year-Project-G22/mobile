@@ -974,10 +974,10 @@ abstract class AppLocalizations {
   /// **'You can skip this step if you prefer.'**
   String get onboardingDemoOptional;
 
-  /// AI Guide chat page title
+  /// Adisu Agent chat page title
   ///
   /// In en, this message translates to:
-  /// **'AI Guide'**
+  /// **'Adisu Agent'**
   String get aiGuideTitle;
 
   /// Conversation history drawer title
@@ -1007,7 +1007,7 @@ abstract class AppLocalizations {
   /// Empty chat greeting subtitle
   ///
   /// In en, this message translates to:
-  /// **'Ask me anything about your guides'**
+  /// **'Ask me anything about your business'**
   String get aiGuideGreeting;
 
   /// New chat button label

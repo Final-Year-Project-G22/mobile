@@ -17,7 +17,7 @@ class EmptyChatView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.auto_awesome_rounded,
+              Icons.psychology_rounded,
               size: 64,
               color: theme.colorScheme.primary.withValues(alpha: 0.6),
             ),

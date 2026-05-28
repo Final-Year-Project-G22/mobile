@@ -50,9 +50,9 @@ class AiRepositoryImpl implements IAiRepository {
         final uri = Uri.parse('$_baseUrl/api/v1/ai/ask/stream');
         final body = jsonEncode({
           'query': query,
-          if (sessionId != null) 'sessionId': sessionId,
-          if (title != null) 'title': title,
-          if (locale != null) 'language': locale,
+          'sessionId': ?sessionId,
+          'title': ?title,
+          'language': ?locale,
         });
 
         final request = http.Request('POST', uri);

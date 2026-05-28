@@ -37,7 +37,7 @@ class ChatMessageBubble extends StatelessWidget {
               radius: 14,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Icon(
-                Icons.auto_awesome_rounded,
+                Icons.psychology_rounded,
                 size: 16,
                 color: theme.colorScheme.onPrimaryContainer,
               ),

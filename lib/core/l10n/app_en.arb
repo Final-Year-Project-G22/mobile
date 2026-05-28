@@ -622,9 +622,9 @@
   "@onboardingDemoOptional": {
     "description": "Demographics optional helper text"
   },
-  "aiGuideTitle": "AI Guide",
+  "aiGuideTitle": "Adisu Agent",
   "@aiGuideTitle": {
-    "description": "AI Guide chat page title"
+    "description": "Adisu Agent chat page title"
   },
   "aiGuideConversations": "Conversations",
   "@aiGuideConversations": {
@@ -642,7 +642,7 @@
   "@aiGuideInputHint": {
     "description": "Chat input placeholder"
   },
-  "aiGuideGreeting": "Ask me anything about your guides",
+  "aiGuideGreeting": "Ask me anything about your business",
   "@aiGuideGreeting": {
     "description": "Empty chat greeting subtitle"
   },

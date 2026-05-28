@@ -486,7 +486,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get onboardingDemoOptional => 'ይህን ደረጃ መዝለል ይችላሉ።';
 
   @override
-  String get aiGuideTitle => 'AI መምሪያ';
+  String get aiGuideTitle => 'አዲሱ ዴጀንት';
 
   @override
   String get aiGuideConversations => 'ውይይቶች';
@@ -501,7 +501,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get aiGuideInputHint => 'ጥያቄ ይጠይቁ...';
 
   @override
-  String get aiGuideGreeting => 'ስለ መመሪያዎችዎ ማንኛውንም ነገር ይጠይቁ';
+  String get aiGuideGreeting => 'ስለ ቢዝነስዎ ማንኛውንም ነገር ይጠይቁ';
 
   @override
   String get aiGuideNewChat => 'አዲስ ውይይት';
