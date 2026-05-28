@@ -33,9 +33,9 @@ const List<HomeTabSpec> homeTabSpecs = [
     selectedIcon: Icons.groups,
   ),
   HomeTabSpec(
-    label: 'AI Guide',
-    icon: Icons.auto_awesome_outlined,
-    selectedIcon: Icons.auto_awesome,
+    label: 'Adisu Agent',
+    icon: Icons.psychology_outlined,
+    selectedIcon: Icons.psychology,
   ),
   HomeTabSpec(
     label: 'Templates',

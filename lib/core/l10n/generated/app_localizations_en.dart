@@ -493,7 +493,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingDemoOptional => 'You can skip this step if you prefer.';
 
   @override
-  String get aiGuideTitle => 'AI Guide';
+  String get aiGuideTitle => 'Adisu Agent';
 
   @override
   String get aiGuideConversations => 'Conversations';
@@ -508,7 +508,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiGuideInputHint => 'Ask a question...';
 
   @override
-  String get aiGuideGreeting => 'Ask me anything about your guides';
+  String get aiGuideGreeting => 'Ask me anything about your business';
 
   @override
   String get aiGuideNewChat => 'New Chat';
