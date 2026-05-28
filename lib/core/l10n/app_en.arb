@@ -1298,6 +1298,18 @@
   "@stepNoContent": {
     "description": "Empty step content"
   },
+  "stepRequiredDocuments": "Required Documents",
+  "@stepRequiredDocuments": {
+    "description": "Section title for required documents"
+  },
+  "stepChecklist": "Checklist",
+  "@stepChecklist": {
+    "description": "Section title for checklist items"
+  },
+  "stepProTip": "Pro Tip",
+  "@stepProTip": {
+    "description": "Section title for pro tip"
+  },
   "stepStatusCompleted": "Completed",
   "@stepStatusCompleted": {
     "description": "Completed status badge"

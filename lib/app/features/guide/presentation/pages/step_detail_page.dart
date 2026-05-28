@@ -5,7 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
-import '../../../../../shared/utils/html_utils.dart';
+import '../../../../../shared/utils/html_to_markdown.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/status_badge.dart';
 import '../../../../constants/app_spacing.dart';
@@ -146,15 +146,13 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
                           ],
                         ],
                       ),
-                      if (step.description != null) ...[
-                        AppSpacing.gapVerticalSm,
-                        Text(
-                          stripHtml(step.description!),
-                          style: textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                      AppSpacing.gapVerticalSm,
+                      Text(
+                        step.title,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
@@ -215,10 +213,19 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       final step = ref.read(stepDetailProvider).step;
       final desc = step?.description;
       if (desc != null && desc.isNotEmpty) {
-        return MarkdownBody(
-          data: stripHtml(desc),
-          selectable: true,
-          styleSheet: _markdownStyle(colorScheme, textTheme),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MarkdownBody(
+              data: htmlToMarkdown(desc),
+              selectable: true,
+              styleSheet: _markdownStyle(colorScheme, textTheme),
+            ),
+            if (content != null) ...[
+              const SizedBox(height: AppSpacing.lg),
+              ..._buildDetailedContent(content, colorScheme, textTheme, l10n),
+            ],
+          ],
         );
       }
       return Text(
@@ -229,10 +236,203 @@ class _StepDetailPageState extends ConsumerState<StepDetailPage> {
       );
     }
 
-    return MarkdownBody(
-      data: markdown,
-      selectable: true,
-      styleSheet: _markdownStyle(colorScheme, textTheme),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MarkdownBody(
+          data: markdown,
+          selectable: true,
+          styleSheet: _markdownStyle(colorScheme, textTheme),
+        ),
+        if (content != null) ...[
+          const SizedBox(height: AppSpacing.lg),
+          ..._buildDetailedContent(content, colorScheme, textTheme, l10n),
+        ],
+      ],
+    );
+  }
+
+  List<Widget> _buildDetailedContent(
+    Map<String, dynamic> content,
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+    AppLocalizations l10n,
+  ) {
+    final widgets = <Widget>[];
+
+    // Required documents
+    final requiredDocs = content['requiredDocuments'];
+    if (requiredDocs is List && requiredDocs.isNotEmpty) {
+      widgets.add(
+        _buildSection(
+          title: l10n.stepRequiredDocuments,
+          icon: Icons.description_outlined,
+          colorScheme: colorScheme,
+          textTheme: textTheme,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: requiredDocs.map<Widget>((dynamic doc) {
+              final docMap = doc as Map<String, dynamic>;
+              final name = docMap['name'] as String? ?? '';
+              final description = docMap['description'] as String? ?? '';
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      size: 18,
+                      color: colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          if (description.isNotEmpty)
+                            Text(
+                              description,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    }
+
+    // Checklist
+    final checklist = content['checklist'];
+    if (checklist is List && checklist.isNotEmpty) {
+      final checklistTitle = content['checklistTitle'] as String? ?? '';
+      widgets.add(
+        _buildSection(
+          title: checklistTitle.isNotEmpty
+              ? checklistTitle
+              : l10n.stepChecklist,
+          icon: Icons.checklist,
+          colorScheme: colorScheme,
+          textTheme: textTheme,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: checklist.map<Widget>((dynamic item) {
+              final itemMap = item as Map<String, dynamic>;
+              final label = itemMap['label'] as String? ?? '';
+              final isRequired = itemMap['isRequired'] as bool? ?? false;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.check_box_outline_blank,
+                      size: 18,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(label, style: textTheme.bodyMedium),
+                    ),
+                    if (isRequired)
+                      Text(
+                        '*',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.error,
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    }
+
+    // Pro tip
+    final proTip = content['proTip'] as String?;
+    if (proTip != null && proTip.isNotEmpty) {
+      widgets.add(
+        _buildSection(
+          title: l10n.stepProTip,
+          icon: Icons.lightbulb_outline,
+          colorScheme: colorScheme,
+          textTheme: textTheme,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: colorScheme.tertiaryContainer.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: colorScheme.tertiary.withValues(alpha: 0.3),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.lightbulb, size: 18, color: colorScheme.tertiary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    proTip,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return widgets;
+  }
+
+  Widget _buildSection({
+    required String title,
+    required IconData icon,
+    required ColorScheme colorScheme,
+    required TextTheme textTheme,
+    required Widget child,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 18, color: colorScheme.primary),
+              const SizedBox(width: 6),
+              Text(
+                title,
+                style: textTheme.titleSmall?.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          child,
+        ],
+      ),
     );
   }
 

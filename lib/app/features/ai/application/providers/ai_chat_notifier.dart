@@ -58,6 +58,12 @@ class AiChatNotifier extends Notifier<AiChatState> {
     final repository = ref.read(aiRepositoryProvider);
     final isNewSession = state.sessionId == null;
 
+    if (kDebugMode) {
+      debugPrint(
+        '[AI Notifier] sendMessage: sessionId=${state.sessionId} isNew=$isNewSession',
+      );
+    }
+
     _cancelToken = CancelToken();
 
     _streamSubscription = repository
@@ -196,6 +202,11 @@ class AiChatNotifier extends Notifier<AiChatState> {
       case SseEventType.done:
         _finalizeMessage();
         if (event.sessionId != null) {
+          if (kDebugMode) {
+            debugPrint(
+              '[AI Notifier] done event: sessionId=${event.sessionId}',
+            );
+          }
           state = state.copyWith(sessionId: event.sessionId);
         }
         _cancelToken = null;
@@ -206,6 +217,15 @@ class AiChatNotifier extends Notifier<AiChatState> {
 
   void _handleStreamDone() {
     _cancelToken = null;
+
+    while (_eventQueue.isNotEmpty) {
+      final event = _eventQueue.removeAt(0);
+      if (state.isStreaming) {
+        _handleSseEvent(event);
+      }
+    }
+    _frameScheduled = false;
+
     if (!state.isStreaming) return;
     final messages = List<ChatMessage>.from(state.messages);
     if (messages.isNotEmpty && messages.last.role == ChatRole.assistant) {

@@ -999,6 +999,15 @@ class AppLocalizationsAm extends AppLocalizations {
   String get stepNoContent => 'ለዚህ ደረጃ ምንም ይዘት የለም';
 
   @override
+  String get stepRequiredDocuments => 'የሚያስፈልጉ ሰነዶች';
+
+  @override
+  String get stepChecklist => 'የምርመራ ዝርዝር';
+
+  @override
+  String get stepProTip => 'የግል ምክር';
+
+  @override
   String get stepStatusCompleted => 'ተጠናቋል';
 
   @override

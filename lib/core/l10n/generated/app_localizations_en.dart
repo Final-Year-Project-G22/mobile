@@ -1010,6 +1010,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepNoContent => 'No content available for this step.';
 
   @override
+  String get stepRequiredDocuments => 'Required Documents';
+
+  @override
+  String get stepChecklist => 'Checklist';
+
+  @override
+  String get stepProTip => 'Pro Tip';
+
+  @override
   String get stepStatusCompleted => 'Completed';
 
   @override

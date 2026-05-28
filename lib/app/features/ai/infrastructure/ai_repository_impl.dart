@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:api_client/api_client.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import '../domain/entities/chat_message.dart';
 import '../domain/entities/conversation_list_result.dart';
@@ -16,9 +18,21 @@ import 'sse_parser.dart';
 class AiRepositoryImpl implements IAiRepository {
   const AiRepositoryImpl({
     required Dio dio,
-  }) : _dio = dio;
+    required http.Client httpClient,
+    required Future<String?> Function() tokenProvider,
+    required Future<String?> Function() localeProvider,
+    required String baseUrl,
+  }) : _dio = dio,
+       _httpClient = httpClient,
+       _tokenProvider = tokenProvider,
+       _localeProvider = localeProvider,
+       _baseUrl = baseUrl;
 
   final Dio _dio;
+  final http.Client _httpClient;
+  final Future<String?> Function() _tokenProvider;
+  final Future<String?> Function() _localeProvider;
+  final String _baseUrl;
 
   @override
   Stream<SseEvent> askStream({
@@ -28,59 +42,68 @@ class AiRepositoryImpl implements IAiRepository {
     CancelToken? cancelToken,
   }) {
     final controller = StreamController<SseEvent>();
-    final request = AskRequest(
-      query: query,
-      sessionId: sessionId,
-      title: title,
-    );
 
-    unawaited(
-      _dio
-          .post<ResponseBody>(
-            '/api/v1/ai/ask/stream',
-            data: request.toJson(),
-            options: Options(
-              responseType: ResponseType.stream,
-              receiveTimeout: const Duration(hours: 24),
-              sendTimeout: const Duration(hours: 24),
-              extra: <String, dynamic>{'sse': true},
-              headers: {
-                'Accept': 'text/event-stream',
-              },
+    unawaited(() async {
+      try {
+        final token = await _tokenProvider();
+        final locale = await _localeProvider();
+        final uri = Uri.parse('$_baseUrl/api/v1/ai/ask/stream');
+        final body = jsonEncode({
+          'query': query,
+          if (sessionId != null) 'sessionId': sessionId,
+          if (title != null) 'title': title,
+          if (locale != null) 'language': locale,
+        });
+
+        final request = http.Request('POST', uri);
+        request.headers['Content-Type'] = 'application/json';
+        request.headers['Accept'] = 'text/event-stream';
+        if (locale != null && locale.isNotEmpty) {
+          request.headers['Accept-Language'] = locale;
+        }
+        if (token != null && token.isNotEmpty) {
+          request.headers['Authorization'] = 'Bearer $token';
+        }
+        request.body = body;
+
+        debugPrint('[AI Repo] SSE request: POST $uri');
+        debugPrint('[AI Repo] SSE body: $body');
+
+        final response = await _httpClient.send(request);
+
+        if (response.statusCode != 200) {
+          final responseBody = await response.stream.bytesToString();
+          controller.addError(
+            Exception(
+              'SSE request failed: ${response.statusCode} $responseBody',
             ),
-            cancelToken: cancelToken,
-          )
-          .then((response) {
-            if (kDebugMode) {
-              debugPrint(
-                '[AI Repo] SSE response status: ${response.statusCode}',
-              );
-              debugPrint(
-                '[AI Repo] SSE data type: ${response.data.runtimeType}',
-              );
-            }
+          );
+          return;
+        }
 
-            const parser = SseParser();
-            final byteStream = response.data!.stream.cast<List<int>>();
+        const parser = SseParser();
+        final byteStream = response.stream.cast<List<int>>();
+        final eventStream = parser.parse(byteStream);
 
-            final loggedStream = byteStream.map((bytes) {
-              if (kDebugMode) {
-                debugPrint('[AI Repo] raw chunk: ${bytes.length} bytes');
-              }
-              return bytes;
-            });
+        if (cancelToken != null) {
+          unawaited(
+            cancelToken.whenCancel.then((_) async {
+              if (!controller.isClosed) await controller.close();
+            }),
+          );
+        }
 
-            final eventStream = parser.parse(loggedStream);
-
-            unawaited(controller.addStream(eventStream));
-          })
-          .catchError((Object error) {
-            if (kDebugMode) {
-              debugPrint('[AI Repo] SSE request failed: $error');
-            }
-            controller.addError(error);
-          }),
-    );
+        await controller.addStream(eventStream);
+      } on Exception catch (e) {
+        if (!controller.isClosed) {
+          controller.addError(e);
+        }
+      } finally {
+        if (!controller.isClosed) {
+          await controller.close();
+        }
+      }
+    }());
 
     return controller.stream;
   }
