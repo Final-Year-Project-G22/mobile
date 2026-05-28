@@ -350,6 +350,7 @@ class GuideRepositoryImpl implements IGuideRepository {
       description: dto.description,
       isOptional: dto.isOptional,
       estimatedTime: dto.estimatedTime,
+      detailedContent: dto.detailedContent,
     );
   }
 

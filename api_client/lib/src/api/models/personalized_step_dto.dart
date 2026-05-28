@@ -34,6 +34,9 @@ abstract class PersonalizedStepDto with _$PersonalizedStepDto {
     /// Localized description
     String? description,
 
+    /// Rich step content (checklists, documents, pro tips)
+    Map<String, dynamic>? detailedContent,
+
     /// Estimated time in minutes
     int? estimatedTime,
   }) = _PersonalizedStepDto;

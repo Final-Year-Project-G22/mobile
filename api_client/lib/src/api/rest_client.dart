@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' hide Headers;
 
 import 'admin_management/admin_management_client.dart';
 import 'admin_community/admin_community_client.dart';
+import 'admin_dashboard/admin_dashboard_client.dart';
 import 'admin_guides/admin_guides_client.dart';
 import 'admin_journeys/admin_journeys_client.dart';
 import 'admin_steps/admin_steps_client.dart';
@@ -36,11 +37,7 @@ import 'business_profile/business_profile_client.dart';
 ///
 /// Backend API for the Adisu platform.
 class RestClient {
-  RestClient(
-    Dio dio, {
-    String? baseUrl,
-  }) : _dio = dio,
-       _baseUrl = baseUrl;
+  RestClient(Dio dio, {String? baseUrl}) : _dio = dio, _baseUrl = baseUrl;
 
   final Dio _dio;
   final String? _baseUrl;
@@ -49,6 +46,7 @@ class RestClient {
 
   AdminManagementClient? _adminManagement;
   AdminCommunityClient? _adminCommunity;
+  AdminDashboardClient? _adminDashboard;
   AdminGuidesClient? _adminGuides;
   AdminJourneysClient? _adminJourneys;
   AdminStepsClient? _adminSteps;
@@ -80,6 +78,9 @@ class RestClient {
 
   AdminCommunityClient get adminCommunity =>
       _adminCommunity ??= AdminCommunityClient(_dio, baseUrl: _baseUrl);
+
+  AdminDashboardClient get adminDashboard =>
+      _adminDashboard ??= AdminDashboardClient(_dio, baseUrl: _baseUrl);
 
   AdminGuidesClient get adminGuides =>
       _adminGuides ??= AdminGuidesClient(_dio, baseUrl: _baseUrl);

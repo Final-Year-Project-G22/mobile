@@ -1892,6 +1892,24 @@ abstract class AppLocalizations {
   /// **'No content available for this step.'**
   String get stepNoContent;
 
+  /// Section title for required documents
+  ///
+  /// In en, this message translates to:
+  /// **'Required Documents'**
+  String get stepRequiredDocuments;
+
+  /// Section title for checklist items
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get stepChecklist;
+
+  /// Section title for pro tip
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Tip'**
+  String get stepProTip;
+
   /// Completed status badge
   ///
   /// In en, this message translates to:

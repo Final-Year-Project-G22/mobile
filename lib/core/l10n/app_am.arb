@@ -402,6 +402,9 @@
     }
   },
   "stepNoContent": "ለዚህ ደረጃ ምንም ይዘት የለም",
+  "stepRequiredDocuments": "የሚያስፈልጉ ሰነዶች",
+  "stepChecklist": "የምርመራ ዝርዝር",
+  "stepProTip": "የግል ምክር",
   "stepStatusCompleted": "ተጠናቋል",
   "stepStatusInProgress": "በሂደት ላይ",
   "stepStatusSkipped": "ተዝሏል",
