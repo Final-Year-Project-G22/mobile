@@ -50,13 +50,11 @@ class GuideListNotifier extends _$GuideListNotifier {
   void switchTab(GuideTab tab) {
     if (tab == state.selectedTab) return;
     final guides = tab == GuideTab.forYou ? _forYouGuides : _allGuides;
-    state = state.copyWith(
+    state = GuideListState(
       selectedTab: tab,
       guides: guides,
-      searchQuery: '',
-      selectedSectorId: null,
-      selectedTagIds: const [],
-      isLoading: false,
+      recentGuides: state.recentGuides,
+      bookmarks: state.bookmarks,
     );
   }
 
