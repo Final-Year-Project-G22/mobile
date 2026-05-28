@@ -1599,6 +1599,15 @@ class AppLocalizationsAm extends AppLocalizations {
   String get complianceInfo => 'የተገዢነት መረጃ';
 
   @override
+  String get sectorAndTags => 'የስектор እና ታጋሮች';
+
+  @override
+  String get selectSector => 'የንግድ ስектор ይምረጡ';
+
+  @override
+  String get selectTags => 'ተዛማጅ ታጋሮችን ይምረጡ';
+
+  @override
   String get registrationNumber => 'የምዝገባ ቁጥር';
 
   @override
