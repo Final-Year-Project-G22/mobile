@@ -1242,6 +1242,14 @@
   "@guideBookmarked": {
     "description": "Bookmark toggle label"
   },
+  "guideTabForYou": "For You",
+  "@guideTabForYou": {
+    "description": "Personalized guides tab label"
+  },
+  "guideTabAll": "All",
+  "@guideTabAll": {
+    "description": "All guides tab label"
+  },
   "guideNoGuidesFound": "No guides match your search. Try different keywords.",
   "@guideNoGuidesFound": {
     "description": "Empty guide list"

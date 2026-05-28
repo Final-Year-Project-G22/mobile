@@ -952,6 +952,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get guideBookmarked => 'ዕልባት ተደርጓል';
 
   @override
+  String get guideTabForYou => 'ለእርስዎ';
+
+  @override
+  String get guideTabAll => 'ሁሉም';
+
+  @override
   String get guideNoGuidesFound =>
       'ከፍለጋዎ ጋር የሚዛመድ ምንም መመሪያ አልተገኘም። ሌሎች ቃላትን ይሞክሩ።';
 

@@ -1,6 +1,8 @@
 import '../domain/entities/guide_card.dart';
 import '../domain/entities/step_bookmark.dart';
 
+enum GuideTab { forYou, all }
+
 class GuideListState {
   const GuideListState({
     this.guides = const [],
@@ -10,6 +12,7 @@ class GuideListState {
     this.selectedSectorId,
     this.selectedTagIds = const [],
     this.showBookmarked = false,
+    this.selectedTab = GuideTab.forYou,
     this.isLoading = false,
     this.isFiltering = false,
   });
@@ -21,6 +24,7 @@ class GuideListState {
   final String? selectedSectorId;
   final List<String> selectedTagIds;
   final bool showBookmarked;
+  final GuideTab selectedTab;
   final bool isLoading;
   final bool isFiltering;
 
@@ -35,6 +39,7 @@ class GuideListState {
     String? selectedSectorId,
     List<String>? selectedTagIds,
     bool? showBookmarked,
+    GuideTab? selectedTab,
     bool? isLoading,
     bool? isFiltering,
   }) {
@@ -46,6 +51,7 @@ class GuideListState {
       selectedSectorId: selectedSectorId ?? this.selectedSectorId,
       selectedTagIds: selectedTagIds ?? this.selectedTagIds,
       showBookmarked: showBookmarked ?? this.showBookmarked,
+      selectedTab: selectedTab ?? this.selectedTab,
       isLoading: isLoading ?? this.isLoading,
       isFiltering: isFiltering ?? this.isFiltering,
     );

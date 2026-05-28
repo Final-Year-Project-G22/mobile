@@ -11,6 +11,7 @@ import '../../../../../shared/widgets/error_view.dart';
 import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../application/guide_list_notifier.dart';
+import '../../application/guide_state.dart';
 import '../widgets/guide_card.dart';
 import '../widgets/recent_guide_rail.dart';
 import '../widgets/taxonomy_filter_bar.dart';
@@ -77,6 +78,37 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
                 },
               ),
             ),
+
+            // ── For You / All tabs ──────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+              ),
+              child: Row(
+                children: [
+                  _GuideTabChip(
+                    label: l10n.guideTabForYou,
+                    isSelected: state.selectedTab == GuideTab.forYou,
+                    onTap: () {
+                      ref
+                          .read(guideListProvider.notifier)
+                          .switchTab(GuideTab.forYou);
+                    },
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  _GuideTabChip(
+                    label: l10n.guideTabAll,
+                    isSelected: state.selectedTab == GuideTab.all,
+                    onTap: () {
+                      ref
+                          .read(guideListProvider.notifier)
+                          .switchTab(GuideTab.all);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            AppSpacing.gapVerticalSm,
 
             // ── Recent rail ─────────────────────────────────────────
             if (state.recentGuides.isNotEmpty)
@@ -269,6 +301,48 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
           ),
         );
       },
+    );
+  }
+}
+
+class _GuideTabChip extends StatelessWidget {
+  const _GuideTabChip({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? colorScheme.primaryContainer : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? colorScheme.primary
+                : colorScheme.outlineVariant,
+          ),
+        ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: isSelected
+                ? colorScheme.onPrimaryContainer
+                : colorScheme.onSurfaceVariant,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+      ),
     );
   }
 }

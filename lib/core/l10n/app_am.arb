@@ -397,6 +397,8 @@
   "guideFiltered": "የተጣራ",
   "guideClearAll": "ሁሉንም አጽዳ",
   "guideBookmarked": "ዕልባት ተደርጓል",
+  "guideTabForYou": "ለእርስዎ",
+  "guideTabAll": "ሁሉም",
   "guideNoGuidesFound": "ከፍለጋዎ ጋር የሚዛመድ ምንም መመሪያ አልተገኘም። ሌሎች ቃላትን ይሞክሩ።",
   "guideNoBookmarks": "በኋላ ላይ ለማንበብ የሚፈልጓቸውን መመሪያዎች እዚህ ዕልባት አድርገው ያስቀምጡ።",
   "guideRecentlyViewed": "በቅርብ ጊዜ የታዩ",

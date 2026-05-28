@@ -14,6 +14,7 @@ import '../models/get_current_step_response_body.dart';
 import '../models/get_in_progress_guides_response_body.dart';
 import '../models/get_personalized_guide_response_body.dart';
 import '../models/get_recently_viewed_response_body.dart';
+import '../models/list_all_guides_response_body.dart';
 import '../models/list_bookmarks_response_body.dart';
 import '../models/list_guides_response_body.dart';
 import '../models/mark_step_incomplete_response_body.dart';
@@ -49,6 +50,19 @@ abstract class GuidesClient {
     @Query('pageSize') int? pageSize,
     @Query('sectorIds') String? sectorIds,
     @Query('tagIds') String? tagIds,
+  });
+
+  /// List all guides.
+  ///
+  /// Lists all available guides without user-based taxonomy filtering.
+  ///
+  /// [page] - Page number.
+  ///
+  /// [pageSize] - Items per page.
+  @GET('/api/v1/guides/all')
+  Future<HttpResponse<ListAllGuidesResponseBody>> listAllGuides({
+    @Query('page') int? page,
+    @Query('pageSize') int? pageSize,
   });
 
   /// List bookmarks.

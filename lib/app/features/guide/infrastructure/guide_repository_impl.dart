@@ -51,6 +51,24 @@ class GuideRepositoryImpl implements IGuideRepository {
   }
 
   @override
+  Future<Either<GuideFailure, List<GuideCard>>> listAllGuides() async {
+    try {
+      final response = await _client.listAllGuides();
+      final guidesRaw = response.data.guides ?? [];
+      final cards = <GuideCard>[];
+      for (final item in guidesRaw) {
+        if (item is Map<String, dynamic>) {
+          final dto = GuideCardDto.fromJson(item);
+          cards.add(_mapGuideCard(dto));
+        }
+      }
+      return Right(cards);
+    } on DioException catch (e) {
+      return Left(_handleError(e));
+    }
+  }
+
+  @override
   Future<Either<GuideFailure, List<GuideCard>>> searchGuides(
     String query,
   ) async {
