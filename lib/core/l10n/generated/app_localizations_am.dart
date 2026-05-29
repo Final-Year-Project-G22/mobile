@@ -502,6 +502,18 @@ class AppLocalizationsAm extends AppLocalizations {
   String get aiGuideInputHint => 'ስለ ምዝገባ፣ ታክስ፣ ፍቃዶች ይጠይቁ...';
 
   @override
+  String get voiceInput => 'የድምጽ ማስገቢያ';
+
+  @override
+  String get stopListening => 'ማዳመጥ አቁም';
+
+  @override
+  String get listening => 'እየሰማeni ነው...';
+
+  @override
+  String get speechNotAvailable => 'የድምጽ ማስተናገጅ በዚህ መሣሪያ ላይ አይገኝም';
+
+  @override
   String get aiGuideGreeting =>
       'ሰላም! እኔ የቢዝነስ ረዳትዎ ነኝ። ስለ ንግድ ድርጅትዎ ህጋዊ ምዝገባ ማንኛውንም ነገር ይጠይቁኝ።';
 

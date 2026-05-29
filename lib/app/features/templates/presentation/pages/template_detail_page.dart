@@ -14,6 +14,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../payment/application/providers/subscription_provider.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
 import '../../domain/entities/language_variant.dart';
@@ -188,6 +189,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
   Widget _buildContent(TemplateGroupDetail detail, AppLocalizations l10n) {
     final theme = Theme.of(context);
+    final sub = ref.watch(subscriptionProvider).value;
+    final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
 
     return ListView(
       children: [
@@ -255,7 +258,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
 
         // Language variant sections
         for (final variant in detail.languages) ...[
-          _buildVariantSection(detail, variant, theme, l10n),
+          _buildVariantSection(detail, variant, theme, l10n, isPro),
           if (variant != detail.languages.last) const Divider(height: 1),
         ],
       ],
@@ -267,6 +270,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     LanguageVariant variant,
     ThemeData theme,
     AppLocalizations l10n,
+    bool isPro,
   ) {
     final langName = _langNames[variant.language] ?? variant.language;
     final isDownloading = _downloadingLanguages.contains(variant.language);
@@ -333,13 +337,15 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
                   icon: isDownloading
                       ? const AdisuProgressIndicator.small()
                       : Icon(
-                          detail.tierAccess == 'pro'
+                          detail.tierAccess == 'pro' && !isPro
                               ? Icons.workspace_premium_outlined
                               : Icons.download,
                           size: 18,
                         ),
                   label: Text(
-                    detail.tierAccess == 'pro' ? l10n.upgrade : l10n.download,
+                    detail.tierAccess == 'pro' && !isPro
+                        ? l10n.upgrade
+                        : l10n.download,
                   ),
                 ),
               ),
@@ -384,8 +390,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     AppLocalizations l10n,
   ) async {
     if (detail.tierAccess == 'pro') {
-      await _showUpgradeModal(l10n);
-      return;
+      final sub = await ref.read(subscriptionProvider.future);
+      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      if (!isPro) {
+        await _showUpgradeModal(l10n);
+        return;
+      }
     }
     try {
       final result = await ref.read(
@@ -421,8 +431,12 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     AppLocalizations l10n,
   ) async {
     if (detail.tierAccess == 'pro') {
-      await _showUpgradeModal(l10n);
-      return;
+      final sub = await ref.read(subscriptionProvider.future);
+      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      if (!isPro) {
+        await _showUpgradeModal(l10n);
+        return;
+      }
     }
 
     setState(() => _downloadingLanguages.add(language));

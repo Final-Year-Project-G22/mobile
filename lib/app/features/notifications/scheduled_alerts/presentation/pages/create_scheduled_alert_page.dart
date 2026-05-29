@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../app/router/routes.dart';
 import '../../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../../shared/widgets/styled_filter_chip.dart';
+import '../../../../payment/application/providers/subscription_provider.dart';
 import '../../application/scheduled_alert_notifier.dart';
 import '../../application/scheduled_alert_state.dart';
 import '../../domain/entities/scheduled_alert_template.dart';
@@ -48,28 +50,7 @@ class _CreateScheduledAlertPageState
       final prevFailure = previous?.value?.failure;
       if (failure != null && failure != prevFailure) {
         failure.when(
-          maxLimitReached: (_) async {
-            await showDialog<void>(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: Text(l10n.upgradeToPro),
-                content: Text(l10n.upgradeToProDesc),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: Text(l10n.cancel),
-                  ),
-                  FilledButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                      unawaited(context.push('/plans'));
-                    },
-                    child: Text(l10n.viewPlans),
-                  ),
-                ],
-              ),
-            );
-          },
+          maxLimitReached: (_) => _showUpgradeModal(l10n),
           serverError: (_) => _showErrorSnackBar(l10n.errorServer),
           unableToCreate: (_) => _showErrorSnackBar(l10n.unableToCreateAlert),
           unableToCancel: (_) => _showErrorSnackBar(l10n.unableToCancelAlert),
@@ -237,6 +218,17 @@ class _CreateScheduledAlertPageState
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final state = ref.read(scheduledAlertProvider).value ?? ScheduledAlertState.initial();
+    if (state.alerts.length >= 3) {
+      final sub = await ref.read(subscriptionProvider.future);
+      if (!mounted) return;
+      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      if (!isPro) {
+        await _showUpgradeModal(AppLocalizations.of(context));
+        return;
+      }
+    }
+
     await ref.read(scheduledAlertProvider.notifier).createAlert(
       templateSlug: _selectedTemplate?.slug,
       title: _titleController.text.trim(),
@@ -255,6 +247,30 @@ class _CreateScheduledAlertPageState
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message), backgroundColor: Theme.of(context).colorScheme.error),
+    );
+  }
+
+  Future<void> _showUpgradeModal(AppLocalizations l10n) async {
+    final router = GoRouter.of(context);
+    final theme = Theme.of(context);
+    await showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        icon: Icon(Icons.lock, color: theme.colorScheme.tertiary),
+        title: Text(l10n.upgradeToPro),
+        content: Text(l10n.upgradeToProDesc),
+        actions: [
+          TextButton(
+            onPressed: router.pop,
+            child: Text(l10n.maybeLater),
+          ),
+          FilledButton(
+            onPressed: () =>
+                unawaited(router.push(const PlansRoute().location)),
+            child: Text(l10n.upgradeToPro),
+          ),
+        ],
+      ),
     );
   }
 }

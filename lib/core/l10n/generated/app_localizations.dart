@@ -1004,6 +1004,30 @@ abstract class AppLocalizations {
   /// **'Ask about registration, taxes, licenses...'**
   String get aiGuideInputHint;
 
+  /// Voice input button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Voice input'**
+  String get voiceInput;
+
+  /// Stop listening button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Stop listening'**
+  String get stopListening;
+
+  /// Speech recognition active indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Listening...'**
+  String get listening;
+
+  /// Shown when STT is not supported
+  ///
+  /// In en, this message translates to:
+  /// **'Speech recognition not available on this device'**
+  String get speechNotAvailable;
+
   /// Empty chat greeting subtitle
   ///
   /// In en, this message translates to:
