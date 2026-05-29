@@ -642,6 +642,22 @@
   "@aiGuideInputHint": {
     "description": "Chat input placeholder"
   },
+  "voiceInput": "Voice input",
+  "@voiceInput": {
+    "description": "Voice input button tooltip"
+  },
+  "stopListening": "Stop listening",
+  "@stopListening": {
+    "description": "Stop listening button tooltip"
+  },
+  "listening": "Listening...",
+  "@listening": {
+    "description": "Speech recognition active indicator"
+  },
+  "speechNotAvailable": "Speech recognition not available on this device",
+  "@speechNotAvailable": {
+    "description": "Shown when STT is not supported"
+  },
   "aiGuideGreeting": "Hi! I'm your business guide. Ask me anything about formalizing your business.",
   "@aiGuideGreeting": {
     "description": "Empty chat greeting subtitle"

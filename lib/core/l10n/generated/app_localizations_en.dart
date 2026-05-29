@@ -514,6 +514,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiGuideInputHint => 'Ask about registration, taxes, licenses...';
 
   @override
+  String get voiceInput => 'Voice input';
+
+  @override
+  String get stopListening => 'Stop listening';
+
+  @override
+  String get listening => 'Listening...';
+
+  @override
+  String get speechNotAvailable =>
+      'Speech recognition not available on this device';
+
+  @override
   String get aiGuideGreeting =>
       'Hi! I\'m your business guide. Ask me anything about formalizing your business.';
 

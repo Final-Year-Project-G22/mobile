@@ -1,9 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
+import '../../../../../core/di/app_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 
-class ChatInputBar extends StatefulWidget {
+class ChatInputBar extends ConsumerStatefulWidget {
   const ChatInputBar({
     required this.onSend,
     required this.onStop,
@@ -16,13 +22,15 @@ class ChatInputBar extends StatefulWidget {
   final bool isStreaming;
 
   @override
-  State<ChatInputBar> createState() => _ChatInputBarState();
+  ConsumerState<ChatInputBar> createState() => _ChatInputBarState();
 }
 
-class _ChatInputBarState extends State<ChatInputBar> {
+class _ChatInputBarState extends ConsumerState<ChatInputBar> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
+  final _speech = SpeechToText();
   bool _hasText = false;
+  bool _isListening = false;
 
   @override
   void initState() {
@@ -32,6 +40,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
 
   @override
   void dispose() {
+    unawaited(_speech.cancel());
     _controller
       ..removeListener(_onTextChanged)
       ..dispose();
@@ -58,9 +67,74 @@ class _ChatInputBarState extends State<ChatInputBar> {
     widget.onStop();
   }
 
+  Future<void> _toggleListening() async {
+    if (_isListening) {
+      await _speech.stop();
+      setState(() => _isListening = false);
+      return;
+    }
+
+    final available = await _speech.initialize(
+      onError: (error) {
+        if (mounted) {
+          setState(() => _isListening = false);
+        }
+      },
+      onStatus: (status) {
+        if (status == 'done' || status == 'notListening') {
+          if (mounted) {
+            setState(() => _isListening = false);
+          }
+        }
+      },
+    );
+
+    if (!mounted) return;
+
+    if (!available) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).speechNotAvailable),
+          ),
+        );
+      }
+      return;
+    }
+
+    setState(() {
+      _isListening = true;
+    });
+
+    final locale = ref.read(localeProvider);
+    final localeId = locale?.languageCode == 'am' ? 'am_ET' : 'en_US';
+
+    await _speech.listen(
+      onResult: _onSpeechResult,
+      listenOptions: SpeechListenOptions(
+        localeId: localeId,
+        listenFor: const Duration(seconds: 30),
+        pauseFor: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    if (result.recognizedWords.isNotEmpty && mounted) {
+      setState(() {
+        _controller.text = result.recognizedWords;
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
+        _hasText = _controller.text.trim().isNotEmpty;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -95,7 +169,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _handleSend(),
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context).aiGuideInputHint,
+                  hintText: l10n.aiGuideInputHint,
                   hintStyle: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
@@ -112,6 +186,23 @@ class _ChatInputBarState extends State<ChatInputBar> {
             ),
           ),
           const SizedBox(width: 4),
+          if (_isListening)
+            IconButton.filled(
+              onPressed: _toggleListening,
+              tooltip: l10n.stopListening,
+              icon: const Icon(Icons.mic, size: 20),
+              style: IconButton.styleFrom(
+                backgroundColor: theme.colorScheme.error,
+                foregroundColor: theme.colorScheme.onError,
+              ),
+            )
+          else
+            IconButton(
+              onPressed: widget.isStreaming ? null : _toggleListening,
+              tooltip: l10n.voiceInput,
+              icon: const Icon(Icons.mic_none_rounded, size: 20),
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           if (widget.isStreaming)
             IconButton.filled(
               onPressed: _handleStop,
