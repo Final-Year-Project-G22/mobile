@@ -97,6 +97,29 @@ class AiGuideRoute extends GoRouteData with $AiGuideRoute {
   Widget build(BuildContext context, GoRouterState state) => const AiChatPage();
 }
 
+@TypedGoRoute<GuideDetailRoute>(path: '/guides/:guideSlug')
+class GuideDetailRoute extends GoRouteData with $GuideDetailRoute {
+  const GuideDetailRoute({required this.guideSlug});
+
+  final String guideSlug;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      GuideDetailPage(guideSlug: guideSlug);
+}
+
+@TypedGoRoute<StepDetailRoute>(path: '/guides/:guideSlug/step/:stepSlug')
+class StepDetailRoute extends GoRouteData with $StepDetailRoute {
+  const StepDetailRoute({required this.guideSlug, required this.stepSlug});
+
+  final String guideSlug;
+  final String stepSlug;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      StepDetailPage(guideSlug: guideSlug, stepSlug: stepSlug);
+}
+
 @TypedGoRoute<OnboardingRoute>(path: '/onboarding')
 class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   const OnboardingRoute();
@@ -132,8 +155,6 @@ class ThreadDetailsRoute extends GoRouteData with $ThreadDetailsRoute {
   routes: [
     TypedGoRoute<HomeRoute>(path: '/home'),
     TypedGoRoute<GuidesRoute>(path: '/guides'),
-    TypedGoRoute<GuideDetailRoute>(path: '/guides/:guideSlug'),
-    TypedGoRoute<StepDetailRoute>(path: '/guides/:guideSlug/step/:stepSlug'),
     TypedGoRoute<CommunityHomeRoute>(path: '/community'),
     TypedGoRoute<TemplatesRoute>(path: '/templates'),
     TypedGoRoute<DownloadsRoute>(path: '/downloads'),
@@ -161,27 +182,6 @@ class GuidesRoute extends GoRouteData with $GuidesRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const GuideListPage();
-}
-
-class GuideDetailRoute extends GoRouteData with $GuideDetailRoute {
-  const GuideDetailRoute({required this.guideSlug});
-
-  final String guideSlug;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      GuideDetailPage(guideSlug: guideSlug);
-}
-
-class StepDetailRoute extends GoRouteData with $StepDetailRoute {
-  const StepDetailRoute({required this.guideSlug, required this.stepSlug});
-
-  final String guideSlug;
-  final String stepSlug;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      StepDetailPage(guideSlug: guideSlug, stepSlug: stepSlug);
 }
 
 class TemplatesRoute extends GoRouteData with $TemplatesRoute {

@@ -15,6 +15,7 @@ import '../../application/providers/community_data_providers.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_post.dart';
 import '../../domain/entities/discussion_thread.dart';
+import '../../domain/failures/community_failure.dart';
 import '../widgets/post_card.dart';
 import '../widgets/reply_input_bar.dart';
 import '../widgets/report_sheet.dart';
@@ -139,6 +140,26 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     return authorId == currentAccountId;
   }
 
+  bool _isWithinEditWindow(DateTime? createdAt) {
+    if (createdAt == null) return false;
+    return DateTime.now().difference(createdAt).inMinutes < 15;
+  }
+
+  bool _isWithinDeleteWindow(DateTime? createdAt) {
+    if (createdAt == null) return false;
+    return DateTime.now().difference(createdAt).inMinutes < 30;
+  }
+
+  String _mapFailure(CommunityFailure failure, AppLocalizations l10n) {
+    return failure.when(
+      serverError: (msg) => msg ?? l10n.errorServer,
+      notFound: () => l10n.errorUnknown,
+      unauthorized: () => l10n.errorUnauthorized,
+      invalidData: (msg) => msg ?? l10n.errorValidation,
+      networkError: () => l10n.errorNetwork,
+    );
+  }
+
   Future<void> _deletePost(DiscussionPost post, AppLocalizations l10n) async {
     final theme = Theme.of(context);
     final confirm = await showDialog<bool>(
@@ -176,8 +197,11 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     result.fold(
       (failure) {
+        final message = failure is Unauthorized
+            ? l10n.errorDeleteTimeExpired
+            : _mapFailure(failure, l10n);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete: $failure')),
+          SnackBar(content: Text(message)),
         );
       },
       (_) {
@@ -228,8 +252,11 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
 
     result.fold(
       (failure) {
+        final message = failure is InvalidData
+            ? l10n.errorThreadHasSolution
+            : _mapFailure(failure, l10n);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to mark solution: $failure')),
+          SnackBar(content: Text(message)),
         );
       },
       (_) {
@@ -335,7 +362,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     result.fold(
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete: $failure')),
+          SnackBar(content: Text(_mapFailure(failure, l10n))),
         );
       },
       (_) {
@@ -427,6 +454,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.threadTitle),
+        centerTitle: false,
         actions: [
           if (_isAuthor(
             threadAsync.asData?.value.authorId ?? '',
@@ -461,7 +489,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             result.fold(
                               (failure) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Failed: $failure')),
+                                  SnackBar(content: Text(_mapFailure(failure, l10n))),
                                 );
                               },
                               (_) {
@@ -492,7 +520,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                             result.fold(
                               (failure) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Failed: $failure')),
+                                  SnackBar(content: Text(_mapFailure(failure, l10n))),
                                 );
                               },
                               (_) {
@@ -536,7 +564,7 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                       }
                     },
                     itemBuilder: (context) => [
-                      if (isAuthor) ...[
+                      if (isAuthor && !thread.hasSolution) ...[
                         PopupMenuItem(
                           value: 'edit',
                           child: Text(l10n.editThread),
@@ -681,14 +709,14 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                           _isAuthor(
                                             initialPost.authorId,
                                             currentAccountId,
-                                          )
+                                          ) && _isWithinEditWindow(initialPost.createdAt)
                                           ? () => _startEdit(initialPost!)
                                           : null,
                                       onDelete:
                                           _isAuthor(
                                             initialPost.authorId,
                                             currentAccountId,
-                                          )
+                                          ) && _isWithinDeleteWindow(initialPost.createdAt)
                                           ? () => _deletePost(initialPost!, l10n)
                                           : null,
                                       onReport:
@@ -766,8 +794,8 @@ class _ThreadDetailsPageState extends ConsumerState<ThreadDetailsPage> {
                                     isEdited: post.editCount > 0 || post.editedAt != null,
                                     isSolution: post.isSolution,
                                     onReply: () => _startReply(post),
-                                    onEdit: _isAuthor(post.authorId, currentAccountId) ? () => _startEdit(post) : null,
-                                    onDelete: _isAuthor(post.authorId, currentAccountId)
+                                    onEdit: _isAuthor(post.authorId, currentAccountId) && _isWithinEditWindow(post.createdAt) ? () => _startEdit(post) : null,
+                                    onDelete: _isAuthor(post.authorId, currentAccountId) && _isWithinDeleteWindow(post.createdAt)
                                         ? () => _deletePost(post, l10n)
                                         : null,
                                     onReport: _isAuthor(post.authorId, currentAccountId) ? null : () => _reportPost(post),

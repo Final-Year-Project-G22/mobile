@@ -5,6 +5,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/discussion_thread.dart';
+import '../../domain/failures/community_failure.dart';
 import '../widgets/taxonomy_chip_selector.dart';
 
 class EditThreadPage extends ConsumerStatefulWidget {
@@ -24,6 +25,16 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
   late final Set<String> _selectedSectorIds;
   late final Set<String> _selectedTagIds;
   bool _isSubmitting = false;
+
+  String _mapFailure(CommunityFailure failure, AppLocalizations l10n) {
+    return failure.when(
+      serverError: (msg) => msg ?? l10n.errorServer,
+      notFound: () => l10n.errorUnknown,
+      unauthorized: () => l10n.errorUnauthorized,
+      invalidData: (msg) => msg ?? l10n.errorValidation,
+      networkError: () => l10n.errorNetwork,
+    );
+  }
 
   @override
   void initState() {
@@ -83,8 +94,9 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
 
       result.fold(
         (failure) {
+          final l10n = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed: $failure')),
+            SnackBar(content: Text(_mapFailure(failure, l10n))),
           );
         },
         (_) {
@@ -93,8 +105,9 @@ class _EditThreadPageState extends ConsumerState<EditThreadPage> {
       );
     } on Exception catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text(l10n.failedWithError(e.toString()))),
         );
       }
     } finally {

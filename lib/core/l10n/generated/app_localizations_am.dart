@@ -48,7 +48,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get dontHaveAccount => 'አዲስ ነዎት? መለያ ይፍጠሩ';
 
   @override
-  String get alreadyHaveAccount => 'ቀድሞውኑ አባል ነዎት? ይግቡ';
+  String get alreadyHaveAccount => 'ቀድሞውኑ አባል ነዎት? ';
 
   @override
   String get signUp => 'ይመዝገቡ';
@@ -978,6 +978,9 @@ class AppLocalizationsAm extends AppLocalizations {
       'በኋላ ላይ ለማንበብ የሚፈልጓቸውን መመሪያዎች እዚህ ዕልባት አድርገው ያስቀምጡ።';
 
   @override
+  String get guideEmptyState => 'ባዶ መመሪያዎች አልተገኙም። እባክዎን በኋላ ላይ ይመልከቱ።';
+
+  @override
   String get guideRecentlyViewed => 'በቅርብ ጊዜ የታዩ';
 
   @override
@@ -1333,6 +1336,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String failedWithError(String error) {
     return 'አልተሳካም: $error';
   }
+
+  @override
+  String get errorEditTimeExpired => 'ጽሑፍ በመቀረሩ ቀን 15 ደቂቃ ውስጥ ብቻ መተምር ይችላሉ።';
+
+  @override
+  String get errorDeleteTimeExpired => 'ጽሑፍ በመቀረሩ ቀን 30 ደቂቃ ውስጥ ብቻ መሰረዝ ይችላሉ።';
+
+  @override
+  String get errorThreadHasSolution =>
+      'ይህ ውይይት ቀደም ሲል መፍትሄ አግኝቷል ስለሆነ መተምር አይችልም።';
 
   @override
   String get oAuthCompletionTitle => 'ምዝገባዎን ያጠናቅቁ';

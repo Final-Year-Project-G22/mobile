@@ -217,12 +217,20 @@ class _GuideListPageState extends ConsumerState<GuideListPage> {
       return const Center(child: AdisuProgressIndicator.large());
     }
 
-    // ── Error / empty state (load failed, nothing to show) ──────
-    if (!state.isLoading && state.guides.isEmpty) {
+    // ── Error state (load failed, nothing to show) ──────────────
+    if (!state.isLoading && state.guides.isEmpty && state.hasError) {
       return ErrorView.inline(
         message: l10n.errorGeneric,
         retryLabel: l10n.retry,
         onRetry: () => ref.read(guideListProvider.notifier).refresh(),
+      );
+    }
+
+    // ── Empty state (no guides available) ─────────────────────
+    if (!state.isLoading && state.guides.isEmpty) {
+      return EmptyStateView(
+        icon: Icons.menu_book_outlined,
+        title: l10n.guideEmptyState,
       );
     }
 

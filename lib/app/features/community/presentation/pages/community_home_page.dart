@@ -80,10 +80,12 @@ class CommunityHomePage extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final threadId = await context.push<String>('/community/create');
+            final result = await context.push<Map<String, String>>('/community/create');
 
-            if (threadId != null && context.mounted) {
-              await ThreadDetailsRoute(threadId: threadId).push<void>(context);
+            if (result != null && context.mounted) {
+              final threadId = result['threadId']!;
+              final threadTitle = result['title'] ?? '';
+              await ThreadDetailsRoute(threadId: threadId, threadTitle: threadTitle).push<void>(context);
               if (context.mounted) {
                 ref
                   ..invalidate(filteredThreadsProvider)
