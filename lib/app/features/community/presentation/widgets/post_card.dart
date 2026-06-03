@@ -301,41 +301,83 @@ class PostCard extends StatelessWidget {
                           if (onReply != null)
                             PopupMenuItem(
                               value: 'reply',
-                              child: Text(l10n.reply),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.reply, size: 20),
+                                  const SizedBox(width: AppSpacing.sm),
+                                  Text(l10n.reply),
+                                ],
+                              ),
                             ),
                           if (onMarkSolution != null)
                             PopupMenuItem(
                               value: 'markSolution',
-                              child: Text(
-                                l10n.markAsSolution,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.tertiary,
-                                ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_circle_outline,
+                                    size: 20,
+                                    color: colorScheme.tertiary,
+                                  ),
+                                  const SizedBox(width: AppSpacing.sm),
+                                  Text(
+                                    l10n.markAsSolution,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.tertiary,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           if (onEdit != null)
                             PopupMenuItem(
                               value: 'edit',
-                              child: Text(l10n.edit),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.edit_outlined, size: 20),
+                                  const SizedBox(width: AppSpacing.sm),
+                                  Text(l10n.edit),
+                                ],
+                              ),
                             ),
                           if (onDelete != null)
                             PopupMenuItem(
                               value: 'delete',
-                              child: Text(
-                                l10n.delete,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.error,
-                                ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.delete_outline,
+                                    size: 20,
+                                    color: colorScheme.error,
+                                  ),
+                                  const SizedBox(width: AppSpacing.sm),
+                                  Text(
+                                    l10n.delete,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.error,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           if (onReport != null)
                             PopupMenuItem(
                               value: 'report',
-                              child: Text(
-                                l10n.report,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.error,
-                                ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.flag_outlined,
+                                    size: 20,
+                                    color: colorScheme.error,
+                                  ),
+                                  const SizedBox(width: AppSpacing.sm),
+                                  Text(
+                                    l10n.report,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.error,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                         ],

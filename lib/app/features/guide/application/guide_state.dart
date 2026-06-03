@@ -15,6 +15,7 @@ class GuideListState {
     this.selectedTab = GuideTab.forYou,
     this.isLoading = false,
     this.isFiltering = false,
+    this.hasError = false,
   });
 
   final List<GuideCard> guides;
@@ -27,6 +28,7 @@ class GuideListState {
   final GuideTab selectedTab;
   final bool isLoading;
   final bool isFiltering;
+  final bool hasError;
 
   bool get hasActiveFilters =>
       selectedSectorId != null || selectedTagIds.isNotEmpty;
@@ -42,6 +44,7 @@ class GuideListState {
     GuideTab? selectedTab,
     bool? isLoading,
     bool? isFiltering,
+    bool? hasError,
   }) {
     return GuideListState(
       guides: guides ?? this.guides,
@@ -54,6 +57,7 @@ class GuideListState {
       selectedTab: selectedTab ?? this.selectedTab,
       isLoading: isLoading ?? this.isLoading,
       isFiltering: isFiltering ?? this.isFiltering,
+      hasError: hasError ?? this.hasError,
     );
   }
 }

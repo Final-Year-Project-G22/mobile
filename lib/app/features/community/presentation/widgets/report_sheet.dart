@@ -34,6 +34,16 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
   final _formKey = GlobalKey<FormState>();
   bool _isSubmitting = false;
 
+  String _mapFailure(CommunityFailure failure, AppLocalizations l10n) {
+    return failure.when(
+      serverError: (msg) => msg ?? l10n.errorServer,
+      notFound: () => l10n.errorUnknown,
+      unauthorized: () => l10n.errorUnauthorized,
+      invalidData: (msg) => msg ?? l10n.errorValidation,
+      networkError: () => l10n.errorNetwork,
+    );
+  }
+
   String get _reportType {
     if (widget.postId != null) return 'Post';
     if (widget.targetUserId != null) return 'User';
@@ -91,7 +101,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     result.fold(
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to report: $failure')),
+          SnackBar(content: Text(_mapFailure(failure, l10n))),
         );
       },
       (_) {

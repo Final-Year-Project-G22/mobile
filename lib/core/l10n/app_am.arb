@@ -13,7 +13,7 @@
   "phone": "ስልክ ቁጥር",
   "forgotPassword": "ይለፍ ቃልዎን ረሱ?",
   "dontHaveAccount": "አዲስ ነዎት? መለያ ይፍጠሩ",
-  "alreadyHaveAccount": "ቀድሞውኑ አባል ነዎት? ይግቡ",
+  "alreadyHaveAccount": "ቀድሞውኑ አባል ነዎት? ",
   "signUp": "ይመዝገቡ",
   "signIn": "ይግቡ",
   "profile": "መገለጫ",
@@ -405,6 +405,7 @@
   "guideTabAll": "ሁሉም",
   "guideNoGuidesFound": "ከፍለጋዎ ጋር የሚዛመድ ምንም መመሪያ አልተገኘም። ሌሎች ቃላትን ይሞክሩ።",
   "guideNoBookmarks": "በኋላ ላይ ለማንበብ የሚፈልጓቸውን መመሪያዎች እዚህ ዕልባት አድርገው ያስቀምጡ።",
+  "guideEmptyState": "ባዶ መመሪያዎች አልተገኙም። እባክዎን በኋላ ላይ ይመልከቱ።",
   "guideRecentlyViewed": "በቅርብ ጊዜ የታዩ",
   "guideRecent": "የቅርብ ጊዜ",
   "guideProgressOf": "{completed} ከ {total} የተጠናቀቁ",
@@ -594,6 +595,9 @@
       "error": { "type": "String" }
     }
   },
+  "errorEditTimeExpired": "ጽሑፍ በመቀረሩ ቀን 15 ደቂቃ ውስጥ ብቻ መተምር ይችላሉ።",
+  "errorDeleteTimeExpired": "ጽሑፍ በመቀረሩ ቀን 30 ደቂቃ ውስጥ ብቻ መሰረዝ ይችላሉ።",
+  "errorThreadHasSolution": "ይህ ውይይት ቀደም ሲል መፍትሄ አግኝቷል ስለሆነ መተምር አይችልም።",
   "oAuthCompletionTitle": "ምዝገባዎን ያጠናቅቁ",
   "oAuthCompletionSubtitle": "በ{provider} ለመግባት እባክዎ ኢሜይልዎን ያክሉ።",
   "@oAuthCompletionSubtitle": {

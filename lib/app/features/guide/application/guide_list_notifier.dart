@@ -23,28 +23,38 @@ class GuideListNotifier extends _$GuideListNotifier {
   Future<void> _loadData() async {
     final repo = ref.read(guideRepositoryProvider);
 
-    final recentResult = await repo.getRecentlyViewed();
-    final bkmkResult = await repo.listBookmarks();
+    try {
+      final recentResult = await repo.getRecentlyViewed();
+      final bkmkResult = await repo.listBookmarks();
 
-    final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
-    final bookmarks = bkmkResult.fold((_) => <StepBookmark>[], (b) => b);
+      final recent = recentResult.fold((_) => <GuideCard>[], (r) => r);
+      final bookmarks = bkmkResult.fold((_) => <StepBookmark>[], (b) => b);
 
-    final forYouResult = await repo.listGuides();
-    _forYouGuides = forYouResult.fold((_) => <GuideCard>[], (g) => g);
+      final forYouResult = await repo.listGuides();
+      _forYouGuides = forYouResult.fold((_) => <GuideCard>[], (g) => g);
 
-    final allResult = await repo.listAllGuides();
-    _allGuides = allResult.fold((_) => <GuideCard>[], (g) => g);
+      final allResult = await repo.listAllGuides();
+      _allGuides = allResult.fold((_) => <GuideCard>[], (g) => g);
 
-    final guides = state.selectedTab == GuideTab.forYou
-        ? _forYouGuides
-        : _allGuides;
+      final guides = state.selectedTab == GuideTab.forYou
+          ? _forYouGuides
+          : _allGuides;
 
-    state = state.copyWith(
-      guides: guides,
-      recentGuides: recent,
-      bookmarks: bookmarks,
-      isLoading: false,
-    );
+      final hasError = forYouResult.isLeft() || allResult.isLeft();
+
+      state = state.copyWith(
+        guides: guides,
+        recentGuides: recent,
+        bookmarks: bookmarks,
+        isLoading: false,
+        hasError: hasError,
+      );
+    } on Object catch (_) {
+      state = state.copyWith(
+        isLoading: false,
+        hasError: true,
+      );
+    }
   }
 
   void switchTab(GuideTab tab) {
@@ -55,6 +65,7 @@ class GuideListNotifier extends _$GuideListNotifier {
       guides: guides,
       recentGuides: state.recentGuides,
       bookmarks: state.bookmarks,
+      hasError: state.hasError,
     );
   }
 
@@ -102,6 +113,7 @@ class GuideListNotifier extends _$GuideListNotifier {
       recentGuides: state.recentGuides,
       bookmarks: state.bookmarks,
       selectedTab: state.selectedTab,
+      hasError: state.hasError,
     );
   }
 

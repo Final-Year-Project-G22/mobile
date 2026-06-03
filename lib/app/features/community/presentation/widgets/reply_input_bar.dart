@@ -11,6 +11,7 @@ import '../../../../constants/app_spacing.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
 import '../../domain/entities/discussion_post.dart';
+import '../../domain/failures/community_failure.dart';
 
 class ReplyInputBar extends ConsumerStatefulWidget {
   const ReplyInputBar({
@@ -66,6 +67,16 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  String _mapFailure(CommunityFailure failure, AppLocalizations l10n) {
+    return failure.when(
+      serverError: (msg) => msg ?? l10n.errorServer,
+      notFound: () => l10n.errorUnknown,
+      unauthorized: () => l10n.errorUnauthorized,
+      invalidData: (msg) => msg ?? l10n.errorValidation,
+      networkError: () => l10n.errorNetwork,
+    );
   }
 
   void _syncFromEditTarget() {
@@ -151,7 +162,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         (failure) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.failedWithError('$failure'))),
+              SnackBar(content: Text(l10n.failedWithError(_mapFailure(failure, l10n)))),
             );
           }
         },
@@ -205,7 +216,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.failedWithError('$failure'))),
+              SnackBar(content: Text(l10n.failedWithError(_mapFailure(failure, l10n)))),
             );
           },
           (_) {
@@ -236,7 +247,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.failedWithError('$failure'))),
+              SnackBar(content: Text(l10n.failedWithError(_mapFailure(failure, l10n)))),
             );
           },
           (_) {
@@ -259,7 +270,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
         result.fold(
           (failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.failedWithError('$failure'))),
+              SnackBar(content: Text(l10n.failedWithError(_mapFailure(failure, l10n)))),
             );
           },
           (_) {
@@ -272,7 +283,7 @@ class _ReplyInputBarState extends ConsumerState<ReplyInputBar> {
     } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.failedWithError('$e'))),
+          SnackBar(content: Text(l10n.failedWithError(e.toString()))),
         );
       }
     } finally {

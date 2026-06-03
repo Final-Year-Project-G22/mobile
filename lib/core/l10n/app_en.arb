@@ -52,7 +52,7 @@
   "@dontHaveAccount": {
     "description": "Sign up prompt"
   },
-  "alreadyHaveAccount": "Already with us? Sign in",
+  "alreadyHaveAccount": "Already with us? ",
   "@alreadyHaveAccount": {
     "description": "Login prompt"
   },
@@ -1274,6 +1274,10 @@
   "@guideNoBookmarks": {
     "description": "Empty bookmarks list"
   },
+  "guideEmptyState": "No guides available yet. Check back later for new guides.",
+  "@guideEmptyState": {
+    "description": "Empty guide list state"
+  },
   "guideRecentlyViewed": "Recently Viewed",
   "@guideRecentlyViewed": {
     "description": "Recent guides section header"
@@ -1727,6 +1731,18 @@
     "placeholders": {
       "error": { "type": "String" }
     }
+  },
+  "errorEditTimeExpired": "You can only edit a post within 15 minutes of posting.",
+  "@errorEditTimeExpired": {
+    "description": "Shown when edit time window has expired"
+  },
+  "errorDeleteTimeExpired": "You can only delete a post within 30 minutes of posting.",
+  "@errorDeleteTimeExpired": {
+    "description": "Shown when delete time window has expired"
+  },
+  "errorThreadHasSolution": "This thread already has a marked solution and cannot be edited.",
+  "@errorThreadHasSolution": {
+    "description": "Shown when trying to edit a thread that has a solution"
   },
   "oAuthCompletionTitle": "Complete your sign in",
   "@oAuthCompletionTitle": {

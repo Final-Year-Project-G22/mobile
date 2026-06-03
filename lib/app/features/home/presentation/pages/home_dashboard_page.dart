@@ -37,7 +37,7 @@ class HomeDashboardPage extends ConsumerWidget {
           label: l10n.continueLastGuide,
           onTap: () => GuideDetailRoute(
             guideSlug: state.recentlyViewed.first.slug,
-          ).go(context),
+          ).push<void>(context),
         ),
       QuickAction(
         icon: Icons.history,
@@ -60,7 +60,7 @@ class HomeDashboardPage extends ConsumerWidget {
       completionStats: state.completionStats,
       inProgressGuides: state.inProgressGuides,
       recentlyViewed: state.recentlyViewed,
-      onGuideTap: (slug) => GuideDetailRoute(guideSlug: slug).go(context),
+      onGuideTap: (slug) => GuideDetailRoute(guideSlug: slug).push<void>(context),
       onRefresh: () => ref.read(homeDashboardProvider.notifier).refresh(),
       quickActions: actions,
     );

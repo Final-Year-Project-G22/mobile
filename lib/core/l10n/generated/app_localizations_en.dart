@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dontHaveAccount => 'New here? Create an account';
 
   @override
-  String get alreadyHaveAccount => 'Already with us? Sign in';
+  String get alreadyHaveAccount => 'Already with us? ';
 
   @override
   String get signUp => 'Sign Up';
@@ -995,6 +995,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guideNoBookmarks => 'Save guides for later by bookmarking them.';
 
   @override
+  String get guideEmptyState =>
+      'No guides available yet. Check back later for new guides.';
+
+  @override
   String get guideRecentlyViewed => 'Recently Viewed';
 
   @override
@@ -1351,6 +1355,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String failedWithError(String error) {
     return 'Failed: $error';
   }
+
+  @override
+  String get errorEditTimeExpired =>
+      'You can only edit a post within 15 minutes of posting.';
+
+  @override
+  String get errorDeleteTimeExpired =>
+      'You can only delete a post within 30 minutes of posting.';
+
+  @override
+  String get errorThreadHasSolution =>
+      'This thread already has a marked solution and cannot be edited.';
 
   @override
   String get oAuthCompletionTitle => 'Complete your sign in';

@@ -9,6 +9,7 @@ import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../application/providers/community_mutations_provider.dart';
 import '../../domain/entities/attachment.dart';
+import '../../domain/failures/community_failure.dart';
 import '../widgets/taxonomy_chip_selector.dart';
 
 class CreateThreadPage extends ConsumerStatefulWidget {
@@ -34,6 +35,16 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
     _titleController.dispose();
     _initialPostController.dispose();
     super.dispose();
+  }
+
+  String _mapFailure(CommunityFailure failure, AppLocalizations l10n) {
+    return failure.when(
+      serverError: (msg) => msg ?? l10n.errorServer,
+      notFound: () => l10n.errorUnknown,
+      unauthorized: () => l10n.errorUnauthorized,
+      invalidData: (msg) => msg ?? l10n.errorValidation,
+      networkError: () => l10n.errorNetwork,
+    );
   }
 
   String _buildSlug(String title) {
@@ -78,8 +89,9 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
       result.fold(
         (failure) {
           if (mounted) {
+            final l10n = AppLocalizations.of(context);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to upload: $failure')),
+              SnackBar(content: Text(_mapFailure(failure, l10n))),
             );
           }
         },
@@ -151,18 +163,22 @@ class _CreateThreadPageState extends ConsumerState<CreateThreadPage> {
 
       result.fold(
         (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed: $failure')),
-          );
+          if (mounted) {
+            final l10n = AppLocalizations.of(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(_mapFailure(failure, l10n))),
+            );
+          }
         },
         (threadId) {
-          Navigator.of(context).pop(threadId);
+          Navigator.of(context).pop({'threadId': threadId, 'title': title});
         },
       );
     } on Exception catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text(l10n.failedWithError(e.toString()))),
         );
       }
     } finally {

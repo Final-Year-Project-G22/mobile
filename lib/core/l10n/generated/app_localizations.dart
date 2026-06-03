@@ -179,7 +179,7 @@ abstract class AppLocalizations {
   /// Login prompt
   ///
   /// In en, this message translates to:
-  /// **'Already with us? Sign in'**
+  /// **'Already with us? '**
   String get alreadyHaveAccount;
 
   /// Sign up action
@@ -1880,6 +1880,12 @@ abstract class AppLocalizations {
   /// **'Save guides for later by bookmarking them.'**
   String get guideNoBookmarks;
 
+  /// Empty guide list state
+  ///
+  /// In en, this message translates to:
+  /// **'No guides available yet. Check back later for new guides.'**
+  String get guideEmptyState;
+
   /// Recent guides section header
   ///
   /// In en, this message translates to:
@@ -2497,6 +2503,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed: {error}'**
   String failedWithError(String error);
+
+  /// Shown when edit time window has expired
+  ///
+  /// In en, this message translates to:
+  /// **'You can only edit a post within 15 minutes of posting.'**
+  String get errorEditTimeExpired;
+
+  /// Shown when delete time window has expired
+  ///
+  /// In en, this message translates to:
+  /// **'You can only delete a post within 30 minutes of posting.'**
+  String get errorDeleteTimeExpired;
+
+  /// Shown when trying to edit a thread that has a solution
+  ///
+  /// In en, this message translates to:
+  /// **'This thread already has a marked solution and cannot be edited.'**
+  String get errorThreadHasSolution;
 
   /// Title for OAuth email completion page
   ///
