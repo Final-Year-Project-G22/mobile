@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/config/app_config.dart';
 import '../../../../../core/di/auth_providers.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
@@ -183,7 +184,9 @@ class _ThreadListView extends ConsumerWidget {
                     backgroundImage:
                         thread.authorAvatarUrl != null &&
                             thread.authorAvatarUrl!.isNotEmpty
-                        ? NetworkImage(thread.authorAvatarUrl!)
+                        ? NetworkImage(
+                            AppConfig.rewriteFileUrl(thread.authorAvatarUrl!),
+                          )
                         : null,
                     child:
                         (thread.authorAvatarUrl == null ||

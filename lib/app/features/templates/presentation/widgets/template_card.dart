@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/config/app_config.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/template_group.dart';
 import 'tier_badge.dart';
@@ -31,7 +32,7 @@ class TemplateCard extends StatelessWidget {
               flex: 3,
               child: template.thumbnailUrl != null
                   ? Image.network(
-                      template.thumbnailUrl!,
+                      AppConfig.rewriteFileUrl(template.thumbnailUrl!),
                       fit: BoxFit.cover,
                       width: double.infinity,
                       errorBuilder: (context, error, stackTrace) =>
