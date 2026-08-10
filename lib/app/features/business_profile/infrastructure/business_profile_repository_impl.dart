@@ -135,7 +135,7 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
     Future<HttpResponse<api.UploadBusinessImageResponse>> Function({
       required MultipartFile file,
     })
-        uploadFn,
+    uploadFn,
   ) async {
     try {
       final bytes = await file.readAsBytes();
@@ -179,17 +179,15 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
             ),
       tags: data.tags == null
           ? []
-          : data.tags!
-                .map((t) {
-                  final m = t as Map<String, dynamic>;
-                  return BusinessProfileTag(
-                    id: m['id'] as String,
-                    slug: m['slug'] as String,
-                    group: m['group'] as String,
-                    isMultiSelect: m['isMultiSelect'] as bool? ?? true,
-                  );
-                })
-                .toList(),
+          : data.tags!.map((t) {
+              final m = t as Map<String, dynamic>;
+              return BusinessProfileTag(
+                id: m['id'] as String,
+                slug: m['slug'] as String,
+                group: m['group'] as String,
+                isMultiSelect: m['isMultiSelect'] as bool? ?? true,
+              );
+            }).toList(),
     );
   }
 
@@ -198,6 +196,7 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
       case DioExceptionType.cancel:
       case DioExceptionType.badCertificate:
@@ -219,6 +218,7 @@ class BusinessProfileRepositoryImpl implements IBusinessProfileRepository {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
       case DioExceptionType.cancel:
       case DioExceptionType.badCertificate:

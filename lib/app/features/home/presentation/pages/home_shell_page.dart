@@ -6,10 +6,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
-import '../../../../features/notifications/application/sse_inbox_listener.dart';
 import '../../../../router/routes.dart';
 import '../../../business_profile/application/business_profile_notifier.dart';
 import '../../../business_profile/presentation/widgets/complete_profile_banner.dart';
+import '../../../notifications/application/sse_inbox_listener.dart';
 import '../../application/home_tab_notifier.dart';
 
 import '../widgets/home_top_actions.dart';
@@ -68,7 +68,8 @@ class _HomeShellPageState extends ConsumerState<HomeShellPage> {
       ),
       body: Column(
         children: [
-          if (businessProfileAsync.hasValue && businessProfileAsync.value == null)
+          if (businessProfileAsync.hasValue &&
+              businessProfileAsync.value == null)
             CompleteProfileBanner(
               onTap: () {
                 const OnboardingRoute().go(context);

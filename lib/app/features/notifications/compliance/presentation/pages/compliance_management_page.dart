@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../app/constants/app_spacing.dart';
-import '../../../../../../app/features/business_profile/application/business_profile_notifier.dart';
 import '../../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../business_profile/application/business_profile_notifier.dart';
 import '../../application/compliance_notifier.dart';
 import '../../application/compliance_state.dart';
 import '../../domain/entities/compliance_entry.dart';
@@ -14,10 +14,12 @@ class ComplianceManagementPage extends ConsumerStatefulWidget {
   const ComplianceManagementPage({super.key});
 
   @override
-  ConsumerState<ComplianceManagementPage> createState() => _ComplianceManagementPageState();
+  ConsumerState<ComplianceManagementPage> createState() =>
+      _ComplianceManagementPageState();
 }
 
-class _ComplianceManagementPageState extends ConsumerState<ComplianceManagementPage> {
+class _ComplianceManagementPageState
+    extends ConsumerState<ComplianceManagementPage> {
   bool _initialized = false;
 
   @override
@@ -75,18 +77,34 @@ class _ComplianceManagementPageState extends ConsumerState<ComplianceManagementP
               padding: AppSpacing.paddingLg,
               children: [
                 if (autoEntries.isNotEmpty) ...[
-                  Text(l10n.complianceAutoTracked, style: theme.textTheme.titleMedium?.copyWith(color: colorScheme.primary)),
+                  Text(
+                    l10n.complianceAutoTracked,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                  ),
                   AppSpacing.gapVerticalSm,
                   ...autoEntries.map(
-                    (e) => _ComplianceTile(entry: e, onTap: () => context.push('/compliance/manage/${e.id}')),
+                    (e) => _ComplianceTile(
+                      entry: e,
+                      onTap: () => context.push('/compliance/manage/${e.id}'),
+                    ),
                   ),
                   AppSpacing.gapVerticalLg,
                 ],
                 if (manualEntries.isNotEmpty) ...[
-                  Text(l10n.complianceManual, style: theme.textTheme.titleMedium?.copyWith(color: colorScheme.primary)),
+                  Text(
+                    l10n.complianceManual,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                  ),
                   AppSpacing.gapVerticalSm,
                   ...manualEntries.map(
-                    (e) => _ComplianceTile(entry: e, onTap: () => context.push('/compliance/manage/${e.id}')),
+                    (e) => _ComplianceTile(
+                      entry: e,
+                      onTap: () => context.push('/compliance/manage/${e.id}'),
+                    ),
                   ),
                   AppSpacing.gapVerticalLg,
                 ],
@@ -96,13 +114,22 @@ class _ComplianceManagementPageState extends ConsumerState<ComplianceManagementP
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         AppSpacing.gapVerticalLg,
-                        Icon(Icons.assignment_late, size: 48, color: colorScheme.onSurfaceVariant),
+                        Icon(
+                          Icons.assignment_late,
+                          size: 48,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                         AppSpacing.gapVerticalSm,
-                        Text(l10n.complianceNoEntries, style: theme.textTheme.bodyLarge),
+                        Text(
+                          l10n.complianceNoEntries,
+                          style: theme.textTheme.bodyLarge,
+                        ),
                         AppSpacing.gapVerticalSm,
                         Text(
                           l10n.complianceAutoTrackedDesc,
-                          style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -114,13 +141,22 @@ class _ComplianceManagementPageState extends ConsumerState<ComplianceManagementP
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         AppSpacing.gapVerticalLg,
-                        Icon(Icons.business_center_outlined, size: 48, color: colorScheme.onSurfaceVariant),
+                        Icon(
+                          Icons.business_center_outlined,
+                          size: 48,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                         AppSpacing.gapVerticalSm,
-                        Text(l10n.businessProfileRequired, style: theme.textTheme.bodyLarge),
+                        Text(
+                          l10n.businessProfileRequired,
+                          style: theme.textTheme.bodyLarge,
+                        ),
                         AppSpacing.gapVerticalSm,
                         Text(
                           l10n.complianceCreateProfileDesc,
-                          style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         AppSpacing.gapVerticalMd,
@@ -153,7 +189,10 @@ class _ComplianceTile extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isExpired = entry.status == 'expired';
-    final isUrgent = !isExpired && entry.expiryDate.difference(DateTime.now()).inDays <= entry.reminderDaysBefore;
+    final isUrgent =
+        !isExpired &&
+        entry.expiryDate.difference(DateTime.now()).inDays <=
+            entry.reminderDaysBefore;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -170,19 +209,30 @@ class _ComplianceTile extends StatelessWidget {
               ? Colors.orange
               : colorScheme.primary,
         ),
-        title: Text(_typeLabel(entry.complianceType), style: theme.textTheme.bodyMedium),
+        title: Text(
+          _typeLabel(entry.complianceType),
+          style: theme.textTheme.bodyMedium,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (entry.referenceNumber != null) Text(entry.referenceNumber!, style: theme.textTheme.bodySmall),
+            if (entry.referenceNumber != null)
+              Text(entry.referenceNumber!, style: theme.textTheme.bodySmall),
             Text(
               '${l10n.expires} ${_formatDate(entry.expiryDate)}',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: isExpired ? colorScheme.error : colorScheme.onSurfaceVariant,
+                color: isExpired
+                    ? colorScheme.error
+                    : colorScheme.onSurfaceVariant,
               ),
             ),
             if (entry.source == 'auto')
-              Text(l10n.autoGenerated, style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant)),
+              Text(
+                l10n.autoGenerated,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
           ],
         ),
         trailing: const Icon(Icons.chevron_right),

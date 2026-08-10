@@ -102,6 +102,7 @@ ProfileFailure _mapDioError(DioException error) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.sendTimeout:
     case DioExceptionType.receiveTimeout:
+    case DioExceptionType.transformTimeout:
     case DioExceptionType.connectionError:
       return const ProfileFailure.serverError();
     case DioExceptionType.badResponse:
@@ -124,6 +125,7 @@ ProfileFailure _mapUpdateError(DioException error) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.sendTimeout:
     case DioExceptionType.receiveTimeout:
+    case DioExceptionType.transformTimeout:
     case DioExceptionType.connectionError:
     case DioExceptionType.cancel:
     case DioExceptionType.badCertificate:
@@ -139,6 +141,7 @@ ProfileFailure _mapUploadError(DioException error) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.sendTimeout:
     case DioExceptionType.receiveTimeout:
+    case DioExceptionType.transformTimeout:
     case DioExceptionType.connectionError:
     case DioExceptionType.cancel:
     case DioExceptionType.badCertificate:

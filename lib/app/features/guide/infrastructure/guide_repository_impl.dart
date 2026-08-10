@@ -410,6 +410,7 @@ class GuideRepositoryImpl implements IGuideRepository {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
         return const GuideFailure.networkError();
       case DioExceptionType.badResponse:

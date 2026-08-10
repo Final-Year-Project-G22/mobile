@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../../app/router/routes.dart';
 import '../../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../../shared/widgets/styled_filter_chip.dart';
+import '../../../../../router/routes.dart';
 import '../../../../payment/application/providers/subscription_provider.dart';
 import '../../application/scheduled_alert_notifier.dart';
 import '../../application/scheduled_alert_state.dart';
@@ -54,7 +54,8 @@ class _CreateScheduledAlertPageState
           serverError: (_) => _showErrorSnackBar(l10n.errorServer),
           unableToCreate: (_) => _showErrorSnackBar(l10n.unableToCreateAlert),
           unableToCancel: (_) => _showErrorSnackBar(l10n.unableToCancelAlert),
-          unableToReschedule: (_) => _showErrorSnackBar(l10n.unableToRescheduleAlert),
+          unableToReschedule: (_) =>
+              _showErrorSnackBar(l10n.unableToRescheduleAlert),
           notFound: (_) => _showErrorSnackBar(l10n.scheduledAlertNotFound),
         );
       }
@@ -87,11 +88,12 @@ class _CreateScheduledAlertPageState
                 DropdownMenuItem<ScheduledAlertTemplate>(
                   child: Text(l10n.noneCustom),
                 ),
-                ...state.templates.map((t) =>
-                    DropdownMenuItem<ScheduledAlertTemplate>(
-                      value: t,
-                      child: Text(t.name),
-                    )),
+                ...state.templates.map(
+                  (t) => DropdownMenuItem<ScheduledAlertTemplate>(
+                    value: t,
+                    child: Text(t.name),
+                  ),
+                ),
               ],
               onChanged: (template) {
                 setState(() {
@@ -210,7 +212,11 @@ class _CreateScheduledAlertPageState
 
     setState(() {
       _selectedDate = DateTime(
-        date.year, date.month, date.day, time.hour, time.minute,
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
       );
     });
   }
@@ -218,24 +224,28 @@ class _CreateScheduledAlertPageState
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final state = ref.read(scheduledAlertProvider).value ?? ScheduledAlertState.initial();
+    final state =
+        ref.read(scheduledAlertProvider).value ?? ScheduledAlertState.initial();
     if (state.alerts.length >= 3) {
       final sub = await ref.read(subscriptionProvider.future);
       if (!mounted) return;
-      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      final isPro =
+          sub != null && sub.planName == 'Pro' && sub.status == 'active';
       if (!isPro) {
         await _showUpgradeModal(AppLocalizations.of(context));
         return;
       }
     }
 
-    await ref.read(scheduledAlertProvider.notifier).createAlert(
-      templateSlug: _selectedTemplate?.slug,
-      title: _titleController.text.trim(),
-      body: _bodyController.text.trim(),
-      channels: _selectedChannels.toList(),
-      scheduledFor: _selectedDate.toUtc(),
-    );
+    await ref
+        .read(scheduledAlertProvider.notifier)
+        .createAlert(
+          templateSlug: _selectedTemplate?.slug,
+          title: _titleController.text.trim(),
+          body: _bodyController.text.trim(),
+          channels: _selectedChannels.toList(),
+          scheduledFor: _selectedDate.toUtc(),
+        );
 
     if (!mounted) return;
     final current = ref.read(scheduledAlertProvider);
@@ -246,7 +256,10 @@ class _CreateScheduledAlertPageState
 
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Theme.of(context).colorScheme.error),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
     );
   }
 

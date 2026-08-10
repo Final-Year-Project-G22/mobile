@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../app/constants/app_spacing.dart';
-import '../../../../../../app/features/business_profile/application/business_profile_notifier.dart';
 import '../../../../../../core/di/infra_providers.dart';
 import '../../../../../../core/l10n/generated/app_localizations.dart';
+import '../../../../business_profile/application/business_profile_notifier.dart';
 import '../../application/compliance_notifier.dart';
 import '../../domain/failures/compliance_failure.dart';
 
@@ -25,7 +25,8 @@ class AddComplianceEntryPage extends ConsumerStatefulWidget {
       _AddComplianceEntryPageState();
 }
 
-class _AddComplianceEntryPageState extends ConsumerState<AddComplianceEntryPage> {
+class _AddComplianceEntryPageState
+    extends ConsumerState<AddComplianceEntryPage> {
   String _selectedType = '';
   final _refController = TextEditingController();
   final _reminderController = TextEditingController(text: '30');
@@ -114,11 +115,16 @@ class _AddComplianceEntryPageState extends ConsumerState<AddComplianceEntryPage>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.business_center_outlined,
-                  size: 48, color: colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.business_center_outlined,
+                size: 48,
+                color: colorScheme.onSurfaceVariant,
+              ),
               const SizedBox(height: 16),
-              Text(l10n.businessProfileRequired,
-                  style: const TextStyle(fontSize: 18)),
+              Text(
+                l10n.businessProfileRequired,
+                style: const TextStyle(fontSize: 18),
+              ),
               const SizedBox(height: 8),
               Text(
                 l10n.complianceCreateProfileDesc,
@@ -154,10 +160,12 @@ class _AddComplianceEntryPageState extends ConsumerState<AddComplianceEntryPage>
             initialValue: _selectedType,
             decoration: const InputDecoration(border: OutlineInputBorder()),
             items: _types
-                .map((t) => DropdownMenuItem(
-                      value: t.slug,
-                      child: Text(t.label),
-                    ))
+                .map(
+                  (t) => DropdownMenuItem(
+                    value: t.slug,
+                    child: Text(t.label),
+                  ),
+                )
                 .toList(),
             onChanged: (v) {
               if (v != null) setState(() => _selectedType = v);
@@ -211,13 +219,17 @@ class _AddComplianceEntryPageState extends ConsumerState<AddComplianceEntryPage>
 
   Future<void> _save(String businessProfileId) async {
     setState(() => _isSaving = true);
-    await ref.read(complianceProvider.notifier).createEntry(
-      businessProfileId: businessProfileId,
-      complianceType: _selectedType,
-      referenceNumber: _refController.text.isNotEmpty ? _refController.text : null,
-      expiryDate: _expiryDate.toUtc(),
-      reminderDaysBefore: int.tryParse(_reminderController.text) ?? 30,
-    );
+    await ref
+        .read(complianceProvider.notifier)
+        .createEntry(
+          businessProfileId: businessProfileId,
+          complianceType: _selectedType,
+          referenceNumber: _refController.text.isNotEmpty
+              ? _refController.text
+              : null,
+          expiryDate: _expiryDate.toUtc(),
+          reminderDaysBefore: int.tryParse(_reminderController.text) ?? 30,
+        );
     setState(() => _isSaving = false);
     await ref.read(complianceProvider.notifier).loadEntries(businessProfileId);
     if (mounted) context.pop();
