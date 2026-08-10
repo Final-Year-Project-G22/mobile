@@ -34,10 +34,19 @@ class AppConfig {
   }
 
   // API URL
-  static String get apiBaseUrl {
-    final baseUrl = _requireEnv('API_BASE_URL');
+  static String get _rawApiBaseUrl => _requireEnv('API_BASE_URL');
 
-    if (isAndroid && baseUrl.contains('localhost')) {
+  /// True when the app is pointed at a local backend on a platform where
+  /// `localhost` is not the host machine (Android emulator).
+  static bool get _rewriteLocalhostForPlatform => shouldRewriteLocalhost(
+    isAndroid: isAndroid,
+    rawApiBaseUrl: _rawApiBaseUrl,
+  );
+
+  static String get apiBaseUrl {
+    final baseUrl = _rawApiBaseUrl;
+
+    if (_rewriteLocalhostForPlatform) {
       return baseUrl.replaceFirst('localhost', '10.0.2.2');
     }
 
@@ -53,7 +62,7 @@ class AppConfig {
   /// URLs are rewritten the same way; every other URL is returned unchanged.
   static String rewriteFileUrl(String url) => rewriteFileUrlHost(
     url,
-    shouldRewriteLocalhost: isAndroid && apiBaseUrl.contains('localhost'),
+    shouldRewriteLocalhost: _rewriteLocalhostForPlatform,
   );
 
   static String get oauthCallbackScheme =>
