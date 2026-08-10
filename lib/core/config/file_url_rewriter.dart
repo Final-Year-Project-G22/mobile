@@ -13,9 +13,9 @@ const String androidEmulatorHost = '10.0.2.2';
 /// rewritten for this platform.
 ///
 /// Takes the RAW API base URL (before any host rewrite) so the decision is
-/// not affected by the rewrite itself: [apiBaseUrl] already maps
-/// `localhost` -> [androidEmulatorHost], so gating on the rewritten value
-/// would silently disable the rewrite on Android emulators.
+/// not affected by the rewrite itself: the app's api base URL already maps
+/// `localhost` to the emulator host, so gating on the rewritten value would
+/// silently disable the rewrite on Android emulators.
 bool shouldRewriteLocalhost({
   required bool isAndroid,
   required String rawApiBaseUrl,
