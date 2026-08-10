@@ -9,6 +9,20 @@ library;
 /// Host an Android emulator uses to reach the host machine's localhost.
 const String androidEmulatorHost = '10.0.2.2';
 
+/// Decides whether backend-returned file URLs need their `localhost` host
+/// rewritten for this platform.
+///
+/// Takes the RAW API base URL (before any host rewrite) so the decision is
+/// not affected by the rewrite itself: [apiBaseUrl] already maps
+/// `localhost` -> [androidEmulatorHost], so gating on the rewritten value
+/// would silently disable the rewrite on Android emulators.
+bool shouldRewriteLocalhost({
+  required bool isAndroid,
+  required String rawApiBaseUrl,
+}) {
+  return isAndroid && rawApiBaseUrl.contains('localhost');
+}
+
 /// Rewrites [url]'s host when it points at a local backend.
 ///
 /// When [shouldRewriteLocalhost] is true and the URL host is `localhost` or

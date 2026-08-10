@@ -34,7 +34,8 @@ void main() {
     });
 
     test('leaves non-localhost URLs unchanged (e.g. S3 presigned)', () {
-      const url = 'https://s3.amazonaws.com/bucket/file.pdf?X-Amz-Signature=123';
+      const url =
+          'https://s3.amazonaws.com/bucket/file.pdf?X-Amz-Signature=123';
       expect(rewriteFileUrlHost(url, shouldRewriteLocalhost: true), url);
     });
 
@@ -45,6 +46,38 @@ void main() {
 
     test('leaves empty string unchanged', () {
       expect(rewriteFileUrlHost('', shouldRewriteLocalhost: true), '');
+    });
+  });
+
+  group('shouldRewriteLocalhost', () {
+    test('is true for a raw localhost API URL on Android emulator', () {
+      expect(
+        shouldRewriteLocalhost(
+          isAndroid: true,
+          rawApiBaseUrl: 'http://localhost:4000',
+        ),
+        isTrue,
+      );
+    });
+
+    test('is false once the API host was already rewritten (10.0.2.2)', () {
+      expect(
+        shouldRewriteLocalhost(
+          isAndroid: true,
+          rawApiBaseUrl: 'http://10.0.2.2:4000',
+        ),
+        isFalse,
+      );
+    });
+
+    test('is false on non-Android platforms', () {
+      expect(
+        shouldRewriteLocalhost(
+          isAndroid: false,
+          rawApiBaseUrl: 'http://localhost:4000',
+        ),
+        isFalse,
+      );
     });
   });
 }
