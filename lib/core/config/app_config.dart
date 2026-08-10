@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app_constants.dart';
 import 'environments.dart';
+import 'file_url_rewriter.dart';
 
 class AppConfig {
   AppConfig._();
@@ -42,6 +43,18 @@ class AppConfig {
 
     return baseUrl;
   }
+
+  /// Rewrites a backend-returned file URL (attachment, avatar, thumbnail,
+  /// presigned preview/download link) so it resolves from this platform when
+  /// the app is pointed at a local backend.
+  ///
+  /// Mirrors [apiBaseUrl]: when the API base host is rewritten for this
+  /// platform (Android emulator, `localhost` -> `10.0.2.2`), localhost file
+  /// URLs are rewritten the same way; every other URL is returned unchanged.
+  static String rewriteFileUrl(String url) => rewriteFileUrlHost(
+    url,
+    shouldRewriteLocalhost: isAndroid && apiBaseUrl.contains('localhost'),
+  );
 
   static String get oauthCallbackScheme =>
       _requireEnv('OAUTH_CALLBACK_SCHEME').toLowerCase();

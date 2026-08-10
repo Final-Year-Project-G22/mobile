@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/config/app_config.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/styled_filter_chip.dart';
@@ -385,7 +386,7 @@ class _ImagePickerSection extends StatelessWidget {
               border: Border.all(color: colorScheme.outlineVariant),
               image: imageUrl != null && imageUrl!.isNotEmpty
                   ? DecorationImage(
-                      image: NetworkImage(imageUrl!),
+                      image: NetworkImage(AppConfig.rewriteFileUrl(imageUrl!)),
                       fit: BoxFit.cover,
                     )
                   : null,

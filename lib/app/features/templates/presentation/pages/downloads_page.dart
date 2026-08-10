@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/config/app_config.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/utils/extensions/datetime_extensions.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
@@ -85,7 +86,7 @@ class _DownloadsPageState extends ConsumerState<DownloadsPage> {
                         ? ClipRRect(
                             borderRadius: AppSpacing.borderRadiusXs,
                             child: Image.network(
-                              item.thumbnailUrl!,
+                              AppConfig.rewriteFileUrl(item.thumbnailUrl!),
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,

@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/router/routes.dart';
+import '../../../../../core/config/app_config.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/styled_filter_chip.dart';
@@ -71,7 +72,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       final localPath = '${dir.path}/preview_temp.pdf';
       final dio = Dio();
 
-      await dio.download(widget.url, localPath);
+      await dio.download(AppConfig.rewriteFileUrl(widget.url), localPath);
 
       if (mounted) {
         setState(() {
@@ -114,7 +115,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
                     const SizedBox(height: AppSpacing.md),
                     FilledButton.icon(
                       onPressed: () => launchUrl(
-                        Uri.parse(widget.url),
+                        Uri.parse(AppConfig.rewriteFileUrl(widget.url)),
                         mode: LaunchMode.externalApplication,
                       ),
                       icon: const Icon(Icons.open_in_new),
@@ -199,7 +200,7 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           AspectRatio(
             aspectRatio: 16 / 9,
             child: Image.network(
-              detail.thumbnailUrl!,
+              AppConfig.rewriteFileUrl(detail.thumbnailUrl!),
               fit: BoxFit.cover,
               errorBuilder: (_, _, _) => ColoredBox(
                 color: theme.colorScheme.surfaceContainerHighest,
@@ -370,7 +371,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
         context: context,
         builder: (_) => Dialog(
           child: InteractiveViewer(
-            child: Image.network(url, fit: BoxFit.contain),
+            child: Image.network(
+              AppConfig.rewriteFileUrl(url),
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       );
@@ -379,7 +383,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
     await Navigator.push<void>(
       context,
       MaterialPageRoute(
-        builder: (_) => PdfPreviewScreen(url: url, title: l10n.preview),
+        builder: (_) => PdfPreviewScreen(
+          url: AppConfig.rewriteFileUrl(url),
+          title: l10n.preview,
+        ),
       ),
     );
   }
@@ -404,9 +411,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
           language: language,
         ).future,
       );
-      final uri = Uri.parse(result.presignedUrl);
+      final presignedUrl = AppConfig.rewriteFileUrl(result.presignedUrl);
+      final uri = Uri.parse(presignedUrl);
       if (_isViewableInApp(result.contentType)) {
-        await _openInAppPreview(result.presignedUrl, result.contentType, l10n);
+        await _openInAppPreview(presignedUrl, result.contentType, l10n);
       } else {
         if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
           if (mounted) {
@@ -452,7 +460,10 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
       final dio = Dio();
       final dir = await getApplicationDocumentsDirectory();
       final filePath = '${dir.path}/${result.filename}';
-      await dio.download(result.presignedUrl, filePath);
+      await dio.download(
+        AppConfig.rewriteFileUrl(result.presignedUrl),
+        filePath,
+      );
 
       final cache = await ref.read(downloadsCacheServiceProvider.future);
       await cache.addDownload(

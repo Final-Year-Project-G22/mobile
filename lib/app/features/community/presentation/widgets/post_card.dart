@@ -6,6 +6,7 @@ import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/config/app_config.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../constants/app_spacing.dart';
 import '../../domain/entities/attachment.dart';
@@ -216,7 +217,9 @@ class PostCard extends StatelessWidget {
                           backgroundImage:
                               authorAvatarUrl != null &&
                                   authorAvatarUrl!.isNotEmpty
-                              ? NetworkImage(authorAvatarUrl!)
+                              ? NetworkImage(
+                                  AppConfig.rewriteFileUrl(authorAvatarUrl!),
+                                )
                               : null,
                           child:
                               (authorAvatarUrl == null ||
@@ -428,6 +431,7 @@ class PostCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xs),
                   ...attachments!.map((att) {
                     final isImage = _isImage(att.fileType);
+                    final fileUrl = AppConfig.rewriteFileUrl(att.fileUrl);
                     return Container(
                       margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                       padding: const EdgeInsets.symmetric(
@@ -477,7 +481,7 @@ class PostCard extends StatelessWidget {
                                   icon: const Icon(Icons.visibility, size: 20),
                                   onPressed: () => _showImageActionDialog(
                                     context,
-                                    att.fileUrl,
+                                    fileUrl,
                                     l10n,
                                   ),
                                   tooltip: l10n.saveToGallery,
@@ -485,7 +489,7 @@ class PostCard extends StatelessWidget {
                               else
                                 IconButton(
                                   icon: const Icon(Icons.download, size: 20),
-                                  onPressed: () => _launchUrl(att.fileUrl),
+                                  onPressed: () => _launchUrl(fileUrl),
                                   tooltip: l10n.download,
                                 ),
                             ],
@@ -497,7 +501,7 @@ class PostCard extends StatelessWidget {
                               onLongPress: () => unawaited(
                                 _showImageActionDialog(
                                   context,
-                                  att.fileUrl,
+                                  fileUrl,
                                   l10n,
                                 ),
                               ),
@@ -509,7 +513,7 @@ class PostCard extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: AppSpacing.borderRadiusSm,
                                   child: Image.network(
-                                    att.fileUrl,
+                                    fileUrl,
                                     fit: BoxFit.cover,
                                     errorBuilder:
                                         (context, error, stackTrace) =>
