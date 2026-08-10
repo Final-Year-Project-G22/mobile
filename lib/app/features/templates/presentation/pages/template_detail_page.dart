@@ -9,12 +9,12 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../app/router/routes.dart';
 import '../../../../../core/config/app_config.dart';
 import '../../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../../shared/widgets/adisu_progress_indicator.dart';
 import '../../../../../shared/widgets/styled_filter_chip.dart';
 import '../../../../constants/app_spacing.dart';
+import '../../../../router/routes.dart';
 import '../../../payment/application/providers/subscription_provider.dart';
 import '../../application/providers/templates_data_providers.dart';
 import '../../application/providers/templates_providers.dart';
@@ -191,7 +191,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   Widget _buildContent(TemplateGroupDetail detail, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final sub = ref.watch(subscriptionProvider).value;
-    final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+    final isPro =
+        sub != null && sub.planName == 'Pro' && sub.status == 'active';
 
     return ListView(
       children: [
@@ -398,7 +399,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   ) async {
     if (detail.tierAccess == 'pro') {
       final sub = await ref.read(subscriptionProvider.future);
-      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      final isPro =
+          sub != null && sub.planName == 'Pro' && sub.status == 'active';
       if (!isPro) {
         await _showUpgradeModal(l10n);
         return;
@@ -440,7 +442,8 @@ class _TemplateDetailPageState extends ConsumerState<TemplateDetailPage> {
   ) async {
     if (detail.tierAccess == 'pro') {
       final sub = await ref.read(subscriptionProvider.future);
-      final isPro = sub != null && sub.planName == 'Pro' && sub.status == 'active';
+      final isPro =
+          sub != null && sub.planName == 'Pro' && sub.status == 'active';
       if (!isPro) {
         await _showUpgradeModal(l10n);
         return;

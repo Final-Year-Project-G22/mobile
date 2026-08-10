@@ -26,8 +26,11 @@ class ScheduledAlertRepositoryImpl implements IScheduledAlertRepository {
       final response = await _client.listScheduledAlerts();
       final items = response.data.data ?? [];
       final alerts = items
-          .map((e) => _toAlert(
-              ScheduledAlertResponse.fromJson(e as Map<String, dynamic>)))
+          .map(
+            (e) => _toAlert(
+              ScheduledAlertResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
           .toList();
       return Right(alerts);
     } on DioException catch (e) {
@@ -95,8 +98,9 @@ class ScheduledAlertRepositoryImpl implements IScheduledAlertRepository {
     try {
       await _client.rescheduleScheduledAlert(
         id: id,
-        body:
-            RescheduleScheduledAlertRequest(scheduledFor: newScheduledFor.toUtc()),
+        body: RescheduleScheduledAlertRequest(
+          scheduledFor: newScheduledFor.toUtc(),
+        ),
       );
       return const Right(null);
     } on DioException catch (e) {
@@ -108,13 +112,16 @@ class ScheduledAlertRepositoryImpl implements IScheduledAlertRepository {
 
   @override
   Future<Either<ScheduledAlertFailure, List<ScheduledAlertTemplate>>>
-      listTemplates() async {
+  listTemplates() async {
     try {
       final response = await _client.listScheduledAlertTemplates();
       final items = response.data.data ?? [];
       final templates = items
-          .map((e) => _toTemplate(
-              ScheduledTemplateResponse.fromJson(e as Map<String, dynamic>)))
+          .map(
+            (e) => _toTemplate(
+              ScheduledTemplateResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
           .toList();
       return Right(templates);
     } on DioException catch (e) {
@@ -158,6 +165,7 @@ class ScheduledAlertRepositoryImpl implements IScheduledAlertRepository {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
         return ScheduledAlertFailure.serverError(detail);
       case DioExceptionType.badResponse:

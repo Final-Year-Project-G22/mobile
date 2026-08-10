@@ -21,7 +21,13 @@ class ComplianceRepositoryImpl implements IComplianceRepository {
         businessProfileId: businessProfileId,
       );
       final items = response.data.data ?? [];
-      final entries = items.map((e) => _toEntry(ComplianceEntryResponse.fromJson(e as Map<String, dynamic>))).toList();
+      final entries = items
+          .map(
+            (e) => _toEntry(
+              ComplianceEntryResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
+          .toList();
       return Right(entries);
     } on DioException catch (e) {
       return Left(_handleDioError(e));
@@ -112,7 +118,11 @@ class ComplianceRepositoryImpl implements IComplianceRepository {
       final response = await _client.getComplianceCalendar();
       final items = response.data.entries ?? [];
       final entries = items
-          .map((e) => _toCalendarEntry(CalendarEntryResponse.fromJson(e as Map<String, dynamic>)))
+          .map(
+            (e) => _toCalendarEntry(
+              CalendarEntryResponse.fromJson(e as Map<String, dynamic>),
+            ),
+          )
           .toList();
       return Right(entries);
     } on DioException catch (e) {
@@ -164,6 +174,7 @@ class ComplianceRepositoryImpl implements IComplianceRepository {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
         return ComplianceFailure.serverError(detail);
       case DioExceptionType.badResponse:
