@@ -133,3 +133,6 @@ android/**/google-services.json
 
 # Firebase iOS
 GoogleService-Info.plist
+
+# agent machinery
+.pi-subagents
