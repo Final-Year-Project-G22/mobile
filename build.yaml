@@ -1,6 +1,11 @@
 targets:
   $default:
     builders:
-      riverpod_generator:riverpod_generator:
-        generate_for:
-          - lib/**
+      swagger_dart_code_generator:
+        options:
+          input_folder: "tool/openapi/"
+          output_folder: "lib/core/api/generated/"
+          build_only_models: true
+          ignore_duplicate: true
+          use_default_nullable: true
+          separate_models: false

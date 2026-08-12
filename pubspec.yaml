@@ -83,6 +83,7 @@ dev_dependencies:
   lint_staged: ^0.5.1
   riverpod_generator: ^4.0.3
   very_good_analysis: ^10.2.0
+  swagger_dart_code_generator: ^4.1.1
 
 lint_staged:
   "lib/**.dart": dart format -l 120 && dart analyze --fatal-infos --fatal-warnings
